@@ -1,3 +1,43 @@
+:root {
+  /* light shades of primary color */
+  --clr-primary-0: hsl(240, 15%, 74%);
+  --clr-primary-100: hsl(240, 15%, 64%);
+  --clr-primary-200: hsl(240, 15%, 54%);
+  --clr-primary-300: hsl(240, 15%, 44%);
+  --clr-primary-400: hsl(240, 15%, 34%);
+  /*primary/main color  */
+  --clr-primary-500: hsl(240, 15%, 24%);
+  /* dark shades of primary color  */
+  --clr-primary-600: hsl(240, 15%, 14%);
+  --clr-primary-700: hsl(240, 15%, 4%);
+
+  /* secondary color */
+  --clr-secondary-500: hsl(195, 29%, 97%);
+  /* dark shades of secondary color */
+  --clr-secondary-600: hsl(195, 29%, 87%);
+  --clr-secondary-700: hsl(195, 29%, 77%);
+  --clr-secondary-800: hsl(195, 29%, 67%);
+  --clr-secondary-900: hsl(195, 29%, 57%);
+  --clr-secondary-1000: hsl(195, 29%, 47%);
+
+  /* light shades of accent color */
+  -clr-red-100: hsl(359, 79%, 95%);
+  -clr-red-200: hsl(359, 79%, 85%);
+  -clr-red-300: hsl(359, 79%, 75%);
+  -clr-red-400: hsl(359, 79%, 65%);
+  /* accent color */
+  -clr-red-500: hsl(359, 79%, 55%);
+  /* dark shades of accent color */
+  -clr-red-600: hsl(359, 79%, 65%);
+  -clr-red-700: hsl(359, 79%, 75%);
+  -clr-red-800: hsl(359, 79%, 85%);
+  -clr-red-900: hsl(359, 79%, 95%);
+
+  -clr-black: #202027;
+  --clr-yellow: #fdb465;
+  --clr-light-yellow: #ffd088;
+}
+
 html,
 body {
   padding: 0;
@@ -18,13 +58,29 @@ a {
   margin: 0;
   padding: 0;
   font-family: inherit;
-  font-style: inherit;  
-	font-size: 100%;    
+  font-style: inherit;
+  font-size: 100%;
 }
 
 ul,
 ol {
   list-style-type: none;
+}
+
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2.5rem;
+}
+h3 {
+  font-size: 2rem;
+}
+h4 {
+  font-size: 1.5rem;
+}
+h5 {
+  font-size: 1rem;
 }
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
