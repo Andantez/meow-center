@@ -11,8 +11,8 @@
   --clr-primary-600: hsl(240, 15%, 14%);
   --clr-primary-700: hsl(240, 15%, 4%);
 
-  /* secondary color */
-  --clr-secondary-500: hsl(195, 29%, 97%);
+  /* secondary color F6F9FA */ 
+  --clr-secondary-500: hsl(204, 33%, 97%);
   /* dark shades of secondary color */
   --clr-secondary-600: hsl(195, 29%, 87%);
   --clr-secondary-700: hsl(195, 29%, 77%);
@@ -36,6 +36,51 @@
   -clr-black: #202027;
   --clr-yellow: #fdb465;
   --clr-light-yellow: #ffd088;
+
+  /* font family */
+  --ff-heading: 'Sigmar One';
+  --ff-paragraph: 'Bitter';
+
+  /* font weight */
+  --fw-normal: normal;
+  --fw-bold: bold;
+  --fw-light: 300;
+}
+
+@font-face {
+  font-family: 'Bitter';
+  src: url('../public/fonts/Bitter-Light.woff2') format('woff2'),
+    url('../public/fonts/Bitter-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bitter';
+  src: url('../public/fonts/Bitter-Regular.woff2') format('woff2'),
+    url('../public/fonts/Bitter-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bitter';
+  src: url('../public/fonts/Bitter-Bold.woff2') format('woff2'),
+    url('../public/fonts/Bitter-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sigmar One';
+  src: url('../public/fonts/SigmarOne-Regular.woff2') format('woff2'),
+    url('../public/fonts/SigmarOne-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 html,
@@ -44,6 +89,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background: var(--clr-secondary-500);
 }
 
 a {
