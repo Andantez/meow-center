@@ -14,11 +14,11 @@
   /* secondary color F6F9FA */ 
   --clr-secondary-500: hsl(204, 33%, 97%);
   /* dark shades of secondary color */
-  --clr-secondary-600: hsl(195, 29%, 87%);
-  --clr-secondary-700: hsl(195, 29%, 77%);
-  --clr-secondary-800: hsl(195, 29%, 67%);
-  --clr-secondary-900: hsl(195, 29%, 57%);
-  --clr-secondary-1000: hsl(195, 29%, 47%);
+  --clr-secondary-600: hsl(204, 29%, 97%);
+  --clr-secondary-700: hsl(204, 29%, 77%);
+  --clr-secondary-800: hsl(204, 29%, 67%);
+  --clr-secondary-900: hsl(204, 29%, 57%);
+  --clr-secondary-1000: hsl(204, 29%, 47%);
 
   /* light shades of accent color */
   -clr-red-100: hsl(359, 79%, 95%);
