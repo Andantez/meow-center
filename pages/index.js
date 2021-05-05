@@ -1,15 +1,12 @@
 import Head from 'next/head';
-import Header from '../components/Header';
 
 export default function Home() {
   return (
-    <div>
+    <main>
       <Head>
-        <title>Meow-Center</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Meow Portal - Learn More About Your Cat Breed</title>
       </Head>
-      <Header />
       <h1>Meow</h1>
-    </div>
+    </main>
   );
 }
