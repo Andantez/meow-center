@@ -10,7 +10,7 @@ const Header = () => {
       <nav className="nav-wrapper">
         <Link href="/">
           <a>
-            <Image src="/images/logo3.png" height="50" width="175" />
+            <Image src="/images/logo3.png" alt="logo" height="50" width="175" />
           </a>
         </Link>
         <div className="nav-links">
