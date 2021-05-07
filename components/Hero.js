@@ -26,7 +26,8 @@ const Hero = () => {
               <span className="z-layer">Meow Portal</span>
             </h1>
           </Ztext>
-          <p>learn more about your cat breed</p>
+          <p>learn more about your</p>
+          <p>cat breed</p>
           <Search />
         </div>
         <div className="right-container">
@@ -75,10 +76,10 @@ const Wrapper = styled.div`
       font-family: var(--ff-paragraph);
       text-transform: capitalize;
       color: var(--clr-secondary-500);
-      /* opacity: 0.9; */
-      margin-bottom: 1em;
-      width: 50%;
       letter-spacing: 0.1em;
+      & + p {
+        margin-top: 0.25em;
+      }
     }
   }
   .right-container {
