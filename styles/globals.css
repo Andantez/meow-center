@@ -21,17 +21,17 @@
   --clr-secondary-1000: hsl(204, 29%, 47%);
 
   /* light shades of accent color */
-  --clr-red-100: hsl(359, 79%, 95%);
-  --clr-red-200: hsl(359, 79%, 85%);
-  --clr-red-300: hsl(359, 79%, 75%);
-  --clr-red-400: hsl(359, 79%, 65%);
+  --clr-red-100: hsl(359, 79%, 65%);
+  --clr-red-200: hsl(359, 79%, 75%);
+  --clr-red-300: hsl(359, 79%, 85%);
+  --clr-red-400: hsl(359, 79%, 95%);
   /* accent color */
   --clr-red-500: hsl(359, 79%, 55%);
   /* dark shades of accent color */
-  --clr-red-600: hsl(359, 79%, 65%);
-  --clr-red-700: hsl(359, 79%, 75%);
-  --clr-red-800: hsl(359, 79%, 85%);
-  --clr-red-900: hsl(359, 79%, 95%);
+  --clr-red-600: hsl(359, 79%, 15%);
+  --clr-red-700: hsl(359, 79%, 25%);
+  --clr-red-800: hsl(359, 79%, 35%);
+  --clr-red-900: hsl(359, 79%, 45%);
 
   --clr-black: #202027;
   --clr-yellow: #fdb465;
