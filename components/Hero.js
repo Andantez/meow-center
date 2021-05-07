@@ -19,7 +19,7 @@ const Hero = () => {
             layers={10}
             perspective="600px"
             style={{
-              color: '#202027',
+              color: 'hsl(204, 33%, 97%)',
             }}
           >
             <h1>
@@ -61,7 +61,7 @@ const Wrapper = styled.div`
     color: var(--clr-secondary-500);
 
     span:not(:first-child) {
-      color: var(--clr-secondary-500);
+      color: var(--clr-black);
     }
 
     h1 {

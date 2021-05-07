@@ -38,7 +38,7 @@
   --clr-light-yellow: #ffd088;
 
   /* font family */
-  --ff-heading: 'Sigmar One';
+  --ff-heading: 'IntroDemo-BlackCAPS';
   --ff-paragraph: 'Bitter';
 
   /* font weight */
@@ -75,9 +75,9 @@
 }
 
 @font-face {
-  font-family: 'Sigmar One';
-  src: url('../public/fonts/SigmarOne-Regular.woff2') format('woff2'),
-    url('../public/fonts/SigmarOne-Regular.woff') format('woff');
+  font-family: 'IntroDemo-BlackCAPS';
+  src: url('../public/fonts/IntroDemo-BlackCAPS.woff2') format('woff2'),
+    url('../public/fonts/IntroDemo-BlackCAPS.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
