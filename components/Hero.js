@@ -13,7 +13,7 @@ const Hero = () => {
           <Ztext
             depth="1.5rem"
             direction="forwards"
-            event="pointer"
+            event="none"
             eventRotation="20deg"
             eventDirection="default"
             fade={false}
@@ -80,7 +80,7 @@ const Wrapper = styled.div`
     h1 {
       font-family: var(--ff-heading);
       font-size: 2.25rem;
-      margin: 0.3em 0;
+      margin: 0.6em 0;
     }
 
     p {
