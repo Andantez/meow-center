@@ -19,7 +19,7 @@ const Search = () => {
 
 const InputWrapper = styled.div`
   position: relative;
-  margin: 2em 0 4em;
+  margin: 3em 0 4em;
   .search-input {
     border: none;
     box-shadow: 0 0 0 0.2em var(--clr-black);

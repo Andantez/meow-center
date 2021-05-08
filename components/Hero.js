@@ -80,7 +80,7 @@ const Wrapper = styled.div`
     h1 {
       font-family: var(--ff-heading);
       font-size: 2.25rem;
-      margin: 1em 0;
+      margin: 0.3em 0;
     }
 
     p {
@@ -88,6 +88,7 @@ const Wrapper = styled.div`
       text-transform: capitalize;
       color: var(--clr-secondary-500);
       letter-spacing: 0.1em;
+      font-size: 1.125em;
       & + p {
         margin-top: 0.25em;
       }
@@ -100,8 +101,8 @@ const Wrapper = styled.div`
     color: var(--clr-red-500);
     font-size: 1.5rem;
     position: absolute;
-    bottom: -0.4em;
-    left: 4em;
+    bottom: -0.3em;
+    left: 4.2em;
   }
   .middle-container,
   .right-container {
