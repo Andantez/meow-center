@@ -1,4 +1,4 @@
-export default breedsData = [
+export default  [
   {
     weight: {
       imperial: '7  -  10',
