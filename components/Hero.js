@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Ztext from 'react-ztext';
 import Search from './Search';
 import { BsSearch } from 'react-icons/bs';
-import { ImArrowDown } from 'react-icons/im';
 
 const Hero = () => {
   return (
@@ -13,7 +12,7 @@ const Hero = () => {
           <Ztext
             depth="1.5rem"
             direction="forwards"
-            event="none"
+            event="scroll"
             eventRotation="20deg"
             eventDirection="default"
             fade={false}
@@ -29,9 +28,7 @@ const Hero = () => {
           </Ztext>
           <div className="arrow-wrapper">
             <p>learn more about your</p>
-            <p>
-              cat breed <ImArrowDown className="arrow" />
-            </p>
+            <p>cat breed</p>
           </div>
           <Search />
         </div>
@@ -39,8 +36,8 @@ const Hero = () => {
           <Image
             src="/images/hero-cat.jpg"
             alt="white grey cat"
-            width="300"
-            height="200"
+            width="280"
+            height="180"
           />
         </div>
         <div className="right-container">
@@ -70,8 +67,10 @@ const Wrapper = styled.div`
     place-items: center;
     width: 90vw;
     margin: 0 auto;
+    padding-top: 2em;
   }
   .left-container {
+    position: relative;
     color: var(--clr-secondary-500);
     span:not(:first-child) {
       color: var(--clr-black);
@@ -86,23 +85,32 @@ const Wrapper = styled.div`
     p {
       font-family: var(--ff-paragraph);
       text-transform: capitalize;
-      color: var(--clr-secondary-500);
+      color: var(--clr-primary-500);
+      font-weight: var(--fw-bold);
       letter-spacing: 0.1em;
       font-size: 1.125em;
       & + p {
         margin-top: 0.25em;
+        /* font-style: italic; */
       }
     }
   }
   .arrow-wrapper {
+    text-align: center;
     position: relative;
+    background: var(--clr-secondary-500);
+    padding-top: 1em;
+    padding-bottom: 1em;
   }
-  .arrow {
-    color: var(--clr-red-500);
-    font-size: 1.5rem;
+
+  .left-container::before {
+    content: '';
     position: absolute;
-    bottom: -0.3em;
-    left: 4.2em;
+    width: 75%;
+    height: 70%;
+    background: var(--clr-red-500);
+    top: -5%;
+    left: -30%;
   }
   .middle-container,
   .right-container {
@@ -110,7 +118,7 @@ const Wrapper = styled.div`
   }
   @media (min-width: 992px) {
     .hero-container {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1.5fr 1fr;
       max-width: 1200px;
       place-items: center flex-start;
     }
@@ -119,17 +127,6 @@ const Wrapper = styled.div`
       h1 {
         font-size: 3rem;
       }
-    }
-    .middle-container {
-      display: grid;
-      justify-self: end;
-      margin-right: -5em;
-      position: relative;
-      z-index: 1;
-      background: rgb(52, 52, 70);
-      background: linear-gradient(90deg, #404056 90%, rgba(74, 74, 100, 1) 100%);
-      padding: 0.75em 0.75em 0.75em 0;
-      /* border: 0.75em solid var(--clr-primary-400); */
     }
 
     .right-container {
@@ -141,6 +138,23 @@ const Wrapper = styled.div`
   @media (min-width: 1200px) {
     & {
       clip-path: polygon(100% 0, 100% 100%, 19% 100%, 0 85%, 0 0);
+    }
+
+    .hero-container {
+      grid-template-columns: 1.5fr 1fr 1fr;
+    }
+    .middle-container {
+      display: grid;
+      justify-self: end;
+      margin-right: -5em;
+      z-index: 1;
+      background: rgb(52, 52, 70);
+      background: linear-gradient(
+        90deg,
+        #404056 90%,
+        rgba(74, 74, 100, 1) 100%
+      );
+      padding: 0.75em 0.75em 0.75em 0;
     }
   }
 `;
