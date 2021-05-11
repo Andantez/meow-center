@@ -88,10 +88,9 @@ const Wrapper = styled.div`
       color: var(--clr-primary-500);
       font-weight: var(--fw-bold);
       letter-spacing: 0.1em;
-      font-size: 1.125em;
+      font-size: 1em;
       & + p {
         margin-top: 0.25em;
-        /* font-style: italic; */
       }
     }
   }
@@ -122,10 +121,14 @@ const Wrapper = styled.div`
       max-width: 1200px;
       place-items: center flex-start;
     }
+
     .left-container {
       margin-left: 1em;
       h1 {
         font-size: 3rem;
+      }
+      p {
+        font-size: 1.125em;
       }
     }
 
