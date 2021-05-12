@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import Image from 'next/image';
 import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
+import MostPopularItem from '../components/MostPopularItem';
 
 import tempData from '../data/tempData';
 
@@ -11,21 +11,15 @@ const MostPopular = () => {
     <StyledMain>
       <section>
         <h2>most popular breeds</h2>
-        {/*  Export it to separate component */}
         {data.map((breed) => {
           const {
             name,
             id,
             image: { url },
           } = breed;
-          console.log(breed.image);
-          return (
-            <figure className="figure-container" key={id}>
-              <Image src={url} alt={name} width="450" height="300" />
-              <figcaption>{name}</figcaption>
-            </figure>
-          );
+          return <MostPopularItem key={id} name={name} imageUrl={url} />;
         })}
+
         <h3>50+ breeds you can discover</h3>
         <Link href="/most-popular">
           <a>
@@ -49,11 +43,6 @@ const StyledMain = styled.main`
     width: 90vw;
     margin: 0 auto;
 
-    .figure-container {
-      & > div {
-        border-radius: 0.5em;
-      }
-    }
     h2,
     h3 {
       text-transform: capitalize;
@@ -103,18 +92,6 @@ const StyledMain = styled.main`
       font-family: var(--ff-paragraph);
       font-weight: var(--fw-bold);
     }
-  }
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  figcaption {
-    font-family: var(--ff-paragraph);
-    color: var(--clr-primary-500);
-    font-weight: var(--fw-normal);
-    width: fit-content;
-    /* font-size: 0.75rem; */
-    margin: 0.5em 0;
   }
 
   @media (min-width: 768px) {
