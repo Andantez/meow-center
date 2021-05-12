@@ -6,7 +6,7 @@ import { BsArrowRightShort } from 'react-icons/bs';
 import tempData from '../data/tempData';
 
 const MostPopular = () => {
-  const data = tempData.slice(0, 5);
+  const data = tempData.slice(0, 7);
   return (
     <StyledMain>
       <section>
@@ -51,7 +51,7 @@ const StyledMain = styled.main`
 
     .figure-container {
       & > div {
-        /* border: 2px solid black; */
+        border-radius: 0.5em;
       }
     }
     h2,
@@ -74,26 +74,24 @@ const StyledMain = styled.main`
       grid-column: span 4;
     }
 
-    .figure-container:nth-child(1) {
-      grid-column: span 4;
-    }
+    .figure-container:nth-child(1),
     .figure-container:nth-child(2) {
       grid-column: span 4;
     }
-    .figure-container:nth-child(3) {
-      grid-column: span 2;
-    }
-    .figure-container:nth-child(4) {
-      grid-column: span 2;
-    }
+    .figure-container:nth-child(3),
+    .figure-container:nth-child(4),
     .figure-container:nth-child(5) {
       grid-column: span 2;
     }
     .figure-container:nth-child(6) {
       grid-column: span 3;
     }
+    .figure-container:nth-child(7),
+    .figure-container:nth-child(8) {
+      display: none;
+    }
 
-    h3:nth-child(7) {
+    h3:nth-child(9) {
       grid-column: 3 / span 2;
       grid-row: 3;
     }
@@ -104,10 +102,6 @@ const StyledMain = styled.main`
       color: var(--clr-red-500);
       font-family: var(--ff-paragraph);
       font-weight: var(--fw-bold);
-
-      svg {
-        font-size: 0.625rem;
-      }
     }
   }
   img {
@@ -121,6 +115,25 @@ const StyledMain = styled.main`
     width: fit-content;
     /* font-size: 0.75rem; */
     margin: 0.5em 0;
+  }
+
+  @media (min-width: 768px) {
+    section {
+      .figure-container:nth-child(6),
+      .figure-container:nth-child(7),
+      .figure-container:nth-child(8) {
+        grid-column: span 2;
+      }
+      .figure-container:nth-child(7),
+      .figure-container:nth-child(8) {
+        display: block;
+      }
+      a {
+        grid-column: 3 / span 2;
+        grid-row: 5;
+        font-size: 1rem;
+      }
+    }
   }
 `;
 export default MostPopular;
