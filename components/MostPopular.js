@@ -42,6 +42,7 @@ const StyledMain = styled.main`
     place-items: center;
     width: 90vw;
     margin: 0 auto;
+    max-width: 1200px;
 
     h2,
     h3 {
@@ -49,6 +50,7 @@ const StyledMain = styled.main`
       font-family: var(--ff-heading);
       color: var(--clr-primary-500);
       text-align: center;
+      text-shadow: 0 2px 5px rgba(32, 32, 39, 20%);
     }
 
     h2 {
@@ -91,6 +93,7 @@ const StyledMain = styled.main`
       color: var(--clr-red-500);
       font-family: var(--ff-paragraph);
       font-weight: var(--fw-bold);
+      text-shadow: 0 2px 5px rgba(32, 32, 39, 20%);
     }
   }
 
@@ -109,6 +112,77 @@ const StyledMain = styled.main`
         grid-column: 3 / span 2;
         grid-row: 5;
         font-size: 1rem;
+      }
+    }
+  }
+
+  @media (min-width: 1024px) {
+    section {
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5em;
+      h2:nth-child(1) {
+        grid-column: 2 / span 3;
+      }
+      h3:nth-child(9) {
+        grid-column: 5 / span 4;
+        grid-row: 2;
+      }
+      h2 {
+        font-size: 2.5rem;
+      }
+      h3 {
+        font-size: 2rem;
+        color: var(--clr-primary-500);
+        opacity: 0.9;
+      }
+      .figure-container:nth-child(2) {
+        grid-column: 5 / span 3;
+      }
+      .figure-container:nth-child(3) {
+        grid-column: 8 / span 3;
+      }
+      .figure-container:nth-child(4) {
+        grid-column: 2 / span 3;
+      }
+      .figure-container:nth-child(5) {
+        grid-column: 9 / span 3;
+      }
+
+      .figure-container:nth-child(6) {
+        grid-column: 2 / span 3;
+        grid-row: 3;
+      }
+
+      .figure-container:nth-child(7) {
+        grid-column: 5 / span 3;
+        grid-row: 3;
+      }
+
+      .figure-container:nth-child(8) {
+        grid-column: 8 / span 3;
+        grid-row: 3;
+      }
+      a {
+        grid-column: 11 / span 1;
+        grid-row: 3;
+        transition: transform 250ms ease;
+        transform-origin: left;
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+      figcaption {
+        /* display: none; */ 
+        /* reminder: change the animation with framer later */
+        border-right: 5px solid black;
+        transition: clip-path 250ms ease 50ms, border 250ms ease;
+        clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+        
+      }
+      figure:hover figcaption {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        border-right: none;
+        
       }
     }
   }
