@@ -6,7 +6,7 @@ import MostPopularItem from '../components/MostPopularItem';
 import tempData from '../data/tempData';
 
 const MostPopular = () => {
-  const data = tempData.slice(0, 7);
+  const data = tempData.slice(5, 12);
   return (
     <StyledMain>
       <section>
@@ -17,12 +17,14 @@ const MostPopular = () => {
             id,
             image: { url },
           } = breed;
-          return <MostPopularItem key={id} name={name} imageUrl={url} />;
+          return (
+            <MostPopularItem key={id} name={name} imageUrl={url} id={id} />
+          );
         })}
 
         <h3>50+ breeds you can discover</h3>
         <Link href="/most-popular">
-          <a>
+          <a className="see-more-link">
             See More <BsArrowRightShort />
           </a>
         </Link>
@@ -86,7 +88,7 @@ const StyledMain = styled.main`
       grid-column: 3 / span 2;
       grid-row: 3;
     }
-    a {
+    .see-more-link {
       display: flex;
       align-items: center;
       font-size: 0.625rem;
@@ -108,7 +110,7 @@ const StyledMain = styled.main`
       .figure-container:nth-child(8) {
         display: block;
       }
-      a {
+      .see-more-link {
         grid-column: 3 / span 2;
         grid-row: 5;
         font-size: 1rem;
@@ -162,7 +164,8 @@ const StyledMain = styled.main`
         grid-column: 8 / span 3;
         grid-row: 3;
       }
-      a {
+      .see-more-link {
+        min-width: max-content;
         grid-column: 11 / span 1;
         grid-row: 3;
         transition: transform 250ms ease;
@@ -171,19 +174,7 @@ const StyledMain = styled.main`
           transform: scale(1.1);
         }
       }
-      figcaption {
-        /* display: none; */ 
-        /* reminder: change the animation with framer later */
-        border-right: 5px solid black;
-        transition: clip-path 250ms ease 50ms, border 250ms ease;
-        clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
-        
-      }
-      figure:hover figcaption {
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-        border-right: none;
-        
-      }
+     
     }
   }
 `;
