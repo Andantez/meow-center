@@ -1,20 +1,16 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import factsTempData from '../data/tempFacts';
-
+import SingleFact from '../components/SingleFact';
 const Facts = () => {
   const { data } = factsTempData;
   return (
     <StyledSection>
       <h2>interesting facts about cats</h2>
       <div>
-        {data.map((singleFact) => {
-          {/* todo extract it to single component */}
-          return (
-            <article>
-              <p>{singleFact.fact}</p>
-            </article>
-          );
+        {data.map((singleFact, index) => {
+          const { fact } = singleFact;
+          return <SingleFact fact={fact} key={index} />;
         })}
       </div>
       <Image
