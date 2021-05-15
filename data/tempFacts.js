@@ -12,13 +12,13 @@ export default {
       fact: 'In 1987 cats overtook dogs as the number one pet in America.',
       length: 60,
     },
-    {
-      fact: "Like birds, cats have a homing ability that uses its biological clock, the angle of the sun, and the Earth's magnetic field. A cat taken far from its home can return to it. But if a cat's owners move far from its home, the cat can't find them.",
-      length: 243,
-    },
-    {
-      fact: 'The group of words associated with cat (catt, cath, chat, katze) stem from the Latin catus, meaning domestic cat, as opposed to feles, or wild cat.',
-      length: 147,
-    },
+    // {
+    //   fact: "Like birds, cats have a homing ability that uses its biological clock, the angle of the sun, and the Earth's magnetic field. A cat taken far from its home can return to it. But if a cat's owners move far from its home, the cat can't find them.",
+    //   length: 243,
+    // },
+    // {
+    //   fact: 'The group of words associated with cat (catt, cath, chat, katze) stem from the Latin catus, meaning domestic cat, as opposed to feles, or wild cat.',
+    //   length: 147,
+    // },
   ],
 };
