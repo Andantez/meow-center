@@ -6,7 +6,9 @@ const Facts = () => {
   const { data } = factsTempData;
   return (
     <StyledSection>
-      <h2>interesting facts about cats</h2>
+      <div className="heading">
+        <h2>interesting facts about cats</h2>
+      </div>
       <div className="facts-container">
         {data.map((singleFact, index) => {
           const { fact } = singleFact;
@@ -55,7 +57,10 @@ const StyledSection = styled.section`
     -webkit-text-stroke: 0.1em var(--clr-black);
     font-size: 2em;
   }
-
+  .heading {
+    width: 90vw;
+    margin: 0 auto;
+  }
   .facts-container {
     display: grid;
     grid-template-columns: 1fr;
