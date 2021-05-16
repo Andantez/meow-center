@@ -20,12 +20,19 @@ const StyledArticle = styled.article`
   line-height: 1.5;
   background-color: var(--clr-secondary-500);
   padding: 1.5em;
-  margin: 0 1em;
+  margin: 0 auto;
   border-radius: 1em;
   text-align: center;
   box-shadow: 2px 4px 4px 0 var(--clr-black);
+  max-width: 300px;
   svg {
     color: var(--clr-red-100);
+  }
+
+  @media (min-width: 768px) {
+    display: flex ;
+    align-items: center;
+    
   }
 `;
 export default SingleFact;

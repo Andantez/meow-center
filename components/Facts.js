@@ -33,9 +33,10 @@ const Facts = () => {
         <div className="img-wrapper">
           <Image
             src="/images/homepage-cat4.jpg"
-            width="200"
-            height="300"
+            width="300"
+            height="200"
             alt="ginger cat"
+            // layout="responsive"
           />
         </div>
       </div>
@@ -47,7 +48,6 @@ const Facts = () => {
 const StyledSection = styled.section`
   background-color: var(--clr-primary-500);
   padding: 5em 0;
-
   h2 {
     position: relative;
     text-align: center;
@@ -79,13 +79,14 @@ const StyledSection = styled.section`
     color: var(--clr-secondary-500);
     font-family: var(--ff-paragraph);
     font-weight: var(--fw-bold);
+    font-size: 0.8125em;
     text-transform: capitalize;
     display: block;
-    margin: 0 auto !important;
+    margin: 0 auto;
     padding: 1em;
     background: var(--clr-red-500);
     border: none;
-    border-radius: .25em;
+    border-radius: 0.25em;
     transition: transform 250ms ease;
     box-shadow: 2px 4px 10px 0 var(--clr-black);
     &:hover,
@@ -93,7 +94,29 @@ const StyledSection = styled.section`
       transform: scale(1.05);
     }
     &:active {
-      transform: scale(.95);
+      transform: scale(0.95);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .facts-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    article:nth-child(2) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+    article:nth-child(3) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .img-wrapper {
+      display: block;
+      margin: 0 auto;
+      & > div {
+        border-radius: 1em;
+        box-shadow: 2px 4px 4px 0 var(--clr-black);
+      }
     }
   }
 `;
