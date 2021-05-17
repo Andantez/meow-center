@@ -2,31 +2,35 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import linksData from '../data/linksData';
 import { AiOutlineClose } from 'react-icons/ai';
-
+import { useHomeContext } from '../context/home_context';
 const Sidebar = () => {
+  const { isSidebarOpen, closeSidebar} = useHomeContext();
   return (
     <StyledDiv>
-      <aside>
-        <div className="sidebar-header">
-          <button type="button" className="btn">
-            <AiOutlineClose />
-          </button>
-        </div>
-        <ul className="links">
-          {linksData.map((listItem) => {
-            const { title, icon, link } = listItem;
-            return (
-              <li key={title}>
-                <Link href={link}>
-                  <a>
-                    {icon} {title}
-                  </a>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </aside>
+      {/* TODO: to be handled by framer motion later */}
+      {isSidebarOpen && (
+        <aside>
+          <div className="sidebar-header">
+            <button type="button" className="btn" onClick={closeSidebar}>
+              <AiOutlineClose />
+            </button>
+          </div>
+          <ul className="links">
+            {linksData.map((listItem) => {
+              const { title, icon, link } = listItem;
+              return (
+                <li key={title}>
+                  <Link href={link}>
+                    <a>
+                      {icon} {title}
+                    </a>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </aside>
+      )}
     </StyledDiv>
   );
 };
@@ -85,6 +89,10 @@ const StyledDiv = styled.div`
     .links {
       grid-template-columns: repeat(2, 1fr);
     }
+  }
+
+  @media (min-width: 1024px) {
+    display: none;
   }
 `;
 export default Sidebar;
