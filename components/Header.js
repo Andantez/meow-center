@@ -73,7 +73,7 @@ const Wrapper = styled.header`
     a {
       position: relative;
       &:hover {
-        color: var(--clr-secondary-600);
+        opacity: 0.8;
       }
       &::before {
         position: absolute;
@@ -82,7 +82,7 @@ const Wrapper = styled.header`
         height: 3px;
         bottom: -0.75em;
         left: 0;
-        background: var(--clr-light-yellow);
+        background: var(--clr-red-500);
         transform: scale(0);
         transition: transform 250ms linear;
         transform-origin: right;
