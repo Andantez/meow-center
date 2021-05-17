@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
-
 import { HiMenu } from 'react-icons/hi';
+import { useHomeContext } from '../context/home_context';
 
 const Header = () => {
+  const { openSidebar } = useHomeContext();
   return (
     <Wrapper>
       <nav className="nav-wrapper">
@@ -30,7 +31,7 @@ const Header = () => {
             <a>About</a>
           </Link>
         </div>
-        <button className="navbar-toggle" type="button">
+        <button className="navbar-toggle" type="button" onClick={openSidebar}>
           <HiMenu />
         </button>
       </nav>
