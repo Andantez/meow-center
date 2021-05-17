@@ -36,7 +36,6 @@ const Facts = () => {
             width="300"
             height="200"
             alt="ginger cat"
-            // layout="responsive"
           />
         </div>
       </div>
@@ -117,6 +116,47 @@ const StyledSection = styled.section`
         border-radius: 1em;
         box-shadow: 2px 4px 4px 0 var(--clr-black);
       }
+    }
+  }
+  @media (min-width: 1024px) {
+    .facts-container {
+      grid-template-columns: repeat(12, 1fr);
+    }
+    h2 {
+      font-size: 2.5rem;
+    }
+
+    .btn {
+      font-size: 1rem;
+    }
+    article:nth-child(1) {
+      grid-column: 1 / span 4;
+    }
+
+    article:nth-child(2) {
+      margin-top: 5em;
+      grid-column: 5 / span 4;
+      grid-row: 1;
+      margin-bottom: -5em;
+    }
+
+    article:nth-child(3) {
+      grid-column: 9 / span 4;
+      grid-row: 1;
+    }
+    .img-wrapper:nth-child(4) {
+      grid-column: span 4;
+      grid-row: 2;
+    }
+
+    .img-wrapper:nth-child(5) {
+      grid-column: 5 / span 4;
+      grid-row: 2;
+      margin-top: 5em;
+    }
+
+    .img-wrapper:nth-child(6) {
+      grid-column: 9 / span 4;
     }
   }
 `;
