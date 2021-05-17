@@ -12,7 +12,7 @@ const Hero = () => {
           <Ztext
             depth="1.5rem"
             direction="forwards"
-            event="scroll"
+            event="none"
             eventRotation="20deg"
             eventDirection="default"
             fade={false}
