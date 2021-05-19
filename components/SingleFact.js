@@ -19,7 +19,7 @@ const StyledArticle = styled.article`
   font-weight: var(--fw-normal);
   line-height: 1.5;
   background-color: var(--clr-secondary-500);
-  padding: 1.5em;
+  padding: 1em;
   margin: 0 auto;
   border-radius: 1em;
   text-align: center;
@@ -30,9 +30,12 @@ const StyledArticle = styled.article`
   }
 
   @media (min-width: 768px) {
-    display: flex ;
+    display: flex;
     align-items: center;
-    
+  }
+
+  @media (min-width: 1024px) {
+    padding: 1.5em;
   }
 `;
 export default SingleFact;
