@@ -21,7 +21,7 @@ const Sidebar = () => {
               return (
                 <li key={title}>
                   <Link href={link}>
-                    <a>
+                    <a onClick={closeSidebar}>
                       {icon} {title}
                     </a>
                   </Link>
