@@ -1,11 +1,7 @@
-import Head from 'next/head';
+import BreedsHero from '../../components/BreedsHero';
 
 const Breeds = () => {
-  return <div>
-    <Head>
-      <title>Cat Breeds | Meow Portal</title>
-    </Head>
-    Breeds Page</div>;
+  return <BreedsHero />;
 };
 
 export default Breeds;
