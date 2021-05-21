@@ -12,7 +12,7 @@ const Breeds = ({ initialData }) => {
       <div className="container">
         <div className="search-wrapper">
           <FiltersSearch />
-          <button type="btn">
+          <button type="button" className="btn">
             <ImEqualizer />
           </button>
         </div>
@@ -39,6 +39,18 @@ const StyledMain = styled.main`
   .search-wrapper {
     display: grid;
     grid-template-columns: 1fr auto;
+  }
+
+  .btn {
+    border: transparent;
+    color: var(--clr-primary-500);
+    background: var(--clr-secondary-500);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    svg {
+      font-size: 1.25rem;
+    }
   }
 `;
 export default Breeds;
