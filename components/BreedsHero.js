@@ -42,7 +42,7 @@ const StyledDiv = styled.div`
     place-items: center;
     width: 90vw;
     margin: 0 auto;
-    padding: 5em 0;
+    padding:  4em 0 5em;
   }
   h1 {
     font-size: 2rem;
