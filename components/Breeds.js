@@ -6,6 +6,7 @@ import Filters from './Filters';
 import FiltersSearch from './FiltersSearch';
 import GridButton from './GridButton';
 import { ImEqualizer } from 'react-icons/im';
+import ListButton from './ListButton';
 
 const Breeds = ({ initialData }) => {
   return (
@@ -17,7 +18,10 @@ const Breeds = ({ initialData }) => {
             <ImEqualizer />
           </button>
         </div>
+        <div className="view-style">
           <GridButton />
+          <ListButton />
+        </div>
         <aside className="filter-wrapper">
           <Filters />
         </aside>
@@ -36,13 +40,18 @@ const StyledMain = styled.main`
     display: grid;
     width: 90vw;
     margin: 0 auto;
+    gap: 3em; /* temporary might be removed later */
   }
 
   .search-wrapper {
     display: grid;
     grid-template-columns: 1fr auto;
   }
-
+  .view-style {
+    display: flex;
+    justify-content: flex-start; /* Might change later to flex-end. */
+    gap: 0.5em;
+  }
   .btn {
     border: transparent;
     color: var(--clr-primary-500);
