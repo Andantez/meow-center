@@ -4,6 +4,7 @@ import Sort from './Sort';
 import BreedsList from './BreedsList';
 import Filters from './Filters';
 import FiltersSearch from './FiltersSearch';
+import GridButton from './GridButton';
 import { ImEqualizer } from 'react-icons/im';
 
 const Breeds = ({ initialData }) => {
@@ -16,6 +17,7 @@ const Breeds = ({ initialData }) => {
             <ImEqualizer />
           </button>
         </div>
+          <GridButton />
         <aside className="filter-wrapper">
           <Filters />
         </aside>
