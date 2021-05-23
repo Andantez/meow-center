@@ -1,16 +1,62 @@
 import BreedsHero from '../../components/BreedsHero';
-import Breeds from '../../components/Breeds';
 import tempData from '../../data/tempData';
+import styled from 'styled-components';
+import FiltersSearch from '../../components/FiltersSearch';
+import { ImEqualizer } from 'react-icons/im';
+import BreedsList from '../../components/BreedsList';
+import Sort from '../../components/Sort';
+
+import Filters from '../../components/Filters';
 
 const BreedsPage = () => {
-
-  const data = tempData.slice(0, 25);
+  const data = tempData.slice(0, 25); // temporary till getStaticProps is added
   return (
     <>
       <BreedsHero />
-      <Breeds initialData={data} />
+      <main>
+        <StyledDiv>
+          <div className="search-wrapper">
+            <FiltersSearch />
+            <button type="button" className="btn">
+              <ImEqualizer />
+            </button>
+          </div>
+          <aside className="filter-wrapper"><Filters /></aside>
+
+          <div className="breeds-list">
+          {/* <Sort /> */}
+          <BreedsList initialData={data} />
+          </div>
+        </StyledDiv>
+      </main>
     </>
   );
 };
 
+const StyledDiv = styled.div`
+  margin: 5em auto;
+  width: 90vw;
+  display: grid;
+  gap: 3em;
+
+  .filter-wrapper {
+    display: none;
+  }
+  .search-wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
+  .btn {
+    border: transparent;
+    color: var(--clr-primary-500);
+    background: var(--clr-secondary-500);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    svg {
+      font-size: 1.25rem;
+    }
+  }
+`;
 export default BreedsPage;
