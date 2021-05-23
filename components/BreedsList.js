@@ -1,6 +1,13 @@
-
+import GridView from './GridView';
+import ListView from './ListView';
 const BreedsList = ({ initialData }) => {
-  return <div>Breeeds List Component</div>;
+
+  const gridView = false ; // Controlled later by context state
+
+  if (gridView) {
+    return <GridView />;
+  }
+  return <ListView initialData={initialData} />;
 };
 
 export default BreedsList;
