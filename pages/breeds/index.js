@@ -1,12 +1,12 @@
-import BreedsHero from '../../components/BreedsHero';
-import tempData from '../../data/tempData';
 import styled from 'styled-components';
+import BreedsHero from '../../components/BreedsHero';
 import FiltersSearch from '../../components/FiltersSearch';
-import { ImEqualizer } from 'react-icons/im';
 import BreedsList from '../../components/BreedsList';
 import Sort from '../../components/Sort';
-
 import Filters from '../../components/Filters';
+import tempData from '../../data/tempData';
+import { ImEqualizer } from 'react-icons/im';
+
 
 const BreedsPage = () => {
   const data = tempData.slice(0, 25); // temporary till getStaticProps is added
@@ -40,11 +40,12 @@ const StyledDiv = styled.div`
   gap: 3em;
 
   .filter-wrapper {
-    display: none;
+    /* display: none; */
   }
   .search-wrapper {
     display: grid;
     grid-template-columns: 1fr auto;
+    display: none;
   }
 
   .btn {

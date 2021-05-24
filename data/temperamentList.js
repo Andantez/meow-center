@@ -1,0 +1,15 @@
+export default [
+  'All',
+  'Active',
+  'Independent',
+  'Playful',
+  'Curious',
+  'Hypoallergenic',
+  'Loyal',
+  'Agile',
+  'Friendly',
+  'Gentle',
+  'Social',
+  'Adaptable',
+  'Clever',
+];
