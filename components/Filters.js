@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import FiltersSearch from './FiltersSearch';
 import temperamentList from '../data/temperamentList';
-import { getUnuqueValues } from '../utils/helpers';
+import { getUniqueValues } from '../utils/helpers';
 
 import tempData from '../data/tempData';
 const Filters = () => {
   const data = tempData; // to be change to get the data from the context later.
 
-  const breedOrigins = getUnuqueValues(data, 'origin');
+  const breedOrigins = getUniqueValues(data, 'origin');
   return (
     <StyledDiv>
       <form>
