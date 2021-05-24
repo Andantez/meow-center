@@ -1,5 +1,5 @@
 
-export const getUnuqueValues = (data, type) => {
+export const getUniqueValues = (data, type) => {
   const origins = data.map((value) => {
     return value[type];
   });
