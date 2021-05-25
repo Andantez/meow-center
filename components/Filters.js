@@ -35,6 +35,9 @@ const Filters = () => {
             })}
           </select>
         </div>
+        <div className="form-control">
+          <button type="button" className="clear-btn">Clear Filters</button>
+        </div>
       </form>
     </StyledDiv>
   );
@@ -44,9 +47,23 @@ const StyledDiv = styled.div`
   .form-control {
     display: grid;
     width: 200px; /* temporary */
+    font-family: var(--ff-paragraph);
+    margin-bottom: 1em;
   }
   .form-control:not(:last-child) {
     border-bottom: 2px solid var(--clr-black);
+  }
+
+  .clear-btn {
+    background-color: var(--clr-red-100);
+    border: transparent;
+    color: var(--clr-secondary-500);
+    font-weight: var(--fw-bold);
+    padding: 0.35em 2em;
+    border-radius: 0.5em;
+    margin: 1em 0;
+    width: fit-content;
+    cursor: pointer;
   }
 `;
 export default Filters;
