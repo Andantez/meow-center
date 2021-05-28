@@ -15,9 +15,10 @@ const Filters = () => {
           <FiltersSearch />
         </div>
         <div className="form-control">
+          <h5>Temperament</h5>
           {temperamentList.map((temperament) => {
             return (
-              <button type="button" className="btn">
+              <button type="button" className="temperament">
                 {temperament}
               </button>
             );
@@ -48,10 +49,54 @@ const StyledDiv = styled.div`
     display: grid;
     width: 200px; /* temporary */
     font-family: var(--ff-paragraph);
-    margin-bottom: 1em;
+    margin-bottom: 2em;
+
+    h5,
+    label {
+      font-size: 1.125rem;
+      font-size: 1.125rem;
+      color: var(--clr-primary-500);
+    }
+
+    h5 {
+      margin-bottom: 0.5em;
+    }
+
+    label {
+      font-weight: var(--fw-bold);
+      margin-bottom: 0.938em;
+    }
+
+    select {
+      color: var(--clr-primary-300);
+      background-color: var(--clr-secondary-500);
+      padding: 0.125em;
+      border-radius: 0.5em;
+      width: fit-content;
+      font-size: 1rem;
+      border: 1px solid var(--clr-primary-100);
+      /* font-weight: var(--fw-light); */
+    }
   }
-  .form-control:not(:last-child) {
-    border-bottom: 2px solid var(--clr-black);
+  .form-control:nth-child(2) {
+    border-bottom: 1px solid var(--clr-primary-100);
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+  }
+
+  .temperament {
+    background: transparent;
+    border: transparent;
+    cursor: pointer;
+    color: var(--clr-primary-300);
+    margin: 0.35em 0;
+    display: flex;
+    transition: color 250ms ease;
+    font-weight: var(--fw-light);
+    :hover {
+      color: var(--clr-red-500);
+      font-weight: var(--fw-bold);
+    }
   }
 
   .clear-btn {
