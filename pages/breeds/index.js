@@ -47,7 +47,6 @@ const StyledDiv = styled.div`
   .search-wrapper {
     display: grid;
     grid-template-columns: 1fr auto;
-    display: none;
   }
 
   .btn {
@@ -64,11 +63,17 @@ const StyledDiv = styled.div`
   .breeds-list {
     display: grid;
     gap: 2em;
+  }
 
-  } @media (min-width: 1024px) {
+  @media (min-width: 1024px) {
     grid-template-columns: 200px 1fr;
     .filter-wrapper {
       display: initial;
+    }
+  }
+  @media (min-width: 1024px) {
+    .search-wrapper {
+      display: none;
     }
   }
 `;
