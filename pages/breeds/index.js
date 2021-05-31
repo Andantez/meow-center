@@ -38,9 +38,10 @@ const StyledDiv = styled.div`
   width: 90vw;
   display: grid;
   gap: 3em;
+  max-width: 1200px;
 
   .filter-wrapper {
-    /* display: none; */
+    display: none;
   }
   .search-wrapper {
     display: grid;
@@ -57,6 +58,12 @@ const StyledDiv = styled.div`
     align-items: center;
     svg {
       font-size: 1.25rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    grid-template-columns: auto 1fr;
+    .filter-wrapper {
+      display: initial;
     }
   }
 `;
