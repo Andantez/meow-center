@@ -16,7 +16,7 @@ const Filters = () => {
         </div>
         <div className="form-control">
           <h5>Temperament</h5>
-          {temperamentList.map((temperament) => {
+          {temperamentList.map((temperament, index) => {
             return (
               <button type="button" className="temperament">
                 {temperament}
@@ -89,18 +89,18 @@ const StyledDiv = styled.div`
     border: transparent;
     cursor: pointer;
     color: var(--clr-primary-300);
-    margin: 0.35em 0;
+    margin: 0.35em auto 0.35em 0;
     display: flex;
     transition: color 250ms ease;
     font-weight: var(--fw-light);
     :hover {
-      color: var(--clr-red-500);
       font-weight: var(--fw-bold);
+      color: var(--clr-red-100);
     }
   }
 
   .clear-btn {
-    background-color: var(--clr-red-100);
+    background-color: var(--clr-red-500);
     border: transparent;
     color: var(--clr-secondary-500);
     font-weight: var(--fw-bold);
@@ -109,6 +109,16 @@ const StyledDiv = styled.div`
     margin: 1em 0;
     width: fit-content;
     cursor: pointer;
+  }
+
+  .active {
+    color: var(--clr-red-100);
+    font-weight: var(--fw-bold);
+  }
+
+  button:nth-child(3) {
+    color: var(--clr-red-100);
+    font-weight: var(--fw-bold);
   }
 `;
 export default Filters;

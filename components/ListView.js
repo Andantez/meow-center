@@ -13,7 +13,7 @@ const ListView = ({ initialData }) => {
           name,
           description,
           life_span,
-          weight: { metric: weight},
+          weight: { metric: weight },
           image: { url },
         } = breed;
         return (
@@ -25,12 +25,13 @@ const ListView = ({ initialData }) => {
                 </div>
                 <div className="info">
                   <h2>{name}</h2>
-                  <p>{description}</p>
-                  <p>
-                    <span>life span:</span> {life_span}
+                  <p className="ss-description">{description.substring(0, 200)}...</p>
+                  <p className="ls-description">{description}</p>
+                  <p className="extra-info">
+                    <span>life span:</span> {life_span} years.
                   </p>
-                  <p>
-                    <span>weight:</span> {weight}
+                  <p className="extra-info">
+                    <span>weight:</span> {weight} kg.
                   </p>
                 </div>
               </a>
@@ -47,21 +48,70 @@ const StyledSection = styled.section`
   margin: 0 auto;
   gap: 1.5em;
   grid-template-columns: repeat(2, 1fr);
-  
+  article {
+    transform-origin: left bottom;
+    transition: transform 250ms ease, background-color 250ms ease;
+  }
+  article:hover {
+    transform: scale(1.05);
+  }
+  .img-wrapper > div {
+    border-radius: .5em;
+  }
   .list-item {
     display: grid;
-    gap: .25em;
+    gap: 0.25em;
     h2 {
       font-size: 1.125rem;
-    }
-    p {
-      display: none;
-      opacity: 0.8;
+      color: var(--clr-primary-500);
     }
 
-    h2,p {
+    h2,
+    p {
       font-family: var(--ff-paragraph);
-      color: var(--clr-primary-500);
+    }
+
+    .ss-description,
+    .ls-description,
+    .extra-info {
+      display: none;
+      color: var(--clr-primary-300);
+    }
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr;
+
+    .list-item .ss-description,
+    .list-item .extra-info {
+      display: block;
+    }
+
+    .list-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 1.5em;
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+    .info span {
+      color: var(--clr-red-100);
+      font-weight: var(--fw-bold);
+      text-transform: capitalize;
+    }
+    .info p {
+      margin-top: 0.5em;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .list-item .ss-description {
+      display: none;
+    }
+    .list-item .ls-description {
+      display: block;
     }
   }
 `;
