@@ -47,7 +47,6 @@ const Filters = () => {
 const StyledDiv = styled.div`
   .form-control {
     display: grid;
-    width: 200px; /* temporary */
     font-family: var(--ff-paragraph);
     margin-bottom: 2em;
 
@@ -75,7 +74,6 @@ const StyledDiv = styled.div`
       width: fit-content;
       font-size: 1rem;
       border: 1px solid var(--clr-primary-100);
-      /* font-weight: var(--fw-light); */
     }
   }
   .form-control:nth-child(2) {
@@ -112,11 +110,6 @@ const StyledDiv = styled.div`
   }
 
   .active {
-    color: var(--clr-red-100);
-    font-weight: var(--fw-bold);
-  }
-
-  button:nth-child(3) {
     color: var(--clr-red-100);
     font-weight: var(--fw-bold);
   }
