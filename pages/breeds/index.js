@@ -7,7 +7,6 @@ import Filters from '../../components/Filters';
 import tempData from '../../data/tempData';
 import { ImEqualizer } from 'react-icons/im';
 
-
 const BreedsPage = () => {
   const data = tempData.slice(0, 25); // temporary till getStaticProps is added
   return (
@@ -21,11 +20,13 @@ const BreedsPage = () => {
               <ImEqualizer />
             </button>
           </div>
-          <aside className="filter-wrapper"><Filters /></aside>
+          <aside className="filter-wrapper">
+            <Filters />
+          </aside>
 
           <div className="breeds-list">
-          {/* <Sort /> */}
-          <BreedsList initialData={data} />
+            <Sort />
+            <BreedsList initialData={data} />
           </div>
         </StyledDiv>
       </main>
@@ -34,7 +35,7 @@ const BreedsPage = () => {
 };
 
 const StyledDiv = styled.div`
-  margin: 5em auto;
+  margin: 10em auto 5em;
   width: 90vw;
   display: grid;
   gap: 3em;
@@ -60,8 +61,12 @@ const StyledDiv = styled.div`
       font-size: 1.25rem;
     }
   }
-  @media (min-width: 1024px) {
-    grid-template-columns: auto 1fr;
+  .breeds-list {
+    display: grid;
+    gap: 2em;
+
+  } @media (min-width: 1024px) {
+    grid-template-columns: 200px 1fr;
     .filter-wrapper {
       display: initial;
     }

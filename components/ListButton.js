@@ -19,7 +19,7 @@ const StyledButton = styled.button`
   cursor: pointer;
   transition: transform 250ms ease;
   svg {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
   :hover {
     transform: scale(1.1);
