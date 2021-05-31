@@ -18,7 +18,7 @@ const Filters = () => {
           <h5>Temperament</h5>
           {temperamentList.map((temperament, index) => {
             return (
-              <button type="button" className="temperament">
+              <button key={temperament} type="button" className="temperament">
                 {temperament}
               </button>
             );
