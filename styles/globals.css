@@ -36,7 +36,7 @@
   --clr-black: #202027;
   --clr-yellow: #fdb465;
   --clr-light-yellow: #ffd088;
-
+  --clr-grey: hsl(195, 2%, 55%);
   /* font family */
   --ff-heading: 'IntroDemo-BlackCAPS';
   --ff-paragraph: 'Bitter';

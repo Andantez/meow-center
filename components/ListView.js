@@ -12,6 +12,7 @@ const ListView = ({ initialData }) => {
           id,
           name,
           description,
+          origin,
           life_span,
           weight: { metric: weight },
           image: { url },
@@ -25,14 +26,19 @@ const ListView = ({ initialData }) => {
                 </div>
                 <div className="info">
                   <h2>{name}</h2>
-                  <p className="ss-description">{description.substring(0, 200)}...</p>
+                  <p className="ss-description">
+                    {description.substring(0, 200)}...
+                  </p>
                   <p className="ls-description">{description}</p>
                   <p className="extra-info">
-                    <span>life span:</span> {life_span} years.
+                    <span>origin:</span> <span>{origin}.</span>
                   </p>
                   <p className="extra-info">
-                    <span>weight:</span> {weight} kg.
+                    <span>life span:</span> <span>{life_span} years.</span>
                   </p>
+                  {/* <p className="extra-info">
+                    <span>weight:</span> {weight} kg.
+                  </p> */}
                 </div>
               </a>
             </Link>
@@ -56,7 +62,7 @@ const StyledSection = styled.section`
     transform: scale(1.05);
   }
   .img-wrapper > div {
-    border-radius: .5em;
+    border-radius: 0.5em;
   }
   .list-item {
     display: grid;
@@ -75,7 +81,7 @@ const StyledSection = styled.section`
     .ls-description,
     .extra-info {
       display: none;
-      color: var(--clr-primary-300);
+      color: var(--clr-grey);
     }
   }
 
@@ -97,12 +103,17 @@ const StyledSection = styled.section`
       }
     }
     .info span {
-      color: var(--clr-red-100);
-      font-weight: var(--fw-bold);
+      color: var(--clr-primary-500);
       text-transform: capitalize;
+      letter-spacing: 1px;
     }
     .info p {
       margin-top: 0.5em;
+    }
+
+    .extra-info span:nth-child(2) {
+      color: var(--clr-red-100);
+      font-weight: var(--fw-normal);
     }
   }
 
