@@ -56,11 +56,12 @@ const StyledSection = styled.section`
   grid-template-columns: repeat(2, 1fr);
   article {
     transform-origin: left bottom;
-    transition: transform 250ms ease, background-color 250ms ease;
+    transition: transform 250ms ease;
   }
   article:hover {
     transform: scale(1.05);
   }
+
   .img-wrapper > div {
     border-radius: 0.5em;
   }

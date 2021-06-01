@@ -2,10 +2,10 @@ import GridView from './GridView';
 import ListView from './ListView';
 const BreedsList = ({ initialData }) => {
 
-  const gridView = false ; // Controlled later by context state
+  const gridView = true ; // Controlled later by context state
 
   if (gridView) {
-    return <GridView />;
+    return <GridView initialData={initialData} />;
   }
   return <ListView initialData={initialData} />;
 };
