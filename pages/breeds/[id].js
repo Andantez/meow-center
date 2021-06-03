@@ -22,14 +22,14 @@ const BreedDetails = ({ breed, images }) => {
       </Head>
       <div className="container">
         <div className="mobile-img">
-          <Image src={mainImage} alt={name} width="450" height="350" />
+          <Image src={mainImage} alt={name} width="700" height="500" />
         </div>
         <div className="details">
           <h1>{name}</h1>
           <article>
             <p>{description}</p>
             <div className="temperament">
-              <p>Temperament:</p>
+              <p className="title">Temperament:</p>
               <p>{temperament}</p>
             </div>
             <div className="characteristics">
@@ -37,7 +37,7 @@ const BreedDetails = ({ breed, images }) => {
                 const { characteristic: char, value } = characteristic;
                 return (
                   <div key={char}>
-                    <p>{char}:</p>
+                    <p className="title">{char}:</p>
                     <Score characteristic={characteristic} score={value} />
                   </div>
                 );
@@ -55,8 +55,8 @@ const BreedDetails = ({ breed, images }) => {
                 <Image
                   src={image.url}
                   key={image.id}
-                  width="150"
-                  height="150"
+                  width="250"
+                  height="250"
                 />
               );
             })}
@@ -188,23 +188,53 @@ const StyledSection = styled.section`
 
   .container {
     margin-top: 3em;
+    display: grid;
+    gap: 2em;
   }
-  .gallery {
-    display: none;
+
+  .details {
+    display: grid;
+    gap: 1em;
+
+    p {
+      font-family: var(--ff-paragraph);
+    }
+
+    h1 {
+      font-family: var(--ff-heading);
+      text-align: center;
+      color: var(--clr-primary-500);
+      font-size: 2.25rem;
+    }
+
+    article {
+      display: grid;
+      gap: 1em;
+      color: var(--clr-primary-400);
+    }
+  }
+
+  .title {
+    font-weight: var(--fw-bold);
+    color: var(--clr-primary-500);
   }
 
   .temperament {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1em;
+    grid-template-columns: 0.5fr 1fr;
   }
+
+  .img-container {
+    display: none;
+  }
+
 
   .characteristics {
     display: grid;
     /* grid-template-columns: 1fr 1fr; */
     /* gap: 1em; */
-    gap: 0.5em;
-  
+    gap: 1em;
+
     p {
       text-transform: capitalize;
     }
