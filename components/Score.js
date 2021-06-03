@@ -48,7 +48,8 @@ const Wrapper = styled.div`
   /* justify-content: start; */
   align-items: center;
   gap: 0.1em;
-  
+  font-family: var(--ff-paragraph);
+
   div:first-child {
     border-top-left-radius: 1em;
     border-bottom-left-radius: 1em;
