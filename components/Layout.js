@@ -2,7 +2,24 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Sidebar from '../components/Sidebar';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useHomeContext } from '../context/home_context';
+
 const Layout = ({ children }) => {
+  const router = useRouter();
+  const { closeSidebar} = useHomeContext();
+
+  useEffect(() => {
+    const handleRouterChange = () => {
+      closeSidebar();
+    }
+    router.events.on('routeChangeStart', handleRouterChange);
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouterChange);
+    }
+  },[])
   return (
     <>
       <Head>
