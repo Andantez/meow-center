@@ -8,6 +8,7 @@ export const getUniqueValues = (data, type) => {
 
 export const getCharacteristics = (data) => {
   const {
+    origin,
     adaptability,
     affection_level,
     child_friendly,
@@ -22,6 +23,10 @@ export const getCharacteristics = (data) => {
     weight: { metric: weight },
   } = data;
   const characteristics = {
+    origin,
+    life_span,
+    weight,
+    hypoallergenic,
     adaptability,
     affection_level,
     child_friendly,
@@ -31,9 +36,6 @@ export const getCharacteristics = (data) => {
     social_needs,
     intelligence,
     stranger_friendly,
-    life_span,
-    hypoallergenic,
-    weight,
   };
   return Object.entries(characteristics).map((entry) => {
     return { characteristic: entry[0].split('_').join(' '), value: entry[1] };

@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { getCharacteristics } from '../../utils/helpers';
+import Score from '../../components/Score';
 const BreedDetails = ({ breed, images }) => {
   const router = useRouter();
   const { id } = router.query;
@@ -14,16 +15,41 @@ const BreedDetails = ({ breed, images }) => {
   const mainImage = images[0].url; //temporary
   const { name, id: breedId, description, temperament, wikipedia_url } = breed;
   const characteristics = getCharacteristics(breed);
-
   return (
     <StyledSection>
       <Head>
         <title>{name} | Meow Portal</title>
       </Head>
       <div className="container">
-        <div className="left-wrapper">
-          <Image src={mainImage} alt={name} width="500" height="500" />
-          <div className="gallery">
+        <div className="mobile-img">
+          <Image src={mainImage} alt={name} width="450" height="350" />
+        </div>
+        <div className="details">
+          <h1>{name}</h1>
+          <article>
+            <p>{description}</p>
+            <div className="temperament">
+              <p>Temperament:</p>
+              <p>{temperament}</p>
+            </div>
+            <div className="characteristics">
+              {characteristics.map((characteristic) => {
+                const { characteristic: char, value } = characteristic;
+                return (
+                  <div key={char}>
+                    <p>{char}:</p>
+                    <Score characteristic={characteristic} score={value} />
+                  </div>
+                );
+              })}
+            </div>
+          </article>
+        </div>
+        <div className="gallery">
+          <div className="img-container">
+            <Image src={mainImage} alt={name} width="600" height="600" />
+          </div>
+          <div className="carousel">
             {images.slice(0, 3).map((image) => {
               return (
                 <Image
@@ -35,26 +61,6 @@ const BreedDetails = ({ breed, images }) => {
               );
             })}
           </div>
-        </div>
-        <div className="right-wrapper">
-          <h1>{name}</h1>
-          <article>
-            <p>{description}</p>
-            <div className="temperament">
-              <p>Temperament:</p>
-              <p>{temperament}</p>
-            </div>
-            <div className="characteristics">
-              {characteristics.map(characteristic => {
-                const { characteristic: char, value } = characteristic;
-                return <div key={char}>
-                  <p>{char}:</p>
-                  <p>{value}</p>
-                </div>
-              })}
-              
-            </div>
-          </article>
         </div>
       </div>
     </StyledSection>
@@ -180,7 +186,10 @@ const StyledSection = styled.section`
   width: 90vw;
   margin: 0 auto;
 
-  .left-wrapper {
+  .container {
+    margin-top: 3em;
+  }
+  .gallery {
     display: none;
   }
 
@@ -193,13 +202,16 @@ const StyledSection = styled.section`
   .characteristics {
     display: grid;
     /* grid-template-columns: 1fr 1fr; */
-
+    /* gap: 1em; */
+    gap: 0.5em;
+  
     p {
       text-transform: capitalize;
     }
-    div {
+    & > div {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 0.5fr 1fr;
+      /* gap: 1em; */
     }
   }
 `;
