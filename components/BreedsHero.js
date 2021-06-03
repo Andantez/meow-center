@@ -22,6 +22,7 @@ const BreedsHero = () => {
             width="350"
             height="250"
             alt="white cat"
+            priority
           />
         </div>
       </section>
