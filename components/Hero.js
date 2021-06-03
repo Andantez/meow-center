@@ -38,6 +38,7 @@ const Hero = () => {
             alt="white grey cat"
             width="280"
             height="180"
+            priority
           />
         </div>
         <div className="right-container">
@@ -47,6 +48,7 @@ const Hero = () => {
             alt="bengal cat"
             width="589"
             height="690"
+            priority
           />
         </div>
       </div>
