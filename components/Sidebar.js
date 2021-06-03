@@ -4,50 +4,62 @@ import linksData from '../data/linksData';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useHomeContext } from '../context/home_context';
 const Sidebar = () => {
-  const { isSidebarOpen, closeSidebar} = useHomeContext();
+  const { isSidebarOpen, closeSidebar } = useHomeContext();
   return (
-    <StyledDiv>
+    <StyledDiv >
       {/* TODO: to be handled by framer motion later */}
       {isSidebarOpen && (
-        <aside>
-          <div className="sidebar-header">
-            <button type="button" className="btn" onClick={closeSidebar}>
-              <AiOutlineClose />
-            </button>
-          </div>
-          <ul className="links">
-            {linksData.map((listItem) => {
-              const { title, icon, link } = listItem;
-              return (
-                <li key={title}>
-                  <Link href={link}>
-                    <a onClick={closeSidebar}>
-                      {icon} {title}
-                    </a>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </aside>
+        <div className="modal-background" onClick={closeSidebar} >
+          <aside onClick={(e) => e.stopPropagation()}>
+            <div className="sidebar-header">
+              <button type="button" className="btn" onClick={closeSidebar}>
+                <AiOutlineClose />
+              </button>
+            </div>
+            <ul className="links">
+              {linksData.map((listItem) => {
+                const { title, icon, link } = listItem;
+                return (
+                  <li key={title}>
+                    <Link href={link}>
+                      <a>
+                        {icon} {title}
+                      </a>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+        </div>
       )}
     </StyledDiv>
   );
 };
 
 const StyledDiv = styled.div`
-  position: absolute;
-  top: 1em;
-  left: 1em;
-  right: 1em;
-  margin: 0 auto;
-  width: 90vw;
-  z-index: 999999;
-  background: var(--clr-secondary-500);
-  border-radius: 1em;
-  font-family: var(--ff-paragraph);
-  color: var(--clr-primary-500);
-
+  .modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0,0,0, .3);
+    z-index: 999;
+  }
+  aside {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    right: 1em;
+    margin: 0 auto;
+    width: 90vw;
+    z-index: 999999;
+    background: var(--clr-secondary-500);
+    border-radius: 1em;
+    font-family: var(--ff-paragraph);
+    color: var(--clr-primary-500);
+  }
   .sidebar-header {
     display: flex;
     justify-content: flex-end;
