@@ -240,7 +240,12 @@ const StyledSection = styled.section`
       grid-template-columns: 0.5fr 1fr;
     }
   }
-
+  .single-char:nth-child(-n + 4) {
+    gap: 0.5em;
+  }
+  .temperament {
+    gap: 0.5em;
+  }
   .single-char:nth-child(n + 5) {
     grid-template-columns: 1fr;
     gap: 0.5em;
@@ -259,13 +264,6 @@ const StyledSection = styled.section`
 
     .container {
       grid-template-columns: 1fr 1fr;
-    }
-
-    .single-char:nth-child(-n + 4) {
-      gap: 0.5em;
-    }
-    .temperament {
-      gap: 0.5em;
     }
   }
 
