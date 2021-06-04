@@ -36,7 +36,7 @@ const BreedDetails = ({ breed, images }) => {
               {characteristics.map((characteristic) => {
                 const { characteristic: char, value } = characteristic;
                 return (
-                  <div key={char}>
+                  <div key={char} className="single-char">
                     <p className="title">{char}:</p>
                     <Score characteristic={characteristic} score={value} />
                   </div>
@@ -185,17 +185,16 @@ export const getStaticPaths = async () => {
 const StyledSection = styled.section`
   width: 90vw;
   margin: 0 auto;
-
+  max-width: 1200px;
   .container {
     margin-top: 3em;
     display: grid;
     gap: 2em;
   }
-
+  img {
+    border-radius: 0.5em;
+  }
   .details {
-    display: grid;
-    gap: 1em;
-
     p {
       font-family: var(--ff-paragraph);
     }
@@ -211,6 +210,7 @@ const StyledSection = styled.section`
       display: grid;
       gap: 1em;
       color: var(--clr-primary-400);
+      margin-top: 1em;
     }
   }
 
@@ -228,11 +228,8 @@ const StyledSection = styled.section`
     display: none;
   }
 
-
   .characteristics {
     display: grid;
-    /* grid-template-columns: 1fr 1fr; */
-    /* gap: 1em; */
     gap: 1em;
 
     p {
@@ -241,7 +238,62 @@ const StyledSection = styled.section`
     & > div {
       display: grid;
       grid-template-columns: 0.5fr 1fr;
-      /* gap: 1em; */
+    }
+  }
+
+  .single-char:nth-child(n + 5) {
+    grid-template-columns: 1fr;
+    gap: 0.5em;
+  }
+
+  .carousel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+  }
+
+  @media (min-width: 768px) {
+    .gallery {
+      grid-column: span 2;
+    }
+
+    .container {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .single-char:nth-child(-n + 4) {
+      gap: 0.5em;
+    }
+    .temperament {
+      gap: 0.5em;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .container {
+      gap: 5em;
+    }
+    .mobile-img {
+      display: none;
+    }
+    .img-container {
+      display: block;
+    }
+
+    .gallery {
+      max-width: 600px;
+      place-self: center;
+      grid-column: 1 / span 1;
+      grid-row: 1;
+    }
+
+    .carousel {
+      margin-top: 2em;
+    }
+
+    .characteristics {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5em;
     }
   }
 `;

@@ -61,7 +61,7 @@ const Wrapper = styled.div`
 `;
 const StyledDiv = styled.div`
   width: 100%;
-  height: 0.8125em;
+  height: 1.125em;
   background-color: ${(props) =>
     props.index <= props.score ? 'var(--clr-red-500)' : 'var(--clr-lightgrey)'};
 `;
