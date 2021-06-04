@@ -4,17 +4,27 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { getCharacteristics } from '../../utils/helpers';
 import Score from '../../components/Score';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { useState } from 'react';
+
 const BreedDetails = ({ breed, images }) => {
-  const router = useRouter();
-  const { id } = router.query;
+  // const router = useRouter();
+  // const { id } = router.query;
+  const [imgIndex ,setImgIndex] = useState(0);
+  const [imgList, setImageList] = useState(images); //temporary
+  const { url: mainImage } = imgList[imgIndex];
+  
+  
+    // if (router.isFallback) {
+    //   return <h2>Loading......</h2>;
+    // }
+  
 
-  if (router.isFallback) {
-    return <h2>Loading......</h2>;
-  }
-
-  const mainImage = images[0].url; //temporary
   const { name, id: breedId, description, temperament, wikipedia_url } = breed;
+
   const characteristics = getCharacteristics(breed);
+
+
   return (
     <StyledSection>
       <Head>
@@ -50,16 +60,19 @@ const BreedDetails = ({ breed, images }) => {
             <Image src={mainImage} alt={name} width="600" height="600" />
           </div>
           <div className="carousel">
-            {images.slice(0, 3).map((image) => {
+            {images.slice(0, 3).map((image, index) => {
               return (
-                <Image
-                  src={image.url}
-                  key={image.id}
-                  width="250"
-                  height="250"
-                />
+                <div key={image.id} onClick={() => setImgIndex(index)} className={`${index === imgIndex && 'active'}`}>
+                  <Image src={image.url} width="250" height="250" />
+                </div>
               );
             })}
+            <button type="button" className="prev">
+              <FiChevronLeft />
+            </button>
+            <button type="button" className="next">
+              <FiChevronRight />
+            </button>
           </div>
         </div>
       </div>
@@ -191,9 +204,11 @@ const StyledSection = styled.section`
     display: grid;
     gap: 2em;
   }
-  img {
+  .img-container > div,
+  .mobile-img > div {
     border-radius: 0.5em;
   }
+
   .details {
     p {
       font-family: var(--ff-paragraph);
@@ -240,23 +255,33 @@ const StyledSection = styled.section`
       grid-template-columns: 0.5fr 1fr;
     }
   }
-  .single-char:nth-child(-n + 4) {
-    gap: 0.5em;
-  }
+  .single-char:nth-child(-n + 4),
   .temperament {
     gap: 0.5em;
   }
+
   .single-char:nth-child(n + 5) {
     grid-template-columns: 1fr;
     gap: 0.5em;
   }
 
   .carousel {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1em;
+    cursor: pointer;
   }
-
+  .carousel div > div {
+    border-radius: 0.5em;
+  }
+  .prev,
+  .next {
+    display: none;
+  }
+  .active > div {
+    border: 3px solid var(--clr-black);
+  }
   @media (min-width: 768px) {
     .gallery {
       grid-column: span 2;
@@ -264,6 +289,40 @@ const StyledSection = styled.section`
 
     .container {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .prev,
+    .next {
+      display: inline-block;
+      width: 2.25em;
+      height: 2.25em;
+      border: transparent;
+      background-color: var(--clr-secondary-500);
+      opacity: 0.6;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--clr-black);
+      position: absolute;
+      transform: translateY(-50%);
+      top: 50%;
+      cursor: pointer;
+      transition: opacity 250ms ease;
+
+      &:hover {
+        opacity: 1;
+      }
+      svg {
+        font-size: 1.25rem;
+      }
+    }
+
+    .prev {
+      left: 0.25em;
+    }
+
+    .next {
+      right: 0.25em;
     }
   }
 
