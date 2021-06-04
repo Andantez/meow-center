@@ -13,6 +13,7 @@ export const getCharacteristics = (data) => {
     affection_level,
     child_friendly,
     energy_level,
+    dog_friendly,
     grooming,
     health_issues,
     social_needs,
@@ -30,12 +31,13 @@ export const getCharacteristics = (data) => {
     adaptability,
     affection_level,
     child_friendly,
+    stranger_friendly,
+    dog_friendly,
     energy_level,
     grooming,
     health_issues,
     social_needs,
     intelligence,
-    stranger_friendly,
   };
   return Object.entries(characteristics).map((entry) => {
     return { characteristic: entry[0].split('_').join(' '), value: entry[1] };
