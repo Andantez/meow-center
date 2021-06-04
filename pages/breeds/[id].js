@@ -10,20 +10,17 @@ import { useState } from 'react';
 const BreedDetails = ({ breed, images }) => {
   // const router = useRouter();
   // const { id } = router.query;
-  const [imgIndex ,setImgIndex] = useState(0);
+
+  // if (router.isFallback) {
+  //   return <h2>Loading......</h2>;
+  // }
+  const [imgIndex, setImgIndex] = useState(0);
   const [imgList, setImageList] = useState(images); //temporary
   const { url: mainImage } = imgList[imgIndex];
-  
-  
-    // if (router.isFallback) {
-    //   return <h2>Loading......</h2>;
-    // }
-  
 
   const { name, id: breedId, description, temperament, wikipedia_url } = breed;
 
   const characteristics = getCharacteristics(breed);
-
 
   return (
     <StyledSection>
@@ -54,6 +51,13 @@ const BreedDetails = ({ breed, images }) => {
               })}
             </div>
           </article>
+          <p className="wiki-link">
+            more information on {name}{' '}
+            <a href={wikipedia_url} target="_blank" rel="noopener noreferrer">
+              Wiki
+            </a>{' '}
+            page.
+          </p>
         </div>
         <div className="gallery">
           <div className="img-container">
@@ -62,7 +66,11 @@ const BreedDetails = ({ breed, images }) => {
           <div className="carousel">
             {images.slice(0, 3).map((image, index) => {
               return (
-                <div key={image.id} onClick={() => setImgIndex(index)} className={`${index === imgIndex && 'active'}`}>
+                <div
+                  key={image.id}
+                  onClick={() => setImgIndex(index)}
+                  className={`${index === imgIndex && 'active'}`}
+                >
                   <Image src={image.url} width="250" height="250" />
                 </div>
               );
@@ -191,7 +199,7 @@ on your bed and snuggle with you if you’re not feeling well.`,
 export const getStaticPaths = async () => {
   return {
     paths: [],
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 
@@ -281,6 +289,19 @@ const StyledSection = styled.section`
   }
   .active > div {
     border: 3px solid var(--clr-black);
+  }
+
+  .wiki-link {
+    font-size: .875rem;
+    text-transform: capitalize;
+    text-align: center;
+    margin: 4em 0 2em;
+    a {
+      color: var(--clr-black);
+      font-weight: var(--fw-bold);
+      text-decoration: underline;
+      letter-spacing: 1px;
+    }
   }
   @media (min-width: 768px) {
     .gallery {
