@@ -71,14 +71,17 @@ const StyledDiv = styled.div`
   }
   .background {
     padding: 1em;
-    background-color: var(--clr-primary-500);
     border-radius: 0.5em;
+    background: var(--clr-primary-500);
   }
 
   .img-container > div {
     border-radius: 0.5em;
-    box-shadow: 1px 2px 5px  var(--clr-black);
-    
+    box-shadow: 1px 2px 5px var(--clr-black);
+  }
+  .img-container {
+    place-self: center;
+    display: flex;
   }
   .info {
     background-color: var(--clr-secondary-500);
@@ -93,8 +96,13 @@ const StyledDiv = styled.div`
       display: flex;
       align-items: center;
       margin-top: 0.5em;
+      transition: color 250ms ease;
       svg {
         font-size: 1.125rem;
+      }
+
+      &:hover {
+        color: var(--clr-red-100);
       }
     }
   }
@@ -110,6 +118,36 @@ const StyledDiv = styled.div`
   .description {
     letter-spacing: 0.5px;
     line-height: 1.3;
+  }
+
+  @media (min-width: 768px) {
+    margin-top: 5em;
+    section {
+      margin-top: 5em;
+    }
+    .content {
+      grid-template-columns: auto 1fr;
+      margin-top: 0;
+      margin-left: -2em;
+    }
+
+    .background {
+      margin-left: 1em;
+    }
+
+    .img-container {
+      max-width: 250px;
+    }
+    .info a {
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    section {
+      max-width: 900px;
+      margin: 5em auto 0;
+    }
   }
 `;
 export default MostPopular;

@@ -59,11 +59,7 @@ const Hero = () => {
 const Wrapper = styled.div`
   background: var(--clr-primary-500);
   position: relative;
-  background: linear-gradient(
-    90deg,
-    rgba(52, 52, 70, 1) 0%,
-    rgba(74, 74, 100, 1) 100%
-  );
+  background:var(--clr-primary-500);
   .hero-container {
     display: grid;
     place-items: center;
@@ -153,13 +149,7 @@ const Wrapper = styled.div`
       justify-self: end;
       margin-right: -5em;
       z-index: 1;
-      background: rgb(52, 52, 70);
-      background: linear-gradient(
-        90deg,
-        #404056 90%,
-        rgba(74, 74, 100, 1) 100%
-      );
-      padding: 0.75em 0.75em 0.75em 0;
+      border: .75em solid var(--clr-primary-500);
     }
   }
 `;
