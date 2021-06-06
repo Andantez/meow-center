@@ -41,11 +41,7 @@ const Header = () => {
 
 const Wrapper = styled.header`
   background-color: var(--clr-primary-500);
-  background: linear-gradient(
-    90deg,
-    rgba(52, 52, 70, 1) 0%,
-    rgba(74, 74, 100, 1) 100%
-  );
+  background: var(--clr-primary-500);
   .nav-wrapper {
     display: flex;
     justify-content: space-between;

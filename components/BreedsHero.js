@@ -31,19 +31,14 @@ const BreedsHero = () => {
 };
 
 const StyledDiv = styled.div`
-  background: rgb(52, 52, 70);
-  background: linear-gradient(
-    90deg,
-    rgba(52, 52, 70, 1) 0%,
-    rgba(74, 74, 100, 1) 100%
-  );
+  background: var(--clr-primary-500);
 
   section {
     display: grid;
     place-items: center;
     width: 90vw;
     margin: 0 auto;
-    padding:  4em 0 5em;
+    padding: 4em 0 5em;
   }
   h1 {
     font-size: 2rem;
