@@ -6,17 +6,47 @@ import Sort from '../../components/Sort';
 import Filters from '../../components/Filters';
 import tempData from '../../data/tempData';
 import { ImEqualizer } from 'react-icons/im';
+import FiltersSidebar from '../../components/FiltersSidebar';
+import { useEffect, useState } from 'react';
 
 const BreedsPage = () => {
   const data = tempData.slice(0, 25); // temporary till getStaticProps is added
+  const [filterIsOpen, setFilterIsOpen] = useState(false); //tempory. To be handled by filters Context later
+
+  useEffect(() => {
+    // prevents the user from scrolling when filters modal is open
+    if (filterIsOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [filterIsOpen]);
+
+  const handleResize = () => {
+    if (window.innerWidth >= 1024) {
+      setFilterIsOpen(false);
+    }
+  };
+  useEffect(() => {
+    // if screen is larger than 1024px set filters modal to false
+    // otherwise the document.body.overflow stays set to hidden
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <>
+      {filterIsOpen && <FiltersSidebar setFilterIsOpen={setFilterIsOpen} />}
       <BreedsHero />
       <main>
         <StyledDiv>
           <div className="search-wrapper">
             <FiltersSearch />
-            <button type="button" className="btn">
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setFilterIsOpen(true)}
+            >
               <ImEqualizer />
             </button>
           </div>
