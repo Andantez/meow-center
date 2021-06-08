@@ -7,7 +7,7 @@ const breakpointColumnsObj = {
   default: 3,
   // 1024: 3,
   768: 2,
-  500: 1,
+  500: 2,
 };
 const Gallery = ({ images, categories }) => {
   const categoriesList = categories; // temporary;
