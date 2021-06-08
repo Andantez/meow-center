@@ -45,6 +45,8 @@ const Filters = () => {
 };
 
 const StyledDiv = styled.div`
+  position: sticky;
+  top: 1.5em;
   .form-control {
     display: grid;
     font-family: var(--ff-paragraph);
@@ -86,14 +88,14 @@ const StyledDiv = styled.div`
     background: transparent;
     border: transparent;
     cursor: pointer;
-    color: var(--clr-primary-300);
+    color: var(--clr-primary-400);
     margin: 0.35em auto 0.35em 0;
     display: flex;
-    transition: color 250ms ease;
-    font-weight: var(--fw-light);
+    transition: opacity 250ms ease;
+    letter-spacing: 0.5px;
+    line-height: 1.35em;
     :hover {
-      font-weight: var(--fw-bold);
-      color: var(--clr-red-100);
+      opacity: 0.7;
     }
   }
 

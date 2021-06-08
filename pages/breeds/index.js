@@ -68,7 +68,7 @@ const StyledDiv = styled.div`
   margin: 10em auto 5em;
   width: 90vw;
   display: grid;
-  gap: 3em;
+  gap: 1em;
   max-width: 1200px;
 
   .filter-wrapper {
@@ -77,6 +77,11 @@ const StyledDiv = styled.div`
   .search-wrapper {
     display: grid;
     grid-template-columns: 1fr auto;
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    background-color: var(--clr-secondary-500);
+    padding: .5em 0;
   }
 
   .btn {
