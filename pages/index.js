@@ -2,7 +2,10 @@ import Head from 'next/head';
 import Hero from '../components/Hero';
 import MostPopular from '../components/MostPopular';
 import Facts from '../components/Facts';
-export default function Home() {
+import { connectToDatabase } from '../utils/mongodb';
+
+export default function Home({ isConnected }) {
+  console.log(isConnected)
   return (
     <>
       <Head>
@@ -14,3 +17,12 @@ export default function Home() {
     </>
   );
 }
+
+export const getStaticProps = async () => {
+  const { client } = await connectToDatabase();
+  const isConnected = await client.isConnected();
+
+  return {
+    props: { isConnected },
+  };
+};
