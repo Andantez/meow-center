@@ -1,9 +1,10 @@
 import GridView from './GridView';
 import ListView from './ListView';
+import { useFiltersContext } from '../context/filters_context';
+
 const BreedsList = ({ initialData }) => {
-
-  const gridView = true ; // Controlled later by context state
-
+  const { gridView } = useFiltersContext();
+  
   if (gridView) {
     return <GridView initialData={initialData} />;
   }

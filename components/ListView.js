@@ -85,7 +85,9 @@ const StyledSection = styled.section`
       color: var(--clr-grey);
     }
   }
-
+  /* .info h2 {
+    text-align: center;
+  } */
   @media (min-width: 768px) {
     grid-template-columns: 1fr;
 
@@ -116,6 +118,10 @@ const StyledSection = styled.section`
       color: var(--clr-red-100);
       font-weight: var(--fw-normal);
     }
+
+    /* .info h2 {
+      text-align: unset;
+    } */
   }
 
   @media (min-width: 1200px) {
