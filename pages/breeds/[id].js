@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { getCharacteristics } from '../../utils/helpers';
 import Score from '../../components/Score';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const BreedDetails = ({ breed, images }) => {
   // const router = useRouter();
@@ -22,6 +22,27 @@ const BreedDetails = ({ breed, images }) => {
 
   const characteristics = getCharacteristics(breed);
 
+
+  // commented to reduce requests.
+  // useEffect(() => {
+  //   const breedData = {
+  //     breedId,
+  //     name,
+  //     description,
+  //     image: images[0].url,
+  //   };
+  //   const updateMostPopular = async () => {
+  //       fetch('/api/updateMostPopular', {
+  //       method: 'POST',
+  //       body: JSON.stringify(breedData),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //   };
+
+  //   updateMostPopular();
+  // }, []);
   return (
     <StyledSection>
       <Head>
@@ -191,7 +212,7 @@ on your bed and snuggle with you if you’re not feeling well.`,
   return {
     props: {
       breed: temporaryBreedData,
-      images: temporaryBreedImages,
+      images: temporaryBreedImages
     },
   };
 };
@@ -292,7 +313,7 @@ const StyledSection = styled.section`
   }
 
   .wiki-link {
-    font-size: .875rem;
+    font-size: 0.875rem;
     text-transform: capitalize;
     text-align: center;
     margin: 4em 0 2em;
