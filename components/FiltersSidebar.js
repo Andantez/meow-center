@@ -95,9 +95,14 @@ const StyledDiv = styled.div`
   z-index: 999;
   scroll-behavior: smooth;
   .nav-btn {
-    display: flex;
-    justify-content: flex-end;
+    /* display: flex;
+    justify-content: flex-end; */
     color: var(--clr-secondary-900);
+    width: max-content;
+    margin-left: auto;
+    position: sticky;
+    top: 0;
+    z-index: 1;
     button {
       background: transparent;
       border: transparent;
