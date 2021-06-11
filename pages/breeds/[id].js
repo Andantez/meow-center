@@ -114,7 +114,7 @@ export const getStaticProps = async (context) => {
 
   // gets the breed data
   // const breedResponse = await fetch(
-  //   `${process.env.NEXT_PUBLIC_API_BASE_URL}/images/search?breed_id=${id}&limit=8&order=ASC`,
+  //   `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?breed_id=${id}&limit=8&order=ASC`,
   //   {
   //     headers: {
   //       'x-api-key': process.env.X_API_KEY,
