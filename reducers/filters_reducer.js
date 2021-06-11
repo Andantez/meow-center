@@ -1,4 +1,4 @@
-import { SET_GRIDVIEW, SET_LISTVIEW. FILTERS_MODAL_OPEN, FILTERS_MODAL_CLOSE } from '../actions/actions';
+import { SET_GRIDVIEW, SET_LISTVIEW, FILTERS_MODAL_OPEN, FILTERS_MODAL_CLOSE } from '../actions/actions';
 
 const reducer = (state, action) => {
   console.log(action.type);
