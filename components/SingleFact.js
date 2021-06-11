@@ -24,14 +24,13 @@ const StyledArticle = styled.article`
   border-radius: 1em;
   text-align: center;
   box-shadow: 2px 4px 4px 0 var(--clr-black);
-  max-width: 300px;
+  width: 300px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   svg {
     color: var(--clr-red-100);
-  }
-
-  @media (min-width: 768px) {
-    display: flex;
-    align-items: center;
   }
 
   @media (min-width: 1024px) {

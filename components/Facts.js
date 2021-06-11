@@ -1,18 +1,19 @@
 import styled from 'styled-components';
 import Image from 'next/image';
-import factsTempData from '../data/tempFacts';
 import SingleFact from '../components/SingleFact';
-const Facts = () => {
-  const { data } = factsTempData;
+const Facts = ({ facts, mutate }) => {
+
+  // TODO: add loading state 
+  const {data} = facts;
   return (
     <StyledSection>
       <div className="heading">
         <h2>interesting facts about cats</h2>
       </div>
       <div className="facts-container">
-        {data.map((singleFact, index) => {
+        {data && data.map((singleFact, index) => {
           const { fact } = singleFact;
-          return <SingleFact fact={fact} key={index} />;
+          return <SingleFact fact={fact} key={fact} />;
         })}
         <div className="img-wrapper">
           <Image
@@ -39,7 +40,12 @@ const Facts = () => {
           />
         </div>
       </div>
-      <button className="btn">get more facts</button>
+      <button
+        className="btn"
+        onClick={() => mutate()}
+      >
+        get more facts
+      </button>
     </StyledSection>
   );
 };
