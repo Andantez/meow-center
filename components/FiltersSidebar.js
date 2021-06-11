@@ -3,13 +3,17 @@ import { AiOutlineClose } from 'react-icons/ai';
 import temperamentList from '../data/temperamentList';
 import tempData from '../data/tempData';
 import { getUniqueValues } from '../utils/helpers';
+import { useFiltersContext } from '../context/filters_context';
+
 const FiltersSidebar = ({ setFilterIsOpen }) => {
   const data = tempData; // to be change to get the data from the context later.
+  const { closeFiltersModal } = useFiltersContext();
   const breedOrigins = getUniqueValues(data, 'origin');
+
   return (
     <StyledDiv>
       <div className="nav-btn">
-        <button type="button" onClick={() => setFilterIsOpen(false)}>
+        <button type="button" onClick={closeFiltersModal}>
           <AiOutlineClose />
         </button>
       </div>
