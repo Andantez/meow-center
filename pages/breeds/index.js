@@ -7,46 +7,44 @@ import Filters from '../../components/Filters';
 import tempData from '../../data/tempData';
 import { ImEqualizer } from 'react-icons/im';
 import FiltersSidebar from '../../components/FiltersSidebar';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useFiltersContext } from '../../context/filters_context';
 
 const BreedsPage = () => {
   const data = tempData.slice(0, 25); // temporary till getStaticProps is added
-  const [filterIsOpen, setFilterIsOpen] = useState(false); //tempory. To be handled by filters Context later
+  const { openFiltersModal, closeFiltersModal, isFiltersModalOpen } =
+    useFiltersContext();
 
   useEffect(() => {
     // prevents the user from scrolling when filters modal is open
-    if (filterIsOpen) {
+    if (isFiltersModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-  }, [filterIsOpen]);
+  }, [isFiltersModalOpen]);
 
   const handleResize = () => {
     if (window.innerWidth >= 1024) {
-      setFilterIsOpen(false);
+      closeFiltersModal();
     }
   };
   useEffect(() => {
     // if screen is larger than 1024px set filters modal to false
-    // otherwise the document.body.overflow stays set to hidden
+    // otherwise the document.body.overflow stays set to hidden and prevents from scrolling
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   return (
     <>
-      {filterIsOpen && <FiltersSidebar setFilterIsOpen={setFilterIsOpen} />}
+      {isFiltersModalOpen && <FiltersSidebar />}
       <BreedsHero />
       <main>
         <StyledDiv>
           <div className="search-wrapper">
             <FiltersSearch />
-            <button
-              type="button"
-              className="btn"
-              onClick={() => setFilterIsOpen(true)}
-            >
+            <button type="button" className="btn" onClick={openFiltersModal}>
               <ImEqualizer />
             </button>
           </div>
@@ -81,7 +79,7 @@ const StyledDiv = styled.div`
     top: 0;
     z-index: 9;
     background-color: var(--clr-secondary-500);
-    padding: .5em 0;
+    padding: 0.5em 0;
   }
 
   .btn {
