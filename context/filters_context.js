@@ -10,6 +10,15 @@ import {
 const InitialState = {
   gridView: true,
   isFiltersModalOpen: false,
+  allBreeds: [],
+  filteredBreeds: [],
+  sort: 'a-z',
+  breedsOrigin: [],
+  filters: {
+    origin: 'all',
+    temperament: 'all',
+    query: '',
+  },
 };
 
 const FiltersContext = createContext();
