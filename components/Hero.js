@@ -59,7 +59,7 @@ const Hero = () => {
 const Wrapper = styled.div`
   background: var(--clr-primary-500);
   position: relative;
-  background:var(--clr-primary-500);
+  background: var(--clr-primary-500);
   .hero-container {
     display: grid;
     place-items: center;
@@ -80,6 +80,20 @@ const Wrapper = styled.div`
       margin: 0.6em 0;
     }
 
+    /* p {
+      font-family: var(--ff-paragraph);
+      text-transform: capitalize;
+      color: var(--clr-primary-500);
+      font-weight: var(--fw-bold);
+      letter-spacing: 0.1em;
+      font-size: 1em;
+      & + p {
+        margin-top: 0.25em;
+      }
+    } */
+  }
+
+  .arrow-wrapper {
     p {
       font-family: var(--ff-paragraph);
       text-transform: capitalize;
@@ -125,11 +139,12 @@ const Wrapper = styled.div`
       h1 {
         font-size: 3rem;
       }
+    }
+    .arrow-wrapper {
       p {
-        font-size: 1.125em;
+        font-size: 1.125rem;
       }
     }
-
     .right-container {
       display: grid;
       margin-top: 2em;
@@ -149,7 +164,7 @@ const Wrapper = styled.div`
       justify-self: end;
       margin-right: -5em;
       z-index: 1;
-      border: .75em solid var(--clr-primary-500);
+      border: 0.75em solid var(--clr-primary-500);
     }
   }
 `;

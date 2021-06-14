@@ -1,31 +1,74 @@
 import styled from 'styled-components';
-import { BsSearch } from 'react-icons/bs';
-import tempData from '../data/tempData';
 import Link from 'next/link';
+import { useHomeContext } from '../context/home_context';
+
+import { BiSearch } from 'react-icons/bi';
+import { AiOutlineClose } from 'react-icons/ai';
+
 const Search = () => {
-  const data = tempData.slice(0, 15);
+  const {
+    setUserQuery,
+    searchResults,
+    query,
+    setFocus,
+    setBlur,
+    itsOnFocus,
+    isLoadingData,
+    noResultsFound,
+  } = useHomeContext();
+
   return (
     <InputWrapper>
       <label htmlFor="input">
-        <BsSearch className="search-icon" />
+        <BiSearch className="search-icon" />
+        {query && (
+          <AiOutlineClose
+            className="close-icon"
+            onClick={() => setUserQuery('')}
+          />
+        )}
       </label>
       <input
+        onChange={(e) => setUserQuery(e.target.value)}
+        onFocus={setFocus}
+        onBlur={setBlur}
         id="input"
         className="search-input"
         type="text"
         placeholder="Search by name"
+        value={query}
       />
       <div className="results">
-        {data.map((breed) => {
-          const { id, name } = breed;
-          console.log(id, name);
+        {searchResults &&
+          itsOnFocus &&
+          searchResults.map((breed) => {
+            const { id, name } = breed;
+            return (
+              <Link href={`/breeds/${id}`} key={id}>
+                <a
+                  onClick={() => setUserQuery('')}
+                  // prevents from Focus event firing and closing the results div
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  {name}
+                </a>
+              </Link>
+            );
+          })}
+        {/*if its  fetching data show loader */}
+        {isLoadingData && (
+          <div className="loader-wrapper">
+            <div className="loader"></div>
+          </div>
+        )}
 
-          return (
-            <Link href={`/breeds/${id}`} key={id}>
-              <a>{name}</a>
-            </Link>
-          );
-        })}
+        {/* if there are no results found */}
+        {noResultsFound && (
+          <div className="no-results">
+            <p>No results for "{query}".</p>
+            <p>Try again with different name.</p>
+          </div>
+        )}
       </div>
     </InputWrapper>
   );
@@ -39,25 +82,32 @@ const InputWrapper = styled.div`
     /* box-shadow: 0 0 0 0.2em var(--clr-black); */
     width: 100%;
     border-radius: 1em;
-    padding: 0.25em 1em;
+    padding: 0.25em 1.5em;
     ::placeholder {
-      color: var(--clr-black);
+      color: var(--clr-grey);
       margin: 1em;
       font-family: var(--ff-paragraph);
     }
     &:focus {
-      outline: 0.1em solid var(--clr-secondary-700);
+      outline: 0.1em solid var(--clr-primary-500);
     }
   }
 
-  .search-icon {
+  .search-icon,
+  .close-icon {
     position: absolute;
-    font-size: 1.25em;
-    right: 0.5em;
-    bottom: 0.2em;
-    color: var(--clr-black);
+    font-size: 1rem;
   }
-
+  .search-icon {
+    left: 0.4em;
+    bottom: 0.35em;
+    color: var(--clr-grey);
+  }
+  .close-icon {
+    right: 0.75em;
+    bottom: 0.35em;
+    color: var(--clr-primary-500);
+  }
   .results {
     font-family: var(--ff-paragraph);
     color: var(--clr-primary-500);
@@ -69,7 +119,7 @@ const InputWrapper = styled.div`
     background: var(--clr-secondary-500);
     border-radius: 0.5em;
     max-height: 300px;
-    overflow-y: scroll;
+    overflow-y: auto;
     box-shadow: 1px 2px 5px var(--clr-grey);
     a {
       display: block;
@@ -96,6 +146,37 @@ const InputWrapper = styled.div`
   .results {
     scrollbar-width: thin;
     scrollbar-color: var(--clr-grey) var(--clr-secondary-500); /* scroll thumb and track */
+  }
+
+  .no-results {
+    padding: 3em 1em;
+    text-align: center;
+    p {
+      font-size: 0.875rem;
+    }
+  }
+
+  .loader-wrapper {
+    padding: 3em;
+    text-align: center;
+  }
+  .loader {
+    display: inline-block;
+    border: 3px solid var(--clr-lightgrey);
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    border-top: 3px solid var(--clr-primary-500);
+    border-left: 3px solid var(--clr-primary-500);
+    animation: rotate 0.7s linear infinite;
+  }
+
+  @media (min-width: 1024px) {
+  }
+  @keyframes rotate {
+    to {
+      transform: rotate(360deg);
+    }
   }
 `;
 export default Search;
