@@ -83,6 +83,7 @@ const InputWrapper = styled.div`
     width: 100%;
     border-radius: 1em;
     padding: 0.25em 1.5em;
+    outline-offset: 3px;
     ::placeholder {
       color: var(--clr-grey);
       margin: 1em;
