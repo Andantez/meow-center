@@ -52,7 +52,7 @@ const Facts = ({ facts, mutate }) => {
 
 const StyledSection = styled.section`
   background-color: var(--clr-primary-500);
-  padding: 5em 0;
+  padding: 5em 0 4em;
   h2 {
     position: relative;
     text-align: center;
@@ -72,7 +72,7 @@ const StyledSection = styled.section`
     gap: 1.5em;
     width: 90vw;
     max-width: 1200px;
-    margin: 3em auto;
+    margin: 3em auto 2em;
     padding: 1em 0;
   }
 
@@ -93,7 +93,7 @@ const StyledSection = styled.section`
     border: none;
     border-radius: 0.25em;
     transition: transform 250ms ease;
-    box-shadow: 2px 4px 10px 0 var(--clr-black);
+      box-shadow: 2px 4px 10px 0 var(--clr-black);
     &:hover,
     &:focus {
       transform: scale(1.05);
@@ -106,6 +106,7 @@ const StyledSection = styled.section`
   @media (min-width: 768px) {
     .facts-container {
       grid-template-columns: repeat(2, 1fr);
+      margin: 3em auto;
     }
     article:nth-child(2) {
       grid-column: 1;
@@ -125,6 +126,7 @@ const StyledSection = styled.section`
     }
   }
   @media (min-width: 1024px) {
+    padding: 5em 0;
     .facts-container {
       grid-template-columns: repeat(12, 1fr);
     }
@@ -133,7 +135,7 @@ const StyledSection = styled.section`
     }
 
     .btn {
-      font-size: 1rem;
+      font-size: 0.875rem;
     }
     article:nth-child(1) {
       grid-column: 1 / span 4;
