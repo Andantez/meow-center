@@ -138,7 +138,7 @@ const Wrapper = styled.div`
 
   @media (min-width: 1200px) {
     & {
-      clip-path: polygon(100% 0, 100% 100%, 19% 100%, 0 75%, 0 0);
+      /* clip-path: polygon(100% 0, 100% 100%, 19% 100%, 0 75%, 0 0); */
     }
 
     .hero-container {
