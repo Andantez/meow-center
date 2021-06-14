@@ -25,14 +25,18 @@ const StyledArticle = styled.article`
   text-align: center;
   box-shadow: 2px 4px 4px 0 var(--clr-black);
   width: 300px;
-  height: 200px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* padding: 1em; */
   svg {
     color: var(--clr-red-100);
   }
 
+  @media (min-width: 768px) {
+    height: 200px;
+  }
   @media (min-width: 1024px) {
     padding: 1.5em;
   }
