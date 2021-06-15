@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import { useFiltersContext } from '../../context/filters_context';
 
 const BreedsPage = ({ breedsData }) => {
-
   const {
     openFiltersModal,
     closeFiltersModal,

@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 import temperamentList from '../data/temperamentList';
-import tempData from '../data/tempData';
 import { getUniqueValues } from '../utils/helpers';
 import { useFiltersContext } from '../context/filters_context';
 
-const FiltersSidebar = ({ setFilterIsOpen }) => {
-  const data = tempData; // to be change to get the data from the context later.
-  const { closeFiltersModal } = useFiltersContext();
-  const breedOrigins = getUniqueValues(data, 'origin');
+const FiltersSidebar = () => {
+  const { closeFiltersModal, allBreeds, updateSort, sort } =
+    useFiltersContext();
+  const breedOrigins = getUniqueValues(allBreeds, 'origin');
 
   return (
     <StyledDiv>
@@ -29,13 +28,21 @@ const FiltersSidebar = ({ setFilterIsOpen }) => {
                   value="a-z"
                   id="a-z"
                   name="alphabetical"
-                  checked
+                  checked={sort === 'a-z'}
+                  onChange={updateSort}
                 />
                 <label htmlFor="a-z">Name: A - Z</label>
               </div>
 
               <div className="form-input">
-                <input type="radio" value="z-a" id="z-a" name="alphabetical" />
+                <input
+                  type="radio"
+                  value="z-a"
+                  id="z-a"
+                  name="alphabetical"
+                  onChange={updateSort}
+                  checked={sort === 'z-a'}
+                />
                 <label htmlFor="z-a">Name: Z - A</label>
               </div>
             </div>

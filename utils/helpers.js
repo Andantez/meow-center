@@ -1,8 +1,8 @@
 export const getUniqueValues = (data, type) => {
   const origins = data.map((value) => {
     return value[type];
-  });
-
+  }).sort((a, b) => a.localeCompare(b));
+  
   return ['All', ...new Set(origins)];
 };
 

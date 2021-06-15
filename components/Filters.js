@@ -2,12 +2,13 @@ import styled from 'styled-components';
 import FiltersSearch from './FiltersSearch';
 import temperamentList from '../data/temperamentList';
 import { getUniqueValues } from '../utils/helpers';
+import { useFiltersContext } from '../context/filters_context';
 
-import tempData from '../data/tempData';
 const Filters = () => {
-  const data = tempData; // to be change to get the data from the context later.
+  const { allBreeds } = useFiltersContext();
 
-  const breedOrigins = getUniqueValues(data, 'origin');
+  const breedOrigins = getUniqueValues(allBreeds, 'origin');
+  //  console.log(breedOrigins);
   return (
     <StyledDiv>
       <form>
@@ -43,7 +44,9 @@ const Filters = () => {
           </select>
         </div>
         <div className="form-control">
-          <button type="button" className="clear-btn">Clear Filters</button>
+          <button type="button" className="clear-btn">
+            Clear Filters
+          </button>
         </div>
       </form>
     </StyledDiv>
@@ -57,7 +60,7 @@ const StyledDiv = styled.div`
     display: grid;
     font-family: var(--ff-paragraph);
     margin-bottom: 2em;
-    gap: .5em;
+    gap: 0.5em;
 
     h5 {
       font-size: 1.125rem;

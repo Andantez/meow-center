@@ -27,6 +27,7 @@ const reducer = (state, action) => {
         ...state,
         allBreeds: action.payload,
         filteredBreeds: action.payload,
+        test: action.payload,
       };
 
     case UPDATE_SORT:
@@ -35,18 +36,17 @@ const reducer = (state, action) => {
     case SORT_BREEDS:
       const { sort, filteredBreeds } = state;
       let tempBreeds = [];
-      if (sort === 'z-a') {
-        tempBreeds = filteredBreeds.sort((a, b) =>
-          b.name.localeCompare(a.name)
-        );
-        return { ...state, filteredBreeds: tempBreeds };
-      }
       if (sort === 'a-z') {
         tempBreeds = filteredBreeds.sort((a, b) =>
           a.name.localeCompare(b.name)
         );
-        return { ...state, filteredBreeds: tempBreeds };
       }
+      if (sort === 'z-a') {
+        tempBreeds = filteredBreeds.sort((a, b) =>
+          b.name.localeCompare(a.name)
+        );
+      }
+      return { ...state, filteredBreeds: tempBreeds };
 
     default:
       return state;
