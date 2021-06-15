@@ -16,7 +16,6 @@ const InitialState = {
   allBreeds: [],
   filteredBreeds: [],
   sort: 'a-z',
-  breedsOrigin: [],
   filters: {
     origin: 'all',
     temperament: 'all',
@@ -28,7 +27,7 @@ const FiltersContext = createContext();
 
 const FiltersProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, InitialState);
-  
+
   const setGridView = () => {
     dispatch({ type: SET_GRIDVIEW });
   };
@@ -50,12 +49,11 @@ const FiltersProvider = ({ children }) => {
 
   const updateSort = (event) => {
     dispatch({ type: UPDATE_SORT, payload: event.target.value });
-    // console.log(event.target.value)
   };
 
   useEffect(() => {
-    dispatch({type: SORT_BREEDS})
-  }, [state.sort])
+    dispatch({ type: SORT_BREEDS });
+  }, [state.sort]);
   return (
     <FiltersContext.Provider
       value={{
@@ -66,6 +64,7 @@ const FiltersProvider = ({ children }) => {
         closeFiltersModal,
         loadBreeds,
         updateSort,
+        dispatch,
       }}
     >
       {children}
