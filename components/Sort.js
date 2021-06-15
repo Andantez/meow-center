@@ -1,28 +1,27 @@
 import styled from 'styled-components';
-
 import ListButton from './ListButton';
 import GridButton from './GridButton';
-import tempData from '../data/tempData';
 import { useFiltersContext } from '../context/filters_context';
 
 const Sort = () => {
   const { updateSort, filteredBreeds, sort } = useFiltersContext();
-  const data = tempData; // temporary till there is context.
 
-  return <StyledDiv>
-    <div className="view-buttons">
-      <GridButton />
-      <ListButton />
-    </div>
-    <p>{filteredBreeds.length} breeeds found</p>
-    <form>
-      <label htmlFor="sort">Sort by</label>
-      <select name="sort" id="sort" value={sort} onChange={updateSort}>
-        <option value="a-z">Name (A - Z)</option>
-        <option value="z-a">Name (Z - A)</option>
-      </select>
-    </form>
-  </StyledDiv>;
+  return (
+    <StyledDiv>
+      <div className="view-buttons">
+        <GridButton />
+        <ListButton />
+      </div>
+      <p>{filteredBreeds.length} breeeds found</p>
+      <form>
+        <label htmlFor="sort">Sort by</label>
+        <select name="sort" id="sort" value={sort} onChange={updateSort}>
+          <option value="a-z">Name (A - Z)</option>
+          <option value="z-a">Name (Z - A)</option>
+        </select>
+      </form>
+    </StyledDiv>
+  );
 };
 
 const StyledDiv = styled.div`
