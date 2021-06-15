@@ -16,7 +16,7 @@ const BreedsPage = ({ breedsData }) => {
     closeFiltersModal,
     isFiltersModalOpen,
     loadBreeds,
-    allBreeds,
+    filteredBreeds,
   } = useFiltersContext();
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const BreedsPage = ({ breedsData }) => {
 
           <div className="breeds-list">
             <Sort />
-            <BreedsList initialData={allBreeds} />
+            <BreedsList initialData={filteredBreeds} />
           </div>
         </StyledDiv>
       </main>
