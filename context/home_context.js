@@ -7,10 +7,10 @@ const HomeProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [itsOnFocus, setItsOnFocus] = useState(false);
-  const { data: searchResults } = useSWR(
-    () => query ? `https://api.thecatapi.com/v1/breeds/search?q=${query}` : null
+  const { data: searchResults } = useSWR(() =>
+    query ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/breeds/search?q=${query}` : null
   );
-  
+
   const isLoadingData = !searchResults && query.length > 0;
   const noResultsFound =
     searchResults?.length === 0 && query.length > 0 && itsOnFocus;
