@@ -2,13 +2,13 @@ import GridView from './GridView';
 import ListView from './ListView';
 import { useFiltersContext } from '../context/filters_context';
 
-const BreedsList = ({ initialData }) => {
-  const { gridView } = useFiltersContext();
-  
+const BreedsList = () => {
+  const { gridView, filteredBreeds: breeds } = useFiltersContext();
+
   if (gridView) {
-    return <GridView initialData={initialData} />;
+    return <GridView breeds={breeds} />;
   }
-  return <ListView initialData={initialData} />;
+  return <ListView breeds={breeds} />;
 };
 
 export default BreedsList;

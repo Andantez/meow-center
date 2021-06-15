@@ -2,12 +2,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-const ListView = ({ initialData }) => {
-  const data = initialData;
-
+const ListView = ({ breeds }) => {
   return (
     <StyledSection>
-      {data.map((breed) => {
+      {breeds.map((breed) => {
         const {
           id,
           name,

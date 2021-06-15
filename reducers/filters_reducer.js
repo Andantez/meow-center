@@ -3,10 +3,10 @@ import {
   SET_LISTVIEW,
   FILTERS_MODAL_OPEN,
   FILTERS_MODAL_CLOSE,
+  LOAD_BREEDS,
 } from '../actions/actions';
 
 const reducer = (state, action) => {
-  console.log(action.type);
   switch (action.type) {
     case SET_GRIDVIEW:
       return { ...state, gridView: true };
@@ -18,6 +18,12 @@ const reducer = (state, action) => {
 
     case FILTERS_MODAL_CLOSE:
       return { ...state, isFiltersModalOpen: false };
+    case LOAD_BREEDS:
+      return {
+        ...state,
+        allBreeds: action.payload,
+        filteredBreeds: action.payload,
+      };
     default:
       return state;
   }

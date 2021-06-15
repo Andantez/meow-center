@@ -2,12 +2,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-const GridView = ({ initialData }) => {
-  const data = initialData;
-
+const GridView = ({ breeds }) => {
   return (
     <StyledSection>
-      {data.map((breed) => {
+      {breeds.map((breed, index) => {
         const {
           name,
           id,
@@ -38,7 +36,7 @@ const StyledSection = styled.section`
   article {
     transform-origin: bottom;
   }
-  
+
   article,
   .img-wrapper img {
     transition: transform 250ms ease;
