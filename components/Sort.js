@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import ListButton from './ListButton';
 import GridButton from './GridButton';
 import tempData from '../data/tempData';
-
+import { useFiltersContext } from '../context/filters_context';
 
 const Sort = () => {
-
+  const { updateSort, filteredBreeds } = useFiltersContext();
   const data = tempData; // temporary till there is context.
 
   return <StyledDiv>
@@ -14,10 +14,10 @@ const Sort = () => {
       <GridButton />
       <ListButton />
     </div>
-    <p>{data.length} breeeds found</p>
+    <p>{filteredBreeds.length} breeeds found</p>
     <form>
       <label htmlFor="sort">Sort by</label>
-      <select name="sort" id="sort">
+      <select name="sort" id="sort" onChange={updateSort}>
         <option value="a-z">Name (A - Z)</option>
         <option value="z-a">Name (Z - A)</option>
       </select>
