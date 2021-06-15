@@ -4,16 +4,24 @@ import FiltersSearch from '../../components/FiltersSearch';
 import BreedsList from '../../components/BreedsList';
 import Sort from '../../components/Sort';
 import Filters from '../../components/Filters';
-import tempData from '../../data/tempData';
 import { ImEqualizer } from 'react-icons/im';
 import FiltersSidebar from '../../components/FiltersSidebar';
 import { useEffect } from 'react';
 import { useFiltersContext } from '../../context/filters_context';
 
-const BreedsPage = () => {
-  const data = tempData.slice(0, 25); // temporary till getStaticProps is added
-  const { openFiltersModal, closeFiltersModal, isFiltersModalOpen } =
-    useFiltersContext();
+const BreedsPage = ({ breedsData }) => {
+
+  const {
+    openFiltersModal,
+    closeFiltersModal,
+    isFiltersModalOpen,
+    loadBreeds,
+    allBreeds,
+  } = useFiltersContext();
+
+  useEffect(() => {
+    loadBreeds(breedsData); // loads the initial breeds data
+  }, []);
 
   useEffect(() => {
     // prevents the user from scrolling when filters modal is open
@@ -54,12 +62,53 @@ const BreedsPage = () => {
 
           <div className="breeds-list">
             <Sort />
-            <BreedsList initialData={data} />
+            <BreedsList initialData={allBreeds} />
           </div>
         </StyledDiv>
       </main>
     </>
   );
+};
+
+export const getStaticProps = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/breeds`,
+    {
+      headers: {
+        'x-api-key': process.env.X_API_KEY,
+      },
+    }
+  );
+  const data = await response.json();
+
+  const breedsWithImage = data.filter((breed) => breed.image?.url); // filters the breeds with Image.url property
+  const breedsWithoutImage = data.filter((breed) => !breed.image?.url); // filters the breeds without Image.url property
+
+  const promises = breedsWithoutImage.map(async (item) => {
+    // fetch the missing breeds images.
+    const imageRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?breed_id=${item.id}&order=ASC&limit=1`
+    );
+    const imageData = await imageRes.json();
+    return imageData;
+  });
+
+  const missingImages = (await Promise.all(promises)).flat();
+  const newBreedsWithImage = missingImages.map((breed) => {
+    // add image property to the breeds without it.
+    const { breeds, id, url, width, height } = breed;
+    const breedWithImage = { ...breeds[0], image: { id, url, width, height } };
+    return breedWithImage;
+  });
+
+  const breedsSorted = [...breedsWithImage, ...newBreedsWithImage].sort(
+    (a, b) => a.name.localeCompare(b.name)
+  ); //sort the breeds array alphabetically.
+
+  return {
+    props: { breedsData: breedsSorted },
+    revalidate: 1800,
+  };
 };
 
 const StyledDiv = styled.div`

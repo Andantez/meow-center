@@ -5,6 +5,7 @@ import {
   SET_LISTVIEW,
   FILTERS_MODAL_OPEN,
   FILTERS_MODAL_CLOSE,
+  LOAD_BREEDS,
 } from '../actions/actions';
 
 const InitialState = {
@@ -25,7 +26,6 @@ const FiltersContext = createContext();
 
 const FiltersProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, InitialState);
-
   const setGridView = () => {
     dispatch({ type: SET_GRIDVIEW });
   };
@@ -40,6 +40,10 @@ const FiltersProvider = ({ children }) => {
   const closeFiltersModal = () => {
     dispatch({ type: FILTERS_MODAL_CLOSE });
   };
+
+  const loadBreeds = (data) => {
+    dispatch({ type: LOAD_BREEDS, payload: data });
+  };
   return (
     <FiltersContext.Provider
       value={{
@@ -48,6 +52,7 @@ const FiltersProvider = ({ children }) => {
         setListView,
         openFiltersModal,
         closeFiltersModal,
+        loadBreeds
       }}
     >
       {children}
