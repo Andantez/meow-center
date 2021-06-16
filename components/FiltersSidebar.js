@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
-import temperamentList from '../data/temperamentList';
+// import temperamentList from '../data/temperamentList';
 import { getUniqueValues } from '../utils/helpers';
 import { useFiltersContext } from '../context/filters_context';
 
 const FiltersSidebar = () => {
-  const { closeFiltersModal, allBreeds, updateSort, sort, updateFilters } =
+  const { closeFiltersModal, allBreeds, updateSort, sort, updateFilters, filters: { temperaments} } =
     useFiltersContext();
   const breedOrigins = getUniqueValues(allBreeds, 'origin');
 
@@ -50,18 +50,18 @@ const FiltersSidebar = () => {
           <div className="form-control">
             <h2>Temperament</h2>
             <div className="input-wrapper">
-              {temperamentList.map((temperament, index) => {
+              {temperaments.map(({ value,isChecked }, index) => {
                 return (
-                  <div className="form-input" key={temperament}>
+                  <div className="form-input" key={value}>
                     <input
                       type="checkbox"
                       id={`temperament-${index}`}
-                      name={temperament}
-                      value={temperament}
+                      name={value}
+                      value={value}
+                      checked={isChecked}
+                      onChange={updateFilters}
                     />
-                    <label htmlFor={`temperament-${index}`}>
-                      {temperament}
-                    </label>
+                    <label htmlFor={`temperament-${index}`}>{value}</label>
                   </div>
                 );
               })}

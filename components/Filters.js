@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import FiltersSearch from './FiltersSearch';
-import temperamentList from '../data/temperamentList';
+// import temperamentList from '../data/temperamentList';
 import { getUniqueValues } from '../utils/helpers';
 import { useFiltersContext } from '../context/filters_context';
 
 const Filters = () => {
   const {
     allBreeds,
-    filters: { origin },
+    filters: { origin, temperaments },
     updateFilters,
   } = useFiltersContext();
   const breedOrigins = getUniqueValues(allBreeds, 'origin');
@@ -20,16 +20,18 @@ const Filters = () => {
         </div>
         <div className="form-control">
           <h5>Temperament</h5>
-          {temperamentList.map((temperament, index) => {
+          {temperaments.map(({ value, isChecked }, index) => {
             return (
-              <div className="form-input" key={temperament}>
+              <div className="form-input" key={value}>
                 <input
                   type="checkbox"
                   id={`temperament-${index}`}
-                  name={temperament}
-                  value={temperament}
+                  name={value}
+                  value={value}
+                  onChange={updateFilters}
+                  checked={isChecked}
                 />
-                <label htmlFor={`temperament-${index}`}>{temperament}</label>
+                <label htmlFor={`temperament-${index}`}>{value}</label>
               </div>
             );
           })}

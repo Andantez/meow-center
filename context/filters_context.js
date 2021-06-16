@@ -20,7 +20,7 @@ const InitialState = {
   sort: 'a-z',
   filters: {
     origin: 'all',
-    temperaments: [],
+    temperaments: temperamentList,
     query: '',
   },
 };
@@ -29,7 +29,7 @@ const FiltersContext = createContext();
 
 const FiltersProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, InitialState);
-
+  
   const setGridView = () => {
     dispatch({ type: SET_GRIDVIEW });
   };
@@ -56,8 +56,11 @@ const FiltersProvider = ({ children }) => {
   const updateFilters = (e) => {
     let name = e.target.name;
     let value = e.target.value;
-
-    dispatch({ type: UPDATE_FILTERS, payload: { name, value } });
+    const checked = e.target.checked
+      if (e.target.type === 'checkbox') {
+        name = "temperaments"
+      }
+    dispatch({ type: UPDATE_FILTERS, payload: { name, value, checked } });
   };
   useEffect(() => {
     dispatch({ type: SORT_BREEDS });

@@ -50,7 +50,21 @@ const reducer = (state, action) => {
       return { ...state, filteredBreeds: tempBreeds };
 
     case UPDATE_FILTERS:
-      const { name, value } = action.payload;
+      const { name, value, checked } = action.payload;
+
+      if (name === 'temperaments') {
+        const { temperaments } = state.filters;
+        const updatedTemperaments = temperaments.map((temperament) => {
+          if (temperament.value === value) {
+            temperament.isChecked = checked;
+          }
+          return temperament;
+        });
+        return {
+          ...state,
+          filters: { ...state.filters, [name]: updatedTemperaments },
+        };
+      }
       return { ...state, filters: { ...state.filters, [name]: value } };
 
     default:
