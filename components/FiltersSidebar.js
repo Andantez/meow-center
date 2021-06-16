@@ -5,7 +5,7 @@ import { getUniqueValues } from '../utils/helpers';
 import { useFiltersContext } from '../context/filters_context';
 
 const FiltersSidebar = () => {
-  const { closeFiltersModal, allBreeds, updateSort, sort } =
+  const { closeFiltersModal, allBreeds, updateSort, sort, updateFilters } =
     useFiltersContext();
   const breedOrigins = getUniqueValues(allBreeds, 'origin');
 
@@ -78,6 +78,7 @@ const FiltersSidebar = () => {
                       value={origin}
                       name="origin"
                       id={origin}
+                      onChange={updateFilters}
                     />
                     <label htmlFor={origin}>{origin}</label>
                   </div>

@@ -6,6 +6,7 @@ import {
   LOAD_BREEDS,
   UPDATE_SORT,
   SORT_BREEDS,
+  UPDATE_FILTERS,
 } from '../actions/actions';
 
 const reducer = (state, action) => {
@@ -47,6 +48,10 @@ const reducer = (state, action) => {
         );
       }
       return { ...state, filteredBreeds: tempBreeds };
+
+    case UPDATE_FILTERS:
+      const { name, value } = action.payload;
+      return { ...state, filters: { ...state.filters, [name]: value } };
 
     default:
       return state;

@@ -5,10 +5,13 @@ import { getUniqueValues } from '../utils/helpers';
 import { useFiltersContext } from '../context/filters_context';
 
 const Filters = () => {
-  const { allBreeds } = useFiltersContext();
-
+  const {
+    allBreeds,
+    filters: { origin },
+    updateFilters,
+  } = useFiltersContext();
   const breedOrigins = getUniqueValues(allBreeds, 'origin');
-  //  console.log(breedOrigins);
+
   return (
     <StyledDiv>
       <form>
@@ -33,7 +36,12 @@ const Filters = () => {
         </div>
         <div className="form-control">
           <label htmlFor="origin">Origin</label>
-          <select name="origin" id="origin">
+          <select
+            name="origin"
+            id="origin"
+            value={origin}
+            onChange={updateFilters}
+          >
             {breedOrigins.map((origin) => {
               return (
                 <option key={origin} value={origin}>

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import reducer from '../reducers/filters_reducer';
+import temperamentList from '../data/temperamentList';
 import {
   SET_GRIDVIEW,
   SET_LISTVIEW,
@@ -8,6 +9,7 @@ import {
   LOAD_BREEDS,
   UPDATE_SORT,
   SORT_BREEDS,
+  UPDATE_FILTERS,
 } from '../actions/actions';
 
 const InitialState = {
@@ -18,7 +20,7 @@ const InitialState = {
   sort: 'a-z',
   filters: {
     origin: 'all',
-    temperament: 'all',
+    temperaments: [],
     query: '',
   },
 };
@@ -51,6 +53,12 @@ const FiltersProvider = ({ children }) => {
     dispatch({ type: UPDATE_SORT, payload: event.target.value });
   };
 
+  const updateFilters = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    dispatch({ type: UPDATE_FILTERS, payload: { name, value } });
+  };
   useEffect(() => {
     dispatch({ type: SORT_BREEDS });
   }, [state.sort]);
@@ -65,6 +73,7 @@ const FiltersProvider = ({ children }) => {
         loadBreeds,
         updateSort,
         dispatch,
+        updateFilters,
       }}
     >
       {children}

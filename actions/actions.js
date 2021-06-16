@@ -8,3 +8,4 @@ export const CLEAR_FILTERS = 'CLEAR_FILTERS';
 export const LOAD_BREEDS = 'LOAD_BREEDS';
 export const UPDATE_SORT = 'UPDATE_SORT';
 export const SORT_BREEDS = 'SORT_BREEDS';
+export const UPDATE_FILTERS = 'UPDATE_FILTERS';
