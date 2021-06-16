@@ -25,9 +25,8 @@ const reducer = (state, action) => {
     case LOAD_BREEDS:
       return {
         ...state,
-        allBreeds: action.payload,
-        filteredBreeds: action.payload,
-        test: action.payload,
+        allBreeds: [...action.payload],
+        filteredBreeds: [...action.payload],
       };
 
     case UPDATE_SORT:
@@ -35,6 +34,7 @@ const reducer = (state, action) => {
 
     case SORT_BREEDS:
       const { sort, filteredBreeds } = state;
+
       let tempBreeds = [];
       if (sort === 'a-z') {
         tempBreeds = filteredBreeds.sort((a, b) =>
