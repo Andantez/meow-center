@@ -9,3 +9,4 @@ export const LOAD_BREEDS = 'LOAD_BREEDS';
 export const UPDATE_SORT = 'UPDATE_SORT';
 export const SORT_BREEDS = 'SORT_BREEDS';
 export const UPDATE_FILTERS = 'UPDATE_FILTERS';
+export const FILTER_BREEDS = 'FILTER_BREEDS';

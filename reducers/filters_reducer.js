@@ -7,6 +7,7 @@ import {
   UPDATE_SORT,
   SORT_BREEDS,
   UPDATE_FILTERS,
+  FILTER_BREEDS,
 } from '../actions/actions';
 
 const reducer = (state, action) => {
@@ -66,7 +67,43 @@ const reducer = (state, action) => {
         };
       }
       return { ...state, filters: { ...state.filters, [name]: value } };
+    case FILTER_BREEDS:
+      const { allBreeds } = state;
+      const { origin, temperaments, query } = state.filters;
+      let temporaryBreeds = [...allBreeds];
 
+      const checkedInTemperaments = temperaments.filter(
+        (temperament) => temperament.isChecked //check if one of the temperament checkboxes is clicked
+      );
+      if (query) {
+        temporaryBreeds = temporaryBreeds.filter((breed) =>
+          breed.name.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+
+      if (origin !== 'All') {
+        temporaryBreeds = temporaryBreeds.filter(
+          (breed) => breed.origin === origin
+        );
+      }
+
+      if (checkedInTemperaments.length > 0) {
+        // if checkbox is checked filters breeds based on temperament value.
+        // removes duplicates.
+        temporaryBreeds = [
+          ...new Set(
+            checkedInTemperaments
+              .map((temperament) => {
+                const { value } = temperament;
+                return temporaryBreeds.filter((breed) =>
+                  breed.temperament.includes(value)
+                );
+              })
+              .flat()
+          ),
+        ];
+      }
+      return { ...state, filteredBreeds: temporaryBreeds };
     default:
       return state;
   }
