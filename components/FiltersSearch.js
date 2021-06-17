@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import { useFiltersContext } from '../context/filters_context';
 
 const FiltersSearch = () => {
-  return <StyledInput type="text" placeholder="Search" />;
+  const { updateFilters, query } = useFiltersContext();
+  return <StyledInput type="text" placeholder="Search" name="query" value={query} onChange={updateFilters}/>;
 };
 
 const StyledInput = styled.input`
