@@ -3,7 +3,16 @@ import { useFiltersContext } from '../context/filters_context';
 
 const FiltersSearch = () => {
   const { updateFilters, query } = useFiltersContext();
-  return <StyledInput type="text" placeholder="Search" name="query" value={query} onChange={updateFilters}/>;
+  return (
+    <StyledInput
+      type="text"
+      placeholder="Search"
+      name="query"
+      value={query}
+      onSubmit={(e) => e.preventDefault()}
+      onChange={updateFilters}
+    />
+  );
 };
 
 const StyledInput = styled.input`
@@ -16,7 +25,7 @@ const StyledInput = styled.input`
   width: fit-content;
   transition: background-color 350ms ease;
   border: 1px solid var(--clr-primary-100);
-  
+
   ::placeholder {
     color: var(--clr-primary-500);
   }

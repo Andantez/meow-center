@@ -11,7 +11,7 @@ const Filters = () => {
     updateFilters,
   } = useFiltersContext();
   const breedOrigins = getUniqueValues(allBreeds, 'origin');
-
+  
   return (
     <StyledDiv>
       <form>

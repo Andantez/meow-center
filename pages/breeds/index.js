@@ -144,6 +144,7 @@ const StyledDiv = styled.div`
   .breeds-list {
     display: grid;
     gap: 2em;
+    grid-template-rows: auto 1fr;
   }
 
   @media (min-width: 1024px) {
