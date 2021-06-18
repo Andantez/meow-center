@@ -10,19 +10,29 @@ import { useEffect, useState } from 'react';
 const BreedDetails = ({ breed, images }) => {
   // const router = useRouter();
   // const { id } = router.query;
-
+  const { isFallback} = useRouter();
   // if (router.isFallback) {
   //   return <h2>Loading......</h2>;
   // }
   const [imgIndex, setImgIndex] = useState(0);
-  const [imgList, setImageList] = useState(images); //temporary
-  const { url: mainImage } = imgList[imgIndex];
+  const [imgList, setImageList] = useState([]); //temporary
+  const [breedData, setBreedData] = useState({});
+  const [characteristics, setCharacteristics] = useState([]);
+  // const { url: mainImage } = imgList[imgIndex];
 
-  const { name, id: breedId, description, temperament, wikipedia_url } = breed;
+  // const { name, id: breedId, description, temperament, wikipedia_url } = breed;
 
-  const characteristics = getCharacteristics(breed);
+  // const characteristics = getCharacteristics(breed);
 
-
+  useEffect(() => {
+    if ( !isFallback) {
+     
+      setBreedData(breed)
+      setCharacteristics(getCharacteristics(breed));
+      setImageList(images);
+    }
+  }, [isFallback, breed, images])
+  // console.log(images);
   // commented to reduce requests.
   // useEffect(() => {
   //   const breedData = {
@@ -43,22 +53,34 @@ const BreedDetails = ({ breed, images }) => {
 
   //   updateMostPopular();
   // }, []);
+  if (isFallback) {
+    return <div>LOADING.............</div>
+  }
+  console.log(imgList[3]?.url);
   return (
     <StyledSection>
       <Head>
-        <title>{name} | Meow Portal</title>
+        <title>{breedData.name} | Meow Portal</title>
       </Head>
       <div className="container">
         <div className="mobile-img">
-          <Image src={mainImage} alt={name} width="700" height="500" />
+          {imgList.length > 0 && (
+            <Image
+              src={imgList[imgIndex].url}
+              alt={breedData.name}
+              width="700"
+              height="500"
+              priority={true}
+            />
+          )}
         </div>
         <div className="details">
-          <h1>{name}</h1>
+          <h1>{breedData.name}</h1>
           <article>
-            <p>{description}</p>
+            <p>{breedData.description}</p>
             <div className="temperament">
               <p className="title">Temperament:</p>
-              <p>{temperament}</p>
+              <p>{breedData.temperament}</p>
             </div>
             <div className="characteristics">
               {characteristics.map((characteristic) => {
@@ -73,8 +95,12 @@ const BreedDetails = ({ breed, images }) => {
             </div>
           </article>
           <p className="wiki-link">
-            more information on {name}{' '}
-            <a href={wikipedia_url} target="_blank" rel="noopener noreferrer">
+            more information on {breedData.name}{' '}
+            <a
+              href={breedData.wikipedia_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Wiki
             </a>{' '}
             page.
@@ -82,10 +108,18 @@ const BreedDetails = ({ breed, images }) => {
         </div>
         <div className="gallery">
           <div className="img-container">
-            <Image src={mainImage} alt={name} width="600" height="600" />
+            {imgList.length > 0 && (
+              <Image
+                src={imgList[imgIndex].url}
+                alt={breedData.name}
+                width="600"
+                height="600"
+                priority={true}
+              />
+            )}
           </div>
           <div className="carousel">
-            {images.slice(0, 3).map((image, index) => {
+            {imgList.slice(0, 3).map((image, index) => {
               return (
                 <div
                   key={image.id}
@@ -113,24 +147,24 @@ export const getStaticProps = async (context) => {
   const { id } = context.params;
 
   // gets the breed data
-  // const breedResponse = await fetch(
-  //   `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?breed_id=${id}&limit=8&order=ASC`,
-  //   {
-  //     headers: {
-  //       'x-api-key': process.env.X_API_KEY,
-  //     },
-  //   }
-  // );
+  const breedResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?breed_id=${id}&limit=8&order=ASC`,
+    {
+      headers: {
+        'x-api-key': process.env.X_API_KEY,
+      },
+    }
+  );
 
-  // const data = await breedResponse.json();
+  const data = await breedResponse.json();
 
-  // const breed = data[0].breeds[0];
+  const breed = data[0].breeds[0];
 
   // get the images
-  // const images = data.map((breed) => {
-  //   const { url, id } = breed;
-  //   return { url, id };
-  // });
+  const images = data.map((breed) => {
+    const { url, id } = breed;
+    return { url, id };
+  });
 
   // temporary to minimize the api call.
   const temporaryBreedImages = [
@@ -208,11 +242,11 @@ on your bed and snuggle with you if you’re not feeling well.`,
     hypoallergenic: 1,
     reference_image_id: 'j6oFGLpRG',
   };
-
+  console.log(images)
   return {
     props: {
-      breed: temporaryBreedData,
-      images: temporaryBreedImages
+      breed,
+      images,
     },
   };
 };
@@ -220,7 +254,7 @@ on your bed and snuggle with you if you’re not feeling well.`,
 export const getStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking',
+    fallback: true,
   };
 };
 

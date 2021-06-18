@@ -6,10 +6,10 @@ const Score = ({ score, characteristic }) => {
     return <StyledDiv score={score} index={number} key={index} />;
   });
 
-  if (characteristic.characteristic === 'hypoallergenic' && score > 0) {
+  if (characteristic.characteristic === 'hypoallergenic') {
     return (
       <Wrapper>
-        <div>Yes</div>
+        <div>{score > 0 ? "Yes" : "No"}</div>
       </Wrapper>
     );
   }
