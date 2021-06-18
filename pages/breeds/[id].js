@@ -4,35 +4,33 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { getCharacteristics } from '../../utils/helpers';
 import Score from '../../components/Score';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
 const BreedDetails = ({ breed, images }) => {
-  // const router = useRouter();
-  // const { id } = router.query;
-  const { isFallback} = useRouter();
+  const { isFallback } = useRouter();
+  const [imgIndex, setImgIndex] = useState(0);
+  const [imgList, setImageList] = useState([]);
+  const [breedData, setBreedData] = useState({});
+  const [characteristics, setCharacteristics] = useState([]);
+  const [[fromIndex, toIndex], setFromIndexToIndex] = useState([0, 3]);
+
+  // commented one until make sure it works fine like it is.
   // if (router.isFallback) {
   //   return <h2>Loading......</h2>;
   // }
-  const [imgIndex, setImgIndex] = useState(0);
-  const [imgList, setImageList] = useState([]); //temporary
-  const [breedData, setBreedData] = useState({});
-  const [characteristics, setCharacteristics] = useState([]);
   // const { url: mainImage } = imgList[imgIndex];
-
   // const { name, id: breedId, description, temperament, wikipedia_url } = breed;
-
   // const characteristics = getCharacteristics(breed);
 
   useEffect(() => {
-    if ( !isFallback) {
-     
-      setBreedData(breed)
+    if (!isFallback) {
+      setBreedData(breed);
       setCharacteristics(getCharacteristics(breed));
       setImageList(images);
     }
-  }, [isFallback, breed, images])
-  // console.log(images);
+  }, [isFallback, breed, images]);
+
   // commented to reduce requests.
   // useEffect(() => {
   //   const breedData = {
@@ -53,10 +51,26 @@ const BreedDetails = ({ breed, images }) => {
 
   //   updateMostPopular();
   // }, []);
+
+  const nextSlide = () => {
+    setFromIndexToIndex(([prevFrom, prevTo]) => {
+      if (prevTo > images.length - 1) {
+        return [prevFrom, prevTo];
+      }
+      return [prevFrom + 1, prevTo + 1];
+    });
+  };
+  const previousSlide = () => {
+    setFromIndexToIndex(([prevFrom, prevTo]) => {
+      if (prevFrom <= 0) {
+        return [prevFrom, prevTo];
+      }
+      return [prevFrom - 1, prevTo - 1];
+    });
+  };
   if (isFallback) {
-    return <div>LOADING.............</div>
+    return <div>LOADING.............</div>;
   }
-  console.log(imgList[3]?.url);
   return (
     <StyledSection>
       <Head>
@@ -118,25 +132,36 @@ const BreedDetails = ({ breed, images }) => {
               />
             )}
           </div>
-          <div className="carousel">
-            {imgList.slice(0, 3).map((image, index) => {
+          <div className={`carousel ${imgList.length < 3 && 'disable'}`}>
+            {imgList.slice(fromIndex, toIndex).map((image, index) => {
               return (
                 <div
                   key={image.id}
-                  onClick={() => setImgIndex(index)}
-                  className={`${index === imgIndex && 'active'}`}
+                  onClick={() => setImgIndex(index + fromIndex)}
+                  className={`${index + fromIndex === imgIndex && 'active'}`}
                 >
                   <Image src={image.url} width="250" height="250" />
                 </div>
               );
             })}
-            <button type="button" className="prev">
-              <FiChevronLeft />
+            <button
+              type="button"
+              className={`prev ${fromIndex === 0 && 'first-slide'}`}
+              onClick={previousSlide}
+              disabled={imgList.length < 3}
+            >
+              <FaChevronLeft />
             </button>
-            <button type="button" className="next">
-              <FiChevronRight />
+            <button
+              type="button"
+              className={`next ${imgList.length === toIndex && 'last-slide'}`}
+              onClick={nextSlide}
+              disabled={imgList.length < 3}
+            >
+              <FaChevronRight />
             </button>
           </div>
+          <div>{/* {images} */}</div>
         </div>
       </div>
     </StyledSection>
@@ -242,7 +267,7 @@ on your bed and snuggle with you if you’re not feeling well.`,
     hypoallergenic: 1,
     reference_image_id: 'j6oFGLpRG',
   };
-  console.log(images)
+  console.log(images);
   return {
     props: {
       breed,
@@ -333,19 +358,38 @@ const StyledSection = styled.section`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1em;
-    cursor: pointer;
   }
   .carousel div > div {
     border-radius: 0.5em;
+    cursor: pointer;
   }
   .prev,
   .next {
     display: none;
   }
-  .active > div {
-    border: 3px solid var(--clr-black);
+
+  .prev:disabled,
+  .next:disabled {
+    pointer-events: none;
+    opacity: 0;
   }
 
+  .carousel.disable div {
+    pointer-events: none;
+  }
+
+  .active > div {
+    box-shadow: 1px 2px 6px var(--clr-primary-500);
+  }
+
+  .next.last-slide,
+  .prev.first-slide {
+    transition: opacity 0.2s ease-in;
+    opacity: 0.6;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
   .wiki-link {
     font-size: 0.875rem;
     text-transform: capitalize;
@@ -374,7 +418,7 @@ const StyledSection = styled.section`
       height: 2.25em;
       border: transparent;
       background-color: var(--clr-secondary-500);
-      opacity: 0.6;
+      opacity: 0.9;
       border-radius: 50%;
       display: grid;
       place-items: center;
@@ -389,7 +433,8 @@ const StyledSection = styled.section`
         opacity: 1;
       }
       svg {
-        font-size: 1.25rem;
+        font-size: 1rem;
+        color: var(--clr-grey);
       }
     }
 
