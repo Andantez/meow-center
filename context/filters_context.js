@@ -67,7 +67,7 @@ const FiltersProvider = ({ children }) => {
   useEffect(() => {
     dispatch({ type: FILTER_BREEDS });
     dispatch({ type: SORT_BREEDS });
-  }, [state.sort, state.filters]);
+  }, [state.sort, state.filters, state.allBreeds]);
   return (
     <FiltersContext.Provider
       value={{
