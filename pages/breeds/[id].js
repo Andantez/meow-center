@@ -68,6 +68,24 @@ const BreedDetails = ({ breed, images }) => {
       return [prevFrom - 1, prevTo - 1];
     });
   };
+
+  const previousImage = () => {
+    setImgIndex((prevIndex) => {
+      if (prevIndex <= 0) {
+        return imgList.length - 1;
+      }
+      return prevIndex - 1;
+    });
+  };
+
+  const nextImage = () => {
+    setImgIndex((prevIndex) => {
+      if (prevIndex >= imgList.length - 1) {
+        return 0;
+      }
+      return prevIndex + 1;
+    });
+  };
   if (isFallback) {
     return <div>LOADING.............</div>;
   }
@@ -77,15 +95,44 @@ const BreedDetails = ({ breed, images }) => {
         <title>{breedData.name} | Meow Portal</title>
       </Head>
       <div className="container">
-        <div className="mobile-img">
+        <div className="mobile-img-container">
+          <div className="mobile-img">
+            {imgList.length > 0 && (
+              <Image
+                src={imgList[imgIndex].url}
+                alt={breedData.name}
+                width="700"
+                height="500"
+                priority={true}
+              />
+            )}
+            <button
+              type="button"
+              className="prev-slide"
+              onClick={previousImage}
+              disabled={imgList.length < 3}
+            >
+              <FaChevronLeft />
+            </button>
+            <button
+              type="button"
+              className="next-slide"
+              onClick={nextImage}
+              disabled={imgList.length < 3}
+            >
+              <FaChevronRight />
+            </button>
+          </div>
           {imgList.length > 0 && (
-            <Image
-              src={imgList[imgIndex].url}
-              alt={breedData.name}
-              width="700"
-              height="500"
-              priority={true}
-            />
+            <div className="indicators">
+              {imgList.map((indicator, index) => (
+                <span
+                  key={index}
+                  className={`${index === imgIndex ? 'active-img' : ''}`}
+                  onClick={() => setImgIndex(index)}
+                ></span>
+              ))}
+            </div>
           )}
         </div>
         <div className="details">
@@ -161,7 +208,6 @@ const BreedDetails = ({ breed, images }) => {
               <FaChevronRight />
             </button>
           </div>
-          <div>{/* {images} */}</div>
         </div>
       </div>
     </StyledSection>
@@ -267,7 +313,6 @@ on your bed and snuggle with you if you’re not feeling well.`,
     hypoallergenic: 1,
     reference_image_id: 'j6oFGLpRG',
   };
-  console.log(images);
   return {
     props: {
       breed,
@@ -288,9 +333,9 @@ const StyledSection = styled.section`
   margin: 0 auto;
   max-width: 1200px;
   .container {
-    margin-top: 3em;
+    margin: 3em auto;
     display: grid;
-    gap: 2em;
+    gap: 1em;
   }
   .img-container > div,
   .mobile-img > div {
@@ -357,7 +402,7 @@ const StyledSection = styled.section`
     position: relative;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1em;
+    /* gap: 1em; */
   }
   .carousel div > div {
     border-radius: 0.5em;
@@ -402,27 +447,98 @@ const StyledSection = styled.section`
       letter-spacing: 1px;
     }
   }
+
+  .indicators {
+    position: relative;
+    margin: 0.5em auto 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25em;
+
+    span {
+      height: 1em;
+      background-color: var(--clr-lightgrey);
+      width: 1em;
+      border-radius: 50%;
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  }
+  span.active-img {
+    background-color: var(--clr-grey);
+    opacity: 1;
+  }
+
+  .mobile-img {
+    position: relative;
+    text-align: center;
+  }
+
+  .prev-slide,
+  .next-slide {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: transparent;
+    cursor: pointer;
+    color: var(--clr-grey);
+
+    svg {
+      font-size: 1.5rem;
+    }
+  }
+
+  .prev-slide {
+    left: 0.25em;
+  }
+  .next-slide {
+    right: 0.25em;
+  }
+  .gallery {
+    display: none;
+  }
   @media (min-width: 768px) {
     .gallery {
       grid-column: span 2;
     }
 
+    .characteristics {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5em;
+    }
+  }
+  @media (min-width: 1024px) {
+    .indicators,
+    .prev-slide,
+    .next-slide {
+      display: none;
+    }
+
     .container {
       grid-template-columns: 1fr 1fr;
     }
-
+    .characteristics {
+      grid-template-columns: 1fr 1fr;
+    }
+    .gallery {
+      display: block;
+    }
+    .carousel {
+      place-items: center;
+    }
     .prev,
     .next {
       display: inline-block;
       width: 2.25em;
       height: 2.25em;
       border: transparent;
-      background-color: var(--clr-secondary-500);
+      background-color: transparent;
       opacity: 0.9;
       border-radius: 50%;
       display: grid;
       place-items: center;
-      color: var(--clr-black);
       position: absolute;
       transform: translateY(-50%);
       top: 50%;
@@ -433,21 +549,23 @@ const StyledSection = styled.section`
         opacity: 1;
       }
       svg {
-        font-size: 1rem;
-        color: var(--clr-grey);
+        font-size: 2rem;
+        color: var(--clr-black);
       }
     }
 
     .prev {
-      left: 0.25em;
+      left: -0.75em;
     }
 
     .next {
-      right: 0.25em;
+      right: -0.75em;
     }
   }
-
   @media (min-width: 1200px) {
+    .mobile-img-container {
+      display: none;
+    }
     .container {
       gap: 5em;
     }
@@ -467,11 +585,34 @@ const StyledSection = styled.section`
 
     .carousel {
       margin-top: 2em;
+      gap: 1em;
     }
 
-    .characteristics {
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5em;
+    .prev,
+    .next {
+      border: transparent;
+      background-color: var(--clr-secondary-500);
+
+      svg {
+        font-size: 1rem;
+        color: var(--clr-grey);
+      }
+    }
+
+    .prev {
+      left: 0.25em;
+    }
+
+    .next {
+      right: 0.25em;
+    }
+  }
+  .next.last-slide,
+  .prev.first-slide {
+    opacity: 0.4;
+
+    &:hover {
+      opacity: 0.4;
     }
   }
 `;
