@@ -11,7 +11,12 @@ function MyApp({ Component, pageProps }) {
       <FiltersContextProvider>
         <SWRConfig
           value={{
-            fetcher: (...args) => fetch(...args).then((res) => res.json()),
+            fetcher: (url) =>
+              fetch(url, {
+                headers: {
+                  'x-api-key': process.env.X_API_KEY,
+                },
+              }).then((res) => res.json()),
           }}
         >
           <Layout>

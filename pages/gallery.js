@@ -2,6 +2,8 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-css';
 import Image from 'next/image';
+import { useSWRInfinite } from 'swr';
+import { useState } from 'react';
 
 const breakpointColumnsObj = {
   default: 3,
@@ -9,10 +11,34 @@ const breakpointColumnsObj = {
   768: 2,
   500: 2,
 };
-const Gallery = ({ images, categories }) => {
-  const categoriesList = categories; // temporary;
-  const imagesList = images; // temporary;
+const PAGE_SIZE = 50;
 
+const getKey = (pageIndex, previousData, mimeTypes, categoryId) => {
+  if (previousData && !previousData.length) return null;
+  // console.log("inside getKey", pageIndex)
+  return `${
+    process.env.NEXT_PUBLIC_API_BASE_URI
+  }/images/search?limit=5&order=asc&page=${
+    pageIndex + 1
+  }&mime_types=${mimeTypes}&category_ids=${categoryId}`;
+};
+
+const Gallery = ({ images, categories }) => {
+  const [mimeType, setMimeType] = useState('jpg,png,gif');
+  const [categoryId, setCategoryId] = useState('');
+  const { data, error, isValidating, mutate, size, setSize } = useSWRInfinite(
+    (...args) => getKey(...args, mimeType, categoryId),
+    {
+      revalidateOnFocus: false,
+    }
+  );
+  const allImages = data ? [].concat(...data) : [];
+  const isEmpty = data?.[0]?.length === 0;
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
+  const isRefreshing = isValidating && data && data.length === size;
+
+  if (!data) return 'loading';
   return (
     <div>
       <Head>
@@ -24,13 +50,32 @@ const Gallery = ({ images, categories }) => {
           <form>
             <div className="form-control">
               <button type="button">All</button>
-              <button type="button">Static</button>
-              <button type="button">Animated</button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSize(0);
+                  setMimeType('jpg,png');
+                }}
+              >
+                Static
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSize(0);
+                  setMimeType('gif');
+                }}
+              >
+                Animated
+              </button>
+              <button type="button" onClick={() => setSize(size + 1)}>
+               Get More {/* TODO: remove it later  */}
+              </button>
             </div>
             <div className="form-control">
               <label htmlFor="categories">Category: </label>
               <select name="categories" id="categories">
-                {categoriesList.map((category) => {
+                {categories.map((category) => {
                   const { id, name } = category;
                   return (
                     <option key={id} value={id}>
@@ -47,7 +92,7 @@ const Gallery = ({ images, categories }) => {
               className="masonry-grid"
               columnClassName="masonry-grid-column"
             >
-              {imagesList.map((image) => {
+              {allImages.map((image) => {
                 const { id, url, height, width } = image;
                 return (
                   <div key={id}>
@@ -1232,11 +1277,13 @@ export const getStaticProps = async (context) => {
     },
   ];
 
-  const categoriesResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URI}/categories`);
+  const categoriesResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/categories`
+  );
   const categories = await categoriesResponse.json();
-  
+
   const imagesResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?limit=50&order=ASC&page=0`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?limit=5&order=ASC&page=0&mime_types=jpg,png&category_ids=`,
     {
       headers: {
         'x-api-key': process.env.X_API_KEY,
