@@ -1232,10 +1232,23 @@ export const getStaticProps = async (context) => {
     },
   ];
 
+  const categoriesResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URI}/categories`);
+  const categories = await categoriesResponse.json();
+  
+  const imagesResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?limit=50&order=ASC&page=0`,
+    {
+      headers: {
+        'x-api-key': process.env.X_API_KEY,
+      },
+    }
+  );
+  const images = await imagesResponse.json();
+
   return {
     props: {
-      categories: tempCategories,
-      images: tempImages,
+      categories,
+      images,
     },
   };
 };
