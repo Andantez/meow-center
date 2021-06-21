@@ -1250,6 +1250,7 @@ export const getStaticProps = async (context) => {
       categories,
       images,
     },
+    revalidate: 1800,
   };
 };
 const StyledSection = styled.section`
