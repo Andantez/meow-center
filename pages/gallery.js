@@ -2,8 +2,9 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-css';
 import Image from 'next/image';
-import { useSWRInfinite } from 'swr';
-import { useState } from 'react';
+import { useSWRInfinite, cache } from 'swr';
+import { useEffect, useRef, useState } from 'react';
+import useIsIntersecting from '../hoooks/useItsIntersecting';
 
 const breakpointColumnsObj = {
   default: 3,
@@ -11,14 +12,13 @@ const breakpointColumnsObj = {
   768: 2,
   500: 2,
 };
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 15;
 
 const getKey = (pageIndex, previousData, mimeTypes, categoryId) => {
   if (previousData && !previousData.length) return null;
-  // console.log("inside getKey", pageIndex)
   return `${
     process.env.NEXT_PUBLIC_API_BASE_URI
-  }/images/search?limit=5&order=asc&page=${
+  }/images/search?limit=15&order=asc&page=${
     pageIndex + 1
   }&mime_types=${mimeTypes}&category_ids=${categoryId}`;
 };
@@ -26,19 +26,49 @@ const getKey = (pageIndex, previousData, mimeTypes, categoryId) => {
 const Gallery = ({ images, categories }) => {
   const [mimeType, setMimeType] = useState('jpg,png,gif');
   const [categoryId, setCategoryId] = useState('');
-  const { data, error, isValidating, mutate, size, setSize } = useSWRInfinite(
+  const { data, error, isValidating, size, setSize } = useSWRInfinite(
     (...args) => getKey(...args, mimeType, categoryId),
     {
       revalidateOnFocus: false,
     }
   );
+  const ref = useRef();
+  const isVisible = useIsIntersecting(ref);
   const allImages = data ? [].concat(...data) : [];
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
     isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
   const isRefreshing = isValidating && data && data.length === size;
+  const isLoadingInitialData = !data && !error;
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === 'undefined');
 
-  if (!data) return 'loading';
+  useEffect(() => {
+    cache.clear();
+  }, [mimeType]);
+
+  useEffect(() => {
+    if (isVisible && !isReachingEnd && !isRefreshing) {
+      setSize(size + 1);
+    }
+  }, [isVisible]);
+
+  const handleData = async (e) => {
+    const name = e.target.name;
+    if (name === 'animated') {
+      setMimeType('gif');
+    }
+
+    if (name === 'static') {
+      setMimeType('jpg,png');
+    }
+
+    if (name === 'all') {
+      setMimeType('jpg,png,gif');
+    }
+  };
+  // if (!data) return 'loading';
   return (
     <div>
       <Head>
@@ -49,28 +79,18 @@ const Gallery = ({ images, categories }) => {
           <h1>Cat Photos</h1>
           <form>
             <div className="form-control">
-              <button type="button">All</button>
-              <button
-                type="button"
-                onClick={() => {
-                  setSize(0);
-                  setMimeType('jpg,png');
-                }}
-              >
+              <button type="button" name="all" onClick={handleData}>
+                All
+              </button>
+              <button type="button" name="static" onClick={handleData}>
                 Static
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setSize(0);
-                  setMimeType('gif');
-                }}
-              >
+              <button type="button" name="animated" onClick={handleData}>
                 Animated
               </button>
-              <button type="button" onClick={() => setSize(size + 1)}>
-               Get More {/* TODO: remove it later  */}
-              </button>
+              {/* <button type="button" onClick={() => setSize(size + 1)}> */}
+              {/* Get More */}
+              {/* </button> */}
             </div>
             <div className="form-control">
               <label htmlFor="categories">Category: </label>
@@ -86,27 +106,36 @@ const Gallery = ({ images, categories }) => {
               </select>
             </div>
           </form>
+          {!data && <h1>LOADING........</h1>}
           <div className="img-gallery">
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className="masonry-grid"
               columnClassName="masonry-grid-column"
             >
-              {allImages.map((image) => {
-                const { id, url, height, width } = image;
-                return (
-                  <div key={id}>
-                    <Image
-                      src={url}
-                      width={width}
-                      height={height}
-                      layout="responsive"
-                      alt={url}
-                    />
-                  </div>
-                );
-              })}
+              {data &&
+                allImages.map((image, index) => {
+                  const { id, url, height, width } = image;
+                  return (
+                    <div key={id + index}>
+                      <Image
+                        src={url}
+                        width={width}
+                        height={height}
+                        layout="responsive"
+                        alt={url}
+                      />
+                    </div>
+                  );
+                })}
             </Masonry>
+            <div ref={ref}>
+              {isLoadingMore
+                ? 'loading...'
+                : isReachingEnd
+                ? 'no more pictures'
+                : ''}
+            </div>
           </div>
         </div>
       </StyledSection>
