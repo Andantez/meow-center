@@ -5,7 +5,7 @@ const useItsIntersecting = (ref) => {
 
   const options = {
     root: ref.current,
-    rootMargin: '50%',
+    rootMargin: '70%',
     threshold: 0,
   };
   useEffect(() => {
