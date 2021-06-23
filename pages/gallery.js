@@ -13,21 +13,21 @@ const breakpointColumnsObj = {
   768: 2,
   500: 2,
 };
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 25;
 
-const skeletonArray = Array.from({ length: 15 }, (_, index) => {
+const skeletonArray = Array.from({ length: 25 }, (_, index) => {
   return index;
 });
 const getKey = (pageIndex, previousData, mimeTypes, categoryId) => {
   if (previousData && !previousData.length) return null;
   return `${
     process.env.NEXT_PUBLIC_API_BASE_URI
-  }/images/search?limit=15&order=asc&page=${
+  }/images/search?limit=25&order=asc&page=${
     pageIndex + 1
   }&mime_types=${mimeTypes}&category_ids=${categoryId}`;
 };
 
-const Gallery = ({ images, categories }) => {
+const Gallery = ({ categories }) => {
   const [mimeType, setMimeType] = useState('jpg,png,gif');
   const [categoryId, setCategoryId] = useState('');
   const { data, error, isValidating, size, setSize } = useSWRInfinite(
@@ -1326,20 +1326,20 @@ export const getStaticProps = async (context) => {
   );
   const categories = await categoriesResponse.json();
 
-  const imagesResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?limit=5&order=ASC&page=0&mime_types=jpg,png&category_ids=`,
-    {
-      headers: {
-        'x-api-key': process.env.X_API_KEY,
-      },
-    }
-  );
-  const images = await imagesResponse.json();
+  // const imagesResponse = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?limit=5&order=ASC&page=0&mime_types=jpg,png&category_ids=`,
+  //   {
+  //     headers: {
+  //       'x-api-key': process.env.X_API_KEY,
+  //     },
+  //   }
+  // );
+  // const images = await imagesResponse.json();
 
   return {
     props: {
       categories,
-      images,
+      // images,
     },
     revalidate: 1800,
   };
