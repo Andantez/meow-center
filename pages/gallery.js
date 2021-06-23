@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useSWRInfinite, cache } from 'swr';
 import { useEffect, useRef, useState } from 'react';
 import useIsIntersecting from '../hoooks/useItsIntersecting';
+import Skeleton from '../components/Skeleton';
 
 const breakpointColumnsObj = {
   default: 3,
@@ -14,6 +15,9 @@ const breakpointColumnsObj = {
 };
 const PAGE_SIZE = 15;
 
+const skeletonArray = Array.from({ length: 15 }, (_, index) => {
+  return index;
+});
 const getKey = (pageIndex, previousData, mimeTypes, categoryId) => {
   if (previousData && !previousData.length) return null;
   return `${
@@ -79,18 +83,30 @@ const Gallery = ({ images, categories }) => {
           <h1>Cat Photos</h1>
           <form>
             <div className="form-control">
-              <button type="button" name="all" onClick={handleData}>
+              <button
+                type="button"
+                name="all"
+                className={`${mimeType === 'jpg,png,gif' ? 'active' : ''}`}
+                onClick={handleData}
+              >
                 All
               </button>
-              <button type="button" name="static" onClick={handleData}>
+              <button
+                type="button"
+                name="static"
+                className={`${mimeType === 'jpg,png' ? 'active' : ''}`}
+                onClick={handleData}
+              >
                 Static
               </button>
-              <button type="button" name="animated" onClick={handleData}>
+              <button
+                type="button"
+                name="animated"
+                className={`${mimeType === 'gif' ? 'active' : ''}`}
+                onClick={handleData}
+              >
                 Animated
               </button>
-              {/* <button type="button" onClick={() => setSize(size + 1)}> */}
-              {/* Get More */}
-              {/* </button> */}
             </div>
             <div className="form-control">
               <label htmlFor="categories">Category: </label>
@@ -106,13 +122,16 @@ const Gallery = ({ images, categories }) => {
               </select>
             </div>
           </form>
-          {!data && <h1>LOADING........</h1>}
           <div className="img-gallery">
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className="masonry-grid"
               columnClassName="masonry-grid-column"
             >
+              {!data &&
+                skeletonArray.map((skeleton, index) => (
+                  <Skeleton key={index} />
+                ))}
               {data &&
                 allImages.map((image, index) => {
                   const { id, url, height, width } = image;
@@ -129,12 +148,8 @@ const Gallery = ({ images, categories }) => {
                   );
                 })}
             </Masonry>
-            <div ref={ref}>
-              {isLoadingMore
-                ? 'loading...'
-                : isReachingEnd
-                ? 'no more pictures'
-                : ''}
+            <div className="loading-notification" ref={ref}>
+              {isLoadingMore && 'Grabbing more pictures'}
             </div>
           </div>
         </div>
@@ -1411,7 +1426,15 @@ const StyledSection = styled.section`
     margin-bottom: 1.5em;
     cursor: zoom-in;
   }
-
+  button.active {
+    border: 1px solid var(--clr-black);
+    opacity: 1;
+  }
+  .loading-notification {
+    text-align: center;
+    font-family: var(--ff-paragraph);
+    margin: 2em 0;
+  }
   @media (min-width: 768px) {
     .form-control {
       button,
