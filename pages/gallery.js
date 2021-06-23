@@ -83,6 +83,7 @@ const Gallery = ({ categories }) => {
     setCategoryId(value);
   };
   // if (!data) return 'loading';
+
   return (
     <div>
       <Head>
@@ -163,6 +164,20 @@ const Gallery = ({ categories }) => {
                   );
                 })}
             </Masonry>
+            {isEmpty && (
+              <div className="no-results">
+                No cat photos with a category of{' '}
+                <span>
+                  "
+                  {
+                    categoriesList.filter(
+                      (category) => category.id === Number(categoryId)
+                    )[0]?.name
+                  }
+                  "
+                </span>
+              </div>
+            )}
             <div className="loading-notification" ref={ref}>
               {isLoadingMore && 'Grabbing more pictures'}
             </div>
@@ -1449,6 +1464,16 @@ const StyledSection = styled.section`
     text-align: center;
     font-family: var(--ff-paragraph);
     margin: 2em 0;
+  }
+  .no-results {
+    text-align: center;
+    font-family: var(--ff-paragraph);
+    margin: 10em 0 20em 0;
+    span {
+      text-transform: capitalize;
+      font-weight: var(--fw-bold);
+      
+    }
   }
   @media (min-width: 768px) {
     .form-control {
