@@ -13,8 +13,8 @@ const useItsIntersecting = (ref) => {
       ([entry]) => setIntersecting(entry.isIntersecting),
       options
     );
-    console.log(ref);
     observer.observe(ref.current);
+    
     return () => {
       observer.disconnect();
     };
