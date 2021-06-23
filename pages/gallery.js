@@ -36,6 +36,7 @@ const Gallery = ({ categories }) => {
       revalidateOnFocus: false,
     }
   );
+  const categoriesList = [{ id: 'all', name: 'all' }, ...categories];
   const ref = useRef();
   const isVisible = useIsIntersecting(ref);
   const allImages = data ? [].concat(...data) : [];
@@ -50,7 +51,7 @@ const Gallery = ({ categories }) => {
 
   useEffect(() => {
     cache.clear();
-  }, [mimeType]);
+  }, [mimeType, categoryId]);
 
   useEffect(() => {
     if (isVisible && !isReachingEnd && !isRefreshing) {
@@ -71,6 +72,15 @@ const Gallery = ({ categories }) => {
     if (name === 'all') {
       setMimeType('jpg,png,gif');
     }
+  };
+
+  const handleOnChange = (e) => {
+    const value = e.target.value;
+    if (value === 'all') {
+      setCategoryId('');
+      return;
+    }
+    setCategoryId(value);
   };
   // if (!data) return 'loading';
   return (
@@ -110,8 +120,13 @@ const Gallery = ({ categories }) => {
             </div>
             <div className="form-control">
               <label htmlFor="categories">Category: </label>
-              <select name="categories" id="categories">
-                {categories.map((category) => {
+              <select
+                name="categories"
+                id="categories"
+                value={categoryId}
+                onChange={handleOnChange}
+              >
+                {categoriesList.map((category) => {
                   const { id, name } = category;
                   return (
                     <option key={id} value={id}>
