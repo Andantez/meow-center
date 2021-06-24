@@ -1,5 +1,4 @@
-import { createContext, useContext, useState } from 'react';
-import useSWR from 'swr';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const HomeContext = createContext();
 
@@ -7,15 +6,17 @@ const HomeProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [itsOnFocus, setItsOnFocus] = useState(false);
-  const { data: searchResults } = useSWR(() =>
-    query ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/breeds/search?q=${query}` : null
-  );
+  const [breeds, setBreeds] = useState([]);
+  const [filteredBreeds, setFilteredBreeds] = useState([]);
 
-  const isLoadingData = !searchResults && query.length > 0;
+  const isLoadingData = !filteredBreeds && query.length > 0;
   const noResultsFound =
-    searchResults?.length === 0 && query.length > 0 && itsOnFocus;
+    filteredBreeds?.length === 0 && query.length > 0 && itsOnFocus;
 
-  // console.log("is loading", isLoading, "nqma resultati", noResultsFound);
+  useEffect(() => {
+    const filteredData = query ? breeds.filter(breed => breed.name.toLowerCase().includes(query)): [];
+    setFilteredBreeds(filteredData);
+  }, [query]);
 
   const openSidebar = () => {
     setIsSidebarOpen(true);
@@ -34,6 +35,10 @@ const HomeProvider = ({ children }) => {
   const setBlur = () => {
     setItsOnFocus(false);
   };
+
+  const setData = (data) => {
+    setBreeds(data);
+  };
   return (
     <HomeContext.Provider
       value={{
@@ -41,13 +46,15 @@ const HomeProvider = ({ children }) => {
         closeSidebar,
         isSidebarOpen,
         setUserQuery,
-        searchResults,
         query,
         setFocus,
         setBlur,
         itsOnFocus,
         isLoadingData,
         noResultsFound,
+        setData,
+        filteredBreeds,
+        setFilteredBreeds,
       }}
     >
       {children}
