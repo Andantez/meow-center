@@ -4,13 +4,19 @@ import MostPopular from '../components/MostPopular';
 import Facts from '../components/Facts';
 import useSWR from 'swr';
 // import { connectToDatabase } from '../utils/mongodb';
+import { useHomeContext } from '../context/home_context';
+import { useEffect } from 'react';
 
-export default function Home({ mostPopularBreeds, facts }) {
+export default function Home({ mostPopularBreeds, facts, breeds }) {
   const { data, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_FACTS_URI}?limit=3&max_length=200`,
     { revalidateOnFocus: false, initialData: facts }
   );
+  const { setData } = useHomeContext();
 
+  useEffect(() => {
+    setData(breeds);
+  }, [])
   return (
     <>
       <Head>
@@ -31,10 +37,21 @@ export const getStaticProps = async () => {
     `${process.env.NEXT_PUBLIC_FACTS_URI}?limit=3&max_length=200`
   );
   const factsData = await response.json();
+
+  const breedsResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/breeds`,
+    {
+      headers: {
+        'x-api-key': process.env.X_API_KEY,
+      },
+    }
+  );
+  const breedsData = await breedsResponse.json();
+
   return {
     // to be changed to return data from db too
     // props: { mostPopularBreeds: JSON.parse(JSON.stringify(mostPopularBreeds)) },
-    props: { facts: factsData },
+    props: { facts: factsData, breeds: breedsData },
     revalidate: 1800,
   };
 };

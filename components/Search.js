@@ -8,13 +8,13 @@ import { AiOutlineClose } from 'react-icons/ai';
 const Search = () => {
   const {
     setUserQuery,
-    searchResults,
     query,
     setFocus,
     setBlur,
     itsOnFocus,
     isLoadingData,
     noResultsFound,
+    filteredBreeds
   } = useHomeContext();
 
   return (
@@ -29,7 +29,7 @@ const Search = () => {
         )}
       </label>
       <input
-        onChange={(e) => setUserQuery(e.target.value)}
+        onChange={(e) => setUserQuery(e.target.value.toLowerCase())}
         onFocus={setFocus}
         onBlur={setBlur}
         id="input"
@@ -39,9 +39,9 @@ const Search = () => {
         value={query}
       />
       <div className="results">
-        {searchResults &&
+        {filteredBreeds &&
           itsOnFocus &&
-          searchResults.map((breed) => {
+          filteredBreeds.map((breed) => {
             const { id, name } = breed;
             return (
               <Link href={`/breeds/${id}`} key={id}>
