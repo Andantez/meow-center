@@ -32,7 +32,7 @@ const StyledSection = styled.section`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5em;
-
+  margin-top: 2em;
   article {
     transform-origin: bottom;
   }
