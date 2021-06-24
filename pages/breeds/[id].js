@@ -110,7 +110,7 @@ const BreedDetails = ({ breed, images }) => {
               type="button"
               className="prev-slide"
               onClick={previousImage}
-              disabled={imgList.length < 3}
+              disabled={imgList.length === 1}
             >
               <FaChevronLeft />
             </button>
@@ -118,7 +118,7 @@ const BreedDetails = ({ breed, images }) => {
               type="button"
               className="next-slide"
               onClick={nextImage}
-              disabled={imgList.length < 3}
+              disabled={imgList.length === 1}
             >
               <FaChevronRight />
             </button>
@@ -179,7 +179,7 @@ const BreedDetails = ({ breed, images }) => {
               />
             )}
           </div>
-          <div className={`carousel ${imgList.length < 3 && 'disable'}`}>
+          <div className={`carousel ${imgList.length === 1 && 'disable'}`}>
             {imgList.slice(fromIndex, toIndex).map((image, index) => {
               return (
                 <div
@@ -193,17 +193,21 @@ const BreedDetails = ({ breed, images }) => {
             })}
             <button
               type="button"
-              className={`prev ${fromIndex === 0 && 'first-slide'}`}
+              className={`prev ${fromIndex === 0 && 'first-slide'} ${
+                imgList.length <= 3 ? 'hide' : ''
+              }`}
               onClick={previousSlide}
-              disabled={imgList.length < 3}
+              disabled={imgList.length <= 3}
             >
               <FaChevronLeft />
             </button>
             <button
               type="button"
-              className={`next ${imgList.length === toIndex && 'last-slide'}`}
+              className={`next ${imgList.length === toIndex && 'last-slide'} ${
+                imgList.length <= 3 ? 'hide' : ''
+              }`}
               onClick={nextSlide}
-              disabled={imgList.length < 3}
+              disabled={imgList.length <= 3}
             >
               <FaChevronRight />
             </button>
@@ -508,6 +512,13 @@ const StyledSection = styled.section`
       grid-template-columns: 1fr 1fr;
       gap: 1.5em;
     }
+  }
+
+  .hide {
+    display: none !important;
+  }
+  .prev-slide:disabled, .next-slide:disabled {
+    display: none;
   }
   @media (min-width: 1024px) {
     .indicators,
