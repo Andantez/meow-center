@@ -1,3 +1,5 @@
+import tempData from '../data/tempData';
+
 export const getUniqueValues = (data, type) => {
   const origins = data.map((value) => {
     return value[type];
@@ -43,3 +45,24 @@ export const getCharacteristics = (data) => {
     return { characteristic: entry[0].split('_').join(' '), value: entry[1] };
   });
 };
+
+
+export const calculateOriginOccurence = (data) => {
+  const breedsData = [...data];
+
+  const result = breedsData.reduce((acc, currentValue) => {
+    const { origin } = currentValue;
+    const tempOriginData = acc.find((breedItem) => breedItem.origin === origin) || {}; 
+
+    if (!tempOriginData.id) {
+      tempOriginData.id = origin;
+      tempOriginData.origin = origin;
+      tempOriginData.value = 1;
+      return [...acc, tempOriginData];
+    } 
+      tempOriginData.value += 1;
+      return acc;
+
+  }, [])
+  return result
+}
