@@ -218,6 +218,15 @@
   "resolved" "https://registry.npmjs.org/@next/react-refresh-utils/-/react-refresh-utils-11.0.0.tgz"
   "version" "11.0.0"
 
+"@nivo/annotations@0.71.0":
+  "integrity" "sha512-/72r7DmHJeisYTfX+xIiDefPN05N/ItW3HvPO1niTYH2xlnhnStlkAU9pvbRH2Nlxv01/nZWgtv9zJFQ/RW6uw=="
+  "resolved" "https://registry.npmjs.org/@nivo/annotations/-/annotations-0.71.0.tgz"
+  "version" "0.71.0"
+  dependencies:
+    "@nivo/colors" "0.71.0"
+    "@react-spring/web" "9.2.0"
+    "lodash" "^4.17.21"
+
 "@nivo/arcs@0.71.0":
   "integrity" "sha512-GvGZW9Bmi5MD0gp1qv4gJQsToCCRXFyQPU/FKnFfgoTXY9cDYaZOEeu6+v+PPHXv2INUKtOzlK2yrUA4gL3Gpw=="
   "resolved" "https://registry.npmjs.org/@nivo/arcs/-/arcs-0.71.0.tgz"
@@ -226,6 +235,34 @@
     "@nivo/colors" "0.71.0"
     "@react-spring/web" "9.2.0"
     "d3-shape" "^1.3.5"
+
+"@nivo/axes@0.71.0":
+  "integrity" "sha512-jq/dxIewAVpri0AxuYzzQXOFiziXuIzEG/T72bkA/IVdO/mZwL+OrK6j8niO7jOd9dHNhcpf3W15E2fFoxHFxw=="
+  "resolved" "https://registry.npmjs.org/@nivo/axes/-/axes-0.71.0.tgz"
+  "version" "0.71.0"
+  dependencies:
+    "@nivo/scales" "0.71.0"
+    "@react-spring/web" "9.2.0"
+    "d3-format" "^1.4.4"
+    "d3-time" "^1.0.11"
+    "d3-time-format" "^3.0.0"
+
+"@nivo/bar@^0.71.0":
+  "integrity" "sha512-w1SVi0CzBB6LV8TcGsMl9MmzD7tGUTl7pVerEEgeeCAyq4FgThBTSRnSAf9g7MZMLKAZNGMNBYyPRa4eGPDBFg=="
+  "resolved" "https://registry.npmjs.org/@nivo/bar/-/bar-0.71.0.tgz"
+  "version" "0.71.0"
+  dependencies:
+    "@nivo/annotations" "0.71.0"
+    "@nivo/axes" "0.71.0"
+    "@nivo/colors" "0.71.0"
+    "@nivo/legends" "0.71.0"
+    "@nivo/recompose" "0.71.0"
+    "@nivo/scales" "0.71.0"
+    "@nivo/tooltip" "0.71.0"
+    "d3-scale" "^3.2.3"
+    "d3-shape" "^1.2.2"
+    "lodash" "^4.17.21"
+    "react-motion" "^0.5.2"
 
 "@nivo/colors@0.71.0":
   "integrity" "sha512-B847RX5w7+82h8zDP/sS1UshHajcbzoS1fvbKg0MHd1YBLXJVh3/BIX2o0s57iufQKy3h0v2hcWBeYveytO/Cg=="
@@ -238,7 +275,7 @@
     "lodash" "^4.17.21"
     "react-motion" "^0.5.2"
 
-"@nivo/core@^0.71.0":
+"@nivo/core@^0.71.0", "@nivo/core@0.71.0":
   "integrity" "sha512-cpjEBNzda2eWTu6NPj2NGqDWM1RI4wO/gNt0LgNZqEcscuxaZ95C9VWKi/jV0obr2mCgeKjnIyBO4T44WX9x3w=="
   "resolved" "https://registry.npmjs.org/@nivo/core/-/core-0.71.0.tgz"
   "version" "0.71.0"
@@ -278,6 +315,16 @@
   "version" "0.71.0"
   dependencies:
     "react-lifecycles-compat" "^3.0.4"
+
+"@nivo/scales@0.71.0":
+  "integrity" "sha512-SUy/8Yb+Bm1sabQ7xVnagJg4EASow15f8W9KLIemn9Q3YJQneP0BC3I60SqMnWmj/Rmx8i27rSHHfnlEWxk50A=="
+  "resolved" "https://registry.npmjs.org/@nivo/scales/-/scales-0.71.0.tgz"
+  "version" "0.71.0"
+  dependencies:
+    "d3-scale" "^3.2.3"
+    "d3-time" "^1.0.11"
+    "d3-time-format" "^3.0.0"
+    "lodash" "^4.17.21"
 
 "@nivo/tooltip@0.71.0":
   "integrity" "sha512-vWEmLM6wjW+AkW862fbpbYYozXU3GujSvi6FXmgTCrbpkdAB0SeEj6aNJZw9z1h895LP17RvRtcBwPBpv77/ZQ=="
@@ -881,7 +928,7 @@
     "d3-time" "^2.1.1"
     "d3-time-format" "2 - 3"
 
-"d3-shape@^1.3.5":
+"d3-shape@^1.2.2", "d3-shape@^1.3.5":
   "integrity" "sha512-EUkvKjqPFUAZyOlhY5gzCxCeI0Aep04LwIRpsZ/mLFelJiUfnK56jo5JMDSE7yyP2kLSb6LtF+S5chMk7uqPqw=="
   "resolved" "https://registry.npmjs.org/d3-shape/-/d3-shape-1.3.7.tgz"
   "version" "1.3.7"
@@ -894,6 +941,11 @@
   "version" "3.0.0"
   dependencies:
     "d3-time" "1 - 2"
+
+"d3-time@^1.0.11":
+  "integrity" "sha512-Xh0isrZ5rPYYdqhAVk8VLnMEidhz5aP7htAADH6MfzgmmicPkTo8LhkLxci61/lCB7n7UmE3bN0leRt+qvkLxA=="
+  "resolved" "https://registry.npmjs.org/d3-time/-/d3-time-1.1.0.tgz"
+  "version" "1.1.0"
 
 "d3-time@^2.1.1", "d3-time@1 - 2":
   "integrity" "sha512-/eIQe/eR4kCQwq7yxi7z4c6qEXf2IYGcjoWB5OOQy4Tq9Uv39/947qlDcN2TLkiTzQWzvnsuYPB9TrWaNfipKQ=="
@@ -1780,7 +1832,7 @@
   "resolved" "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.1.0.tgz"
   "version" "4.1.0"
 
-"postcss@8.2.13":
+"postcss@^8.2.1", "postcss@^8.2.2", "postcss@8.2.13":
   "integrity" "sha512-FCE5xLH+hjbzRdpbRb1IMCvPv9yZx2QnDarBEYSN0N0HYk+TcXsEhwdFcFb+SRWOKzKGErhIEbBK2ogyLdTtfQ=="
   "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.2.13.tgz"
   "version" "8.2.13"
@@ -1799,7 +1851,7 @@
   "resolved" "https://registry.npmjs.org/process/-/process-0.11.10.tgz"
   "version" "0.11.10"
 
-"prop-types@^15.5.8", "prop-types@15.7.2":
+"prop-types@^15.5.8", "prop-types@>= 15.5.10 < 16.0.0", "prop-types@15.7.2":
   "integrity" "sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz"
   "version" "15.7.2"
@@ -1889,7 +1941,7 @@
     "iconv-lite" "0.4.24"
     "unpipe" "1.0.0"
 
-"react-dom@^17.0.2":
+"react-dom@^16.8.0  || ^17.0.0", "react-dom@^17.0.2", "react-dom@>= 16.8.0":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   "version" "17.0.2"
@@ -1903,7 +1955,7 @@
   "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.2.0.tgz"
   "version" "4.2.0"
 
-"react-is@^16.7.0", "react-is@^16.8.1":
+"react-is@^16.7.0", "react-is@^16.8.1", "react-is@>= 16.8.0":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
@@ -1945,7 +1997,7 @@
     "@types/styled-components" "^5.1.9"
     "styled-components" "^5.2.1"
 
-"react@^17.0.2":
+"react@*", "react@^0.14.9 || ^15.3.0 || ^16.0.0", "react@^16.11.0 || ^17.0.0", "react@^16.8.0  || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^17.0.1", "react@^17.0.2", "react@>= 16.8.0", "react@>= 16.8.4 < 18.0.0", "react@>=16.0.0", "react@15.x.x || 16.x.x || 17.x.x", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -2216,7 +2268,7 @@
   dependencies:
     "ansi-regex" "^5.0.0"
 
-"styled-components@^5.2.1", "styled-components@^5.2.3":
+"styled-components@^5.2.1", "styled-components@^5.2.3", "styled-components@>= 2":
   "integrity" "sha512-BlR+KrLW3NL1yhvEB+9Nu9Dt51CuOnHoxd+Hj+rYPdtyR8X11uIW9rvhpy3Dk4dXXBsiW1u5U78f00Lf/afGoA=="
   "resolved" "https://registry.npmjs.org/styled-components/-/styled-components-5.2.3.tgz"
   "version" "5.2.3"
@@ -2251,7 +2303,7 @@
   "resolved" "https://registry.npmjs.org/stylis-rule-sheet/-/stylis-rule-sheet-0.0.10.tgz"
   "version" "0.0.10"
 
-"stylis@3.5.4":
+"stylis@^3.5.0", "stylis@3.5.4":
   "integrity" "sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q=="
   "resolved" "https://registry.npmjs.org/stylis/-/stylis-3.5.4.tgz"
   "version" "3.5.4"
