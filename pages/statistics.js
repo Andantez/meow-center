@@ -32,6 +32,7 @@ export const getStaticProps = async () => {
 
   return {
     props: { breeds: data },
+    revalidate: 1800,
   };
 };
 export default Statistics;
