@@ -1,8 +1,116 @@
 import Head from 'next/head';
 import styled from 'styled-components';
 import PieChart from '../components/Charts/PieChart';
+import BarChart from '../components/Charts/BarChart';
 import { calculateOriginOccurence } from '../utils/helpers';
 
+const data = [
+  {
+    country: 'AD',
+    'hot dog': 0,
+    'hot dogColor': 'hsl(279, 70%, 50%)',
+    burger: 67,
+    burgerColor: 'hsl(354, 70%, 50%)',
+    sandwich: 165,
+    sandwichColor: 'hsl(319, 70%, 50%)',
+    kebab: 186,
+    kebabColor: 'hsl(17, 70%, 50%)',
+    fries: 50,
+    friesColor: 'hsl(75, 70%, 50%)',
+    donut: 125,
+    donutColor: 'hsl(358, 70%, 50%)',
+  },
+  {
+    country: 'AE',
+    'hot dog': 137,
+    'hot dogColor': 'hsl(213, 70%, 50%)',
+    burger: 134,
+    burgerColor: 'hsl(157, 70%, 50%)',
+    sandwich: 21,
+    sandwichColor: 'hsl(193, 70%, 50%)',
+    kebab: 98,
+    kebabColor: 'hsl(180, 70%, 50%)',
+    fries: 135,
+    friesColor: 'hsl(275, 70%, 50%)',
+    donut: 180,
+    donutColor: 'hsl(109, 70%, 50%)',
+  },
+  {
+    country: 'AF',
+    'hot dog': 99,
+    'hot dogColor': 'hsl(269, 70%, 50%)',
+    burger: 110,
+    burgerColor: 'hsl(106, 70%, 50%)',
+    sandwich: 149,
+    sandwichColor: 'hsl(252, 70%, 50%)',
+    kebab: 47,
+    kebabColor: 'hsl(222, 70%, 50%)',
+    fries: 73,
+    friesColor: 'hsl(198, 70%, 50%)',
+    donut: 106,
+    donutColor: 'hsl(258, 70%, 50%)',
+  },
+  {
+    country: 'AG',
+    'hot dog': 112,
+    'hot dogColor': 'hsl(335, 70%, 50%)',
+    burger: 65,
+    burgerColor: 'hsl(17, 70%, 50%)',
+    sandwich: 123,
+    sandwichColor: 'hsl(252, 70%, 50%)',
+    kebab: 21,
+    kebabColor: 'hsl(258, 70%, 50%)',
+    fries: 87,
+    friesColor: 'hsl(185, 70%, 50%)',
+    donut: 56,
+    donutColor: 'hsl(358, 70%, 50%)',
+  },
+  {
+    country: 'AI',
+    'hot dog': 81,
+    'hot dogColor': 'hsl(204, 70%, 50%)',
+    burger: 159,
+    burgerColor: 'hsl(261, 70%, 50%)',
+    sandwich: 195,
+    sandwichColor: 'hsl(5, 70%, 50%)',
+    kebab: 77,
+    kebabColor: 'hsl(121, 70%, 50%)',
+    fries: 96,
+    friesColor: 'hsl(350, 70%, 50%)',
+    donut: 26,
+    donutColor: 'hsl(245, 70%, 50%)',
+  },
+  {
+    country: 'AL',
+    'hot dog': 93,
+    'hot dogColor': 'hsl(99, 70%, 50%)',
+    burger: 73,
+    burgerColor: 'hsl(293, 70%, 50%)',
+    sandwich: 113,
+    sandwichColor: 'hsl(178, 70%, 50%)',
+    kebab: 113,
+    kebabColor: 'hsl(298, 70%, 50%)',
+    fries: 142,
+    friesColor: 'hsl(17, 70%, 50%)',
+    donut: 42,
+    donutColor: 'hsl(177, 70%, 50%)',
+  },
+  {
+    country: 'AM',
+    'hot dog': 105,
+    'hot dogColor': 'hsl(271, 70%, 50%)',
+    burger: 48,
+    burgerColor: 'hsl(225, 70%, 50%)',
+    sandwich: 173,
+    sandwichColor: 'hsl(94, 70%, 50%)',
+    kebab: 92,
+    kebabColor: 'hsl(27, 70%, 50%)',
+    fries: 97,
+    friesColor: 'hsl(22, 70%, 50%)',
+    donut: 26,
+    donutColor: 'hsl(349, 70%, 50%)',
+  },
+]; // To be changed with breed data.
 const Statistics = ({ breeds }) => {
   const pieChartData = calculateOriginOccurence(breeds);
 
@@ -14,6 +122,9 @@ const Statistics = ({ breeds }) => {
       Statistics Page
       <StyledDiv>
         <PieChart data={pieChartData} />
+      </StyledDiv>
+      <StyledDiv>
+        <BarChart data={data} />
       </StyledDiv>
     </div>
   );
