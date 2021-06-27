@@ -2,7 +2,7 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import PieChart from '../components/Charts/PieChart';
 import BarChart from '../components/Charts/BarChart';
-import { calculateOriginOccurence } from '../utils/helpers';
+import { calculateOriginOccurence, formatBarChartData } from '../utils/helpers';
 
 const data = [
   {
@@ -113,7 +113,8 @@ const data = [
 ]; // To be changed with breed data.
 const Statistics = ({ breeds }) => {
   const pieChartData = calculateOriginOccurence(breeds);
-
+  const barChartData = formatBarChartData(breeds);
+  console.log(barChartData)
   return (
     <div>
       <Head>

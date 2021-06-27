@@ -1,10 +1,10 @@
-import tempData from '../data/tempData';
-
 export const getUniqueValues = (data, type) => {
-  const origins = data.map((value) => {
-    return value[type];
-  }).sort((a, b) => a.localeCompare(b));
-  
+  const origins = data
+    .map((value) => {
+      return value[type];
+    })
+    .sort((a, b) => a.localeCompare(b));
+
   return ['All', ...new Set(origins)];
 };
 
@@ -46,23 +46,50 @@ export const getCharacteristics = (data) => {
   });
 };
 
-
 export const calculateOriginOccurence = (data) => {
   const breedsData = [...data];
 
   const result = breedsData.reduce((acc, currentValue) => {
     const { origin } = currentValue;
-    const tempOriginData = acc.find((breedItem) => breedItem.origin === origin) || {}; 
+    const tempOriginData =
+      acc.find((breedItem) => breedItem.origin === origin) || {};
 
     if (!tempOriginData.id) {
       tempOriginData.id = origin;
       tempOriginData.origin = origin;
       tempOriginData.value = 1;
       return [...acc, tempOriginData];
-    } 
-      tempOriginData.value += 1;
-      return acc;
+    }
+    tempOriginData.value += 1;
+    return acc;
+  }, []);
+  return result;
+};
 
-  }, [])
-  return result
-}
+export const formatBarChartData = (data) => {
+  const breedsData = [...data];
+  const formattedData = breedsData.map((breed) => {
+    const {
+      name,
+      life_span,
+      weight: { imperial: weightImperial, metric: weightMetric },
+    } = breed;
+    const [minLifeExpectancy, maxLifeExpectancy] = life_span.split(' - ');
+    const [minWeightImperial, maxWeightImperial] = weightImperial.split(' - ');
+    const [minWeightMetric, maxWeightMetric] = weightMetric.split(' - ');
+    const avarageWeightImperial =
+      (Number(minWeightImperial) + Number(maxWeightImperial)) / 2;
+    const avarageWeightMetric =
+      (Number(minWeightMetric) + Number(maxWeightMetric)) / 2;
+
+    return {
+      'breed name': name,
+      'minimum lifespan': Number(minLifeExpectancy),
+      'maximum lifespan': Number(maxLifeExpectancy),
+      metric: avarageWeightMetric,
+      imperial: avarageWeightImperial,
+    };
+  });
+
+  return formattedData;
+};
