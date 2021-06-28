@@ -309,6 +309,18 @@
     "@nivo/tooltip" "0.71.0"
     "d3-shape" "^1.3.5"
 
+"@nivo/radar@^0.71.0":
+  "integrity" "sha512-apTdslIc873PNsB6uY7Rpe+DkqI6+5Z5LPNYZGl3bAz4wbSPWPeCk12mJi6p+Pm7di0rm3hcoeQZkG0yYtv9GQ=="
+  "resolved" "https://registry.npmjs.org/@nivo/radar/-/radar-0.71.0.tgz"
+  "version" "0.71.0"
+  dependencies:
+    "@nivo/colors" "0.71.0"
+    "@nivo/legends" "0.71.0"
+    "@nivo/tooltip" "0.71.0"
+    "@react-spring/web" "9.2.0"
+    "d3-scale" "^3.2.3"
+    "d3-shape" "^1.3.5"
+
 "@nivo/recompose@0.71.0":
   "integrity" "sha512-qJPmDSXFVJtZUYymXBwqbJHeEbGCqmkAj7DCsB5v9n4HZNNpGh42aBAEB8x5u0Ex/fjRqGse3tH3ic85Sh9rcg=="
   "resolved" "https://registry.npmjs.org/@nivo/recompose/-/recompose-0.71.0.tgz"
