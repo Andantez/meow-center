@@ -2,10 +2,42 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import PieChart from '../components/Charts/PieChart';
 import BarChart from '../components/Charts/BarChart';
+import RadarChart from '../components/Charts/RadarChart';
 import { calculateOriginOccurence, formatBarChartData } from '../utils/helpers';
 import { useState } from 'react';
 
-
+const data = [
+  {
+    taste: 'Persian',
+    "affection level": 5,
+    "child friendly": 3,
+    "energy level": 2,
+  },
+  {
+    taste: 'Syberian',
+    "affection level": 3,
+    "child friendly": 5,
+    "energy level": 1,
+  },
+  {
+    taste: 'Aegian',
+    "affection level": 3,
+    "child friendly": 4,
+    "energy level": 4,
+  },
+  {
+    taste: 'American Curl',
+    "affection level": 2,
+    "child friendly": 2,
+    "energy level": 4,
+  },
+  {
+    taste: 'Ragdoll',
+    "affection level": 5,
+    "child friendly": 5,
+    "energy level": 3,
+  },
+];
 const Statistics = ({ breeds }) => {
   const [layout, setLayout] = useState('vertical');
   const pieChartData = calculateOriginOccurence(breeds);
@@ -18,9 +50,11 @@ const Statistics = ({ breeds }) => {
       </Head>
       Statistics Page
       <StyledDiv>
+        {/* Pie Chart */}
         <PieChart data={pieChartData} />
       </StyledDiv>
       <StyledDiv>
+        {/* Bars Chart */}
         <div className="layout-nav">
           <button
             type="button"
@@ -38,6 +72,9 @@ const Statistics = ({ breeds }) => {
           </button>
         </div>
         <BarChart data={barChartData} layout={layout} />
+      </StyledDiv>
+      <StyledDiv>
+        <RadarChart data={data} />
       </StyledDiv>
     </div>
   );
