@@ -3,46 +3,48 @@ import styled from 'styled-components';
 import PieChart from '../components/Charts/PieChart';
 import BarChart from '../components/Charts/BarChart';
 import RadarChart from '../components/Charts/RadarChart';
-import { calculateOriginOccurence, formatBarChartData } from '../utils/helpers';
+import {
+  calculateOriginOccurence,
+  formatBarChartData,
+  formatRadarChartData,
+} from '../utils/helpers';
 import { useState } from 'react';
 
-const data = [
-  {
-    taste: 'Persian',
-    "affection level": 5,
-    "child friendly": 3,
-    "energy level": 2,
-  },
-  {
-    taste: 'Syberian',
-    "affection level": 3,
-    "child friendly": 5,
-    "energy level": 1,
-  },
-  {
-    taste: 'Aegian',
-    "affection level": 3,
-    "child friendly": 4,
-    "energy level": 4,
-  },
-  {
-    taste: 'American Curl',
-    "affection level": 2,
-    "child friendly": 2,
-    "energy level": 4,
-  },
-  {
-    taste: 'Ragdoll',
-    "affection level": 5,
-    "child friendly": 5,
-    "energy level": 3,
-  },
-];
+
 const Statistics = ({ breeds }) => {
   const [layout, setLayout] = useState('vertical');
   const pieChartData = calculateOriginOccurence(breeds);
   const barChartData = formatBarChartData(breeds);
+  const radarChartData = formatRadarChartData(breeds);
+  const [temperaments, setTemperaments] = useState([
+    'adaptability',
+    'affection',
+    'child friendly',
+    'shedding',
+    'health issues',
+    'energy',
+    'grooming',
+    'intelligence',
+  ]); // temporary
+  const [[fromIndex, toIndex], setFromToIndex] = useState([0, 5]);
 
+  const handleOnClick = (e) => {
+    const name = e.target.name;
+    if (name === 'next') {
+      setFromToIndex(([prevFrom, prevTo]) => {
+        return [prevFrom + 5, prevTo + 5];
+      });
+    }
+    if (name === 'prev') {
+      setFromToIndex(([prevFrom, prevTo]) => {
+        return [prevFrom - 5, prevTo - 5];
+      });
+    }
+  };
+  const filterTemperaments = (e) => {
+    setTemperaments(temperaments.filter(temperament => temperament !== e.id))
+    console.log(temperaments);
+  }
   return (
     <div>
       <Head>
@@ -74,7 +76,20 @@ const Statistics = ({ breeds }) => {
         <BarChart data={barChartData} layout={layout} />
       </StyledDiv>
       <StyledDiv>
-        <RadarChart data={data} />
+        <RadarChart
+          data={radarChartData.slice(fromIndex, toIndex)}
+          temperaments={temperaments}
+          filterTemperaments={filterTemperaments}
+        />
+        <div>
+          <p>Page</p>
+          <button type="button" name="prev" onClick={handleOnClick}>
+            prev
+          </button>
+          <button type="button" name="next" onClick={handleOnClick}>
+            next
+          </button>
+        </div>
       </StyledDiv>
     </div>
   );
