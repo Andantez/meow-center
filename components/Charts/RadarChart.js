@@ -1,16 +1,21 @@
-// install (please make sure versions match peerDependencies)
-// yarn add @nivo/core @nivo/radar
 import { ResponsiveRadar } from '@nivo/radar';
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
-const RadarChart = ({ data /* see data tab */ }) => (
+
+const colors = [
+  '#ffc09f',
+  '#ffee93',
+  '#adf7b6',
+  '#a0ced9',
+  '#8684E8',
+  '#E075A7',
+  '#D6C66B',
+  '#4FE0B2',
+];
+
+const RadarChart = ({ data, temperaments, filterTemperaments }) => (
   <ResponsiveRadar
     data={data}
-    keys={['affection level', 'child friendly', 'energy level']}
-    indexBy="taste"
+    keys={temperaments}
+    indexBy="name"
     maxValue="auto"
     margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
     curve="linearClosed"
@@ -27,8 +32,9 @@ const RadarChart = ({ data /* see data tab */ }) => (
     enableDotLabel={true}
     dotLabel="value"
     dotLabelYOffset={-12}
-    colors={{ scheme: 'nivo' }}
-    fillOpacity={0.25}
+    colors={colors}
+    colorBy="index"
+    fillOpacity={0.2}
     blendMode="multiply"
     animate={true}
     motionConfig="wobbly"
@@ -44,6 +50,7 @@ const RadarChart = ({ data /* see data tab */ }) => (
         itemTextColor: '#999',
         symbolSize: 12,
         symbolShape: 'circle',
+        onClick: (e) => filterTemperaments(e),
         effects: [
           {
             on: 'hover',
@@ -56,6 +63,5 @@ const RadarChart = ({ data /* see data tab */ }) => (
     ]}
   />
 );
-
 
 export default RadarChart;

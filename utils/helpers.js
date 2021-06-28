@@ -93,3 +93,33 @@ export const formatBarChartData = (data) => {
 
   return formattedData;
 };
+
+export const formatRadarChartData = (data) => {
+  const breedsData = [...data];
+  const result = breedsData.map((breed) => {
+    const {
+      name,
+      adaptability,
+      affection_level,
+      child_friendly,
+      energy_level,
+      intelligence,
+      shedding_level,
+      grooming,
+      health_issues,
+    } = breed;
+
+    return {
+      name,
+      adaptability,
+      affection: affection_level,
+      'child friendly': child_friendly,
+      energy: energy_level,
+      intelligence,
+      shedding: shedding_level,
+      grooming,
+      'health issues': health_issues,
+    };
+  });
+  return result;
+};
