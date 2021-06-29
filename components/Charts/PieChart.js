@@ -1,7 +1,8 @@
 import { ResponsivePie } from '@nivo/pie';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-
+import { BsPlus } from 'react-icons/bs';
+import { BiMinus } from 'react-icons/bi';
 const colors = [
   '#ffc09f',
   '#ffee93',
@@ -14,12 +15,11 @@ const colors = [
 ];
 const PieChart = ({ data }) => {
   const [breedData, setBreedData] = useState(data);
-
+  const [isOpen, setIsOpen] = useState(false);
   const handleOnClick = (e) => {
     const id = e.target.dataset.id;
     const origin = e.target.dataset.origin;
     const value = e.target.dataset.value;
-
     const findId = breedData.find((breed) => breed.id === id);
 
     if (findId) {
@@ -32,6 +32,24 @@ const PieChart = ({ data }) => {
       setBreedData(filteredData);
     }
   };
+
+  const handleResize = () => {
+    if (window.innerWidth >= 1024) {
+      setIsOpen(true);
+    }
+  };
+  
+  useEffect(() => {
+    if (window.innerWidth > 1024) {
+      setIsOpen(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <StyledDiv>
       <ResponsivePie
@@ -77,28 +95,44 @@ const PieChart = ({ data }) => {
         // ]}
       />
       <div className="legend-container">
-        {data.map((breedOrigin, index) => {
-          const { origin, id, value } = breedOrigin;
-          return (
-            <div className="wrapper" key={breedOrigin + index}>
-              <StyledSpan color={colors[index % colors.length]}></StyledSpan>{' '}
-              <button
-                type="button"
-                className={`btn ${
-                  !breedData.find((breed) => breed.id === id)
-                    ? 'not-included'
-                    : ''
-                }`}
-                data-id={id}
-                data-origin={origin}
-                data-value={breedOrigin.value}
-                onClick={handleOnClick}
-              >
-                {origin}
-              </button>
-            </div>
-          );
-        })}
+        {isOpen && (
+          <div className="legend-wrapper">
+            {data.map((breedOrigin, index) => {
+              const { origin, id, value } = breedOrigin;
+              return (
+                <div className="wrapper" key={breedOrigin + index}>
+                  <StyledSpan
+                    color={colors[index % colors.length]}
+                  ></StyledSpan>{' '}
+                  <button
+                    type="button"
+                    className={`btn ${
+                      !breedData.find((breed) => breed.id === id)
+                        ? 'not-included'
+                        : ''
+                    }`}
+                    data-id={id}
+                    data-origin={origin}
+                    data-value={breedOrigin.value}
+                    onClick={handleOnClick}
+                  >
+                    {origin}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        <div className="expand-wrapper">
+          {isOpen ? 'Collapse' : 'Expande'}{' '}
+          <button
+            type="button"
+            className="expand-btn"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <BiMinus /> : <BsPlus />}
+          </button>
+        </div>
       </div>
     </StyledDiv>
   );
@@ -119,55 +153,85 @@ const StyledDiv = styled.div`
   grid-template-columns: 1fr;
   align-items: center;
   margin: 0 auto;
-  .legend-container div:not(:first-child) {
+  gap: 1em;
+  .legend-wrapper div:not(:first-child) {
     margin-top: 0.5em;
   }
   .legend-container {
+    position: relative;
+  }
+  .legend-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 0 2em;
+    padding: 0 1.5em;
   }
   .wrapper {
     display: flex;
     align-items: center;
   }
 
-  .btn {
-    width: max-content;
+  .btn,
+  .expand-btn {
     border: transparent;
     background-color: transparent;
     cursor: pointer;
+    width: max-content;
+  }
+  .btn {
     margin-left: 0.5em;
     font-size: 0.8125rem;
     color: var(--clr-primary-500);
-
     &:hover {
       color: var(--clr-grey);
     }
   }
-
   .not-included {
     color: var(--clr-grey);
     text-decoration: line-through;
     text-decoration-color: var(--clr-black);
   }
-
+  .expand-btn {
+    color: var(--clr-black);
+    font-size: 1.25rem;
+    border-radius: 50%;
+    padding: 0.25em;
+    display: flex;
+    align-items: center;
+  }
+  .expand-wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    font-size: 0.8125rem;
+    color: var(--clr-grey);
+    top: -1.5em;
+    right: 1.5em;
+  }
   @media (min-width: 768px) {
     grid-template-rows: 450px 1fr;
     gap: 1em;
-    .legend-container {
-      gap: .5em;
+    .legend-wrapper {
+      gap: 0.5em;
       grid-template-columns: repeat(5, 1fr);
       padding: 0;
+    }
+
+    .expand-wrapper {
+      top: -2.5em;
+      right: 0em;
     }
   }
 
   @media (min-width: 1024px) {
     grid-template-columns: 1fr auto;
     grid-template-rows: 500px;
-    .legend-container {
+    .legend-wrapper {
       grid-template-columns: 1fr;
       gap: 0;
+    }
+
+    .expand-wrapper {
+      display: none;
     }
   }
 `;

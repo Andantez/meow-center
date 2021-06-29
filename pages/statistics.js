@@ -95,7 +95,8 @@ const Statistics = ({ breeds }) => {
   );
 };
 const StyledDiv = styled.div`
-  height: 500px;
+/* reminder to remove the height later and add grid and height to other charts */
+  height: 500px;  
   width: 90vw;
   max-width: 1000px;
   margin: 5em auto;
