@@ -28,7 +28,7 @@ const Statistics = ({ breeds }) => {
   ]); // temporary
   const [[fromIndex, toIndex], setFromToIndex] = useState([0, 5]);
 
-  const handleOnClick = (e) => {
+  const handleOnClick = (e) => { // temporary to be changed later
     const name = e.target.name;
     if (name === 'next') {
       setFromToIndex(([prevFrom, prevTo]) => {
@@ -97,7 +97,7 @@ const Statistics = ({ breeds }) => {
 const StyledDiv = styled.div`
   height: 500px;
   width: 90vw;
-  /* max-width: 1200px; */
+  max-width: 1000px;
   margin: 5em auto;
   font-family: var(--ff-paragraph);
   color: var(--clr-primary-500);

@@ -62,7 +62,7 @@ export const calculateOriginOccurence = (data) => {
     }
     tempOriginData.value += 1;
     return acc;
-  }, []);
+  }, []).sort((a,b) => a.origin.localeCompare(b.origin));
   return result;
 };
 
