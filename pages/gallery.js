@@ -6,6 +6,7 @@ import { useSWRInfinite, cache } from 'swr';
 import { useEffect, useRef, useState } from 'react';
 import useIsIntersecting from '../hoooks/useItsIntersecting';
 import Skeleton from '../components/Skeleton';
+import { useRouter } from 'next/router';
 
 const breakpointColumnsObj = {
   default: 3,
@@ -28,6 +29,7 @@ const getKey = (pageIndex, previousData, mimeTypes, categoryId) => {
 };
 
 const Gallery = ({ categories }) => {
+  const router = useRouter();
   const [mimeType, setMimeType] = useState('jpg,png,gif');
   const [categoryId, setCategoryId] = useState('');
   const { data, error, isValidating, size, setSize } = useSWRInfinite(
@@ -52,7 +54,17 @@ const Gallery = ({ categories }) => {
   useEffect(() => {
     cache.clear();
   }, [mimeType, categoryId]);
+  
+  useEffect(() => {
+    const handleRouteChange = () => {
+      cache.clear();
+    }
+    router.events.on('routeChangeStart', handleRouteChange);
 
+    return () => {
+      router.events.off('routerChangeStart', handleRouteChange)
+    }
+  }, [])
   useEffect(() => {
     if (isVisible && !isReachingEnd && !isRefreshing) {
       setSize(size + 1);
@@ -144,7 +156,7 @@ const Gallery = ({ categories }) => {
               className="masonry-grid"
               columnClassName="masonry-grid-column"
             >
-              {!data &&
+              {!data && 
                 skeletonArray.map((skeleton, index) => (
                   <Skeleton key={index} />
                 ))}
