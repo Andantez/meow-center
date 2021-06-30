@@ -13,14 +13,11 @@ import { useState } from 'react';
 
 
 const Statistics = ({
-  paginatedData,
   pieChartData,
   barChartData,
   radarChartData,
 }) => {
-  console.log(paginatedData);
   const [layout, setLayout] = useState('vertical');
-
   const [temperaments, setTemperaments] = useState([
     'adaptability',
     'affection',
@@ -60,7 +57,6 @@ const Statistics = ({
         <PieChart data={pieChartData} />
       </StyledDiv>
       <StyledDiv>
-        {/* Bars Chart */}
         <div className="layout-nav">
           <button
             type="button"
@@ -81,7 +77,7 @@ const Statistics = ({
       </StyledDiv>
       <StyledDiv>
         <RadarChart
-          data={radarChartData.slice(fromIndex, toIndex)}
+          data={radarChartData}
           temperaments={temperaments}
           filterTemperaments={filterTemperaments}
         />
@@ -141,13 +137,15 @@ export const getStaticProps = async () => {
     },
   });
   const data = await res.json();
-  const paginatedData = paginate(data);
+  const formattedBarData = formatBarChartData(data)
+  const formattedRadarData = formatRadarChartData(data)
+
   const pieChartData = calculateOriginOccurence(data);
-  const barChartData = formatBarChartData(data);
-  const radarChartData = formatRadarChartData(data);
+  const barChartData = paginate(formattedBarData);
+  const radarChartData = paginate(formattedRadarData);
   return {
-    props: { paginatedData, pieChartData, barChartData, radarChartData},
-    revalidate: 1800,
+    props: { pieChartData, barChartData, radarChartData},
+    // revalidate: 1800,
   };
 };
 export default Statistics;

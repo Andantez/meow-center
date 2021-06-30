@@ -13,7 +13,7 @@ const colors = [
 
 const RadarChart = ({ data, temperaments, filterTemperaments }) => (
   <ResponsiveRadar
-    data={data}
+    data={data[1]}
     keys={temperaments}
     indexBy="name"
     maxValue="auto"
