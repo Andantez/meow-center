@@ -7,15 +7,20 @@ import {
   calculateOriginOccurence,
   formatBarChartData,
   formatRadarChartData,
+  paginate
 } from '../utils/helpers';
 import { useState } from 'react';
 
 
-const Statistics = ({ breeds }) => {
+const Statistics = ({
+  paginatedData,
+  pieChartData,
+  barChartData,
+  radarChartData,
+}) => {
+  console.log(paginatedData);
   const [layout, setLayout] = useState('vertical');
-  const pieChartData = calculateOriginOccurence(breeds);
-  const barChartData = formatBarChartData(breeds);
-  const radarChartData = formatRadarChartData(breeds);
+
   const [temperaments, setTemperaments] = useState([
     'adaptability',
     'affection',
@@ -27,8 +32,8 @@ const Statistics = ({ breeds }) => {
     'intelligence',
   ]); // temporary
   const [[fromIndex, toIndex], setFromToIndex] = useState([0, 5]);
-
-  const handleOnClick = (e) => { // temporary to be changed later
+  const handleOnClick = (e) => {
+    // temporary to be changed later
     const name = e.target.name;
     if (name === 'next') {
       setFromToIndex(([prevFrom, prevTo]) => {
@@ -42,9 +47,8 @@ const Statistics = ({ breeds }) => {
     }
   };
   const filterTemperaments = (e) => {
-    setTemperaments(temperaments.filter(temperament => temperament !== e.id))
-    console.log(temperaments);
-  }
+    setTemperaments(temperaments.filter((temperament) => temperament !== e.id));
+  };
   return (
     <div>
       <Head>
@@ -137,9 +141,12 @@ export const getStaticProps = async () => {
     },
   });
   const data = await res.json();
-
+  const paginatedData = paginate(data);
+  const pieChartData = calculateOriginOccurence(data);
+  const barChartData = formatBarChartData(data);
+  const radarChartData = formatRadarChartData(data);
   return {
-    props: { breeds: data },
+    props: { paginatedData, pieChartData, barChartData, radarChartData},
     revalidate: 1800,
   };
 };
