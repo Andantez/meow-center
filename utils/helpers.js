@@ -49,20 +49,22 @@ export const getCharacteristics = (data) => {
 export const calculateOriginOccurence = (data) => {
   const breedsData = [...data];
 
-  const result = breedsData.reduce((acc, currentValue) => {
-    const { origin } = currentValue;
-    const tempOriginData =
-      acc.find((breedItem) => breedItem.origin === origin) || {};
+  const result = breedsData
+    .reduce((acc, currentValue) => {
+      const { origin } = currentValue;
+      const tempOriginData =
+        acc.find((breedItem) => breedItem.origin === origin) || {};
 
-    if (!tempOriginData.id) {
-      tempOriginData.id = origin;
-      tempOriginData.origin = origin;
-      tempOriginData.value = 1;
-      return [...acc, tempOriginData];
-    }
-    tempOriginData.value += 1;
-    return acc;
-  }, []).sort((a,b) => a.origin.localeCompare(b.origin));
+      if (!tempOriginData.id) {
+        tempOriginData.id = origin;
+        tempOriginData.origin = origin;
+        tempOriginData.value = 1;
+        return [...acc, tempOriginData];
+      }
+      tempOriginData.value += 1;
+      return acc;
+    }, [])
+    .sort((a, b) => a.origin.localeCompare(b.origin));
   return result;
 };
 
@@ -122,4 +124,17 @@ export const formatRadarChartData = (data) => {
     };
   });
   return result;
+};
+
+export const paginate = (arrayData) => {
+  const data = [...arrayData];
+  const PAGE_SIZE = 5;
+  const PAGES = Math.ceil(data.length / PAGE_SIZE);
+
+  const paginatedData = Array.from({ length: PAGES }, (_, index) => {
+    const startIndex = index * PAGE_SIZE;
+    const endIndex = startIndex + PAGE_SIZE;
+    return data.slice(startIndex, endIndex);
+  });
+  return paginatedData;
 };
