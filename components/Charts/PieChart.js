@@ -124,7 +124,7 @@ const PieChart = ({ data }) => {
           </div>
         )}
         <div className="expand-wrapper">
-          {isOpen ? 'Collapse' : 'Expande'}{' '}
+          {isOpen ? 'Collapse' : 'Expand'}{' '}
           <button
             type="button"
             className="expand-btn"
