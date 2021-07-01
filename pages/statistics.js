@@ -17,7 +17,6 @@ const Statistics = ({
   barChartData,
   radarChartData,
 }) => {
-  const [layout, setLayout] = useState('vertical');
   const [temperaments, setTemperaments] = useState([
     'adaptability',
     'affection',
@@ -57,23 +56,7 @@ const Statistics = ({
         <PieChart data={pieChartData} />
       </StyledDiv>
       <StyledDiv>
-        <div className="layout-nav">
-          <button
-            type="button"
-            className={`${layout === 'vertical' ? 'active' : ''}`}
-            onClick={() => setLayout('vertical')}
-          >
-            Vertically
-          </button>
-          <button
-            type="button"
-            className={`${layout === 'horizontal' ? 'active' : ''}`}
-            onClick={() => setLayout('horizontal')}
-          >
-            Horizontally
-          </button>
-        </div>
-        <BarChart data={barChartData} layout={layout} />
+        <BarChart data={barChartData} />
       </StyledDiv>
       <StyledDiv>
         <RadarChart
@@ -102,28 +85,7 @@ const StyledDiv = styled.div`
   margin: 5em auto;
   font-family: var(--ff-paragraph);
   color: var(--clr-primary-500);
-  .layout-nav {
-    margin-left: 120px;
-    button {
-      font-size: 0.8125rem;
-      color: var(--clr-black);
-      background: transparent;
-      border: 1px solid var(--clr-grey);
-      opacity: 0.7;
-      padding: 0.5em 1.5em;
-      cursor: pointer;
-      transition: opacity 250ms ease, border 250ms ease;
-      border-radius: 0.5em;
-      &:hover {
-        opacity: 1;
-        border: 1px solid var(--clr-black);
-      }
-    }
-
-    button:last-child {
-      margin-left: 0.5em;
-    }
-  }
+  
   button.active {
     opacity: 1;
     border: 1px solid var(--clr-black);

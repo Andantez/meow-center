@@ -74,13 +74,10 @@ export const formatBarChartData = (data) => {
     const {
       name,
       life_span,
-      weight: { imperial: weightImperial, metric: weightMetric },
+      weight: { metric: weightMetric },
     } = breed;
     const [minLifeExpectancy, maxLifeExpectancy] = life_span.split(' - ');
-    const [minWeightImperial, maxWeightImperial] = weightImperial.split(' - ');
     const [minWeightMetric, maxWeightMetric] = weightMetric.split(' - ');
-    const avarageWeightImperial =
-      (Number(minWeightImperial) + Number(maxWeightImperial)) / 2;
     const avarageWeightMetric =
       (Number(minWeightMetric) + Number(maxWeightMetric)) / 2;
 

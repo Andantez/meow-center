@@ -1,6 +1,5 @@
 import { ResponsiveBar } from '@nivo/bar';
 import styled from 'styled-components';
-import { GrPrevious, GrNext } from 'react-icons/gr';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { useState } from 'react';
 const colors = {
@@ -10,9 +9,9 @@ const colors = {
 };
 const getColor = (bar) => colors[bar.id];
 
-const BarChart = ({ data, layout }) => {
+const BarChart = ({ data }) => {
   const [activePage, setActivePage] = useState(0);
-
+  const [layout, setLayout] = useState('vertical');
   const handlePrevious = () => {
     setActivePage((prevState) => {
       let tempState = prevState - 1;
@@ -33,11 +32,18 @@ const BarChart = ({ data, layout }) => {
   };
   return (
     <StyledDiv>
+      <StyledForm>
+        <label htmlFor="layout">Display</label>
+        <select name="layout" id="layout" value={layout} onChange={(e) => setLayout(e.target.value)} >
+          <option value="vertical">Vertical</option>
+          <option value="horizontal">Horizontal</option>
+        </select>
+      </StyledForm>
       <ResponsiveBar
         data={data[activePage]}
         keys={['min lifespan', 'max lifespan', 'avg weight(kg)']}
         indexBy="breed name"
-        margin={{ top: 16, right: 120, bottom: 50, left: 0 }}
+        margin={{ top: 16, right: 120, bottom: 50, left: 130 }}
         padding={0.1}
         innerPadding={2}
         groupMode="grouped"
@@ -111,7 +117,29 @@ const BarChart = ({ data, layout }) => {
     </StyledDiv>
   );
 };
+const StyledForm = styled.form`
+  display: flex;
+  align-items: center;
 
+  select {
+    font-size: 0.8125rem;
+    color: var(--clr-primary-500);
+    background-color: var(--clr-secondary-500);
+    padding: 0.25em;
+    width: fit-content;
+    border: transparent;
+    border-radius: 0.5em;
+    border: 1px solid var(--clr-grey);
+    text-transform: capitalize;
+    margin-left: 0.5em;
+    &:focus {
+      /* outline: 1px solid var(--clr-grey); */
+    }
+  }
+  label {
+    font-weight: var(--fw-bold);
+  }
+`;
 const Pagination = styled.div`
   display: flex;
   justify-content: center;
