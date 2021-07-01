@@ -86,10 +86,9 @@ export const formatBarChartData = (data) => {
 
     return {
       'breed name': name,
-      'minimum lifespan': Number(minLifeExpectancy),
-      'maximum lifespan': Number(maxLifeExpectancy),
-      metric: avarageWeightMetric,
-      imperial: avarageWeightImperial,
+      'min lifespan': Number(minLifeExpectancy),
+      'max lifespan': Number(maxLifeExpectancy),
+      'avg weight(kg)': avarageWeightMetric,
     };
   });
 
