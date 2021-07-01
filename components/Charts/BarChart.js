@@ -2,22 +2,42 @@ import { ResponsiveBar } from '@nivo/bar';
 import styled from 'styled-components';
 import { GrPrevious, GrNext } from 'react-icons/gr';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import { useState } from 'react';
 const colors = {
-  'minimum lifespan': '#ffc09f',
-  'maximum lifespan': '#ffee93',
-  imperial: '#adf7b6',
-  metric: '#a0ced9',
+  'min lifespan': '#ffc09f',
+  'max lifespan': '#ffee93',
+  'avg weight(kg)': '#a0ced9',
 };
 const getColor = (bar) => colors[bar.id];
 
 const BarChart = ({ data, layout }) => {
+  const [activePage, setActivePage] = useState(0);
+
+  const handlePrevious = () => {
+    setActivePage((prevState) => {
+      let tempState = prevState - 1;
+      if (prevState <= 0) {
+        return data.length - 1;
+      }
+      return tempState;
+    });
+  };
+  const handleNext = () => {
+    setActivePage((prevState) => {
+      let tempState = prevState + 1;
+      if (tempState >= data.length) {
+        tempState = 0;
+      }
+      return tempState;
+    });
+  };
   return (
     <StyledDiv>
       <ResponsiveBar
-        data={data[7]}
-        keys={['minimum lifespan', 'maximum lifespan', 'imperial', 'metric']}
+        data={data[activePage]}
+        keys={['min lifespan', 'max lifespan', 'avg weight(kg)']}
         indexBy="breed name"
-        margin={{ top: 16, right: 130, bottom: 50, left: 130 }}
+        margin={{ top: 16, right: 120, bottom: 50, left: 0 }}
         padding={0.1}
         innerPadding={2}
         groupMode="grouped"
@@ -28,14 +48,14 @@ const BarChart = ({ data, layout }) => {
         borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
         axisTop={null}
         axisRight={null}
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'Breed Name',
-          legendPosition: 'middle',
-          legendOffset: 42,
-        }}
+        // axisBottom={{
+        //   tickSize: 5,
+        //   tickPadding: 5,
+        //   tickRotation: 0,
+        //   legend: 'Breed Name',
+        //   legendPosition: 'middle',
+        //   legendOffset: 42,
+        // }}
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor="#343446"
@@ -69,13 +89,22 @@ const BarChart = ({ data, layout }) => {
       />
 
       <Pagination>
-        <button type="button">
+        <button type="button" onClick={handlePrevious}>
           <BsChevronLeft />
         </button>
         {data.map((item, index) => {
-          return <button type="button" className={`${index === 3? 'active-page' : ''}`}>{index + 1}</button>;
+          return (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setActivePage(index)}
+              className={`${index === activePage ? 'active-page' : ''}`}
+            >
+              {index + 1}
+            </button>
+          );
         })}
-        <button type="button">
+        <button type="button" onClick={handleNext}>
           <BsChevronRight />
         </button>
       </Pagination>
