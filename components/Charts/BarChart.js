@@ -2,8 +2,9 @@ import { ResponsiveBar } from '@nivo/bar';
 import styled from 'styled-components';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { useState } from 'react';
-import Select from 'react-select';
+
 import { useEffect } from 'react';
+import ReactSelect from '../ReactSelect';
 
 const colors = {
   'min lifespan': '#ffc09f',
@@ -17,12 +18,6 @@ const BarChart = ({ data }) => {
   const [layout, setLayout] = useState('vertical');
   const [selectedBreeds, setSelectedBreeds] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
-
-  const maxOptions = 5;
-  const options = data.flat().map((breed) => ({
-    value: breed['breed name'],
-    label: breed['breed name'],
-  }));
 
   const handlePrevious = () => {
     setActivePage((prevState) => {
@@ -41,15 +36,6 @@ const BarChart = ({ data }) => {
       }
       return tempState;
     });
-  };
-
-  const handleSelect = (e) => {
-    const filteredData = e.map((selectedBreed) => {
-      return data
-        .flat()
-        .find((breed) => breed['breed name'] === selectedBreed.value);
-    });
-    setSelectedBreeds(filteredData);
   };
 
   useEffect(() => {
@@ -73,16 +59,10 @@ const BarChart = ({ data }) => {
           <option value="horizontal">Horizontal</option>
         </select>
       </StyledForm>
-      <Select
-        options={selectedBreeds.length === maxOptions ? [] : options}
-        isMulti={true}
-        className="multi-select"
-        name="breeds"
-        onChange={handleSelect}
-        isOptionDisabled={(option) => selectedBreeds.length >= maxOptions}
-        noOptionsMessage={() => {
-          return selectedBreeds.length === maxOptions ? 'You have reached the max options available' : "No options available";
-        }}
+      <ReactSelect
+        selectedOptions={selectedBreeds}
+        data={data}
+        setSelectedData={setSelectedBreeds}
       />
       <ResponsiveBar
         data={isSelected ? selectedBreeds : data[activePage]}
@@ -155,9 +135,9 @@ const BarChart = ({ data }) => {
               key={index}
               type="button"
               onClick={() => setActivePage(index)}
-              className={`${index === activePage && !isSelected ? 'active-page' : ''} ${
-                isSelected ? 'disabled-btn' : ''
-              }`}
+              className={`${
+                index === activePage && !isSelected ? 'active-page' : ''
+              } ${isSelected ? 'disabled-btn' : ''}`}
             >
               {index + 1}
             </button>
