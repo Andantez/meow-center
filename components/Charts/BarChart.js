@@ -81,7 +81,7 @@ const BarChart = ({ data }) => {
         onChange={handleSelect}
         isOptionDisabled={(option) => selectedBreeds.length >= maxOptions}
         noOptionsMessage={() => {
-          return 'You have reached the max options avaiable';
+          return 'You have reached the max options available';
         }}
       />
       <ResponsiveBar
