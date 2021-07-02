@@ -2,6 +2,9 @@ import { ResponsiveBar } from '@nivo/bar';
 import styled from 'styled-components';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { useState } from 'react';
+import Select from 'react-select';
+import { useEffect } from 'react';
+
 const colors = {
   'min lifespan': '#ffc09f',
   'max lifespan': '#ffee93',
@@ -12,6 +15,15 @@ const getColor = (bar) => colors[bar.id];
 const BarChart = ({ data }) => {
   const [activePage, setActivePage] = useState(0);
   const [layout, setLayout] = useState('vertical');
+  const [selectedBreeds, setSelectedBreeds] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
+
+  const maxOptions = 5;
+  const options = data.flat().map((breed) => ({
+    value: breed['breed name'],
+    label: breed['breed name'],
+  }));
+
   const handlePrevious = () => {
     setActivePage((prevState) => {
       let tempState = prevState - 1;
@@ -30,17 +42,50 @@ const BarChart = ({ data }) => {
       return tempState;
     });
   };
+
+  const handleSelect = (e) => {
+    const filteredData = e.map((selectedBreed) => {
+      return data
+        .flat()
+        .find((breed) => breed['breed name'] === selectedBreed.value);
+    });
+    setSelectedBreeds(filteredData);
+  };
+
+  useEffect(() => {
+    if (selectedBreeds.length > 0) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [selectedBreeds]);
   return (
     <StyledDiv>
       <StyledForm>
         <label htmlFor="layout">Display</label>
-        <select name="layout" id="layout" value={layout} onChange={(e) => setLayout(e.target.value)} >
+        <select
+          name="layout"
+          id="layout"
+          value={layout}
+          onChange={(e) => setLayout(e.target.value)}
+        >
           <option value="vertical">Vertical</option>
           <option value="horizontal">Horizontal</option>
         </select>
       </StyledForm>
+      <Select
+        options={selectedBreeds.length === maxOptions ? [] : options}
+        isMulti={true}
+        className="multi-select"
+        name="breeds"
+        onChange={handleSelect}
+        isOptionDisabled={(option) => selectedBreeds.length >= maxOptions}
+        noOptionsMessage={() => {
+          return 'You have reached the max options avaiable';
+        }}
+      />
       <ResponsiveBar
-        data={data[activePage]}
+        data={isSelected ? selectedBreeds : data[activePage]}
         keys={['min lifespan', 'max lifespan', 'avg weight(kg)']}
         indexBy="breed name"
         margin={{ top: 16, right: 120, bottom: 50, left: 130 }}
@@ -95,22 +140,35 @@ const BarChart = ({ data }) => {
       />
 
       <Pagination>
-        <button type="button" onClick={handlePrevious}>
+        <button
+          type="button"
+          onClick={handlePrevious}
+          disabled={isSelected}
+          className={`${isSelected ? 'disabled-btn' : ''}`}
+        >
           <BsChevronLeft />
         </button>
         {data.map((item, index) => {
           return (
             <button
+              disabled={isSelected}
               key={index}
               type="button"
               onClick={() => setActivePage(index)}
-              className={`${index === activePage ? 'active-page' : ''}`}
+              className={`${index === activePage && !isSelected ? 'active-page' : ''} ${
+                isSelected ? 'disabled-btn' : ''
+              }`}
             >
               {index + 1}
             </button>
           );
         })}
-        <button type="button" onClick={handleNext}>
+        <button
+          type="button"
+          onClick={handleNext}
+          disabled={isSelected}
+          className={`${isSelected ? 'disabled-btn' : ''}`}
+        >
           <BsChevronRight />
         </button>
       </Pagination>
@@ -168,6 +226,11 @@ const Pagination = styled.div`
     color: var(--clr-black);
     text-decoration: underline 2px;
     text-underline-offset: 1.5px;
+  }
+
+  .disabled-btn {
+    opacity: 0.4;
+    pointer-events: none;
   }
 `;
 const StyledDiv = styled.div`
