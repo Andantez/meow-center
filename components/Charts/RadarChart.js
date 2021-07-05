@@ -61,7 +61,7 @@ const RadarChart = ({ data, temperaments }) => {
         dotBorderColor={{ from: 'color' }}
         enableDotLabel={true}
         dotLabel="value"
-        dotLabelYOffset={-12}
+        dotLabelYOffset={-10}
         colors={colors}
         colorBy="index"
         fillOpacity={0.2}

@@ -24,33 +24,36 @@ const Statistics = ({ pieChartData, barChartData, radarChartData }) => {
   ]); // temporary
 
   return (
-    <div>
-      <Head>
-        <title>Statistics | Meow Portal</title>
-      </Head>
-      Statistics Page
-      <StyledDiv>
-        {/* Pie Chart */}
-        <PieChart data={pieChartData} />
-        {/* Bar Chart */}
-        <BarChart data={barChartData} />
-        {/* Radar Chart */}
-        <RadarChart data={radarChartData} temperaments={temperaments} />
-      </StyledDiv>
-    </div>
+    <>
+      <div>
+        <Head>
+          <title>Statistics | Meow Portal</title>
+        </Head>
+        Statistics Page
+        <StyledDiv>
+          {/* Pie Chart */}
+          <PieChart data={pieChartData} />
+          {/* Bar Chart */}
+          <BarChart data={barChartData} />
+          {/* Radar Chart */}
+          <RadarChart data={radarChartData} temperaments={temperaments} />
+        </StyledDiv>
+      </div>
+    </>
   );
 };
 const StyledDiv = styled.div`
   /* reminder to remove the height later and add grid and height to other charts */
   /* height: 500px;   */
-  display: grid;
-  gap: 5em;
   width: 90vw;
   max-width: 1000px;
   margin: 5em auto;
   font-family: var(--ff-paragraph);
   color: var(--clr-primary-500);
 
+  & > div:nth-child(2) {
+    margin: 2em 0;
+  }
   button.active {
     opacity: 1;
     border: 1px solid var(--clr-black);

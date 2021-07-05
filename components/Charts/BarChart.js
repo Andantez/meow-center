@@ -69,7 +69,7 @@ const BarChart = ({ data }) => {
         data={isSelected ? selectedBreeds : data[activePage]}
         keys={['min lifespan', 'max lifespan', 'avg weight(kg)']}
         indexBy="breed name"
-        margin={{ top: 16, right: 120, bottom: 50, left: 130 }}
+        margin={{ top: 16, right: 120, bottom: 50, left: 90 }}
         padding={0.1}
         innerPadding={2}
         groupMode="grouped"
@@ -154,7 +154,8 @@ const StyledForm = styled.form`
   }
 `;
 const StyledDiv = styled.div`
-  height: 500px;
+  display: grid;
+  grid-template-rows: auto auto 500px;
 `;
 
 export default BarChart;
