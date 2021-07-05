@@ -1,11 +1,9 @@
-import { ResponsiveBar } from '@nivo/bar';
 import styled from 'styled-components';
-import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
-import { useState } from 'react';
+import { ResponsiveBar } from '@nivo/bar';
+import { useState, useEffect } from 'react';
+import Pagination from '../Pagination';
 
-import { useEffect } from 'react';
 import ReactSelect from '../ReactSelect';
-
 const colors = {
   'min lifespan': '#ffc09f',
   'max lifespan': '#ffee93',
@@ -19,6 +17,9 @@ const BarChart = ({ data }) => {
   const [selectedBreeds, setSelectedBreeds] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
 
+  const handleActivePage = (index) => {
+    setActivePage(index);
+  };
   const handlePrevious = () => {
     setActivePage((prevState) => {
       let tempState = prevState - 1;
@@ -118,40 +119,14 @@ const BarChart = ({ data }) => {
         motionStiffness={90}
         motionDamping={15}
       />
-
-      <Pagination>
-        <button
-          type="button"
-          onClick={handlePrevious}
-          disabled={isSelected}
-          className={`${isSelected ? 'disabled-btn' : ''}`}
-        >
-          <BsChevronLeft />
-        </button>
-        {data.map((item, index) => {
-          return (
-            <button
-              disabled={isSelected}
-              key={index}
-              type="button"
-              onClick={() => setActivePage(index)}
-              className={`${
-                index === activePage && !isSelected ? 'active-page' : ''
-              } ${isSelected ? 'disabled-btn' : ''}`}
-            >
-              {index + 1}
-            </button>
-          );
-        })}
-        <button
-          type="button"
-          onClick={handleNext}
-          disabled={isSelected}
-          className={`${isSelected ? 'disabled-btn' : ''}`}
-        >
-          <BsChevronRight />
-        </button>
-      </Pagination>
+      <Pagination
+        data={data}
+        handleNext={handleNext}
+        handlePrevious={handlePrevious}
+        handleActivePage={handleActivePage}
+        activePage={activePage}
+        isSelected={isSelected}
+      />
     </StyledDiv>
   );
 };
@@ -176,41 +151,6 @@ const StyledForm = styled.form`
   }
   label {
     font-weight: var(--fw-bold);
-  }
-`;
-const Pagination = styled.div`
-  display: flex;
-  justify-content: center;
-
-  button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0.125em;
-    background: transparent;
-    border: transparent;
-    cursor: pointer;
-    color: var(--clr-grey);
-    padding: 0.25em 0.5em;
-    transition: color 250ms ease, background-color 250ms ease;
-    &:hover {
-      color: var(--clr-black);
-      /* text-decoration: underline 2px;
-      text-underline-offset: 1.5px; */
-      background-color: hsl(270, 2%, 92%);
-    }
-  }
-
-  .active-page {
-    font-weight: var(--fw-bold);
-    color: var(--clr-black);
-    text-decoration: underline 2px;
-    text-underline-offset: 1.5px;
-  }
-
-  .disabled-btn {
-    opacity: 0.4;
-    pointer-events: none;
   }
 `;
 const StyledDiv = styled.div`
