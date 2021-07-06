@@ -9,20 +9,8 @@ import {
   formatRadarChartData,
   paginate,
 } from '../utils/helpers';
-import { useState } from 'react';
 
 const Statistics = ({ pieChartData, barChartData, radarChartData }) => {
-  const [temperaments, setTemperaments] = useState([
-    'adaptability',
-    'affection',
-    'child friendly',
-    'shedding',
-    'health issues',
-    'energy',
-    'grooming',
-    'intelligence',
-  ]); // temporary
-
   return (
     <>
       <div>
@@ -36,7 +24,7 @@ const Statistics = ({ pieChartData, barChartData, radarChartData }) => {
           {/* Bar Chart */}
           <BarChart data={barChartData} />
           {/* Radar Chart */}
-          <RadarChart data={radarChartData} temperaments={temperaments} />
+          <RadarChart data={radarChartData} />
         </StyledDiv>
       </div>
     </>
