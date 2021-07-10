@@ -1,7 +1,9 @@
 import { ResponsiveRadar } from '@nivo/radar';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Pagination from '../Pagination';
+import ReactSelect from '../ReactSelect';
 
 const colors = [
   '#ffc09f',
@@ -27,7 +29,8 @@ const RadarChart = ({ data }) => {
   const [activePage, setActivePage] = useState(0);
   const [isSelected, setIsSelected] = useState(false);
   const [temperaments, setTemperaments] = useState(temperamentList);
-  // const []
+  const [selectedBreeds, setSelectedBreeds] = useState([]);
+
   const handleActivePage = (index) => {
     setActivePage(index);
   };
@@ -52,7 +55,6 @@ const RadarChart = ({ data }) => {
   const handleOnClick = (e) => {
     const name = e.target.name;
     const findTemperament = temperaments.find(temperament => temperament === name);
-    console.log(findTemperament)
     if (findTemperament) {
       const filteredTemperaments = temperaments.filter(temperament => temperament !== name);
       setTemperaments(filteredTemperaments);
@@ -62,11 +64,25 @@ const RadarChart = ({ data }) => {
       })
     }
   };
+
+  useEffect(() => {
+    if (selectedBreeds.length > 0) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [selectedBreeds]);
   return (
     <StyledDiv>
+      <ReactSelect
+        selectedOptions={selectedBreeds}
+        data={data}
+        setSelectedData={setSelectedBreeds}
+        chartType="radar"
+      />
       <div className="radar-chart">
         <ResponsiveRadar
-          data={data[activePage]}
+          data={isSelected ? selectedBreeds : data[activePage]}
           keys={temperaments}
           indexBy="name"
           maxValue="auto"
@@ -123,7 +139,11 @@ const RadarChart = ({ data }) => {
                   type="button"
                   name={temperament}
                   onClick={handleOnClick}
-                  className={`${temperaments.find(temp => temp === temperament) ? '' : 'removed'}`}
+                  className={`${
+                    temperaments.find((temp) => temp === temperament)
+                      ? ''
+                      : 'removed'
+                  }`}
                 >
                   {temperament}
                 </button>
@@ -138,6 +158,7 @@ const RadarChart = ({ data }) => {
         handlePrevious={handlePrevious}
         handleNext={handleNext}
         activePage={activePage}
+        isSelected={isSelected}
       />
     </StyledDiv>
   );
