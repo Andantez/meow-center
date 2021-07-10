@@ -56,17 +56,15 @@ const ReactSelect = ({ selectedOptions, data, setSelectedData, chartType }) => {
   };
 
   const handleSelect = (e) => {
+    setSelectedData(e);
+    // temporary to be removed later.
     // const filteredData = e.map((selectedBreed) => {
     //   return data
     //     .flat()
     //     .find((breed) => breed['breed name'] === selectedBreed.value);
     // });
-    setSelectedData(e);
   };
 
-  const handleRadarChartSelect = (e) => {
-    setSelectedData(e);
-  };
   return (
     <Select
       options={selectedOptions.length === maxOptions ? [] : options()}

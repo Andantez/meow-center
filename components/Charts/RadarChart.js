@@ -66,7 +66,7 @@ const RadarChart = ({ data }) => {
   };
 
   useEffect(() => {
-    if (selectedBreeds.length > 0) {
+    if (selectedBreeds.length >= 3) {
       setIsSelected(true);
     } else {
       setIsSelected(false);
@@ -82,7 +82,7 @@ const RadarChart = ({ data }) => {
       />
       <div className="radar-chart">
         <ResponsiveRadar
-          data={isSelected ? selectedBreeds : data[activePage]}
+          data={isSelected && selectedBreeds.length >= 3 ? selectedBreeds : data[activePage]}
           keys={temperaments}
           indexBy="name"
           maxValue="auto"
