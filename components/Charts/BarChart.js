@@ -65,6 +65,7 @@ const BarChart = ({ data }) => {
         data={data}
         setSelectedData={setSelectedBreeds}
         chartType="bar"
+        placeholder="Select..."
       />
       <ResponsiveBar
         data={isSelected ? selectedBreeds : data[activePage]}
