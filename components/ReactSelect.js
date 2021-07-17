@@ -46,24 +46,54 @@ const customStyles = {
     '::-webkit-scrollbar-thumb:hover': {
       background: 'var(--clr-black)',
     },
+    borderRadius: '0.5em',
   }),
   control: (styles, state) => ({
     ...styles,
     border: state.isFocused
       ? '1px solid var(--clr-black)'
-      : '1px solid var(--clr-lightgrey)',
+      : '1px solid var(--clr-grey)',
     boxShadow: state.isFocused ? '0 0 0 1px var(--clr-black)' : 'none',
     ':hover': {
       border: '1px solid var(--clr-black)',
       boxShadow: '0 0 0 1px var(--clr-black)',
     },
-    ':focus': {
-      border: '2px solid pink',
-    },
+    borderRadius: '0.5em',
+    height: '100%',
+    minHeight: 31,
   }),
   multiValueLabel: (styles) => ({
     ...styles,
-    color: 'var(--clr-black)'
+    color: 'var(--clr-black)',
+  }),
+  menu: (base) => ({
+    ...base,
+    width: 'max-content',
+    minWidth: '100%',
+    borderRadius: '0.5em',
+  }),
+  container: (styles) => ({
+    ...styles,
+    minWidth: '15em',
+  }),
+  // valueContainer: (styles) => ({
+  //   ...styles,
+  // }),
+  placeholder: (styles) => ({
+    ...styles,
+    margin: 0,
+  }),
+  dropdownIndicator: (styles) => ({
+    ...styles,
+    padding: '0 8px 0 8px',
+  }),
+  clearIndicator: (styles) => ({
+    ...styles,
+    padding: '0 8px 0 0',
+  }),
+  input: (styles) => ({
+    ...styles,
+    minWidth: '1em',
   }),
 };
 const ReactSelect = ({
@@ -142,6 +172,7 @@ const ReactSelect = ({
       options={selectedOptions.length === maxOptions ? [] : options()}
       isMulti={true}
       className="multi-select"
+      classNamePrefix="my_prefix"
       name="breeds"
       onChange={handleSelect}
       isOptionDisabled={(option) => selectedOptions.length >= maxOptions}
@@ -152,6 +183,7 @@ const ReactSelect = ({
       }}
       styles={customStyles}
       placeholder={placeholder}
+      inputId='react-select'
     />
   );
 };

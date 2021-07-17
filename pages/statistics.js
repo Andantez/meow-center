@@ -40,7 +40,7 @@ const Statistics = ({ pieChartData, barChartData, radarChartData }) => {
 const StyledHeadingDiv = styled.div`
   width: 90vw;
   margin: 3em auto;
-  max-width: 1200px;
+  max-width: 1000px;
   color: var(--clr-primary-500);
   h1 {
     font-family: var(--ff-heading);
