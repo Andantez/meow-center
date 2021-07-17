@@ -17,7 +17,14 @@ const Statistics = ({ pieChartData, barChartData, radarChartData }) => {
         <Head>
           <title>Statistics | Meow Portal</title>
         </Head>
-        Statistics Page
+        <StyledHeadingDiv>
+          <h1>Cat Breeds Charts</h1>
+          <p>Every cat breed has its own unique characteristics.</p>
+          <p>
+            Here you can compare breeds based on their characteristics and help
+            you find the right cat breed for you!
+          </p>
+        </StyledHeadingDiv>
         <StyledDiv>
           {/* Pie Chart */}
           <PieChart data={pieChartData} />
@@ -30,12 +37,35 @@ const Statistics = ({ pieChartData, barChartData, radarChartData }) => {
     </>
   );
 };
+const StyledHeadingDiv = styled.div`
+  width: 90vw;
+  margin: 3em auto;
+  max-width: 1200px;
+  color: var(--clr-primary-500);
+  h1 {
+    font-family: var(--ff-heading);
+    font-size: 2.25rem;
+    text-align: center;
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-family: var(--ff-paragraph);
+    letter-spacing: 0.5px;
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  @media (min-width: 1024px) {
+    margin: 6em auto;
+  }
+`;
 const StyledDiv = styled.div`
   /* reminder to remove the height later and add grid and height to other charts */
   /* height: 500px;   */
   width: 90vw;
   max-width: 1000px;
-  margin: 5em auto;
+  margin: 0 auto;
   font-family: var(--ff-paragraph);
   color: var(--clr-primary-500);
 

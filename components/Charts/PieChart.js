@@ -38,7 +38,7 @@ const PieChart = ({ data }) => {
       setIsOpen(true);
     }
   };
-  
+
   useEffect(() => {
     if (window.innerWidth > 1024) {
       setIsOpen(true);
@@ -51,92 +51,110 @@ const PieChart = ({ data }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   return (
-    <StyledDiv>
-      <ResponsivePie
-        data={breedData}
-        colors={colors}
-        margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
-        innerRadius={0.5}
-        padAngle={0.7}
-        cornerRadius={3}
-        activeOuterRadiusOffset={8}
-        borderWidth={5}
-        borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
-        arcLinkLabelsSkipAngle={10}
-        arcLinkLabelsTextColor="#333333"
-        arcLinkLabelsThickness={2}
-        arcLinkLabelsColor={{ from: 'color' }}
-        arcLabelsSkipAngle={10}
-        arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
-        // legends={[
-        //   {
-        //     anchor: 'right',
-        //     direction: 'column',
-        //     justify: false,
-        //     translateX: 0,
-        //     translateY: 0,
-        //     itemsSpacing: 4,
-        //     itemWidth: 100,
-        //     itemHeight: 18,
-        //     itemTextColor: '#999',
-        //     itemDirection: 'left-to-right',
-        //     itemOpacity: 1,
-        //     symbolSize: 18,
-        //     symbolShape: 'circle',
-        //     effects: [
-        //       {
-        //         on: 'hover',
-        //         style: {
-        //           itemTextColor: '#000',
-        //         },
-        //       },
-        //     ],
-        //   },
-        // ]}
-      />
-      <div className="legend-container">
-        {isOpen && (
-          <div className="legend-wrapper">
-            {data.map((breedOrigin, index) => {
-              const { origin, id, value } = breedOrigin;
-              return (
-                <div className="wrapper" key={breedOrigin + index}>
-                  <StyledSpan
-                    color={colors[index % colors.length]}
-                  ></StyledSpan>{' '}
-                  <button
-                    type="button"
-                    className={`btn ${
-                      !breedData.find((breed) => breed.id === id)
-                        ? 'not-included'
-                        : ''
-                    }`}
-                    data-id={id}
-                    data-origin={origin}
-                    data-value={breedOrigin.value}
-                    onClick={handleOnClick}
-                  >
-                    {origin}
-                  </button>
-                </div>
-              );
-            })}
+    <div>
+      <StyledInfoDiv>
+        <p>Cat breeds per country of origin.</p>
+      </StyledInfoDiv>
+      <StyledDiv>
+        <ResponsivePie
+          data={breedData}
+          colors={colors}
+          margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+          innerRadius={0.5}
+          padAngle={0.7}
+          cornerRadius={3}
+          activeOuterRadiusOffset={8}
+          borderWidth={5}
+          borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
+          arcLinkLabelsSkipAngle={10}
+          arcLinkLabelsTextColor="#333333"
+          arcLinkLabelsThickness={2}
+          arcLinkLabelsColor={{ from: 'color' }}
+          arcLabelsSkipAngle={10}
+          arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
+          // legends={[
+          //   {
+          //     anchor: 'right',
+          //     direction: 'column',
+          //     justify: false,
+          //     translateX: 0,
+          //     translateY: 0,
+          //     itemsSpacing: 4,
+          //     itemWidth: 100,
+          //     itemHeight: 18,
+          //     itemTextColor: '#999',
+          //     itemDirection: 'left-to-right',
+          //     itemOpacity: 1,
+          //     symbolSize: 18,
+          //     symbolShape: 'circle',
+          //     effects: [
+          //       {
+          //         on: 'hover',
+          //         style: {
+          //           itemTextColor: '#000',
+          //         },
+          //       },
+          //     ],
+          //   },
+          // ]}
+        />
+        <div className="legend-container">
+          {isOpen && (
+            <div className="legend-wrapper">
+              {data.map((breedOrigin, index) => {
+                const { origin, id, value } = breedOrigin;
+                return (
+                  <div className="wrapper" key={breedOrigin + index}>
+                    <StyledSpan
+                      color={colors[index % colors.length]}
+                    ></StyledSpan>{' '}
+                    <button
+                      type="button"
+                      className={`btn ${
+                        !breedData.find((breed) => breed.id === id)
+                          ? 'not-included'
+                          : ''
+                      }`}
+                      data-id={id}
+                      data-origin={origin}
+                      data-value={breedOrigin.value}
+                      onClick={handleOnClick}
+                    >
+                      {origin}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <div className="expand-wrapper">
+            {isOpen ? 'Collapse' : 'Expand'}{' '}
+            <button
+              type="button"
+              className="expand-btn"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <BiMinus /> : <BsPlus />}
+            </button>
           </div>
-        )}
-        <div className="expand-wrapper">
-          {isOpen ? 'Collapse' : 'Expand'}{' '}
-          <button
-            type="button"
-            className="expand-btn"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <BiMinus /> : <BsPlus />}
-          </button>
         </div>
-      </div>
-    </StyledDiv>
+      </StyledDiv>
+    </div>
   );
 };
+const StyledInfoDiv = styled.div`
+  p {
+    font-size: 0.8125rem;
+    color: var(--clr-primary-500);
+    opacity: .8;
+  }
+
+  @media (min-width: 720px) {
+    p {
+      font-size: 1rem;
+    }
+  }
+`;
 const StyledSpan = styled.span`
   display: inline-block;
   width: 0.8125em;
