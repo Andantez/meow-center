@@ -48,30 +48,39 @@ const BarChart = ({ data }) => {
   }, [selectedBreeds]);
   return (
     <StyledDiv>
-      <StyledForm>
-        <label htmlFor="layout">Display</label>
-        <select
-          name="layout"
-          id="layout"
-          value={layout}
-          onChange={(e) => setLayout(e.target.value)}
-        >
-          <option value="vertical">Vertical</option>
-          <option value="horizontal">Horizontal</option>
-        </select>
-      </StyledForm>
-      <ReactSelect
-        selectedOptions={selectedBreeds}
-        data={data}
-        setSelectedData={setSelectedBreeds}
-        chartType="bar"
-        placeholder="Select..."
-      />
+      <div className="select-wrapper">
+        <StyledForm>
+          <label htmlFor="layout">Display</label>
+          <select
+            name="layout"
+            id="layout"
+            value={layout}
+            onChange={(e) => setLayout(e.target.value)}
+          >
+            <option value="vertical" className="option-hover">
+              Vertical
+            </option>
+            <option value="horizontal" className="option-hover">
+              Horizontal
+            </option>
+          </select>
+        </StyledForm>
+        <div className="breeds-select">
+          <label htmlFor="react-select">Breeds</label>
+          <ReactSelect
+            selectedOptions={selectedBreeds}
+            data={data}
+            setSelectedData={setSelectedBreeds}
+            chartType="bar"
+            placeholder="Select..."
+          />
+        </div>
+      </div>
       <ResponsiveBar
         data={isSelected ? selectedBreeds : data[activePage]}
         keys={['min lifespan', 'max lifespan', 'avg weight(kg)']}
         indexBy="breed name"
-        margin={{ top: 16, right: 120, bottom: 50, left: 90 }}
+        margin={{ top: 16, right: 120, bottom: 50, left: 110 }}
         padding={0.1}
         innerPadding={2}
         groupMode="grouped"
@@ -106,7 +115,7 @@ const BarChart = ({ data }) => {
             itemHeight: 20,
             itemDirection: 'left-to-right',
             itemOpacity: 0.85,
-            symbolSize: 20,
+            symbolSize: 15,
             effects: [
               {
                 on: 'hover',
@@ -135,9 +144,8 @@ const BarChart = ({ data }) => {
 const StyledForm = styled.form`
   display: flex;
   align-items: center;
-
   select {
-    font-size: 0.8125rem;
+    /* font-size: 0.8125rem; */
     color: var(--clr-primary-500);
     background-color: var(--clr-secondary-500);
     padding: 0.25em;
@@ -148,8 +156,14 @@ const StyledForm = styled.form`
     text-transform: capitalize;
     margin-left: 0.5em;
     &:focus {
-      /* outline: 1px solid var(--clr-grey); */
+      border: 1px solid var(--clr-black);
+      box-shadow: 0 0 0 1px var(--clr-black);
     }
+
+  &:hover {
+    border: 1px solid var(--clr-black);
+      box-shadow: 0 0 0 1px var(--clr-black);
+  }
   }
   label {
     font-weight: var(--fw-bold);
@@ -157,7 +171,24 @@ const StyledForm = styled.form`
 `;
 const StyledDiv = styled.div`
   display: grid;
-  grid-template-rows: auto auto 500px;
+  grid-template-rows: auto 500px;
+  gap: 1em;
+
+  .select-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .breeds-select {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    place-items: center;
+    gap: 0.5em;
+
+    label {
+      font-weight: var(--fw-bold);
+    }
+  }
 `;
 
 export default BarChart;
