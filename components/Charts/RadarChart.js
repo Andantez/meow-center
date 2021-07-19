@@ -54,14 +54,18 @@ const RadarChart = ({ data }) => {
   };
   const handleOnClick = (e) => {
     const name = e.target.name;
-    const findTemperament = temperaments.find(temperament => temperament === name);
+    const findTemperament = temperaments.find(
+      (temperament) => temperament === name
+    );
     if (findTemperament) {
-      const filteredTemperaments = temperaments.filter(temperament => temperament !== name);
+      const filteredTemperaments = temperaments.filter(
+        (temperament) => temperament !== name
+      );
       setTemperaments(filteredTemperaments);
     } else {
-      setTemperaments(prevState => {
-        return [...prevState, name]
-      })
+      setTemperaments((prevState) => {
+        return [...prevState, name];
+      });
     }
   };
 
@@ -79,11 +83,15 @@ const RadarChart = ({ data }) => {
         data={data}
         setSelectedData={setSelectedBreeds}
         chartType="radar"
-        placeholder='Select at least 3 breeds'
+        placeholder="Select at least 3 breeds"
       />
       <div className="radar-chart">
         <ResponsiveRadar
-          data={isSelected && selectedBreeds.length >= 3 ? selectedBreeds : data[activePage]}
+          data={
+            isSelected && selectedBreeds.length >= 3
+              ? selectedBreeds
+              : data[activePage]
+          }
           keys={temperaments}
           indexBy="name"
           maxValue="auto"

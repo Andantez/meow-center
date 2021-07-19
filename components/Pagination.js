@@ -48,7 +48,7 @@ const Pagination = ({
 const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
-
+  flex-wrap: wrap;
   button {
     display: flex;
     justify-content: center;
