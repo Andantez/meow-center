@@ -61,6 +61,7 @@ const customStyles = {
     borderRadius: '0.5em',
     height: '100%',
     minHeight: 31,
+    backgroundColor: 'var(--clr-secondary-500)',
   }),
   multiValueLabel: (styles) => ({
     ...styles,
@@ -82,6 +83,7 @@ const customStyles = {
   placeholder: (styles) => ({
     ...styles,
     margin: 0,
+    color: 'var(--clr-black)'
   }),
   dropdownIndicator: (styles) => ({
     ...styles,

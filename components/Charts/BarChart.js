@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ResponsiveBar } from '@nivo/bar';
 import { useState, useEffect } from 'react';
 import Pagination from '../Pagination';
-
+import { RiBarChartHorizontalFill, RiBarChartFill } from 'react-icons/ri';
 import ReactSelect from '../ReactSelect';
 const colors = {
   'min lifespan': '#ffc09f',
@@ -16,7 +16,7 @@ const BarChart = ({ data }) => {
   const [layout, setLayout] = useState('vertical');
   const [selectedBreeds, setSelectedBreeds] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
-
+  const layoutIsVertical = layout === 'vertical';
   const handleActivePage = (index) => {
     setActivePage(index);
   };
@@ -48,23 +48,10 @@ const BarChart = ({ data }) => {
   }, [selectedBreeds]);
   return (
     <StyledDiv>
+      <div className="info">
+        <h2>Compare breeds based on their lifespan andn weight.</h2>
+      </div>
       <div className="select-wrapper">
-        <StyledForm>
-          <label htmlFor="layout">Display</label>
-          <select
-            name="layout"
-            id="layout"
-            value={layout}
-            onChange={(e) => setLayout(e.target.value)}
-          >
-            <option value="vertical" className="option-hover">
-              Vertical
-            </option>
-            <option value="horizontal" className="option-hover">
-              Horizontal
-            </option>
-          </select>
-        </StyledForm>
         <div className="breeds-select">
           <label htmlFor="react-select">Breeds</label>
           <ReactSelect
@@ -75,12 +62,33 @@ const BarChart = ({ data }) => {
             placeholder="Select..."
           />
         </div>
+        <StyledForm layout={layout}>
+          <button
+            type="button"
+            className="vertical"
+            onClick={() => setLayout('vertical')}
+          >
+            <RiBarChartFill />
+          </button>
+          <button
+            type="button"
+            className="horizontal"
+            onClick={() => setLayout('horizontal')}
+          >
+            <RiBarChartHorizontalFill />
+          </button>
+        </StyledForm>
       </div>
       <ResponsiveBar
         data={isSelected ? selectedBreeds : data[activePage]}
         keys={['min lifespan', 'max lifespan', 'avg weight(kg)']}
         indexBy="breed name"
-        margin={{ top: 16, right: 120, bottom: 50, left: 110 }}
+        margin={{
+          top: 10,
+          right: 30,
+          bottom: 50,
+          left: layoutIsVertical ? 30 : 120,
+        }}
         padding={0.1}
         innerPadding={2}
         groupMode="grouped"
@@ -99,33 +107,45 @@ const BarChart = ({ data }) => {
         //   legendPosition: 'middle',
         //   legendOffset: 42,
         // }}
+        theme={{
+          axis: {
+            ticks: {
+              text: {
+                fontSize: 11,
+                fill: '#343446',
+                fontFamily: 'Bitter',
+              },
+            },
+          },
+        }}
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor="#343446"
-        legends={[
-          {
-            dataFrom: 'keys',
-            anchor: 'bottom-right',
-            direction: 'column',
-            justify: false,
-            translateX: 120,
-            translateY: 0,
-            itemsSpacing: 2,
-            itemWidth: 100,
-            itemHeight: 20,
-            itemDirection: 'left-to-right',
-            itemOpacity: 0.85,
-            symbolSize: 15,
-            effects: [
-              {
-                on: 'hover',
-                style: {
-                  itemOpacity: 1,
-                },
-              },
-            ],
-          },
-        ]}
+        // legends={[
+        //   {
+        //     dataFrom: 'keys',
+        //     anchor: 'bottom-right',
+        //     direction: 'column',
+        //     justify: false,
+        //     translateX: 120,
+        //     translateY: 0,
+        //     itemsSpacing: 2,
+        //     itemWidth: 100,
+        //     itemHeight: 20,
+        //     itemDirection: 'left-to-right',
+        //     itemOpacity: 0.85,
+        //     itemTextColor: '#343446',
+        //     symbolSize: 15,
+        //     effects: [
+        //       {
+        //         on: 'hover',
+        //         style: {
+        //           itemOpacity: 1,
+        //         },
+        //       },
+        //     ],
+        //   },
+        // ]}
         animate={true}
         motionStiffness={90}
         motionDamping={15}
@@ -144,49 +164,69 @@ const BarChart = ({ data }) => {
 const StyledForm = styled.form`
   display: flex;
   align-items: center;
-  select {
-    /* font-size: 0.8125rem; */
-    color: var(--clr-primary-500);
-    background-color: var(--clr-secondary-500);
-    padding: 0.25em;
-    width: fit-content;
-    border: transparent;
-    border-radius: 0.5em;
-    border: 1px solid var(--clr-grey);
-    text-transform: capitalize;
-    margin-left: 0.5em;
-    &:focus {
-      border: 1px solid var(--clr-black);
-      box-shadow: 0 0 0 1px var(--clr-black);
-    }
 
-  &:hover {
-    border: 1px solid var(--clr-black);
-      box-shadow: 0 0 0 1px var(--clr-black);
+  .vertical,
+  .horizontal {
+    background: transparent;
+    border: transparent;
+    font-size: 1.5rem;
+    transition: color 250ms ease;
+    cursor: pointer;
   }
+
+  .horizontal {
+    margin-left: 0.25em;
+    color: ${(props) =>
+      props.layout === 'horizontal' ? 'var(--clr-primary-500)' : '#b5b5b5'};
   }
-  label {
-    font-weight: var(--fw-bold);
+  .vertical {
+    color: ${(props) =>
+      props.layout === 'vertical' ? 'var(--clr-primary-500)' : '#b5b5b5'};
   }
 `;
 const StyledDiv = styled.div`
   display: grid;
-  grid-template-rows: auto 500px;
-  gap: 1em;
+  grid-template-rows: auto auto 500px auto;
+  gap: 2em;
 
   .select-wrapper {
     display: flex;
     justify-content: space-between;
+    /* flex-direction: column; */
+    /* margin-top: 1em; */
   }
 
   .breeds-select {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    place-items: center;
-    gap: 0.5em;
+    display: flex;
+    align-items: center;
+    /* margin-top: 0.5em; */
 
     label {
       font-weight: var(--fw-bold);
+      margin-right: 0.5em;
+    }
+  }
+
+  .multi-select,
+  label {
+    font-size: 0.8125rem;
+  }
+  .info {
+    h2 {
+      font-size: 1.25rem;
+      color: var(--clr-primary-500);
+    }
+  }
+  @media (min-width: 768px) {
+    .multi-select,
+    label {
+      font-size: 1rem;
+    }
+  }
+
+  .info {
+    h2 {
+      font-size: 1.5rem;
     }
   }
 `;
