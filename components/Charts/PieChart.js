@@ -53,7 +53,7 @@ const PieChart = ({ data }) => {
   return (
     <div>
       <StyledInfoDiv>
-        <p>Cat breeds per country of origin:</p>
+        <h2>Cat breeds per country of origin.</h2>
       </StyledInfoDiv>
       <StyledDiv>
         <ResponsivePie
@@ -72,6 +72,16 @@ const PieChart = ({ data }) => {
           arcLinkLabelsColor={{ from: 'color' }}
           arcLabelsSkipAngle={10}
           arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
+          theme={{
+            labels: {
+              text:{
+                fontSize: 11,
+                fill: '#343446',
+                fontFamily: 'Bitter',
+
+              }
+            },
+          }}
           // legends={[
           //   {
           //     anchor: 'right',
@@ -143,15 +153,15 @@ const PieChart = ({ data }) => {
   );
 };
 const StyledInfoDiv = styled.div`
-  p {
-    font-size: 0.8125rem;
+  h2 {
+    font-size: 1.25rem;
     color: var(--clr-primary-500);
-    opacity: .8;
   }
 
   @media (min-width: 720px) {
-    p {
-      font-size: 1rem;
+    h2 {
+      font-size: 1.5rem;
+      color: var(--clr-primary-500);
     }
   }
 `;
