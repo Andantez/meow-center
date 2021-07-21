@@ -84,6 +84,7 @@ const RadarChart = ({ data }) => {
         setSelectedData={setSelectedBreeds}
         chartType="radar"
         placeholder="Select at least 3 breeds"
+        inputId="radarChart"
       />
       <div className="radar-chart">
         <ResponsiveRadar

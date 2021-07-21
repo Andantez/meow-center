@@ -50,7 +50,9 @@ const BarChart = ({ data }) => {
       const filteredKeys = legendKeys.filter((key) => key !== e.target.name);
       setLegendKeys(filteredKeys);
     } else {
-      const filteredKeys = [...legendKeys, e.target.name].sort((a, b) => b.localeCompare(a));
+      const filteredKeys = [...legendKeys, e.target.name].sort((a, b) =>
+        b.localeCompare(a)
+      );
       setLegendKeys(filteredKeys);
     }
   };
@@ -75,6 +77,7 @@ const BarChart = ({ data }) => {
             setSelectedData={setSelectedBreeds}
             chartType="bar"
             placeholder="Select..."
+            inputId="barChart"
           />
         </div>
         <StyledForm layout={layout}>
@@ -102,7 +105,7 @@ const BarChart = ({ data }) => {
           margin={{
             top: 10,
             right: 30,
-            bottom: 50,
+            bottom: 25,
             left: layoutIsVertical ? 30 : 120,
           }}
           padding={0.1}
@@ -201,7 +204,7 @@ const BarChart = ({ data }) => {
 const StyledForm = styled.form`
   display: flex;
   align-items: center;
-
+  margin-left: 0.75em;
   .vertical,
   .horizontal {
     background: transparent;
@@ -223,8 +226,8 @@ const StyledForm = styled.form`
 `;
 const StyledDiv = styled.div`
   display: grid;
-  grid-template-rows: auto auto 500px auto;
-  gap: 2em;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 1.5em;
 
   .select-wrapper {
     display: flex;
@@ -253,10 +256,12 @@ const StyledDiv = styled.div`
   }
   .legend {
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.5em;
     place-self: flex-end;
-    margin-bottom: 3.125em;
     width: max-content;
+    grid-column: 1;
+    grid-row: 1;
   }
   .legend > div {
     display: flex;
@@ -291,8 +296,9 @@ const StyledDiv = styled.div`
 
   .bar-chart {
     display: grid;
-    grid-template-rows: 500px;
-    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 500px;
+    gap: 0.5em;
+    margin-top: 0.5em;
   }
   @media (min-width: 768px) {
     .multi-select,
@@ -304,6 +310,19 @@ const StyledDiv = styled.div`
   .info {
     h2 {
       font-size: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bar-chart {
+      grid-template-rows: 500px;
+      grid-template-columns: 1fr auto;
+    }
+    .legend {
+      grid-column: 2;
+      grid-row: 1;
+      grid-template-columns: 1fr;
+      margin-bottom: 1.563em;
     }
   }
 `;
