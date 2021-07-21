@@ -104,6 +104,7 @@ const ReactSelect = ({
   setSelectedData,
   chartType,
   placeholder,
+  inputId
 }) => {
   const maxOptions = 5;
 
@@ -185,7 +186,7 @@ const ReactSelect = ({
       }}
       styles={customStyles}
       placeholder={placeholder}
-      inputId='react-select'
+      inputId={inputId}
     />
   );
 };
