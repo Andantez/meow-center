@@ -70,7 +70,7 @@ const BarChart = ({ data }) => {
       </div>
       <div className="select-wrapper">
         <div className="breeds-select">
-          <label htmlFor="react-select">Breeds</label>
+          <label htmlFor="barChart">Breeds</label>
           <ReactSelect
             selectedOptions={selectedBreeds}
             data={data}
@@ -305,13 +305,13 @@ const StyledDiv = styled.div`
     label {
       font-size: 1rem;
     }
-  }
-
-  .info {
-    h2 {
-      font-size: 1.5rem;
+    .info {
+      h2 {
+        font-size: 1.5rem;
+      }
     }
   }
+
 
   @media (min-width: 1024px) {
     .bar-chart {

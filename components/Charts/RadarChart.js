@@ -4,6 +4,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Pagination from '../Pagination';
 import ReactSelect from '../ReactSelect';
+import { BsPlus } from 'react-icons/bs';
+import { BiMinus } from 'react-icons/bi';
 
 const colors = [
   '#ffc09f',
@@ -30,7 +32,7 @@ const RadarChart = ({ data }) => {
   const [isSelected, setIsSelected] = useState(false);
   const [temperaments, setTemperaments] = useState(temperamentList);
   const [selectedBreeds, setSelectedBreeds] = useState([]);
-
+  const [showLegend, setShowLegend] = useState(true);
   const handleActivePage = (index) => {
     setActivePage(index);
   };
@@ -68,7 +70,12 @@ const RadarChart = ({ data }) => {
       });
     }
   };
-
+  
+  const handleResize = () => {
+    if (window.innerWidth >= 1024) {
+      setShowLegend(true);
+    }
+  };
   useEffect(() => {
     if (selectedBreeds.length >= 3) {
       setIsSelected(true);
@@ -76,16 +83,35 @@ const RadarChart = ({ data }) => {
       setIsSelected(false);
     }
   }, [selectedBreeds]);
+
+
+  useEffect(() => {
+    if (window.innerWidth >= 1024) {
+      setShowLegend(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <StyledDiv>
-      <ReactSelect
-        selectedOptions={selectedBreeds}
-        data={data}
-        setSelectedData={setSelectedBreeds}
-        chartType="radar"
-        placeholder="Select at least 3 breeds"
-        inputId="radarChart"
-      />
+      <div className="heading">
+        <h2>Compare breeds based on their characteristic</h2>
+      </div>
+      <div className="select">
+        <label htmlFor="radarChart">Breeds</label>
+        <ReactSelect
+          selectedOptions={selectedBreeds}
+          data={data}
+          setSelectedData={setSelectedBreeds}
+          chartType="radar"
+          placeholder="Select at least 3 breeds"
+          inputId="radarChart"
+        />
+      </div>
       <div className="radar-chart">
         <ResponsiveRadar
           data={
@@ -96,21 +122,21 @@ const RadarChart = ({ data }) => {
           keys={temperaments}
           indexBy="name"
           maxValue="auto"
-          margin={{ top: 70, right: 40, bottom: 40, left: 40 }}
+          margin={{ top: 40, right: 80, bottom: 40, left: 80 }}
           curve="linearClosed"
           borderWidth={2}
           borderColor={{ from: 'color' }}
           gridLevels={5}
           gridShape="circular"
-          gridLabelOffset={36}
+          gridLabelOffset={24}
           enableDots={true}
-          dotSize={10}
+          dotSize={6}
           dotColor={{ theme: 'background' }}
           dotBorderWidth={2}
           dotBorderColor={{ from: 'color' }}
           enableDotLabel={true}
           dotLabel="value"
-          dotLabelYOffset={-10}
+          dotLabelYOffset={-7}
           colors={colors}
           colorBy="index"
           fillOpacity={0.2}
@@ -140,26 +166,40 @@ const RadarChart = ({ data }) => {
           //   },
           // ]}
         />
-        <div className="temperament-list">
-          {temperamentList.map((temperament, index) => {
-            return (
-              <div className="wrapper" key={index + temperament}>
-                <StyledSpan color={colors[index % colors.length]} />
-                <button
-                  type="button"
-                  name={temperament}
-                  onClick={handleOnClick}
-                  className={`${
-                    temperaments.find((temp) => temp === temperament)
-                      ? ''
-                      : 'removed'
-                  }`}
-                >
-                  {temperament}
-                </button>
-              </div>
-            );
-          })}
+        <div className="legend">
+          <div className="show-wrapper">
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setShowLegend(!showLegend)}
+            >
+              {showLegend ? 'Collapse' : 'Expand'}
+              {showLegend ? <BiMinus /> : <BsPlus />}
+            </button>
+          </div>
+          {showLegend && (
+            <div className="temperament-list">
+              {temperamentList.map((temperament, index) => {
+                return (
+                  <div className="wrapper" key={index + temperament}>
+                    <StyledSpan color={colors[index % colors.length]} />
+                    <button
+                      type="button"
+                      name={temperament}
+                      onClick={handleOnClick}
+                      className={`${
+                        temperaments.find((temp) => temp === temperament)
+                          ? ''
+                          : 'removed'
+                      }`}
+                    >
+                      {temperament}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
       <Pagination
@@ -182,28 +222,29 @@ const StyledSpan = styled.span`
 `;
 
 const StyledDiv = styled.div`
+  display: grid;
+  gap: 1.5em;
   .radar-chart {
     display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 500px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 300px auto;
+    gap: 0.5em;
   }
 
   .temperament-list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    div:not(:first-child) {
-      margin-top: 0.5em;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 1.5em;
+    gap: 0.25em;
+    div:nth-child(2n) {
+      margin-left: 1.5em;
     }
   }
   .wrapper {
-    display: flex;
-    align-items: center;
-
+    width: max-content;
     button {
       background-color: transparent;
       border: transparent;
-      width: max-content;
       margin-left: 0.5em;
       cursor: pointer;
       font-size: 0.8125rem;
@@ -217,6 +258,70 @@ const StyledDiv = styled.div`
     color: var(--clr-grey);
     text-decoration: line-through;
     text-decoration-color: var(--clr-black);
+  }
+
+  .select {
+    display: flex;
+    align-items: center;
+
+    label {
+      font-size: 0.8125rem;
+      font-weight: var(--fw-bold);
+    }
+  }
+
+  .multi-select {
+    margin-left: 0.5em;
+  }
+  h2 {
+    font-size: 1.25rem;
+    color: var(--clr-primary-500);
+  }
+  .show-wrapper {
+    margin-bottom: 1em;
+  }
+  .btn {
+    background-color: transparent;
+    border: transparent;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: var(--clr-primary-500);
+    letter-spacing: 0.5px;
+    margin-left: auto;
+    margin-right: 1.5em;
+    &:hover {
+      color: var(--clr-grey);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .radar-chart {
+      grid-template-rows: 450px auto;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .radar-chart {
+      grid-template-rows: 500px;
+      grid-template-columns: 1fr auto;
+    }
+
+    .legend {
+      place-self: center;
+    }
+    .temperament-list {
+      grid-template-columns: 1fr;
+      padding: 0;
+
+      div:nth-child(2n) {
+        margin-left: 0;
+      }
+    }
+    .show-wrapper {
+      display: none;
+    }
   }
 `;
 export default RadarChart;
