@@ -4,6 +4,19 @@ import Link from 'next/link';
 import { HiMenu } from 'react-icons/hi';
 import { useHomeContext } from '../context/home_context';
 
+
+// TODO: move it to separed component.
+// for testing purpose only
+const myLoader = ({ src, width, quality }) => {
+  console.log(width)
+  return `https://res.cloudinary.com/andantez/image/upload/w_${width},q_${
+    quality || 75
+  }/${src}`;
+};
+const MyImage = (props) => {
+  return <Image loader={myLoader} {...props} />;
+};
+// -----------------------
 const Header = () => {
   const { openSidebar } = useHomeContext();
   return (
@@ -11,7 +24,12 @@ const Header = () => {
       <nav className="nav-wrapper">
         <Link href="/">
           <a>
-            <Image src="/images/logo3.png" alt="logo" height="50" width="175" />
+            <MyImage
+              src="/logo3_ilsd46.png"
+              alt="logo"
+              height="50"
+              width="175"
+            />
           </a>
         </Link>
         <div className="nav-links">

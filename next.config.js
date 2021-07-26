@@ -14,5 +14,7 @@ module.exports = {
       '21.media.tumblr.com',
       '20.media.tumblr.com',
     ],
+    loader: 'cloudinary',
+    path: 'https://res.cloudinary.com/andantez/image/fetch/',
   },
 };
