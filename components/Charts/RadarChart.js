@@ -305,11 +305,16 @@ const StyledDiv = styled.div`
   @media (min-width: 1024px) {
     .radar-chart {
       grid-template-rows: 500px;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr;
+      position: relative;
     }
 
     .legend {
       place-self: center;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
     }
     .temperament-list {
       grid-template-columns: 1fr;
