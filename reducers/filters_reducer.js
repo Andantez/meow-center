@@ -8,6 +8,7 @@ import {
   SORT_BREEDS,
   UPDATE_FILTERS,
   FILTER_BREEDS,
+  CLEAR_FILTERS,
 } from '../actions/actions';
 
 const reducer = (state, action) => {
@@ -104,6 +105,25 @@ const reducer = (state, action) => {
         ];
       }
       return { ...state, filteredBreeds: temporaryBreeds };
+    case CLEAR_FILTERS:
+      const uncheckedTemperamentList = state.filters.temperaments.map(
+        (temperament) => {
+          if (temperament.isChecked) {
+            return { ...temperament, isChecked: false };
+          }
+          return temperament;
+        }
+      );
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          origin: 'All',
+          temperaments: uncheckedTemperamentList,
+          query: '',
+        },
+      };
     default:
       return state;
   }
