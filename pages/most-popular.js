@@ -3,11 +3,16 @@ import tempData from '../data/tempData';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
+import Head from 'next/head';
+
 const MostPopular = () => {
   const data = tempData.slice(0, 10);
   // console.log(data)
   return (
     <StyledDiv>
+      <Head>
+        <title>Most Popular | Meow Portal</title>
+      </Head>
       <h1>top 10 most popular breed</h1>
       <section>
         {data.map((breed, index) => {
