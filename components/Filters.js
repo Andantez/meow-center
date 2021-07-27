@@ -9,6 +9,7 @@ const Filters = () => {
     allBreeds,
     filters: { origin, temperaments },
     updateFilters,
+    clearFilters,
   } = useFiltersContext();
   const breedOrigins = getUniqueValues(allBreeds, 'origin');
   
@@ -54,7 +55,7 @@ const Filters = () => {
           </select>
         </div>
         <div className="form-control">
-          <button type="button" className="clear-btn">
+          <button type="button" className="clear-btn" onClick={clearFilters}>
             Clear Filters
           </button>
         </div>

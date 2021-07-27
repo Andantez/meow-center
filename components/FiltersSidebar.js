@@ -5,8 +5,15 @@ import { getUniqueValues } from '../utils/helpers';
 import { useFiltersContext } from '../context/filters_context';
 
 const FiltersSidebar = () => {
-  const { closeFiltersModal, allBreeds, updateSort, sort, updateFilters, filters: { temperaments} } =
-    useFiltersContext();
+  const {
+    closeFiltersModal,
+    allBreeds,
+    updateSort,
+    sort,
+    updateFilters,
+    clearFilters,
+    filters: { temperaments, origin },
+  } = useFiltersContext();
   const breedOrigins = getUniqueValues(allBreeds, 'origin');
 
   return (
@@ -50,12 +57,12 @@ const FiltersSidebar = () => {
           <div className="form-control">
             <h2>Temperament</h2>
             <div className="input-wrapper">
-              {temperaments.map(({ value,isChecked }, index) => {
+              {temperaments.map(({ value, isChecked }, index) => {
                 return (
                   <div className="form-input" key={value}>
                     <input
                       type="checkbox"
-                      id={`temperament-${index}`}
+                      id={`temperament-${index + 30}`}
                       name={value}
                       value={value}
                       checked={isChecked}
@@ -70,17 +77,18 @@ const FiltersSidebar = () => {
           <div className="form-control">
             <h2>Origin</h2>
             <div className="input-wrapper">
-              {breedOrigins.map((origin) => {
+              {breedOrigins.map((breedOrigin) => {
                 return (
-                  <div className="form-input" key={origin}>
+                  <div className="form-input" key={breedOrigin}>
                     <input
                       type="radio"
-                      value={origin}
+                      value={breedOrigin}
                       name="origin"
-                      id={origin}
+                      id={breedOrigin}
                       onChange={updateFilters}
+                      checked={breedOrigin === origin}
                     />
-                    <label htmlFor={origin}>{origin}</label>
+                    <label htmlFor={breedOrigin}>{breedOrigin}</label>
                   </div>
                 );
               })}
@@ -88,7 +96,7 @@ const FiltersSidebar = () => {
           </div>
         </form>
       </div>
-      <button type="button" className="clear-btn">
+      <button type="button" className="clear-btn" onClick={clearFilters}>
         Clear Filters
       </button>
     </StyledDiv>

@@ -11,6 +11,7 @@ import {
   SORT_BREEDS,
   UPDATE_FILTERS,
   FILTER_BREEDS,
+  CLEAR_FILTERS,
 } from '../actions/actions';
 
 const InitialState = {
@@ -30,7 +31,7 @@ const FiltersContext = createContext();
 
 const FiltersProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, InitialState);
-
+  
   const setGridView = () => {
     dispatch({ type: SET_GRIDVIEW });
   };
@@ -64,6 +65,10 @@ const FiltersProvider = ({ children }) => {
     dispatch({ type: UPDATE_FILTERS, payload: { name, value, checked } });
   };
 
+  const clearFilters = () => {
+    dispatch({ type: CLEAR_FILTERS });
+  };
+  
   useEffect(() => {
     dispatch({ type: FILTER_BREEDS });
     dispatch({ type: SORT_BREEDS });
@@ -80,6 +85,7 @@ const FiltersProvider = ({ children }) => {
         updateSort,
         dispatch,
         updateFilters,
+        clearFilters
       }}
     >
       {children}
