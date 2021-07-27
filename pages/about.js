@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styled from 'styled-components';
-import Image from 'next/image';
+import MyImage from '../components/MyImage';
 
 const About = () => {
   return (
@@ -10,8 +10,8 @@ const About = () => {
       </Head>
       <StyledSection>
         <div className="img-container">
-          <Image
-            src="/images/about-page-cat.jpg"
+          <MyImage
+            src="/about-page-cat_kiw16m.jpg"
             // width="440"
             // height="300"
             layout="fill"

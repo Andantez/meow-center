@@ -3,20 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HiMenu } from 'react-icons/hi';
 import { useHomeContext } from '../context/home_context';
+import MyImage from './MyImage';
 
-
-// TODO: move it to separed component.
-// for testing purpose only
-const myLoader = ({ src, width, quality }) => {
-  console.log(width)
-  return `https://res.cloudinary.com/andantez/image/upload/w_${width},q_${
-    quality || 75
-  }/${src}`;
-};
-const MyImage = (props) => {
-  return <Image loader={myLoader} {...props} />;
-};
-// -----------------------
 const Header = () => {
   const { openSidebar } = useHomeContext();
   return (

@@ -1,8 +1,6 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
 import styled from 'styled-components';
-import tempData from '../data/tempData';
+import MyImage from './MyImage';
 
 const BreedsHero = () => {
   return (
@@ -17,8 +15,8 @@ const BreedsHero = () => {
           </h1>
         </div>
         <div className="img-wrapper">
-          <Image
-            src="/images/hero-cat2.png"
+          <MyImage
+            src="/hero-cat2_ts5hlr.png"
             width="350"
             height="250"
             alt="white cat"
