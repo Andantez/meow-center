@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import Image from 'next/image';
 import SingleFact from '../components/SingleFact';
+import MyImage from './MyImage';
+
 const Facts = ({ facts, mutate }) => {
 
-  // TODO: add loading state 
   const {data} = facts;
   return (
     <StyledSection>
@@ -11,39 +11,37 @@ const Facts = ({ facts, mutate }) => {
         <h2>interesting facts about cats</h2>
       </div>
       <div className="facts-container">
-        {data && data.map((singleFact, index) => {
-          const { fact } = singleFact;
-          return <SingleFact fact={fact} key={fact} />;
-        })}
+        {data &&
+          data.map((singleFact, index) => {
+            const { fact } = singleFact;
+            return <SingleFact fact={fact} key={fact} />;
+          })}
         <div className="img-wrapper">
-          <Image
-            src="/images/homepage-cat1.jpg"
+          <MyImage
+            src="/homepage-cat1_czqrga.jpg"
             width="300"
             height="200"
             alt="ginger cat cleaning itself"
           />
         </div>
         <div className="img-wrapper">
-          <Image
-            src="/images/homepage-cat2.jpg"
+          <MyImage
+            src="/homepage-cat2_ofvlln.jpg"
             width="300"
             height="200"
             alt="cat lying on its back"
           />
         </div>
         <div className="img-wrapper">
-          <Image
-            src="/images/homepage-cat4.jpg"
+          <MyImage
+            src="/homepage-cat4_nmwf26.jpg"
             width="300"
             height="200"
             alt="ginger cat"
           />
         </div>
       </div>
-      <button
-        className="btn"
-        onClick={() => mutate()}
-      >
+      <button className="btn" onClick={() => mutate()}>
         get more facts
       </button>
     </StyledSection>

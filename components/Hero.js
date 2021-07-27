@@ -1,8 +1,7 @@
-import Image from 'next/image';
 import styled from 'styled-components';
 import Ztext from 'react-ztext';
 import Search from './Search';
-import { BsSearch } from 'react-icons/bs';
+import MyImage from './MyImage';
 
 const Hero = () => {
   return (
@@ -33,8 +32,8 @@ const Hero = () => {
           <Search />
         </div>
         <div className="middle-container">
-          <Image
-            src="/images/hero-cat.jpg"
+          <MyImage
+            src="/hero-cat_qjqfte.jpg"
             alt="white grey cat"
             width="280"
             height="180"
@@ -42,9 +41,9 @@ const Hero = () => {
           />
         </div>
         <div className="right-container">
-          <Image
+          <MyImage
             // src="/images/hero-cat3.jpg"
-            src="/images/shy-kitty.png"
+            src="/shy-kitty_tavulr.png"
             alt="bengal cat"
             width="589"
             height="690"
