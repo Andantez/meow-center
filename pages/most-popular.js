@@ -7,7 +7,6 @@ import Head from 'next/head';
 
 const MostPopular = () => {
   const data = tempData.slice(0, 10);
-  // console.log(data)
   return (
     <StyledDiv>
       <Head>
