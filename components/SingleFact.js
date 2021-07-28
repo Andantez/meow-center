@@ -1,12 +1,17 @@
 import styled from 'styled-components';
 import { ImQuotesLeft, ImQuotesRight } from 'react-icons/im';
+import FactsSkeleton from './FactsSkeleton';
 
-const SingleFact = ({ fact }) => {
+const SingleFact = ({ fact, isValidating }) => {
   return (
     <StyledArticle>
-      <p>
-        <ImQuotesLeft /> {fact} <ImQuotesRight />
-      </p>
+      {isValidating ? (
+        <FactsSkeleton />
+      ) : (
+        <p>
+          <ImQuotesLeft /> {fact} <ImQuotesRight />
+        </p>
+      )}
     </StyledArticle>
   );
 };

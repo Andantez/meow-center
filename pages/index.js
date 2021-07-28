@@ -8,7 +8,7 @@ import { useHomeContext } from '../context/home_context';
 import { useEffect } from 'react';
 
 export default function Home({ mostPopularBreeds, facts, breeds }) {
-  const { data, mutate } = useSWR(
+  const { data, mutate, isValidating } = useSWR(
     `${process.env.NEXT_PUBLIC_FACTS_URI}?limit=3&max_length=200`,
     { revalidateOnFocus: false, initialData: facts }
   );
@@ -24,7 +24,7 @@ export default function Home({ mostPopularBreeds, facts, breeds }) {
       </Head>
       <Hero />
       <MostPopular />
-      <Facts facts={data} mutate={mutate} />
+      <Facts facts={data} mutate={mutate} isValidating={isValidating} />
     </>
   );
 }

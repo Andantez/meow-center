@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import SingleFact from '../components/SingleFact';
 import MyImage from './MyImage';
 
-const Facts = ({ facts, mutate }) => {
+const Facts = ({ facts, mutate, isValidating }) => {
+  const { data } = facts;
 
-  const {data} = facts;
   return (
     <StyledSection>
       <div className="heading">
@@ -14,7 +14,7 @@ const Facts = ({ facts, mutate }) => {
         {data &&
           data.map((singleFact, index) => {
             const { fact } = singleFact;
-            return <SingleFact fact={fact} key={fact} />;
+            return <SingleFact fact={fact} key={fact} isValidating={isValidating} />;
           })}
         <div className="img-wrapper">
           <MyImage
@@ -91,7 +91,7 @@ const StyledSection = styled.section`
     border: none;
     border-radius: 0.25em;
     transition: transform 250ms ease;
-      box-shadow: 2px 4px 10px 0 var(--clr-black);
+    box-shadow: 2px 4px 10px 0 var(--clr-black);
     &:hover,
     &:focus {
       transform: scale(1.05);
