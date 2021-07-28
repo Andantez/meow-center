@@ -111,7 +111,7 @@ export const getStaticProps = async () => {
 };
 
 const StyledDiv = styled.div`
-  margin: 10em auto 5em;
+  margin: 3em auto 5em;
   width: 90vw;
   display: grid;
   gap: 1em;
@@ -154,6 +154,7 @@ const StyledDiv = styled.div`
     }
   }
   @media (min-width: 1024px) {
+    margin: 10em auto 5em;
     .search-wrapper {
       display: none;
     }

@@ -49,7 +49,7 @@ const ListView = ({ breeds }) => {
 
 const StyledSection = styled.section`
   display: grid;
-  margin: 2em auto 0;
+  margin: 0 auto;
   gap: 1.5em;
   grid-template-columns: repeat(2, 1fr);
   article {
@@ -121,7 +121,9 @@ const StyledSection = styled.section`
       text-align: unset;
     } */
   }
-
+  @media (min-width:1024px) {
+    margin: 2em auto 0;
+  }
   @media (min-width: 1200px) {
     .list-item .ss-description {
       display: none;

@@ -32,7 +32,7 @@ const StyledSection = styled.section`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5em;
-  margin-top: 2em;
+
   article {
     transform-origin: bottom;
   }
@@ -63,6 +63,10 @@ const StyledSection = styled.section`
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 2em;
   }
 `;
 export default GridView;
