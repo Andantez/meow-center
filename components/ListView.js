@@ -129,7 +129,7 @@ const StyledSection = styled.section`
       display: flex;
       justify-content: flex-end;
       position: absolute;
-      right: 0;
+      right: -1px;
       bottom: -1px;
       font-size: 1.5rem;
       border-bottom-right-radius: 0.25em;
