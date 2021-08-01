@@ -42,9 +42,9 @@ const StyledSection = styled.section`
     transition: transform 250ms ease;
   }
 
-  article:hover,
+
   article:hover .img-wrapper img {
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
   a {
     display: grid;

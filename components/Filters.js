@@ -90,6 +90,9 @@ const StyledDiv = styled.div`
       width: fit-content;
       font-size: 1rem;
       border: 1px solid var(--clr-primary-100);
+      &:hover{
+        cursor: pointer;
+      }
     }
   }
   .form-control:nth-child(2) {
@@ -118,6 +121,11 @@ const StyledDiv = styled.div`
       &:hover {
         opacity: 0.7;
       }
+    }
+
+    label,
+    input {
+      cursor: pointer;
     }
   }
   .clear-btn {

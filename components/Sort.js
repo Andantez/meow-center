@@ -43,6 +43,9 @@ const StyledDiv = styled.div`
     background: transparent;
     border: none;
     color: var(--clr-primary-500);
+    &:hover {
+      cursor: pointer;
+    }
   }
   label {
     font-weight: var(--fw-bold);
