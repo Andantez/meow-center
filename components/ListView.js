@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { BsArrowRight } from 'react-icons/bs';
 
 const ListView = ({ breeds }) => {
   return (
@@ -27,16 +28,20 @@ const ListView = ({ breeds }) => {
                   <p className="ss-description">
                     {description.substring(0, 200)}...
                   </p>
-                  <p className="ls-description">{description}</p>
+                  <p className="ls-description">
+                    {description.length >= 400
+                      ? description.substring(0, 400) + '...'
+                      : description}
+                  </p>
                   <p className="extra-info">
                     <span>origin:</span> <span>{origin}.</span>
                   </p>
                   <p className="extra-info">
                     <span>life span:</span> <span>{life_span} years.</span>
                   </p>
-                  {/* <p className="extra-info">
-                    <span>weight:</span> {weight} kg.
-                  </p> */}
+                </div>
+                <div className="arrow">
+                  <BsArrowRight />
                 </div>
               </a>
             </Link>
@@ -53,15 +58,17 @@ const StyledSection = styled.section`
   gap: 1.5em;
   grid-template-columns: repeat(2, 1fr);
   article {
-    transform-origin: left bottom;
-    transition: transform 250ms ease;
+    border: 1px solid transparent;
+    transition: border 250ms ease;
+    border-radius: 0.5em;
   }
   article:hover {
-    transform: scale(1.05);
+    border: 1px solid var(--clr-primary-500);
   }
 
   .img-wrapper > div {
     border-radius: 0.5em;
+    vertical-align: middle;
   }
   .list-item {
     display: grid;
@@ -83,9 +90,9 @@ const StyledSection = styled.section`
       color: var(--clr-grey);
     }
   }
-  /* .info h2 {
-    text-align: center;
-  } */
+  .arrow {
+    display: none;
+  }
   @media (min-width: 768px) {
     grid-template-columns: 1fr;
 
@@ -99,6 +106,7 @@ const StyledSection = styled.section`
       grid-template-columns: auto 1fr;
       align-items: center;
       gap: 1.5em;
+      position: relative;
       h2 {
         font-size: 1.5rem;
       }
@@ -117,11 +125,35 @@ const StyledSection = styled.section`
       font-weight: var(--fw-normal);
     }
 
-    /* .info h2 {
-      text-align: unset;
-    } */
+    .arrow {
+      display: flex;
+      justify-content: flex-end;
+      position: absolute;
+      right: 0;
+      bottom: -1px;
+      font-size: 1.5rem;
+      border-bottom-right-radius: 0.25em;
+      clip-path: polygon(100% 100%, 100% 100%, 100% 100%, 100% 100%);
+      padding: 1.5em;
+      background-image: linear-gradient(-45deg, #5f5f81 1%, #343446 100%);
+      transition: clip-path 250ms ease-out;
+      svg {
+        color: var(--clr-secondary-500);
+        position: absolute;
+        bottom: 0.5em;
+        right: 0.25em;
+        clip-path: polygon(100% 100%, 100% 100%, 100% 100%, 100% 100%);
+        transition: clip-path 250ms ease-out;
+      }
+    }
+    article:hover .arrow {
+      clip-path: polygon(100% 100%, 100% 0, 48% 50%, 0 100%);
+    }
+    article:hover .arrow svg {
+      clip-path: polygon(100% 100%, 100% 0, 0 0, 0 100%);
+    }
   }
-  @media (min-width:1024px) {
+  @media (min-width: 1024px) {
     margin: 2em auto 0;
   }
   @media (min-width: 1200px) {

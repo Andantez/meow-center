@@ -152,8 +152,6 @@ const StyledDiv = styled.div`
     .filter-wrapper {
       display: initial;
     }
-  }
-  @media (min-width: 1024px) {
     margin: 10em auto 5em;
     .search-wrapper {
       display: none;
