@@ -2,12 +2,91 @@ import styled from 'styled-components';
 import Ztext from 'react-ztext';
 import Search from './Search';
 import MyImage from './MyImage';
+import { motion } from 'framer-motion';
 
+const containerVariants = {
+  initial: {
+    opacity: 0,
+    scale: 0,
+    x: '-100vw'
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    transformOrigin: 'right',
+    transition: {
+      when: 'beforeChildren',
+      type: 'spring',
+      damping: 10,
+      mass: .4,
+      stiffness: 80,
+    },
+  },
+};
+
+const headerVariants = {
+  initial: {
+    y: '-100vh',
+    opacity: 0,
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      damp: 9,
+      mass:0.5,
+      stiffness: 100,
+      delay: .4
+    },
+  },
+};
+const paragraphVariants = {
+  initial: {
+    y: '-100vh',
+    opacity: 0,
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      damp: 9,
+      mass: 0.5,
+      stiffness: 100,
+      delay: 0.2,
+    },
+  },
+};
+const inputVariants = {
+  initial: {
+    y: '-100vh',
+    opacity: 0,
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      damp: 9,
+      mass: 0.5,
+      stiffness: 100,
+      delay: 0.2,
+      delay: 0,
+    },
+  },
+};
 const Hero = () => {
   return (
     <Wrapper>
       <div className="hero-container">
-        <div className="left-container">
+        <motion.div
+          className="left-container"
+          initial="initial"
+          animate="animate"
+          variants={containerVariants}
+        >
           <Ztext
             depth="1.5rem"
             direction="forwards"
@@ -21,16 +100,18 @@ const Hero = () => {
               color: 'hsl(204, 33%, 97%)',
             }}
           >
-            <h1>
+            <motion.h1 variants={headerVariants}>
               <span className="z-layer">Meow Portal</span>
-            </h1>
+            </motion.h1>
           </Ztext>
-          <div className="arrow-wrapper">
+          <motion.div className="arrow-wrapper" variants={paragraphVariants}>
             <p>learn more about your</p>
             <p>cat breed</p>
-          </div>
-          <Search />
-        </div>
+          </motion.div>
+          <motion.div variants={inputVariants}>
+            <Search />
+          </motion.div>
+        </motion.div>
         <div className="middle-container">
           <MyImage
             src="/hero-cat_qjqfte.jpg"
