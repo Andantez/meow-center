@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import SingleFact from '../components/SingleFact';
 import MyImage from './MyImage';
+import { motion } from 'framer-motion';
 
 const Facts = ({ facts, mutate, isValidating }) => {
   const { data } = facts;
@@ -14,7 +15,9 @@ const Facts = ({ facts, mutate, isValidating }) => {
         {data &&
           data.map((singleFact, index) => {
             const { fact } = singleFact;
-            return <SingleFact fact={fact} key={fact} isValidating={isValidating} />;
+            return (
+              <SingleFact fact={fact} key={fact} isValidating={isValidating} />
+            );
           })}
         <div className="img-wrapper">
           <MyImage
@@ -41,9 +44,14 @@ const Facts = ({ facts, mutate, isValidating }) => {
           />
         </div>
       </div>
-      <button className="btn" onClick={() => mutate()}>
+      <motion.button
+        className="btn"
+        onClick={() => mutate()}
+        whileTap={{ scale: 0.9 }}
+        whileHover={{ backgroundColor: '#ea484b' }}
+      >
         get more facts
-      </button>
+      </motion.button>
     </StyledSection>
   );
 };
@@ -83,6 +91,7 @@ const StyledSection = styled.section`
     font-family: var(--ff-paragraph);
     font-weight: var(--fw-bold);
     font-size: 0.8125em;
+    letter-spacing: 1px;
     text-transform: capitalize;
     display: block;
     margin: 0 auto;
@@ -90,15 +99,7 @@ const StyledSection = styled.section`
     background: var(--clr-red-500);
     border: none;
     border-radius: 0.25em;
-    transition: transform 250ms ease;
     box-shadow: 2px 4px 10px 0 var(--clr-black);
-    &:hover,
-    &:focus {
-      transform: scale(1.05);
-    }
-    &:active {
-      transform: scale(0.95);
-    }
   }
 
   @media (min-width: 768px) {
@@ -130,10 +131,6 @@ const StyledSection = styled.section`
     }
     h2 {
       font-size: 2.5rem;
-    }
-
-    .btn {
-      font-size: 0.875rem;
     }
     article:nth-child(1) {
       grid-column: 1 / span 4;
