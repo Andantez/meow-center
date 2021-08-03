@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import FiltersSearch from './FiltersSearch';
-// import temperamentList from '../data/temperamentList';
 import { getUniqueValues } from '../utils/helpers';
 import { useFiltersContext } from '../context/filters_context';
+import { motion } from 'framer-motion';
+import { filtersVariants } from '../variants/filtersVariants';
 
 const Filters = () => {
   const {
@@ -55,9 +56,9 @@ const Filters = () => {
           </select>
         </div>
         <div className="form-control">
-          <button type="button" className="clear-btn" onClick={clearFilters}>
+          <motion.button variants={filtersVariants} whileHover="hover" type="button" className="clear-btn" onClick={clearFilters}>
             Clear Filters
-          </button>
+          </motion.button>
         </div>
       </form>
     </StyledDiv>
