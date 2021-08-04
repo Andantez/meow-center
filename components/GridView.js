@@ -13,7 +13,7 @@ const GridView = ({ breeds }) => {
           image: { url },
         } = breed;
         return (
-          <article key={id} whileHover="hover">
+          <article key={id}>
             <Link href={`/breeds/${id}`}>
               <a>
                 <div className="img-wrapper">

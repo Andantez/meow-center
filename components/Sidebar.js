@@ -3,36 +3,52 @@ import Link from 'next/link';
 import linksData from '../data/linksData';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useHomeContext } from '../context/home_context';
+import { motion, AnimatePresence } from 'framer-motion';
+import { itemVariants, containerVariants, buttonVariants} from '../variants/sidebarVariants';
+
+
 const Sidebar = () => {
   const { isSidebarOpen, closeSidebar } = useHomeContext();
   return (
-    <StyledDiv >
-      {/* TODO: to be handled by framer motion later */}
-      {isSidebarOpen && (
-        <div className="modal-background" onClick={closeSidebar} >
-          <aside onClick={(e) => e.stopPropagation()}>
-            <div className="sidebar-header">
-              <button type="button" className="btn" onClick={closeSidebar}>
-                <AiOutlineClose />
-              </button>
-            </div>
-            <ul className="links">
-              {linksData.map((listItem) => {
-                const { title, icon, link } = listItem;
-                return (
-                  <li key={title}>
-                    <Link href={link}>
-                      <a>
-                        {icon} {title}
-                      </a>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </aside>
-        </div>
-      )}
+    <StyledDiv>
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <div className="modal-background" onClick={closeSidebar}>
+            <motion.aside
+              onClick={(e) => e.stopPropagation()}
+              initial="closed"
+              animate="open"
+              exit="exit"
+              variants={containerVariants}
+            >
+              <div className="sidebar-header">
+                <motion.button
+                  type="button"
+                  className="btn"
+                  onClick={closeSidebar}
+                  variants={buttonVariants}
+                >
+                  <AiOutlineClose />
+                </motion.button>
+              </div>
+              <motion.ul className="links" variants={itemVariants}>
+                {linksData.map((listItem) => {
+                  const { title, icon, link } = listItem;
+                  return (
+                    <li key={title}>
+                      <Link href={link}>
+                        <a>
+                          {icon} {title}
+                        </a>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </motion.ul>
+            </motion.aside>
+          </div>
+        )}
+      </AnimatePresence>
     </StyledDiv>
   );
 };
@@ -44,7 +60,7 @@ const StyledDiv = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(0,0,0, .3);
+    background-color: rgb(0, 0, 0, 0.3);
     z-index: 999;
   }
   aside {
