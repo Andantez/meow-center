@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { BsArrowRight } from 'react-icons/bs';
 
 const GridView = ({ breeds }) => {
   return (
@@ -12,15 +13,24 @@ const GridView = ({ breeds }) => {
           image: { url },
         } = breed;
         return (
-          <article key={id}>
+          <article key={id} whileHover="hover">
             <Link href={`/breeds/${id}`}>
               <a>
                 <div className="img-wrapper">
-                  <Image src={url} width="300" height="200" alt={name} />
+                  <Image
+                    src={url}
+                    width="300"
+                    height="200"
+                    alt={name}
+                    layout="responsive"
+                  />
                 </div>
                 <h2>{name}</h2>
               </a>
             </Link>
+            <div className="arrow">
+              <BsArrowRight />
+            </div>
           </article>
         );
       })}
@@ -33,19 +43,10 @@ const StyledSection = styled.section`
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5em;
 
-  article {
-    transform-origin: bottom;
+  .img-wrapper {
+    width: 100%;
   }
 
-  article,
-  .img-wrapper img {
-    transition: transform 250ms ease;
-  }
-
-
-  article:hover .img-wrapper img {
-    transform: scale(1.1);
-  }
   a {
     display: grid;
     place-items: center;
@@ -60,13 +61,55 @@ const StyledSection = styled.section`
     font-family: var(--ff-paragraph);
     color: var(--clr-primary-500);
   }
-
+  .arrow {
+    display: none;
+  }
   @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
   }
 
   @media (min-width: 1024px) {
     margin-top: 2em;
+    .img-wrapper > div {
+      border-radius: 0.5em;
+      border: 1px solid transparent;
+      transition: border 250ms ease;
+    }
+    article {
+      position: relative;
+    }
+    .arrow {
+      display: flex;
+      position: absolute;
+      bottom: 1.08em;
+      right: 0;
+      font-size: 1.5rem;
+      padding: 1.5em;
+      background-image: linear-gradient(-45deg, #5f5f81 1%, #343446 100%);
+      color: var(--clr-secondary-500);
+      clip-path: polygon(100% 100%, 100% 100%, 100% 100%, 100% 100%);
+      border-bottom-right-radius: 0.25em;
+      transition: clip-path 250ms ease-out;
+      &:hover {
+        clip-path: polygon(100% 100%, 100% 0, 48% 50%, 0 100%);
+      }
+      svg {
+        position: absolute;
+        bottom: 0.5em;
+        right: 0.25em;
+        clip-path: polygon(100% 100%, 100% 100%, 100% 100%, 100% 100%);
+        transition: clip-path 250ms ease-out;
+      }
+    }
+    article:hover .img-wrapper > div {
+      border: 1px solid var(--clr-primary-500);
+    }
+    article:hover .arrow {
+      clip-path: polygon(100% 100%, 100% 0, 48% 50%, 0 100%);
+    }
+    article:hover .arrow svg {
+      clip-path: polygon(100% 100%, 100% 0, 0 0, 0 100%);
+    }
   }
 `;
 export default GridView;
