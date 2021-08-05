@@ -8,7 +8,7 @@ import { ImEqualizer } from 'react-icons/im';
 import FiltersSidebar from '../../components/FiltersSidebar';
 import { useEffect } from 'react';
 import { useFiltersContext } from '../../context/filters_context';
-
+import { AnimatePresence } from 'framer-motion';
 const BreedsPage = ({ breedsData }) => {
   const {
     openFiltersModal,
@@ -45,7 +45,9 @@ const BreedsPage = ({ breedsData }) => {
   }, []);
   return (
     <>
+    <AnimatePresence>
       {isFiltersModalOpen && <FiltersSidebar />}
+    </AnimatePresence>
       <BreedsHero />
       <main>
         <StyledDiv>
