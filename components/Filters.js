@@ -90,6 +90,7 @@ const StyledDiv = styled.div`
       border-radius: 0.5em;
       width: fit-content;
       font-size: 1rem;
+      width: 100%;
       border: 1px solid var(--clr-primary-100);
       &:hover{
         cursor: pointer;
@@ -136,7 +137,7 @@ const StyledDiv = styled.div`
     font-weight: var(--fw-bold);
     padding: 0.35em 2em;
     border-radius: 0.5em;
-    margin: 1em 0;
+    margin: 1em auto;
     width: fit-content;
     cursor: pointer;
   }
