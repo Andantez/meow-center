@@ -6,7 +6,14 @@ import { getCharacteristics } from '../../utils/helpers';
 import Score from '../../components/Score';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
-
+import {
+  CarouselProvider,
+  Slider,
+  Slide,
+  ButtonBack,
+  ButtonNext,
+} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 const BreedDetails = ({ breed, images }) => {
   const { isFallback } = useRouter();
   const [imgIndex, setImgIndex] = useState(0);
@@ -179,8 +186,8 @@ const BreedDetails = ({ breed, images }) => {
               />
             )}
           </div>
-          <div className={`carousel ${imgList.length === 1 && 'disable'}`}>
-            {imgList.slice(fromIndex, toIndex).map((image, index) => {
+          <div>
+            {/* {imgList.slice(fromIndex, toIndex).map((image, index) => {
               return (
                 <div
                   key={image.id}
@@ -190,8 +197,53 @@ const BreedDetails = ({ breed, images }) => {
                   <Image src={image.url} width="250" height="250" />
                 </div>
               );
-            })}
-            <button
+            })} */}
+            <CarouselProvider
+              naturalSlideWidth={200}
+              // naturalSlideHeight={175}
+              totalSlides={imgList.length}
+              orientation="horizontal"
+              step={4}
+              dragStep={4}
+              visibleSlides={4}
+              infinite
+              isIntrinsicHeight={true}
+              className="carousel-wrapper"
+            >
+              <Slider className="sliders-wrapper" moveThreshold={0.4}>
+                {imgList.map((image, index) => {
+                  return (
+                    <Slide
+                      index={index}
+                      className="single-slide"
+                      onClick={() => setImgIndex(index + fromIndex)}
+                    >
+                      <div
+                        className={`${
+                          index + fromIndex === imgIndex
+                            ? 'active img-wrapper'
+                            : 'img-wrapper'
+                        }`}
+                      >
+                        <Image
+                          src={image.url}
+                          width="200"
+                          height="200"
+                          layout="responsive"
+                        />
+                      </div>
+                    </Slide>
+                  );
+                })}
+              </Slider>
+              <ButtonBack className="prev" disabled={imgList.length <= 4}>
+                <FaChevronLeft />
+              </ButtonBack>
+              <ButtonNext className="next" disabled={imgList.length <= 4}>
+                <FaChevronRight />
+              </ButtonNext>
+            </CarouselProvider>
+            {/* <button
               type="button"
               className={`prev ${fromIndex === 0 && 'first-slide'} ${
                 imgList.length <= 3 ? 'hide' : ''
@@ -210,7 +262,7 @@ const BreedDetails = ({ breed, images }) => {
               disabled={imgList.length <= 3}
             >
               <FaChevronRight />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
@@ -223,7 +275,7 @@ export const getStaticProps = async (context) => {
 
   // gets the breed data
   const breedResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?breed_id=${id}&limit=8&order=ASC`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?breed_id=${id}&limit=12&order=ASC`,
     {
       headers: {
         'x-api-key': process.env.X_API_KEY,
@@ -402,16 +454,6 @@ const StyledSection = styled.section`
     gap: 0.5em;
   }
 
-  .carousel {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* gap: 1em; */
-  }
-  .carousel div > div {
-    border-radius: 0.5em;
-    cursor: pointer;
-  }
   .prev,
   .next {
     display: none;
@@ -423,14 +465,11 @@ const StyledSection = styled.section`
     opacity: 0;
   }
 
-  .carousel.disable div {
-    pointer-events: none;
-  }
-
   .active > div {
-    box-shadow: 1px 2px 6px var(--clr-primary-500);
+    border: 2px solid var(--clr-grey);
   }
 
+  /* to be removed  */
   .next.last-slide,
   .prev.first-slide {
     transition: opacity 0.2s ease-in;
@@ -439,6 +478,7 @@ const StyledSection = styled.section`
       opacity: 0.6;
     }
   }
+  /* ------------- */
   .wiki-link {
     font-size: 0.875rem;
     text-transform: capitalize;
@@ -503,6 +543,27 @@ const StyledSection = styled.section`
   .gallery {
     display: none;
   }
+  .img-wrapper > div {
+    vertical-align: middle;
+    border-radius: 0.5em;
+  }
+  .img-wrapper {
+    border-radius: 0.5em;
+  }
+
+  .single-slide {
+    padding: 0 0.5em;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .carousel-wrapper {
+    position: relative;
+  }
+  .sliders-wrapper {
+    border-radius: 0.5em;
+  }
   @media (min-width: 768px) {
     .gallery {
       grid-column: span 2;
@@ -517,7 +578,8 @@ const StyledSection = styled.section`
   .hide {
     display: none !important;
   }
-  .prev-slide:disabled, .next-slide:disabled {
+  .prev-slide:disabled,
+  .next-slide:disabled {
     display: none;
   }
   @media (min-width: 1024px) {
@@ -536,18 +598,15 @@ const StyledSection = styled.section`
     .gallery {
       display: block;
     }
-    .carousel {
-      place-items: center;
-    }
+    
     .prev,
     .next {
       display: inline-block;
-      width: 2.25em;
-      height: 2.25em;
+      width: 2em;
+      height: 2em;
       border: transparent;
       background-color: transparent;
-      opacity: 0.9;
-      border-radius: 50%;
+      opacity: 0.4;
       display: grid;
       place-items: center;
       position: absolute;
@@ -560,17 +619,17 @@ const StyledSection = styled.section`
         opacity: 1;
       }
       svg {
-        font-size: 2rem;
-        color: var(--clr-black);
+        font-size: 1.75rem;
+        color: var(--clr-grey);
       }
     }
 
     .prev {
-      left: -0.75em;
+      left: -1.5em;
     }
 
     .next {
-      right: -0.75em;
+      right: -1.5em;
     }
   }
   @media (min-width: 1200px) {
@@ -593,37 +652,8 @@ const StyledSection = styled.section`
       grid-column: 1 / span 1;
       grid-row: 1;
     }
-
-    .carousel {
+    .carousel-wrapper {
       margin-top: 2em;
-      gap: 1em;
-    }
-
-    .prev,
-    .next {
-      border: transparent;
-      background-color: var(--clr-secondary-500);
-
-      svg {
-        font-size: 1rem;
-        color: var(--clr-grey);
-      }
-    }
-
-    .prev {
-      left: 0.25em;
-    }
-
-    .next {
-      right: 0.25em;
-    }
-  }
-  .next.last-slide,
-  .prev.first-slide {
-    opacity: 0.4;
-
-    &:hover {
-      opacity: 0.4;
     }
   }
 `;
