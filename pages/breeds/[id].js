@@ -12,6 +12,7 @@ import {
   Slide,
   ButtonBack,
   ButtonNext,
+  DotGroup,
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 const BreedDetails = ({ breed, images }) => {
@@ -103,7 +104,7 @@ const BreedDetails = ({ breed, images }) => {
       </Head>
       <div className="container">
         <div className="mobile-img-container">
-          <div className="mobile-img">
+          {/* <div className="mobile-img">
             {imgList.length > 0 && (
               <Image
                 src={imgList[imgIndex].url}
@@ -129,8 +130,46 @@ const BreedDetails = ({ breed, images }) => {
             >
               <FaChevronRight />
             </button>
-          </div>
+          </div> */}
           {imgList.length > 0 && (
+            <CarouselProvider
+              naturalSlideWidth={700}
+              naturalSlideHeight={500}
+              totalSlides={imgList.length}
+              className="mobile-img"
+              infinite
+              step={1}
+              visibleSlides={1}
+            >
+              <Slider className="mobile-slider-container">
+                {imgList.map((img, index) => {
+                  return (
+                    <Slide index={index} key={img.id} className="mobile-slide">
+                      <div className="mobile-img-wrapper">
+                        <Image
+                          src={img.url}
+                          alt={breedData.name}
+                          width="700"
+                          height="500"
+                          priority={true}
+                        />
+                      </div>
+                    </Slide>
+                  );
+                })}
+              </Slider>
+              <ButtonBack className="prev-slide" disabled={imgList.length <= 1}>
+                <FaChevronLeft />
+              </ButtonBack>
+              <ButtonNext className="next-slide" disabled={imgList.length <= 1}>
+                <FaChevronRight />
+              </ButtonNext>
+              <div>
+                <DotGroup className={`dot-group ${imgList.length <=1 && "hidden"}`} />
+              </div>
+            </CarouselProvider>
+          )}
+          {/* {imgList.length > 0 && (
             <div className="indicators">
               {imgList.map((indicator, index) => (
                 <span
@@ -140,7 +179,7 @@ const BreedDetails = ({ breed, images }) => {
                 ></span>
               ))}
             </div>
-          )}
+          )} */}
         </div>
         <div className="details">
           <h1>{breedData.name}</h1>
@@ -214,6 +253,7 @@ const BreedDetails = ({ breed, images }) => {
                 {imgList.map((image, index) => {
                   return (
                     <Slide
+                      key={image.id}
                       index={index}
                       className="single-slide"
                       onClick={() => setImgIndex(index + fromIndex)}
@@ -530,7 +570,7 @@ const StyledSection = styled.section`
     color: var(--clr-grey);
 
     svg {
-      font-size: 1.5rem;
+      font-size: 1.75rem;
     }
   }
 
@@ -563,6 +603,39 @@ const StyledSection = styled.section`
   }
   .sliders-wrapper {
     border-radius: 0.5em;
+  }
+  .mobile-slider-container {
+    border-radius: 0.5em;
+  }
+  .mobile-img-wrapper > div {
+    border-radius: 0.5em;
+  }
+
+  .dot-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+    button {
+      width: 0.75em;
+      height: 0.75em;
+      border-radius: 50%;
+      border: transparent;
+      background-color: var(--clr-lightgrey);
+      opacity: 0.6;
+    }
+
+    button:not(:last-child) {
+      margin-right: 0.5em;
+    }
+    .carousel__dot--selected {
+      background-color: var(--clr-grey);
+      opacity: 1;
+    }
+  }
+  .hidden {
+    /* display: none; */
+    opacity: 0;
+    pointer-events: none;
   }
   @media (min-width: 768px) {
     .gallery {
@@ -598,7 +671,7 @@ const StyledSection = styled.section`
     .gallery {
       display: block;
     }
-    
+
     .prev,
     .next {
       display: inline-block;
@@ -632,6 +705,7 @@ const StyledSection = styled.section`
       right: -1.5em;
     }
   }
+
   @media (min-width: 1200px) {
     .mobile-img-container {
       display: none;
