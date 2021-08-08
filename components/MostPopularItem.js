@@ -1,9 +1,15 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+
 const MostPopularItem = ({ name, imageUrl, id }) => {
   return (
-    <FigureStyled className="figure-container">
+    <FigureStyled
+      className="figure-container"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+    >
       <Link href={`/breeds/${id}`}>
         <a>
           <Image src={imageUrl} alt={name} width="450" height="300" />
@@ -14,16 +20,10 @@ const MostPopularItem = ({ name, imageUrl, id }) => {
   );
 };
 
-const FigureStyled = styled.figure`
+const FigureStyled = styled(motion.figure)`
   cursor: pointer;
-  /* reminder: tochange it  with framer later. */
-  transition: transform 250ms ease;
-  transform-origin: bottom;
   position: relative;
 
-  &:hover {
-    transform: scale(1.05);
-  }
   a > div {
     border-radius: 0.5em;
     box-shadow: 0 4px 14px 0 rgba(32, 32, 39, 20%);
@@ -46,10 +46,9 @@ const FigureStyled = styled.figure`
       border-bottom-left-radius: 0.5em;
       border-top-right-radius: 0.5em;
       background: rgba(245, 248, 250, 0.9);
-      transition: clip-path 250ms ease 50ms, border 250ms ease;
+      transition: clip-path 300ms ease 50ms, border 250ms ease;
       clip-path: polygon(0 100%, 0 100%, 100% 100%, 100% 100%);
     }
-    /* reminder: change the transition with framer later */
     &:hover figcaption {
       clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
     }
