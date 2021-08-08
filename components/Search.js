@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useHomeContext } from '../context/home_context';
-
 import { BiSearch } from 'react-icons/bi';
 import { AiOutlineClose } from 'react-icons/ai';
+import { motion, AnimatePresence } from 'framer-motion';
+import { searchResultsVariants } from '../variants/searchResultsVariants';
 
 const Search = () => {
   const {
@@ -14,7 +15,7 @@ const Search = () => {
     itsOnFocus,
     isLoadingData,
     noResultsFound,
-    filteredBreeds
+    filteredBreeds,
   } = useHomeContext();
 
   return (
@@ -38,38 +39,48 @@ const Search = () => {
         placeholder="Search by name"
         value={query}
       />
-      <div className="results">
-        {filteredBreeds &&
-          itsOnFocus &&
-          filteredBreeds.map((breed) => {
-            const { id, name } = breed;
-            return (
-              <Link href={`/breeds/${id}`} key={id}>
-                <a
-                  onClick={() => setUserQuery('')}
-                  // prevents from Focus event firing and closing the results div
-                  onMouseDown={(e) => e.preventDefault()}
-                >
-                  {name}
-                </a>
-              </Link>
-            );
-          })}
-        {/*if its  fetching data show loader */}
-        {isLoadingData && (
-          <div className="loader-wrapper">
-            <div className="loader"></div>
-          </div>
-        )}
+      <AnimatePresence>
+        {filteredBreeds && itsOnFocus && query && (
+          <motion.div
+            className="results"
+            exit="hide"
+            initial="hide"
+            animate="show"
+            variants={searchResultsVariants}
+          >
+            {filteredBreeds &&
+              itsOnFocus &&
+              filteredBreeds.map((breed) => {
+                const { id, name } = breed;
+                return (
+                  <Link href={`/breeds/${id}`} key={id}>
+                    <a
+                      onClick={() => setUserQuery('')}
+                      // prevents from Focus event firing and closing the results div
+                      onMouseDown={(e) => e.preventDefault()}
+                    >
+                      {name}
+                    </a>
+                  </Link>
+                );
+              })}
+            {/*if its  fetching data show loader */}
+            {isLoadingData && (
+              <div className="loader-wrapper">
+                <div className="loader"></div>
+              </div>
+            )}
 
-        {/* if there are no results found */}
-        {noResultsFound && (
-          <div className="no-results">
-            <p>No results for "{query}".</p>
-            <p>Try again with different name.</p>
-          </div>
+            {/* if there are no results found */}
+            {noResultsFound && (
+              <div className="no-results">
+                <p>No results for "{query}".</p>
+                <p>Try again with different name.</p>
+              </div>
+            )}
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </InputWrapper>
   );
 };

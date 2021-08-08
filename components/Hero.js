@@ -140,6 +140,7 @@ const Wrapper = styled.div`
   background: var(--clr-primary-500);
   position: relative;
   background: var(--clr-primary-500);
+  z-index: 99;
   .hero-container {
     display: grid;
     place-items: center;
