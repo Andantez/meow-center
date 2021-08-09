@@ -2,10 +2,18 @@ export const fadeInOut = {
   show: {
     x: 0,
     opacity: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.6, -0.05, 0.01, 0.99],
+    },
   },
   hide: {
     x: -60,
     opacity: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.6, -0.05, 0.01, 0.99],
+    },
   },
   exit: {
     x: 60,
@@ -34,11 +42,17 @@ export const parentVariants = {
     opacity: 1,
     transition: {
       when: 'beforeChildren',
+      duration: 0.5,
+      ease: [0.6, -0.05, 0.01, 0.99],
     },
   },
   hide: {
     x: -60,
     opacity: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.6, -0.05, 0.01, 0.99],
+    },
   },
   exit: {
     opacity: 0,
