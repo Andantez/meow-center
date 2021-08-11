@@ -6,6 +6,7 @@ import useSWR from 'swr';
 // import { connectToDatabase } from '../utils/mongodb';
 import { useHomeContext } from '../context/home_context';
 import { useEffect } from 'react';
+import { useRouterScroll } from '@moxy/next-router-scroll';
 
 export default function Home({ mostPopularBreeds, facts, breeds }) {
   const { data, mutate, isValidating } = useSWR(
@@ -13,10 +14,15 @@ export default function Home({ mostPopularBreeds, facts, breeds }) {
     { revalidateOnFocus: false, initialData: facts }
   );
   const { setData } = useHomeContext();
+  const { updateScroll } = useRouterScroll();
 
   useEffect(() => {
+    updateScroll();
+  }, []);
+  
+  useEffect(() => {
     setData(breeds);
-  }, [])
+  }, []);
   return (
     <>
       <Head>
