@@ -5,12 +5,8 @@ import { SWRConfig } from 'swr';
 import '../styles/globals.css';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
+import { RouterScrollProvider } from '@moxy/next-router-scroll';
 
-function handleExitComplete() {
-  if (typeof window !== 'undefined') {
-    window.scrollTo({ top: 0 });
-  }
-}
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   return (
@@ -26,14 +22,13 @@ function MyApp({ Component, pageProps }) {
               }).then((res) => res.json()),
           }}
         >
-          <Layout>
-            <AnimatePresence
-              exitBeforeEnter
-              onExitComplete={handleExitComplete}
-            >
-              <Component {...pageProps} key={router.route} />
-            </AnimatePresence>
-          </Layout>
+          <RouterScrollProvider>
+            <Layout>
+              <AnimatePresence exitBeforeEnter>
+                <Component {...pageProps} key={router.route} />
+              </AnimatePresence>
+            </Layout>
+          </RouterScrollProvider>
         </SWRConfig>
       </FiltersContextProvider>
     </HomeProvider>
