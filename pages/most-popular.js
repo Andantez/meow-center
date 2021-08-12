@@ -4,11 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
 import Head from 'next/head';
+import { motion } from 'framer-motion';
 
 const MostPopular = () => {
   const data = tempData.slice(0, 10);
   return (
-    <StyledDiv>
+    <StyledDiv exit={{ opacity: 0 }}>
       <Head>
         <title>Most Popular | Meow Portal</title>
       </Head>
@@ -49,7 +50,7 @@ const MostPopular = () => {
   );
 };
 
-const StyledDiv = styled.div`
+const StyledDiv = styled(motion.div)`
   max-width: 1200px;
   width: 90vw;
   margin: 3em auto;

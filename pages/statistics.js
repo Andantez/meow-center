@@ -9,32 +9,31 @@ import {
   formatRadarChartData,
   paginate,
 } from '../utils/helpers';
+import { motion } from 'framer-motion';
 
 const Statistics = ({ pieChartData, barChartData, radarChartData }) => {
   return (
-    <>
-      <div>
-        <Head>
-          <title>Statistics | Meow Portal</title>
-        </Head>
-        <StyledHeadingDiv>
-          <h1>Cat Breeds Charts</h1>
-          <p>Every cat breed has its own unique characteristics.</p>
-          <p>
-            Here you can compare breeds based on their characteristics and help
-            you find the right cat breed for you!
-          </p>
-        </StyledHeadingDiv>
-        <StyledDiv>
-          {/* Pie Chart */}
-          <PieChart data={pieChartData} />
-          {/* Bar Chart */}
-          <BarChart data={barChartData} />
-          {/* Radar Chart */}
-          <RadarChart data={radarChartData} />
-        </StyledDiv>
-      </div>
-    </>
+    <motion.div exit={{ opacity: 0 }}>
+      <Head>
+        <title>Statistics | Meow Portal</title>
+      </Head>
+      <StyledHeadingDiv>
+        <h1>Cat Breeds Charts</h1>
+        <p>Every cat breed has its own unique characteristics.</p>
+        <p>
+          Here you can compare breeds based on their characteristics and help
+          you find the right cat breed for you!
+        </p>
+      </StyledHeadingDiv>
+      <StyledDiv>
+        {/* Pie Chart */}
+        <PieChart data={pieChartData} />
+        {/* Bar Chart */}
+        <BarChart data={barChartData} />
+        {/* Radar Chart */}
+        <RadarChart data={radarChartData} />
+      </StyledDiv>
+    </motion.div>
   );
 };
 const StyledHeadingDiv = styled.div`
