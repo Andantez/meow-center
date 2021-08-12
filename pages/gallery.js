@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import useIsIntersecting from '../hoooks/useItsIntersecting';
 import Skeleton from '../components/Skeleton';
 import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
 
 const breakpointColumnsObj = {
   default: 3,
@@ -97,7 +98,7 @@ const Gallery = ({ categories }) => {
   // if (!data) return 'loading';
 
   return (
-    <div>
+    <motion.div exit={{opacity: 0}}>
       <Head>
         <title>Gallery | Meow Portal</title>
       </Head>
@@ -196,7 +197,7 @@ const Gallery = ({ categories }) => {
           </div>
         </div>
       </StyledSection>
-    </div>
+    </motion.div>
   );
 };
 export const getStaticProps = async (context) => {
