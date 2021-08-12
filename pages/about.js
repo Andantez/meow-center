@@ -2,15 +2,20 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import MyImage from '../components/MyImage';
 import { motion } from 'framer-motion';
+import {
+  fadeInAndUp,
+  stagger,
+  fadeInDown,
+} from '../variants/animationVariants';
 
 const About = () => {
   return (
-    <motion.div exit={{ opacity: 0 }}>
+    <motion.div initial="initial" animate="animate" exit={{ opacity: 0 }}>
       <Head>
         <title>About | Meow Portal</title>
       </Head>
       <StyledSection>
-        <div className="img-container">
+        <motion.div className="img-container" variants={fadeInDown}>
           <MyImage
             src="/about-page-cat_kiw16m.jpg"
             // width="440"
@@ -18,24 +23,19 @@ const About = () => {
             layout="fill"
             objectFit="cover"
           />
-        </div>
-        <div className="info">
-          <h1>About Meow Portal</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore
-            porro quo facere, cumque officiis id placeat exercitationem
-            architecto provident, itaque culpa voluptates unde. Id deserunt enim
-            repudiandae odit tempora veritatis, quisquam placeat ut illo earum?
-            Maxime ab a itaque culpa tempora, aperiam obcaecati architecto
-            consequatur qui, nemo fugit iure. Animi aperiam delectus corporis,
-            dignissimos ad eum expedita repellat veritatis voluptatum dolor
-            autem impedit asperiores reprehenderit deleniti reiciendis optio
-            officia? Asperiores perspiciatis ratione omnis reiciendis illo
-            corporis inventore porro ipsa corrupti ab maiores veritatis error
-            vel quam eum incidunt doloremque illum ut beatae similique, aliquam
-            cupiditate. Velit nobis inventore molestias dignissimos!
-          </p>
-        </div>
+        </motion.div>
+        <motion.div className="info" variants={stagger} custom={0.1}>
+          <motion.h1 variants={fadeInAndUp}>About Meow Portal</motion.h1>
+          <motion.p variants={fadeInAndUp}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
+            fugiat possimus blanditiis nobis reiciendis et quasi voluptates a
+            alias, consequuntur animi in sunt laborum cupiditate!
+          </motion.p>
+          <motion.p variants={fadeInAndUp}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
+            fugiat possimus blanditiis nobis
+          </motion.p>
+        </motion.div>
       </StyledSection>
     </motion.div>
   );
