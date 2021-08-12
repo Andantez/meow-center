@@ -463,46 +463,10 @@
     "@react-spring/shared" "~9.2.0"
     "@react-spring/types" "~9.2.0"
 
-"@types/hoist-non-react-statics@*":
-  "integrity" "sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA=="
-  "resolved" "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz"
-  "version" "3.3.1"
-  dependencies:
-    "@types/react" "*"
-    "hoist-non-react-statics" "^3.3.0"
-
 "@types/node@*":
   "integrity" "sha512-TMkXt0Ck1y0KKsGr9gJtWGjttxlZnnvDtphxUOSd0bfaR6Q1jle+sPvrzNR1urqYTWMinoKvjKfXUGsumaO1PA=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-15.0.1.tgz"
   "version" "15.0.1"
-
-"@types/prop-types@*":
-  "integrity" "sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw=="
-  "resolved" "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.3.tgz"
-  "version" "15.7.3"
-
-"@types/react@*":
-  "integrity" "sha512-bj4biDB9ZJmGAYTWSKJly6bMr4BLUiBrx9ujiJEoP9XIDY9CTaPGxE5QWN/1WjpPLzYF7/jRNnV2nNxNe970sw=="
-  "resolved" "https://registry.npmjs.org/@types/react/-/react-17.0.5.tgz"
-  "version" "17.0.5"
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    "csstype" "^3.0.2"
-
-"@types/scheduler@*":
-  "integrity" "sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA=="
-  "resolved" "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.1.tgz"
-  "version" "0.16.1"
-
-"@types/styled-components@^5.1.9":
-  "integrity" "sha512-kbEG6YlwK8rucITpKEr6pA4Ho9KSQHUUOzZ9lY3va1mtcjvS3D0wDciFyHEiNHKLL/npZCKDQJqm0x44sPO9oA=="
-  "resolved" "https://registry.npmjs.org/@types/styled-components/-/styled-components-5.1.9.tgz"
-  "version" "5.1.9"
-  dependencies:
-    "@types/hoist-non-react-statics" "*"
-    "@types/react" "*"
-    "csstype" "^3.0.2"
 
 "anser@1.4.9":
   "integrity" "sha512-AI+BjTeGt2+WFk4eWcqbQ7snZpDBt8SaLlj0RT2h5xfdWaiy51OjYvqwMrNzJLGy8iOAL6nKDITWO+rd4MkYEA=="
@@ -1396,7 +1360,7 @@
     "minimalistic-assert" "^1.0.0"
     "minimalistic-crypto-utils" "^1.0.1"
 
-"hoist-non-react-statics@^3.0.0", "hoist-non-react-statics@^3.3.0", "hoist-non-react-statics@^3.3.1", "hoist-non-react-statics@^3.3.2":
+"hoist-non-react-statics@^3.0.0", "hoist-non-react-statics@^3.3.1", "hoist-non-react-statics@^3.3.2":
   "integrity" "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw=="
   "resolved" "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz"
   "version" "3.3.2"
@@ -2215,15 +2179,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react-ztext@^1.0.3":
-  "integrity" "sha512-mDJLTd7zALEq9XeT40td1o+KjIiLp9/oxHPsSkH9GPmX+x2D5O8Q/xqbKxkmxFMmqyxjJx9XvwY2NOFsyfUsDA=="
-  "resolved" "https://registry.npmjs.org/react-ztext/-/react-ztext-1.0.3.tgz"
-  "version" "1.0.3"
-  dependencies:
-    "@types/styled-components" "^5.1.9"
-    "styled-components" "^5.2.1"
-
-"react@*", "react@^0.14.9 || ^15.3.0 || ^16.0.0", "react@^16.11.0 || ^17.0.0", "react@^16.3.0 || ^17.0.0", "react@^16.8.0  || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^17.0.1", "react@^17.0.2", "react@>= 16.8.0", "react@>= 16.8.4 < 18.0.0", "react@>=16.0.0", "react@>=16.6.0", "react@>=16.8 || ^17.0.0", "react@>=16.8.0", "react@>=16.8.0 <18", "react@15.x || 16.x || 17.x", "react@15.x.x || 16.x.x || 17.x.x", "react@17.0.2":
+"react@*", "react@^0.14.9 || ^15.3.0 || ^16.0.0", "react@^16.11.0 || ^17.0.0", "react@^16.3.0 || ^17.0.0", "react@^16.8.0  || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^17.0.2", "react@>= 16.8.0", "react@>= 16.8.4 < 18.0.0", "react@>=16.0.0", "react@>=16.6.0", "react@>=16.8 || ^17.0.0", "react@>=16.8.0", "react@>=16.8.0 <18", "react@15.x || 16.x || 17.x", "react@15.x.x || 16.x.x || 17.x.x", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -2516,7 +2472,7 @@
     "hey-listen" "^1.0.8"
     "tslib" "^2.1.0"
 
-"styled-components@^5.2.1", "styled-components@^5.2.3", "styled-components@>= 2":
+"styled-components@^5.2.3", "styled-components@>= 2":
   "integrity" "sha512-BlR+KrLW3NL1yhvEB+9Nu9Dt51CuOnHoxd+Hj+rYPdtyR8X11uIW9rvhpy3Dk4dXXBsiW1u5U78f00Lf/afGoA=="
   "resolved" "https://registry.npmjs.org/styled-components/-/styled-components-5.2.3.tgz"
   "version" "5.2.3"

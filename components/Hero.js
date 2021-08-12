@@ -8,7 +8,7 @@ const containerVariants = {
   initial: {
     opacity: 0,
     scale: 0,
-    x: '-100vw'
+    x: '-100vw',
   },
   animate: {
     opacity: 1,
@@ -19,7 +19,7 @@ const containerVariants = {
       when: 'beforeChildren',
       type: 'spring',
       damping: 10,
-      mass: .4,
+      mass: 0.4,
       stiffness: 80,
     },
   },
@@ -36,9 +36,9 @@ const headerVariants = {
     transition: {
       type: 'spring',
       damp: 9,
-      mass:0.5,
+      mass: 0.5,
       stiffness: 100,
-      delay: .4
+      delay: 0.4,
     },
   },
 };
@@ -87,23 +87,10 @@ const Hero = () => {
           animate="animate"
           variants={containerVariants}
         >
-          <Ztext
-            depth="1.5rem"
-            direction="forwards"
-            event="none"
-            eventRotation="20deg"
-            eventDirection="default"
-            fade={false}
-            layers={10}
-            perspective="600px"
-            style={{
-              color: 'hsl(204, 33%, 97%)',
-            }}
-          >
-            <motion.h1 variants={headerVariants}>
-              <span className="z-layer">Meow Portal</span>
-            </motion.h1>
-          </Ztext>
+          <motion.h1 variants={headerVariants}>
+            <span className="z-layer">Meow Portal</span>
+          </motion.h1>
+
           <motion.div className="arrow-wrapper" variants={paragraphVariants}>
             <p>learn more about your</p>
             <p>cat breed</p>
