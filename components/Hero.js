@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Ztext from 'react-ztext';
 import Search from './Search';
 import MyImage from './MyImage';
 import { motion } from 'framer-motion';
