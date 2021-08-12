@@ -1,10 +1,11 @@
 import Head from 'next/head';
 import styled from 'styled-components';
 import MyImage from '../components/MyImage';
+import { motion } from 'framer-motion';
 
 const About = () => {
   return (
-    <div>
+    <motion.div exit={{ opacity: 0 }}>
       <Head>
         <title>About | Meow Portal</title>
       </Head>
@@ -36,7 +37,7 @@ const About = () => {
           </p>
         </div>
       </StyledSection>
-    </div>
+    </motion.div>
   );
 };
 

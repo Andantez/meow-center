@@ -15,6 +15,8 @@ import {
   DotGroup,
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+import { motion } from 'framer-motion';
+
 const BreedDetails = ({ breed, images }) => {
   const { isFallback } = useRouter();
   const [imgIndex, setImgIndex] = useState(0);
@@ -98,7 +100,7 @@ const BreedDetails = ({ breed, images }) => {
     return <div>LOADING.............</div>;
   }
   return (
-    <StyledSection>
+    <StyledSection exit={{ opacity: 0 }}>
       <Head>
         <title>{breedData.name} | Meow Portal</title>
       </Head>
@@ -165,7 +167,9 @@ const BreedDetails = ({ breed, images }) => {
                 <FaChevronRight />
               </ButtonNext>
               <div>
-                <DotGroup className={`dot-group ${imgList.length <=1 && "hidden"}`} />
+                <DotGroup
+                  className={`dot-group ${imgList.length <= 1 && 'hidden'}`}
+                />
               </div>
             </CarouselProvider>
           )}
@@ -424,7 +428,7 @@ export const getStaticPaths = async () => {
   };
 };
 
-const StyledSection = styled.section`
+const StyledSection = styled(motion.section)`
   width: 90vw;
   margin: 0 auto;
   max-width: 1200px;

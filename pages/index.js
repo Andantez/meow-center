@@ -7,6 +7,7 @@ import useSWR from 'swr';
 import { useHomeContext } from '../context/home_context';
 import { useEffect } from 'react';
 import { useRouterScroll } from '@moxy/next-router-scroll';
+import { motion } from 'framer-motion';
 
 export default function Home({ mostPopularBreeds, facts, breeds }) {
   const { data, mutate, isValidating } = useSWR(
@@ -19,19 +20,19 @@ export default function Home({ mostPopularBreeds, facts, breeds }) {
   useEffect(() => {
     updateScroll();
   }, []);
-  
+
   useEffect(() => {
     setData(breeds);
   }, []);
   return (
-    <>
+    <motion.div exit={{ opacity: 0 }}>
       <Head>
         <title>Meow Portal - Learn More About Your Cat Breed</title>
       </Head>
       <Hero />
       <MostPopular />
       <Facts facts={data} mutate={mutate} isValidating={isValidating} />
-    </>
+    </motion.div>
   );
 }
 
