@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }) {
               }).then((res) => res.json()),
           }}
         >
-          <RouterScrollProvider>
+          <RouterScrollProvider disableNextLinkScroll={false}>
             <Layout>
               <AnimatePresence exitBeforeEnter>
                 <Component {...pageProps} key={router.route} />

@@ -14,10 +14,11 @@ export const fadeInAndUp = {
 };
 
 export const stagger = {
-  animate: (staggerDuration) => ({
+  animate: ({ staggerDuration, staggerDirection, delayChildren }) => ({
     transition: {
       staggerChildren: staggerDuration,
-      delayChildren: 0.2,
+      delayChildren,
+      staggerDirection,
     },
   }),
 };
@@ -33,7 +34,24 @@ export const fadeInDown = {
     transition: {
       duration: 0.5,
       ease: 'backInOut',
-      delay: 0.2,
-    }
-  }
-}
+    },
+  },
+};
+
+export const containerVariants = {
+  initial: {
+    x: -60,
+    opacity: 0,
+  },
+  animate: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      when: 'beforeChildren',
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+      duration: 0.5,
+      ease: 'backInOut',
+    },
+  },
+};

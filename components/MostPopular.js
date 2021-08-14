@@ -2,15 +2,29 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
 import MostPopularItem from '../components/MostPopularItem';
-
 import tempData from '../data/tempData';
+import { motion } from 'framer-motion';
+import {
+  fadeInAndUp,
+  stagger,
+  fadeInDown,
+} from '../variants/animationVariants';
 
 const MostPopular = () => {
   const data = tempData.slice(5, 12);
   return (
     <StyledMain>
-      <section>
-        <h2>most popular breeds</h2>
+      <motion.section
+        initial="initial"
+        animate="animate"
+        variants={stagger}
+        custom={{
+          staggerDuration: 0.1,
+          staggerDirection: 1,
+          delayChildren: 0.5,
+        }}
+      >
+        <motion.h2 variants={fadeInAndUp}>most popular breeds</motion.h2>
         {data.map((breed) => {
           const {
             name,
@@ -22,13 +36,13 @@ const MostPopular = () => {
           );
         })}
 
-        <h3>50+ breeds you can discover</h3>
+        <motion.h3 variants={fadeInAndUp}>50+ breeds you can discover</motion.h3>
         <Link href="/most-popular">
-          <a className="see-more-link">
+          <motion.a variants={fadeInAndUp} className="see-more-link">
             See More <BsArrowRightShort />
-          </a>
+          </motion.a>
         </Link>
-      </section>
+      </motion.section>
     </StyledMain>
   );
 };
@@ -36,7 +50,9 @@ const MostPopular = () => {
 const StyledMain = styled.main`
   margin-top: 5em;
   margin-bottom: 5em;
-
+  a {
+    cursor: pointer;
+  }
   section {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -174,7 +190,6 @@ const StyledMain = styled.main`
           transform: scale(1.1);
         }
       }
-     
     }
   }
 `;
