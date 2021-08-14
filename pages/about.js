@@ -24,7 +24,7 @@ const About = () => {
             objectFit="cover"
           />
         </motion.div>
-        <motion.div className="info" variants={stagger} custom={0.1}>
+        <motion.div className="info" variants={stagger} custom={{staggerDuration: 0.1, staggerDirection: 1, delayChildren: 0.2}}>
           <motion.h1 variants={fadeInAndUp}>About Meow Portal</motion.h1>
           <motion.p variants={fadeInAndUp}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam

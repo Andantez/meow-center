@@ -2,6 +2,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { fadeInAndUp } from '../variants/animationVariants';
 
 const MostPopularItem = ({ name, imageUrl, id }) => {
   return (
@@ -9,6 +10,9 @@ const MostPopularItem = ({ name, imageUrl, id }) => {
       className="figure-container"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
+      animate="animate"
+      initial="initial"
+      // variants={fadeInAndUp}
     >
       <Link href={`/breeds/${id}`}>
         <a>
@@ -20,7 +24,7 @@ const MostPopularItem = ({ name, imageUrl, id }) => {
   );
 };
 
-const FigureStyled = styled(motion.figure)`
+const FigureStyled = styled.figure`
   cursor: pointer;
   position: relative;
 

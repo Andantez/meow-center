@@ -2,99 +2,29 @@ import styled from 'styled-components';
 import Search from './Search';
 import MyImage from './MyImage';
 import { motion } from 'framer-motion';
+import {
+  fadeInDown,
+  containerVariants,
 
-const containerVariants = {
-  initial: {
-    opacity: 0,
-    scale: 0,
-    x: '-100vw',
-  },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    x: 0,
-    transformOrigin: 'right',
-    transition: {
-      when: 'beforeChildren',
-      type: 'spring',
-      damping: 10,
-      mass: 0.4,
-      stiffness: 80,
-    },
-  },
-};
+} from '../variants/animationVariants';
 
-const headerVariants = {
-  initial: {
-    y: '-100vh',
-    opacity: 0,
-  },
-  animate: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      damp: 9,
-      mass: 0.5,
-      stiffness: 100,
-      delay: 0.4,
-    },
-  },
-};
-const paragraphVariants = {
-  initial: {
-    y: '-100vh',
-    opacity: 0,
-  },
-  animate: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      damp: 9,
-      mass: 0.5,
-      stiffness: 100,
-      delay: 0.2,
-    },
-  },
-};
-const inputVariants = {
-  initial: {
-    y: '-100vh',
-    opacity: 0,
-  },
-  animate: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      damp: 9,
-      mass: 0.5,
-      stiffness: 100,
-      delay: 0.2,
-      delay: 0,
-    },
-  },
-};
 const Hero = () => {
   return (
     <Wrapper>
-      <div className="hero-container">
-        <motion.div
-          className="left-container"
-          initial="initial"
-          animate="animate"
-          variants={containerVariants}
-        >
-          <motion.h1 variants={headerVariants}>
+      <motion.div
+        className="hero-container"
+        initial="initial"
+        animate="animate"
+      >
+        <motion.div className="left-container" variants={containerVariants}>
+          <motion.h1 variants={fadeInDown}>
             <span className="z-layer">Meow Portal</span>
           </motion.h1>
-
-          <motion.div className="arrow-wrapper" variants={paragraphVariants}>
+          <motion.div className="arrow-wrapper" variants={fadeInDown}>
             <p>learn more about your</p>
             <p>cat breed</p>
           </motion.div>
-          <motion.div variants={inputVariants}>
+          <motion.div variants={fadeInDown}>
             <Search />
           </motion.div>
         </motion.div>
@@ -109,7 +39,6 @@ const Hero = () => {
         </div>
         <div className="right-container">
           <MyImage
-            // src="/images/hero-cat3.jpg"
             src="/shy-kitty_tavulr.png"
             alt="bengal cat"
             width="589"
@@ -117,13 +46,12 @@ const Hero = () => {
             priority={true}
           />
         </div>
-      </div>
+      </motion.div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  background: var(--clr-primary-500);
   position: relative;
   background: var(--clr-primary-500);
   z-index: 99;
@@ -146,7 +74,10 @@ const Wrapper = styled.div`
       font-size: 2.25rem;
       margin: 0.6em 0;
     }
-
+    .z-layer {
+      position: relative;
+      z-index: 1;
+    }
     /* p {
       font-family: var(--ff-paragraph);
       text-transform: capitalize;
