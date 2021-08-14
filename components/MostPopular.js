@@ -37,7 +37,7 @@ const MostPopular = () => {
         })}
 
         <motion.h3 variants={fadeInAndUp}>50+ breeds you can discover</motion.h3>
-        <Link href="/most-popular">
+        <Link href="/most-popular" scroll={false}>
           <motion.a variants={fadeInAndUp} className="see-more-link">
             See More <BsArrowRightShort />
           </motion.a>

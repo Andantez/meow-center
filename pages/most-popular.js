@@ -5,16 +5,28 @@ import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
+import { fadeIn,fadeInDown, stagger } from '../variants/animationVariants';
+import { useEffect } from 'react';
 
 const MostPopular = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const data = tempData.slice(0, 10);
   return (
-    <StyledDiv exit={{ opacity: 0 }}>
+    <StyledDiv exit={{ opacity: 0 }} initial="initial" animate="animate">
       <Head>
         <title>Most Popular | Meow Portal</title>
       </Head>
-      <h1>top 10 most popular breed</h1>
-      <section>
+      <motion.h1 variants={fadeInDown}>top 10 most popular breed</motion.h1>
+      <motion.section
+        variants={stagger}
+        custom={{
+          staggerDuration: 0.1,
+          staggerDirection: 1,
+          delayChildren: 0.2,
+        }}
+      >
         {data.map((breed, index) => {
           const {
             id,
@@ -23,7 +35,7 @@ const MostPopular = () => {
             image: { url },
           } = breed;
           return (
-            <div className="background">
+            <motion.div key={id} className="background" variants={fadeIn}>
               <div className="content">
                 <div className="img-container">
                   <Image src={url} width="450" height="400" />
@@ -34,7 +46,7 @@ const MostPopular = () => {
                     {name}
                   </p>
                   <p className="description">{description.slice(0, 200)}...</p>
-                  <Link href={`/breeds/${id}`}>
+                  <Link href={`/breeds/${id}`} scroll={false}>
                     <a>
                       Learn More
                       <BsArrowRightShort />
@@ -42,10 +54,10 @@ const MostPopular = () => {
                   </Link>
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </section>
+      </motion.section>
     </StyledDiv>
   );
 };
