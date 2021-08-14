@@ -1,20 +1,11 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { fadeInAndUp } from '../variants/animationVariants';
 
 const MostPopularItem = ({ name, imageUrl, id }) => {
   return (
-    <FigureStyled
-      className="figure-container"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      animate="animate"
-      initial="initial"
-      // variants={fadeInAndUp}
-    >
-      <Link href={`/breeds/${id}`}>
+    <FigureStyled className="figure-container">
+      <Link href={`/breeds/${id}`} scroll={false}>
         <a>
           <Image src={imageUrl} alt={name} width="450" height="300" />
           <figcaption>{name}</figcaption>

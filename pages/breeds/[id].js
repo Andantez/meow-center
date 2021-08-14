@@ -607,6 +607,7 @@ const StyledSection = styled(motion.section)`
   }
   .sliders-wrapper {
     border-radius: 0.5em;
+    overflow: hidden;
   }
   .mobile-slider-container {
     border-radius: 0.5em;
