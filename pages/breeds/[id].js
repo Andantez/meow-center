@@ -16,13 +16,19 @@ import {
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { motion } from 'framer-motion';
+import {
+  fadeInDown,
+  fadeInAndUp,
+  stagger,
+  fadeIn,
+} from '../../variants/animationVariants';
 
 const BreedDetails = ({ breed, images }) => {
   const { isFallback } = useRouter();
   const [imgIndex, setImgIndex] = useState(0);
   const [imgList, setImageList] = useState([]);
   const [breedData, setBreedData] = useState({});
-  const [characteristics, setCharacteristics] = useState([]);
+  const [characteristics, setCharacteristics] = useState();
   const [[fromIndex, toIndex], setFromIndexToIndex] = useState([0, 3]);
 
   // commented one until make sure it works fine like it is.
@@ -100,12 +106,12 @@ const BreedDetails = ({ breed, images }) => {
     return <div>LOADING.............</div>;
   }
   return (
-    <StyledSection exit={{ opacity: 0 }}>
+    <StyledSection exit={{ opacity: 0 }} initial="initial" animate="animate">
       <Head>
         <title>{breedData.name} | Meow Portal</title>
       </Head>
       <div className="container">
-        <div className="mobile-img-container">
+        <motion.div className="mobile-img-container" variants={fadeInDown}>
           {/* <div className="mobile-img">
             {imgList.length > 0 && (
               <Image
@@ -184,28 +190,49 @@ const BreedDetails = ({ breed, images }) => {
               ))}
             </div>
           )} */}
-        </div>
-        <div className="details">
-          <h1>{breedData.name}</h1>
-          <article>
-            <p>{breedData.description}</p>
-            <div className="temperament">
+        </motion.div>
+        <motion.div className="details">
+          <motion.h1 variants={fadeInDown}>{breedData.name}</motion.h1>
+          <motion.article
+            variants={stagger}
+            custom={{
+              staggerDuration: 0.1,
+              staggerDirection: 1,
+              delayChildren: 0.2,
+            }}
+          >
+            <motion.p variants={fadeInAndUp}>{breedData.description}</motion.p>
+            <motion.div className="temperament" variants={fadeInAndUp}>
               <p className="title">Temperament:</p>
               <p>{breedData.temperament}</p>
-            </div>
-            <div className="characteristics">
-              {characteristics.map((characteristic) => {
-                const { characteristic: char, value } = characteristic;
-                return (
-                  <div key={char} className="single-char">
-                    <p className="title">{char}:</p>
-                    <Score characteristic={characteristic} score={value} />
-                  </div>
-                );
-              })}
-            </div>
-          </article>
-          <p className="wiki-link">
+            </motion.div>
+            {characteristics && (
+              <motion.div
+                className="characteristics"
+                variants={stagger}
+                custom={{
+                  staggerDuration: 0.02,
+                  staggerDirection: 1,
+                  delayChildren: 0.2,
+                }}
+              >
+                {characteristics.map((characteristic) => {
+                  const { characteristic: char, value } = characteristic;
+                  return (
+                    <motion.div
+                      key={char}
+                      className="single-char"
+                      variants={fadeInAndUp}
+                    >
+                      <p className="title">{char}:</p>
+                      <Score characteristic={characteristic} score={value} />
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            )}
+          </motion.article>
+          <motion.p className="wiki-link" variants={fadeInAndUp}>
             more information on {breedData.name}{' '}
             <a
               href={breedData.wikipedia_url}
@@ -215,10 +242,18 @@ const BreedDetails = ({ breed, images }) => {
               Wiki
             </a>{' '}
             page.
-          </p>
-        </div>
-        <div className="gallery">
-          <div className="img-container">
+          </motion.p>
+        </motion.div>
+        <motion.div
+          className="gallery"
+          variants={stagger}
+          custom={{
+            staggerDuration: 0.2,
+            staggerDirection: 1,
+            delayChildren: 0.2,
+          }}
+        >
+          <motion.div className="img-container" variants={fadeIn}>
             {imgList.length > 0 && (
               <Image
                 src={imgList[imgIndex].url}
@@ -228,8 +263,8 @@ const BreedDetails = ({ breed, images }) => {
                 priority={true}
               />
             )}
-          </div>
-          <div>
+          </motion.div>
+          <motion.div variants={fadeIn}>
             {/* {imgList.slice(fromIndex, toIndex).map((image, index) => {
               return (
                 <div
@@ -307,8 +342,8 @@ const BreedDetails = ({ breed, images }) => {
             >
               <FaChevronRight />
             </button> */}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </StyledSection>
   );
@@ -513,16 +548,6 @@ const StyledSection = styled(motion.section)`
     border: 2px solid var(--clr-grey);
   }
 
-  /* to be removed  */
-  .next.last-slide,
-  .prev.first-slide {
-    transition: opacity 0.2s ease-in;
-    opacity: 0.6;
-    &:hover {
-      opacity: 0.6;
-    }
-  }
-  /* ------------- */
   .wiki-link {
     font-size: 0.875rem;
     text-transform: capitalize;
@@ -610,9 +635,6 @@ const StyledSection = styled(motion.section)`
     overflow: hidden;
   }
   .mobile-slider-container {
-    border-radius: 0.5em;
-  }
-  .mobile-img-wrapper > div {
     border-radius: 0.5em;
   }
 
