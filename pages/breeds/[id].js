@@ -26,7 +26,7 @@ import {
 const BreedDetails = ({ breed, images }) => {
   const { isFallback } = useRouter();
   const [imgIndex, setImgIndex] = useState(0);
-  const [imgList, setImageList] = useState([]);
+  const [imgList, setImageList] = useState(images);
   const [breedData, setBreedData] = useState({});
   const [characteristics, setCharacteristics] = useState();
   const [[fromIndex, toIndex], setFromIndexToIndex] = useState([0, 3]);
@@ -43,7 +43,7 @@ const BreedDetails = ({ breed, images }) => {
     if (!isFallback) {
       setBreedData(breed);
       setCharacteristics(getCharacteristics(breed));
-      setImageList(images);
+      // setImageList(images);
     }
   }, [isFallback, breed, images]);
 
