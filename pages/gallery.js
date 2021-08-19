@@ -8,7 +8,7 @@ import useIsIntersecting from '../hoooks/useItsIntersecting';
 import Skeleton from '../components/Skeleton';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-
+import { fadeIn, fadeInDown, stagger } from '../variants/animationVariants';
 const breakpointColumnsObj = {
   default: 3,
   // 1024: 3,
@@ -29,8 +29,10 @@ const getKey = (pageIndex, previousData, mimeTypes, categoryId) => {
   }&mime_types=${mimeTypes}&category_ids=${categoryId}`;
 };
 
-const Gallery = ({ categories }) => {
+const Gallery = ({ categories, images }) => {
   const router = useRouter();
+  const [imgIndex, setImgIndex] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [mimeType, setMimeType] = useState('jpg,png,gif');
   const [categoryId, setCategoryId] = useState('');
   const { data, error, isValidating, size, setSize } = useSWRInfinite(
@@ -52,20 +54,27 @@ const Gallery = ({ categories }) => {
     isLoadingInitialData ||
     (size > 0 && data && typeof data[size - 1] === 'undefined');
 
+  const handleScroll = () => {
+    setIsOpen(false);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   useEffect(() => {
     cache.clear();
   }, [mimeType, categoryId]);
-  
+
   useEffect(() => {
     const handleRouteChange = () => {
       cache.clear();
-    }
+    };
     router.events.on('routeChangeStart', handleRouteChange);
 
     return () => {
-      router.events.off('routerChangeStart', handleRouteChange)
-    }
-  }, [])
+      router.events.off('routerChangeStart', handleRouteChange);
+    };
+  }, []);
   useEffect(() => {
     if (isVisible && !isReachingEnd && !isRefreshing) {
       setSize(size + 1);
@@ -98,41 +107,52 @@ const Gallery = ({ categories }) => {
   // if (!data) return 'loading';
 
   return (
-    <motion.div exit={{opacity: 0}}>
+    <motion.div exit={{ opacity: 0 }} initial="initial" animate="animate">
       <Head>
         <title>Gallery | Meow Portal</title>
       </Head>
       <StyledSection>
         <div className="container">
-          <h1>Cat Photos</h1>
+          <motion.h1 variants={fadeInDown}>Cat Photos</motion.h1>
           <form>
-            <div className="form-control">
-              <button
+            <motion.div
+              className="form-control"
+              variants={stagger}
+              custom={{
+                staggerDuration: 0.1,
+                staggerDirection: -1,
+                delayChildren: 0,
+              }}
+            >
+              <motion.button
                 type="button"
                 name="all"
                 className={`${mimeType === 'jpg,png,gif' ? 'active' : ''}`}
                 onClick={handleData}
+                variants={fadeIn}
               >
                 All
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 type="button"
                 name="static"
                 className={`${mimeType === 'jpg,png' ? 'active' : ''}`}
                 onClick={handleData}
+                variants={fadeIn}
               >
                 Static
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 type="button"
                 name="animated"
                 className={`${mimeType === 'gif' ? 'active' : ''}`}
                 onClick={handleData}
+                variants={fadeIn}
               >
                 Animated
-              </button>
-            </div>
-            <div className="form-control">
+              </motion.button>
+            </motion.div>
+            <motion.div className="form-control" variants={fadeIn}>
               <label htmlFor="categories">Category: </label>
               <select
                 name="categories"
@@ -149,7 +169,7 @@ const Gallery = ({ categories }) => {
                   );
                 })}
               </select>
-            </div>
+            </motion.div>
           </form>
           <div className="img-gallery">
             <Masonry
@@ -157,22 +177,42 @@ const Gallery = ({ categories }) => {
               className="masonry-grid"
               columnClassName="masonry-grid-column"
             >
-              {!data && 
+              {!data &&
                 skeletonArray.map((skeleton, index) => (
                   <Skeleton key={index} />
                 ))}
               {data &&
-                allImages.map((image, index) => {
+                // allImages
+                images.map((image, index) => {
                   const { id, url, height, width } = image;
                   return (
-                    <div key={id + index}>
-                      <Image
-                        src={url}
-                        width={width}
-                        height={height}
-                        layout="responsive"
-                        alt={url}
-                      />
+                    <div
+                      key={id + index}
+                      className={`img-container ${
+                        imgIndex === index && isOpen ? 'open' : ''
+                      } ${imgIndex === index ? 'selected-image' : ''}`}
+                      onClick={() => setImgIndex(index)}
+                    >
+                      <motion.div
+                        className="shade"
+                        layout
+                        transition={{ duration: 0.35, ease:"linear"}}
+                      >
+                        <motion.div
+                          className="img-wrapper"
+                          onClick={() => setIsOpen(!isOpen)}
+                          layout
+                          transition={{ duration: 0.35, ease:"linear"}}
+                        >
+                          <Image
+                            src={url}
+                            width={width}
+                            height={height}
+                            layout="responsive"
+                            alt={url}
+                          />
+                        </motion.div>
+                      </motion.div>
                     </div>
                   );
                 })}
@@ -1381,8 +1421,8 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
-      categories,
-      // images,
+      categories: tempCategories,
+      images: tempImages,
     },
     revalidate: 1800,
   };
@@ -1449,6 +1489,7 @@ const StyledSection = styled.section`
       border-radius: 0.5em;
       border: 1px solid var(--clr-grey);
       text-transform: capitalize;
+      cursor: pointer;
     }
   }
   .img-gallery {
@@ -1467,7 +1508,6 @@ const StyledSection = styled.section`
   }
   .masonry-grid-column > div {
     margin-bottom: 1.5em;
-    cursor: zoom-in;
   }
   button.active {
     border: 1px solid var(--clr-black);
@@ -1485,8 +1525,45 @@ const StyledSection = styled.section`
     span {
       text-transform: capitalize;
       font-weight: var(--fw-bold);
-      
     }
+  }
+
+  .img-container .shade {
+    background: rgba(0, 0, 0, 0.9);
+  }
+  .img-container .img-wrapper {
+    cursor: zoom-in;
+  }
+  .img-container.open .shade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+  }
+
+  .img-container.open .img-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: zoom-out;
+  }
+
+  .img-container.open .img-wrapper > div {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    height: calc(100vh - 150px);
+  }
+
+  .selected-image {
+    position: relative;
+    z-index: 99;
   }
   @media (min-width: 768px) {
     .form-control {
