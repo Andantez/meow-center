@@ -196,13 +196,13 @@ const Gallery = ({ categories, images }) => {
                       <motion.div
                         className="shade"
                         layout
-                        transition={{ duration: 0.35, ease:"linear"}}
+                        transition={{ duration: 0.5, ease:"easeOut"}}
                       >
                         <motion.div
                           className="img-wrapper"
                           onClick={() => setIsOpen(!isOpen)}
                           layout
-                          transition={{ duration: 0.35, ease:"linear"}}
+                          transition={{ duration: 0.5, ease:"easeOut"}}
                         >
                           <Image
                             src={url}
