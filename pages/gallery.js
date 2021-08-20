@@ -185,24 +185,28 @@ const Gallery = ({ categories, images }) => {
                 // allImages
                 images.map((image, index) => {
                   const { id, url, height, width } = image;
+                  const itsPortrait = height > width;
+                  const itsAnimated = url.endsWith('gif');
                   return (
-                    <div
+                    <StyledDiv
                       key={id + index}
                       className={`img-container ${
                         imgIndex === index && isOpen ? 'open' : ''
                       } ${imgIndex === index ? 'selected-image' : ''}`}
                       onClick={() => setImgIndex(index)}
+                      imageOrientation={imgIndex === index && isOpen && itsPortrait ? 'portrait' : 'landscape'}
+                      animatedImage={itsAnimated}
                     >
                       <motion.div
                         className="shade"
                         layout
-                        transition={{ duration: 0.5, ease:"easeOut"}}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}
                       >
                         <motion.div
                           className="img-wrapper"
                           onClick={() => setIsOpen(!isOpen)}
                           layout
-                          transition={{ duration: 0.5, ease:"easeOut"}}
+                          transition={{ duration: 0.5, ease: 'easeOut' }}
                         >
                           <Image
                             src={url}
@@ -213,7 +217,7 @@ const Gallery = ({ categories, images }) => {
                           />
                         </motion.div>
                       </motion.div>
-                    </div>
+                    </StyledDiv>
                   );
                 })}
             </Masonry>
@@ -1427,6 +1431,23 @@ export const getStaticProps = async (context) => {
     revalidate: 1800,
   };
 };
+
+const StyledDiv = styled.div`
+  &.open .img-wrapper > div {
+    width: ${(props) =>
+      props.imageOrientation === 'portrait'
+        ? '35vw'
+        : props.animatedImage
+        ? '40vw'
+        : '60vw'};
+    height: ${(props) =>
+      props.imageOrientation === 'portrait'
+        ? 'calc(100vh - 50px)'
+        : props.animatedImage
+        ? 'calc(100vh - 400px)'
+        : 'calc(100vh - 150px)'};
+  }
+`;
 const StyledSection = styled.section`
   max-width: 1200px;
   margin: 0 auto;
@@ -1557,8 +1578,8 @@ const StyledSection = styled.section`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50vw;
-    height: calc(100vh - 150px);
+    /* width: 50vw; */
+    /* height: calc(100vh - 150px); */
   }
 
   .selected-image {
