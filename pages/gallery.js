@@ -1462,7 +1462,7 @@ const StyledDiv = styled.div`
     height: 100%;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 550px) {
     &.open .img-wrapper {
       width: ${(props) =>
         props.imageOrientation === 'portrait'
@@ -1476,6 +1476,22 @@ const StyledDiv = styled.div`
           : props.animatedImage
           ? `40vh`
           : '50vh'};
+    }
+  }
+  @media (min-width: 768px) {
+    &.open .img-wrapper {
+      width: ${(props) =>
+        props.imageOrientation === 'portrait'
+          ? '60vw'
+          : props.animatedImage
+          ? '50vw'
+          : '70vw'};
+      height: ${(props) =>
+        props.imageOrientation === 'portrait'
+          ? '90vh'
+          : props.animatedImage
+          ? `40vh`
+          : '60vh'};
     }
   }
   @media (min-width: 1024px) {
