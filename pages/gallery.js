@@ -172,6 +172,11 @@ const Gallery = ({ categories, images }) => {
             </motion.div>
           </form>
           <div className="img-gallery">
+            <motion.div
+              className={`shade ${isOpen ? 'visible' : ''}`}
+              animate={{ opacity: isOpen ? 1 : 0 }}
+              onClick={() => setIsOpen(false)}
+            ></motion.div>
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className="masonry-grid"
@@ -194,28 +199,26 @@ const Gallery = ({ categories, images }) => {
                         imgIndex === index && isOpen ? 'open' : ''
                       } ${imgIndex === index ? 'selected-image' : ''}`}
                       onClick={() => setImgIndex(index)}
-                      imageOrientation={imgIndex === index && isOpen && itsPortrait ? 'portrait' : 'landscape'}
+                      imageOrientation={
+                        imgIndex === index && isOpen && itsPortrait
+                          ? 'portrait'
+                          : 'landscape'
+                      }
+                      imageHeight={height}
                       animatedImage={itsAnimated}
                     >
                       <motion.div
-                        className="shade"
+                        className="img-wrapper"
+                        onClick={() => setIsOpen(!isOpen)}
                         layout
-                        transition={{ duration: 0.5, ease: 'easeOut' }}
                       >
-                        <motion.div
-                          className="img-wrapper"
-                          onClick={() => setIsOpen(!isOpen)}
-                          layout
-                          transition={{ duration: 0.5, ease: 'easeOut' }}
-                        >
-                          <Image
-                            src={url}
-                            width={width}
-                            height={height}
-                            layout="responsive"
-                            alt={url}
-                          />
-                        </motion.div>
+                        <Image
+                          src={url}
+                          width={width}
+                          height={height}
+                          layout="responsive"
+                          alt={url}
+                        />
                       </motion.div>
                     </StyledDiv>
                   );
@@ -1433,19 +1436,63 @@ export const getStaticProps = async (context) => {
 };
 
 const StyledDiv = styled.div`
-  &.open .img-wrapper > div {
+  &.open .img-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
     width: ${(props) =>
       props.imageOrientation === 'portrait'
-        ? '35vw'
+        ? '80vw'
         : props.animatedImage
-        ? '40vw'
-        : '60vw'};
+        ? '90vw'
+        : '90vw'};
     height: ${(props) =>
       props.imageOrientation === 'portrait'
-        ? 'calc(100vh - 50px)'
+        ? '70vh'
         : props.animatedImage
-        ? 'calc(100vh - 400px)'
-        : 'calc(100vh - 150px)'};
+        ? `30vh`
+        : '35vh'};
+  }
+
+  &.open .img-wrapper > div {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (min-width: 768px) {
+    &.open .img-wrapper {
+      width: ${(props) =>
+        props.imageOrientation === 'portrait'
+          ? '70vw'
+          : props.animatedImage
+          ? '90vw'
+          : '90vw'};
+      height: ${(props) =>
+        props.imageOrientation === 'portrait'
+          ? '90vh'
+          : props.animatedImage
+          ? `40vh`
+          : '50vh'};
+    }
+  }
+  @media (min-width: 1024px) {
+    &.open .img-wrapper {
+      width: ${(props) =>
+        props.imageOrientation === 'portrait'
+          ? '35vw'
+          : props.animatedImage
+          ? '35vw'
+          : '55vw'};
+      height: ${(props) =>
+        props.imageOrientation === 'portrait'
+          ? '95vh'
+          : props.animatedImage
+          ? '40vh'
+          : '80vh'};
+    }
   }
 `;
 const StyledSection = styled.section`
@@ -1549,37 +1596,26 @@ const StyledSection = styled.section`
     }
   }
 
-  .img-container .shade {
-    background: rgba(0, 0, 0, 0.9);
-  }
   .img-container .img-wrapper {
     cursor: zoom-in;
   }
-  .img-container.open .shade {
+  .img-container.open .img-wrapper {
+    cursor: zoom-out;
+  }
+  .img-gallery .visible {
+    pointer-events: auto;
+    cursor: zoom-out;
+  }
+  .shade {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 99;
-  }
-
-  .img-container.open .img-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    cursor: zoom-out;
-  }
-
-  .img-container.open .img-wrapper > div {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* width: 50vw; */
-    /* height: calc(100vh - 150px); */
+    background: rgba(0, 0, 0, 0.85);
+    pointer-events: none;
+    opacity: 0;
   }
 
   .selected-image {
