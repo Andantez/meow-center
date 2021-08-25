@@ -9,7 +9,6 @@ import FiltersSidebar from '../../components/FiltersSidebar';
 import { useEffect } from 'react';
 import { useFiltersContext } from '../../context/filters_context';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRouterScroll } from '@moxy/next-router-scroll';
 
 const BreedsPage = ({ breedsData }) => {
   const {
@@ -19,11 +18,6 @@ const BreedsPage = ({ breedsData }) => {
     loadBreeds,
     filteredBreeds,
   } = useFiltersContext();
-  const { updateScroll } = useRouterScroll();
-
-  useEffect(() => {
-    updateScroll();
-  }, []);
 
   useEffect(() => {
     loadBreeds(breedsData); // loads the initial breeds data
@@ -51,7 +45,7 @@ const BreedsPage = ({ breedsData }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   return (
-    <motion.div exit={{ opacity: 0 }}>
+    <>
       <AnimatePresence>
         {isFiltersModalOpen && <FiltersSidebar />}
       </AnimatePresence>
@@ -74,7 +68,7 @@ const BreedsPage = ({ breedsData }) => {
           </div>
         </StyledDiv>
       </main>
-    </motion.div>
+    </>
   );
 };
 

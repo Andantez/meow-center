@@ -9,9 +9,8 @@ import { fadeIn,fadeInDown, stagger } from '../variants/animationVariants';
 import { useEffect } from 'react';
 
 const MostPopular = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+ 
+
   const data = tempData.slice(0, 10);
   return (
     <StyledDiv exit={{ opacity: 0 }} initial="initial" animate="animate">
@@ -46,7 +45,7 @@ const MostPopular = () => {
                     {name}
                   </p>
                   <p className="description">{description.slice(0, 200)}...</p>
-                  <Link href={`/breeds/${id}`} scroll={false}>
+                  <Link href={`/breeds/${id}`}>
                     <a>
                       Learn More
                       <BsArrowRightShort />

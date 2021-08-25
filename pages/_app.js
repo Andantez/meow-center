@@ -5,10 +5,14 @@ import { SWRConfig } from 'swr';
 import '../styles/globals.css';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { RouterScrollProvider } from '@moxy/next-router-scroll';
+import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+
+  useEffect(() => {
+    console.log(router)
+  },[router])
   return (
     <HomeProvider>
       <FiltersContextProvider>
@@ -22,13 +26,9 @@ function MyApp({ Component, pageProps }) {
               }).then((res) => res.json()),
           }}
         >
-          <RouterScrollProvider disableNextLinkScroll={false}>
-            <Layout>
-              <AnimatePresence exitBeforeEnter>
-                <Component {...pageProps} key={router.route} />
-              </AnimatePresence>
-            </Layout>
-          </RouterScrollProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </SWRConfig>
       </FiltersContextProvider>
     </HomeProvider>
