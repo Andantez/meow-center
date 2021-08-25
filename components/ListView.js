@@ -18,7 +18,7 @@ const ListView = ({ breeds }) => {
         } = breed;
         return (
           <article key={id}>
-            <Link href={`/breeds/${id}`} scroll={false}>
+            <Link href={`/breeds/${id}`} >
               <a className="list-item">
                 <div className="img-wrapper">
                   <Image src={url} width="300" height="200" alt={name} />

@@ -14,7 +14,7 @@ const GridView = ({ breeds }) => {
         } = breed;
         return (
           <article key={id}>
-            <Link href={`/breeds/${id}`} scroll={false}>
+            <Link href={`/breeds/${id}`} >
               <a>
                 <div className="img-wrapper">
                   <Image

@@ -5,7 +5,7 @@ import Link from 'next/link';
 const MostPopularItem = ({ name, imageUrl, id }) => {
   return (
     <FigureStyled className="figure-container">
-      <Link href={`/breeds/${id}`} scroll={false}>
+      <Link href={`/breeds/${id}`} >
         <a>
           <Image src={imageUrl} alt={name} width="450" height="300" />
           <figcaption>{name}</figcaption>
