@@ -1,8 +1,6 @@
 import Head from 'next/head';
 import styled from 'styled-components';
 import MyImage from './MyImage';
-import { motion } from 'framer-motion';
-import { fadeInOut,stagger, parentVariants } from '../variants/breedsVariants';
 
 const BreedsHero = () => {
   return (
@@ -11,27 +9,12 @@ const BreedsHero = () => {
         <title>Cat Breeds | Meow Portal</title>
       </Head>
       <section>
-        <motion.div
-          className="heading-wrapper"
-          initial="hide"
-          animate="show"
-          exit="exit"
-          variants={parentVariants}
-        >
-          <motion.h1 variants={stagger}>
-            <motion.span variants={fadeInOut}>
-              find the right cat
-            </motion.span>{' '}
-            <motion.span variants={fadeInOut}>breed for you</motion.span>
-          </motion.h1>
-        </motion.div>
-        <motion.div
-          className="img-wrapper"
-          initial="hide"
-          animate="show"
-          exit="exit"
-          variants={fadeInOut}
-        >
+        <div className="heading-wrapper">
+          <h1>
+            <span>find the right cat</span> <span>breed for you</span>
+          </h1>
+        </div>
+        <div className="img-wrapper">
           <MyImage
             src="/hero-cat2_ts5hlr.png"
             width="350"
@@ -39,7 +22,7 @@ const BreedsHero = () => {
             alt="white cat"
             priority={true}
           />
-        </motion.div>
+        </div>
       </section>
     </StyledDiv>
   );

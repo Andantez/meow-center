@@ -1,6 +1,6 @@
 export const filtersVariants = {
   hover: {
-    backgroundColor: '#ea484b',
+    backgroundColor: '#a01315',
     transition: {
       type: 'tween',
       duration: 0.25,

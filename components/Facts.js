@@ -48,7 +48,7 @@ const Facts = ({ facts, mutate, isValidating }) => {
         className="btn"
         onClick={() => mutate()}
         whileTap={{ scale: 0.9 }}
-        whileHover={{ backgroundColor: '#ea484b' }}
+        whileHover={{ backgroundColor: '#ea484b', cursor: 'pointer' }}
       >
         get more facts
       </motion.button>
