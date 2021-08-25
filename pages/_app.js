@@ -5,14 +5,13 @@ import { SWRConfig } from 'swr';
 import '../styles/globals.css';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(router)
-  },[router])
+    console.log(router);
+  }, [router]);
   return (
     <HomeProvider>
       <FiltersContextProvider>
@@ -27,7 +26,7 @@ function MyApp({ Component, pageProps }) {
           }}
         >
           <Layout>
-            <Component {...pageProps} />
+            <Component {...pageProps} key={router.route} />
           </Layout>
         </SWRConfig>
       </FiltersContextProvider>
