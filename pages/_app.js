@@ -3,15 +3,12 @@ import HomeProvider from '../context/home_context';
 import FiltersContextProvider from '../context/filters_context';
 import { SWRConfig } from 'swr';
 import '../styles/globals.css';
-import { AnimatePresence } from 'framer-motion';
-import { useRouter } from 'next/router';
+
+
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
-  useEffect(() => {
-    console.log(router);
-  }, [router]);
   return (
     <HomeProvider>
       <FiltersContextProvider>
@@ -26,7 +23,7 @@ function MyApp({ Component, pageProps }) {
           }}
         >
           <Layout>
-            <Component {...pageProps} key={router.route} />
+            <Component {...pageProps} />
           </Layout>
         </SWRConfig>
       </FiltersContextProvider>
