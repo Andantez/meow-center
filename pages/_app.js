@@ -5,7 +5,6 @@ import { SWRConfig } from 'swr';
 import '../styles/globals.css';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { RouterScrollProvider } from '@moxy/next-router-scroll';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -22,13 +21,11 @@ function MyApp({ Component, pageProps }) {
               }).then((res) => res.json()),
           }}
         >
-          <RouterScrollProvider disableNextLinkScroll={false}>
             <Layout>
               <AnimatePresence exitBeforeEnter>
                 <Component {...pageProps} key={router.route} />
               </AnimatePresence>
             </Layout>
-          </RouterScrollProvider>
         </SWRConfig>
       </FiltersContextProvider>
     </HomeProvider>
