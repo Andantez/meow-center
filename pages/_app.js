@@ -4,11 +4,7 @@ import FiltersContextProvider from '../context/filters_context';
 import { SWRConfig } from 'swr';
 import '../styles/globals.css';
 
-
-
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
-
   return (
     <HomeProvider>
       <FiltersContextProvider>
