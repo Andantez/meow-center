@@ -22,11 +22,13 @@ import {
   stagger,
   fadeIn,
 } from '../../variants/animationVariants';
+import DetailsSkeleton from '../../components/Loading';
+
 
 const BreedDetails = ({ breed, images }) => {
   const { isFallback } = useRouter();
   const [imgIndex, setImgIndex] = useState(0);
-  const [imgList, setImageList] = useState(images);
+  const [imgList, setImageList] = useState([]);
   const [breedData, setBreedData] = useState({});
   const [characteristics, setCharacteristics] = useState();
   const [[fromIndex, toIndex], setFromIndexToIndex] = useState([0, 3]);
@@ -43,7 +45,7 @@ const BreedDetails = ({ breed, images }) => {
     if (!isFallback) {
       setBreedData(breed);
       setCharacteristics(getCharacteristics(breed));
-      // setImageList(images);
+      setImageList(images);
     }
   }, [isFallback, breed, images]);
 
@@ -103,7 +105,7 @@ const BreedDetails = ({ breed, images }) => {
     });
   };
   if (isFallback) {
-    return <div>LOADING.............</div>;
+    return <DetailsSkeleton />;
   }
   return (
     <StyledSection exit={{ opacity: 0 }} initial="initial" animate="animate">
