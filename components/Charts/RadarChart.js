@@ -308,7 +308,9 @@ const StyledDiv = styled.div`
       grid-template-columns: 1fr;
       position: relative;
     }
-
+     h2 {
+       font-size: 1.5rem;
+     }
     .legend {
       place-self: center;
       position: absolute;

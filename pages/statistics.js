@@ -41,6 +41,7 @@ const StyledHeadingDiv = styled.div`
   margin: 3em auto;
   max-width: 1000px;
   color: var(--clr-primary-500);
+  
   h1 {
     font-family: var(--ff-heading);
     font-size: 2.25rem;
@@ -67,7 +68,8 @@ const StyledDiv = styled.div`
   margin: 0 auto;
   font-family: var(--ff-paragraph);
   color: var(--clr-primary-500);
-
+  display: grid;
+  gap: 2em;
   & > div:nth-child(2) {
     margin: 2em 0;
   }
