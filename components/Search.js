@@ -5,6 +5,8 @@ import { BiSearch } from 'react-icons/bi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { motion, AnimatePresence } from 'framer-motion';
 import { searchResultsVariants } from '../variants/searchResultsVariants';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const Search = () => {
   const {
@@ -17,6 +19,17 @@ const Search = () => {
     noResultsFound,
     filteredBreeds,
   } = useHomeContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    setUserQuery('');
+  }, []) 
+
+  const handleOnKeyDown = (e) => {
+    if (e.key === 'Enter' && filteredBreeds.length === 1) {
+      router.push(`/breeds/${filteredBreeds[0].id}`);
+    }
+  };
 
   return (
     <InputWrapper>
@@ -30,6 +43,7 @@ const Search = () => {
         )}
       </label>
       <input
+        onKeyDown={handleOnKeyDown}
         onChange={(e) => setUserQuery(e.target.value.toLowerCase())}
         onFocus={setFocus}
         onBlur={setBlur}
