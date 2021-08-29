@@ -6,5 +6,8 @@ export const searchResultsVariants = {
   hide: {
     opacity: 0,
     y: 50,
+    transition: {
+      type: 'tween'
+    }
   },
 };
