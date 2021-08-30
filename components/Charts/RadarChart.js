@@ -6,6 +6,7 @@ import Pagination from '../Pagination';
 import ReactSelect from '../ReactSelect';
 import { BsPlus } from 'react-icons/bs';
 import { BiMinus } from 'react-icons/bi';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const colors = [
   '#ffc09f',
@@ -32,7 +33,7 @@ const RadarChart = ({ data }) => {
   const [isSelected, setIsSelected] = useState(false);
   const [temperaments, setTemperaments] = useState(temperamentList);
   const [selectedBreeds, setSelectedBreeds] = useState([]);
-  const [showLegend, setShowLegend] = useState(true);
+  const [showLegend, setShowLegend] = useState(false);
   const handleActivePage = (index) => {
     setActivePage(index);
   };
@@ -70,7 +71,7 @@ const RadarChart = ({ data }) => {
       });
     }
   };
-  
+
   const handleResize = () => {
     if (window.innerWidth >= 1024) {
       setShowLegend(true);
@@ -83,7 +84,6 @@ const RadarChart = ({ data }) => {
       setIsSelected(false);
     }
   }, [selectedBreeds]);
-
 
   useEffect(() => {
     if (window.innerWidth >= 1024) {
@@ -177,29 +177,37 @@ const RadarChart = ({ data }) => {
               {showLegend ? <BiMinus /> : <BsPlus />}
             </button>
           </div>
-          {showLegend && (
-            <div className="temperament-list">
-              {temperamentList.map((temperament, index) => {
-                return (
-                  <div className="wrapper" key={index + temperament}>
-                    <StyledSpan color={colors[index % colors.length]} />
-                    <button
-                      type="button"
-                      name={temperament}
-                      onClick={handleOnClick}
-                      className={`${
-                        temperaments.find((temp) => temp === temperament)
-                          ? ''
-                          : 'removed'
-                      }`}
-                    >
-                      {temperament}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          <AnimatePresence>
+            {showLegend && (
+              <motion.div
+                className="temperament-list"
+                exit={{ opacity: 0 }}
+                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: 'easeIn' }}
+              >
+                {temperamentList.map((temperament, index) => {
+                  return (
+                    <div className="wrapper" key={index + temperament}>
+                      <StyledSpan color={colors[index % colors.length]} />
+                      <button
+                        type="button"
+                        name={temperament}
+                        onClick={handleOnClick}
+                        className={`${
+                          temperaments.find((temp) => temp === temperament)
+                            ? ''
+                            : 'removed'
+                        }`}
+                      >
+                        {temperament}
+                      </button>
+                    </div>
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
       <Pagination
@@ -308,9 +316,9 @@ const StyledDiv = styled.div`
       grid-template-columns: 1fr;
       position: relative;
     }
-     h2 {
-       font-size: 1.5rem;
-     }
+    h2 {
+      font-size: 1.5rem;
+    }
     .legend {
       place-self: center;
       position: absolute;

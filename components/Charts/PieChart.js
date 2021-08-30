@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BsPlus } from 'react-icons/bs';
 import { BiMinus } from 'react-icons/bi';
+import { AnimatePresence, motion } from 'framer-motion';
+
 const colors = [
   '#ffc09f',
   '#ffee93',
@@ -74,12 +76,11 @@ const PieChart = ({ data }) => {
           arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
           theme={{
             labels: {
-              text:{
+              text: {
                 fontSize: 11,
                 fill: '#343446',
                 fontFamily: 'Bitter',
-
-              }
+              },
             },
           }}
           // legends={[
@@ -109,41 +110,45 @@ const PieChart = ({ data }) => {
           // ]}
         />
         <div className="legend-container">
-          {isOpen && (
-            <div className="legend-wrapper">
-              {data.map((breedOrigin, index) => {
-                const { origin, id, value } = breedOrigin;
-                return (
-                  <div className="wrapper" key={breedOrigin + index}>
-                    <StyledSpan
-                      color={colors[index % colors.length]}
-                    ></StyledSpan>{' '}
-                    <button
-                      type="button"
-                      className={`btn ${
-                        !breedData.find((breed) => breed.id === id)
-                          ? 'not-included'
-                          : ''
-                      }`}
-                      data-id={id}
-                      data-origin={origin}
-                      data-value={breedOrigin.value}
-                      onClick={handleOnClick}
-                    >
-                      {origin}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-          <div className="expand-wrapper">
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                className="legend-wrapper"
+                exit={{ opacity: 0 }}
+                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: 'easeIn' }}
+              >
+                {data.map((breedOrigin, index) => {
+                  const { origin, id, value } = breedOrigin;
+                  return (
+                    <div className="wrapper" key={breedOrigin + index}>
+                      <StyledSpan
+                        color={colors[index % colors.length]}
+                      ></StyledSpan>{' '}
+                      <button
+                        type="button"
+                        className={`btn ${
+                          !breedData.find((breed) => breed.id === id)
+                            ? 'not-included'
+                            : ''
+                        }`}
+                        data-id={id}
+                        data-origin={origin}
+                        data-value={breedOrigin.value}
+                        onClick={handleOnClick}
+                      >
+                        {origin}
+                      </button>
+                    </div>
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <div className="expand-wrapper" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? 'Collapse' : 'Expand'}{' '}
-            <button
-              type="button"
-              className="expand-btn"
-              onClick={() => setIsOpen(!isOpen)}
-            >
+            <button type="button" className="expand-btn">
               {isOpen ? <BiMinus /> : <BsPlus />}
             </button>
           </div>
