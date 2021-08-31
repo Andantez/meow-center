@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import Image from 'next/image';
 import { getCharacteristics } from '../../utils/helpers';
 import Score from '../../components/Score';
@@ -347,6 +347,17 @@ const BreedDetails = ({ breed, images }) => {
           </motion.div>
         </motion.div>
       </div>
+      <div className="btn-wrapper">
+        <motion.button
+        onClick={() => router.back()}
+          type="button"
+          className="back-btn"
+          whileTap={{ scale: 0.9 }}
+          whileHover={{ backgroundColor: '#4a4a64'}}
+        >
+          Back
+        </motion.button>
+      </div>
     </StyledSection>
   );
 };
@@ -470,7 +481,7 @@ const StyledSection = styled(motion.section)`
   margin: 0 auto;
   max-width: 1200px;
   .container {
-    margin: 3em auto;
+    margin: 3em auto 0;
     display: grid;
     gap: 1em;
   }
@@ -554,7 +565,7 @@ const StyledSection = styled(motion.section)`
     font-size: 0.875rem;
     text-transform: capitalize;
     text-align: center;
-    margin: 4em 0 2em;
+    margin: 3em 0 2em;
     a {
       color: var(--clr-black);
       font-weight: var(--fw-bold);
@@ -666,6 +677,32 @@ const StyledSection = styled(motion.section)`
     opacity: 0;
     pointer-events: none;
   }
+  .btn-wrapper {
+    display: grid;
+    /* grid-template-columns: 1fr 1fr;
+    gap: 5em; */
+    /* margin-top: 1em; */
+    margin-bottom: 3em;
+  }
+  .back-btn {
+    color: var(--clr-secondary-500);
+    font-family: var(--ff-paragraph);
+    font-weight: var(--fw-bold);
+    font-size: 0.8125em;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    display: block;
+    padding: 1em 3em;
+    transform: translateX(0);
+    background: var(--clr-primary-500);
+    border: none;
+    border-radius: 0.25em;
+    box-shadow: 1px 2px 5px 0 var(--clr-black);
+    cursor: pointer;
+    /* grid-column: 2;
+     */
+    place-self: center;
+  }
   @media (min-width: 768px) {
     .gallery {
       grid-column: span 2;
@@ -733,6 +770,10 @@ const StyledSection = styled(motion.section)`
     .next {
       right: -1.5em;
     }
+
+    .btn-wrapper {
+      margin-top: 3em;
+    }
   }
 
   @media (min-width: 1200px) {
@@ -757,6 +798,18 @@ const StyledSection = styled(motion.section)`
     }
     .carousel-wrapper {
       margin-top: 2em;
+    }
+
+    .wiki-link {
+      margin: 4em 0 2em;
+    }
+    .btn-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5em;
+      margin-top: 0.5em;
+    }
+    .back-btn {
+      grid-column: 2;
     }
   }
 `;
