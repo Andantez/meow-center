@@ -4,28 +4,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
 import Head from 'next/head';
-import { motion } from 'framer-motion';
-import { fadeIn,fadeInDown, stagger } from '../variants/animationVariants';
-import { useEffect } from 'react';
 
 const MostPopular = () => {
- 
-
   const data = tempData.slice(0, 10);
   return (
     <StyledDiv exit={{ opacity: 0 }} initial="initial" animate="animate">
       <Head>
         <title>Most Popular | Meow Portal</title>
       </Head>
-      <motion.h1 variants={fadeInDown}>top 10 most popular breed</motion.h1>
-      <motion.section
-        variants={stagger}
-        custom={{
-          staggerDuration: 0.1,
-          staggerDirection: 1,
-          delayChildren: 0.2,
-        }}
-      >
+      <h1>top 10 most popular breed</h1>
+      <section>
         {data.map((breed, index) => {
           const {
             id,
@@ -34,7 +22,7 @@ const MostPopular = () => {
             image: { url },
           } = breed;
           return (
-            <motion.div key={id} className="background" variants={fadeIn}>
+            <div key={id} className="background">
               <div className="content">
                 <div className="img-container">
                   <Image src={url} width="450" height="400" />
@@ -53,15 +41,15 @@ const MostPopular = () => {
                   </Link>
                 </div>
               </div>
-            </motion.div>
+            </div>
           );
         })}
-      </motion.section>
+      </section>
     </StyledDiv>
   );
 };
 
-const StyledDiv = styled(motion.div)`
+const StyledDiv = styled.div`
   max-width: 1200px;
   width: 90vw;
   margin: 3em auto;

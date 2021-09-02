@@ -16,14 +16,7 @@ import {
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { motion } from 'framer-motion';
-import {
-  fadeInDown,
-  fadeInAndUp,
-  stagger,
-  fadeIn,
-} from '../../variants/animationVariants';
 import DetailsSkeleton from '../../components/Loading';
-
 
 const BreedDetails = ({ breed, images }) => {
   const { isFallback } = useRouter();
@@ -108,12 +101,12 @@ const BreedDetails = ({ breed, images }) => {
     return <DetailsSkeleton />;
   }
   return (
-    <StyledSection exit={{ opacity: 0 }} initial="initial" animate="animate">
+    <StyledSection>
       <Head>
         <title>{breedData.name} | Meow Portal</title>
       </Head>
       <div className="container">
-        <motion.div className="mobile-img-container" variants={fadeInDown}>
+        <div className="mobile-img-container">
           {/* <div className="mobile-img">
             {imgList.length > 0 && (
               <Image
@@ -192,49 +185,30 @@ const BreedDetails = ({ breed, images }) => {
               ))}
             </div>
           )} */}
-        </motion.div>
-        <motion.div className="details">
-          <motion.h1 variants={fadeInDown}>{breedData.name}</motion.h1>
-          <motion.article
-            variants={stagger}
-            custom={{
-              staggerDuration: 0.1,
-              staggerDirection: 1,
-              delayChildren: 0.2,
-            }}
-          >
-            <motion.p variants={fadeInAndUp}>{breedData.description}</motion.p>
-            <motion.div className="temperament" variants={fadeInAndUp}>
+        </div>
+        <div className="details">
+          <h1>{breedData.name}</h1>
+          <article>
+            <p>{breedData.description}</p>
+            <div className="temperament">
               <p className="title">Temperament:</p>
               <p>{breedData.temperament}</p>
-            </motion.div>
+            </div>
             {characteristics && (
-              <motion.div
-                className="characteristics"
-                variants={stagger}
-                custom={{
-                  staggerDuration: 0.02,
-                  staggerDirection: 1,
-                  delayChildren: 0.2,
-                }}
-              >
+              <div className="characteristics">
                 {characteristics.map((characteristic) => {
                   const { characteristic: char, value } = characteristic;
                   return (
-                    <motion.div
-                      key={char}
-                      className="single-char"
-                      variants={fadeInAndUp}
-                    >
+                    <div key={char} className="single-char">
                       <p className="title">{char}:</p>
                       <Score characteristic={characteristic} score={value} />
-                    </motion.div>
+                    </div>
                   );
                 })}
-              </motion.div>
+              </div>
             )}
-          </motion.article>
-          <motion.p className="wiki-link" variants={fadeInAndUp}>
+          </article>
+          <p className="wiki-link">
             more information on {breedData.name}{' '}
             <a
               href={breedData.wikipedia_url}
@@ -244,18 +218,10 @@ const BreedDetails = ({ breed, images }) => {
               Wiki
             </a>{' '}
             page.
-          </motion.p>
-        </motion.div>
-        <motion.div
-          className="gallery"
-          variants={stagger}
-          custom={{
-            staggerDuration: 0.2,
-            staggerDirection: 1,
-            delayChildren: 0.2,
-          }}
-        >
-          <motion.div className="img-container" variants={fadeIn}>
+          </p>
+        </div>
+        <div className="gallery">
+          <div className="img-container">
             {imgList.length > 0 && (
               <Image
                 src={imgList[imgIndex].url}
@@ -265,8 +231,8 @@ const BreedDetails = ({ breed, images }) => {
                 priority={true}
               />
             )}
-          </motion.div>
-          <motion.div variants={fadeIn}>
+          </div>
+          <div>
             {/* {imgList.slice(fromIndex, toIndex).map((image, index) => {
               return (
                 <div
@@ -344,16 +310,16 @@ const BreedDetails = ({ breed, images }) => {
             >
               <FaChevronRight />
             </button> */}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
       <div className="btn-wrapper">
         <motion.button
-        onClick={() => router.back()}
+          onClick={() => router.back()}
           type="button"
           className="back-btn"
           whileTap={{ scale: 0.9 }}
-          whileHover={{ backgroundColor: '#4a4a64'}}
+          whileHover={{ backgroundColor: '#4a4a64' }}
         >
           Back
         </motion.button>
@@ -476,7 +442,7 @@ export const getStaticPaths = async () => {
   };
 };
 
-const StyledSection = styled(motion.section)`
+const StyledSection = styled.section`
   width: 90vw;
   margin: 0 auto;
   max-width: 1200px;
