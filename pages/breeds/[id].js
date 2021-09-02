@@ -16,7 +16,7 @@ import {
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { motion } from 'framer-motion';
-import DetailsSkeleton from '../../components/Loading';
+import Spinner from '../../components/Spinner';
 
 const BreedDetails = ({ breed, images }) => {
   const { isFallback } = useRouter();
@@ -25,7 +25,6 @@ const BreedDetails = ({ breed, images }) => {
   const [breedData, setBreedData] = useState({});
   const [characteristics, setCharacteristics] = useState();
   const [[fromIndex, toIndex], setFromIndexToIndex] = useState([0, 3]);
-
   // commented one until make sure it works fine like it is.
   // if (router.isFallback) {
   //   return <h2>Loading......</h2>;
@@ -98,8 +97,9 @@ const BreedDetails = ({ breed, images }) => {
     });
   };
   if (isFallback) {
-    return <DetailsSkeleton />;
+    return <Spinner />;
   }
+
   return (
     <StyledSection>
       <Head>
@@ -271,6 +271,7 @@ const BreedDetails = ({ breed, images }) => {
                             ? 'active img-wrapper'
                             : 'img-wrapper'
                         }`}
+                        layout
                       >
                         <Image
                           src={image.url}
@@ -670,10 +671,6 @@ const StyledSection = styled.section`
     place-self: center;
   }
   @media (min-width: 768px) {
-    .gallery {
-      grid-column: span 2;
-    }
-
     .characteristics {
       grid-template-columns: 1fr 1fr;
       gap: 1.5em;
@@ -695,13 +692,16 @@ const StyledSection = styled.section`
     }
 
     .container {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5em;
     }
     .characteristics {
       grid-template-columns: 1fr 1fr;
     }
     .gallery {
       display: block;
+      grid-row: 1;
+      grid-column: 1;
     }
 
     .prev,
@@ -738,7 +738,15 @@ const StyledSection = styled.section`
     }
 
     .btn-wrapper {
-      margin-top: 3em;
+      margin-top: 1em;
+    }
+
+    .mobile-img-container {
+      display: none;
+    }
+    .img-container {
+      display: block;
+      margin-bottom: 2em;
     }
   }
 
@@ -746,9 +754,7 @@ const StyledSection = styled.section`
     .mobile-img-container {
       display: none;
     }
-    .container {
-      gap: 5em;
-    }
+    
     .mobile-img {
       display: none;
     }

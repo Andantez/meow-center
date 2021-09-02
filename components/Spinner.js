@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Loading = () => {
+const Spinner = () => {
   return (
     <StyeldDiv>
       <div className="spinner"></div>
@@ -71,4 +71,4 @@ const StyeldDiv = styled.div`
     }
   }
 `;
-export default Loading;
+export default Spinner;
