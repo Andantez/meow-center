@@ -17,9 +17,9 @@ const Links = [
     link: '/gallery',
   },
   {
-    title: 'Statistics',
+    title: 'Charts',
     icon: <ImStatsBars />,
-    link: '/statistics',
+    link: '/charts',
   },
   {
     title: 'About',

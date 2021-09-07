@@ -11,7 +11,7 @@ import {
 } from '../utils/helpers';
 import { motion } from 'framer-motion';
 
-const Statistics = ({ pieChartData, barChartData, radarChartData }) => {
+const Charts = ({ pieChartData, barChartData, radarChartData }) => {
   return (
     <motion.div exit={{ opacity: 0 }}>
       <Head>
@@ -97,4 +97,4 @@ export const getStaticProps = async () => {
     // revalidate: 1800,
   };
 };
-export default Statistics;
+export default Charts;
