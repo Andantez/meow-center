@@ -35,7 +35,6 @@ export const containerVariants = {
       type: 'spring',
       stiffness: 150,
       mass: 0.4,
-      delay: 0.2,
     },
   },
 };

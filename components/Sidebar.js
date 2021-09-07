@@ -4,16 +4,30 @@ import linksData from '../data/linksData';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useHomeContext } from '../context/home_context';
 import { motion, AnimatePresence } from 'framer-motion';
-import { itemVariants, containerVariants, buttonVariants} from '../variants/sidebarVariants';
+import {
+  itemVariants,
+  containerVariants,
+  buttonVariants,
+} from '../variants/sidebarVariants';
 
+const test = {
 
+  exit: {
+    opacity: 0,
+  },
+};
 const Sidebar = () => {
   const { isSidebarOpen, closeSidebar } = useHomeContext();
   return (
     <StyledDiv>
       <AnimatePresence>
         {isSidebarOpen && (
-          <div className="modal-background" onClick={closeSidebar}>
+          <motion.div
+            className="modal-background"
+            exit="exit"
+            variants={test}
+            onClick={closeSidebar}
+          >
             <motion.aside
               onClick={(e) => e.stopPropagation()}
               initial="closed"
@@ -46,7 +60,7 @@ const Sidebar = () => {
                 })}
               </motion.ul>
             </motion.aside>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </StyledDiv>
