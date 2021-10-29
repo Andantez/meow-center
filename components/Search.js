@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useHomeContext } from '../context/home_context';
 import { BiSearch } from 'react-icons/bi';
 import { AiOutlineClose } from 'react-icons/ai';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion';
 import { searchResultsVariants } from '../variants/searchResultsVariants';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -23,7 +23,7 @@ const Search = () => {
 
   useEffect(() => {
     setUserQuery('');
-  }, []) 
+  }, []);
 
   const handleOnKeyDown = (e) => {
     if (e.key === 'Enter' && filteredBreeds.length === 1) {
@@ -53,48 +53,52 @@ const Search = () => {
         placeholder="Search by name"
         value={query}
       />
-      <AnimatePresence>
-        {filteredBreeds && itsOnFocus && query && (
-          <motion.div
-            className="results"
-            exit="hide"
-            initial="hide"
-            animate="show"
-            variants={searchResultsVariants}
-          >
-            {filteredBreeds &&
-              itsOnFocus &&
-              filteredBreeds.map((breed) => {
-                const { id, name } = breed;
-                return (
-                  <Link href={`/breeds/${id}`} key={id}>
-                    <a
-                      onClick={() => setUserQuery('')}
-                      // prevents from Focus event firing and closing the results div
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      {name}
-                    </a>
-                  </Link>
-                );
-              })}
-            {/*if its  fetching data show loader */}
-            {isLoadingData && (
-              <div className="loader-wrapper">
-                <div className="loader"></div>
-              </div>
-            )}
+      <AnimateSharedLayout>
+        <AnimatePresence>
+          {filteredBreeds && itsOnFocus && query && (
+            <motion.div
+              className="results"
+              exit="hide"
+              initial="hide"
+              animate="show"
+              variants={searchResultsVariants}
+              layout
+            >
+              {filteredBreeds &&
+                itsOnFocus &&
+                filteredBreeds.map((breed) => {
+                  const { id, name } = breed;
+                  return (
+                    <Link href={`/breeds/${id}`} key={id}>
+                      <motion.a
+                        onClick={() => setUserQuery('')}
+                        // prevents from Focus event firing and closing the results div
+                        onMouseDown={(e) => e.preventDefault()}
+                        layout
+                      >
+                        {name}
+                      </motion.a>
+                    </Link>
+                  );
+                })}
+              {/*if its  fetching data show loader */}
+              {isLoadingData && (
+                <div className="loader-wrapper">
+                  <div className="loader"></div>
+                </div>
+              )}
 
-            {/* if there are no results found */}
-            {noResultsFound && (
-              <div className="no-results">
-                <p>No results for "{query}".</p>
-                <p>Try again with different name.</p>
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+              {/* if there are no results found */}
+              {noResultsFound && (
+                <motion.div className="no-results" layout>
+                  <motion.p layout>No results for "{query.length < 35 ? query : `${query.slice(0, 35)}...`}".</motion.p>
+                  <motion.p layout>Try again with different name.</motion.p>
+                </motion.div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </AnimateSharedLayout>
     </InputWrapper>
   );
 };
@@ -107,7 +111,7 @@ const InputWrapper = styled.div`
     /* box-shadow: 0 0 0 0.2em var(--clr-black); */
     width: 100%;
     border-radius: 1em;
-    padding: 0.25em 1.5em;
+    padding: 0.25em 2em 0.25em 1.75em;
     outline-offset: 3px;
     ::placeholder {
       color: var(--clr-grey);
@@ -147,6 +151,8 @@ const InputWrapper = styled.div`
     max-height: 300px;
     overflow-y: auto;
     box-shadow: 1px 2px 5px var(--clr-grey);
+    overflow-x: hidden;
+    
     a {
       display: block;
       padding: 1em;
@@ -177,6 +183,7 @@ const InputWrapper = styled.div`
   .no-results {
     padding: 3em 1em;
     text-align: center;
+    
     p {
       font-size: 0.875rem;
     }
