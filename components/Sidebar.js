@@ -10,8 +10,7 @@ import {
   buttonVariants,
 } from '../variants/sidebarVariants';
 
-const test = {
-
+const closeVariants = {
   exit: {
     opacity: 0,
   },
@@ -25,7 +24,7 @@ const Sidebar = () => {
           <motion.div
             className="modal-background"
             exit="exit"
-            variants={test}
+            variants={closeVariants}
             onClick={closeSidebar}
           >
             <motion.aside
