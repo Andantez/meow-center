@@ -7,8 +7,10 @@ import useSWR from 'swr';
 import { useHomeContext } from '../context/home_context';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { getPlaiceholder } from 'plaiceholder';
+import imgPaths from '../data/imagePaths';
 
-export default function Home({ mostPopularBreeds, facts, breeds }) {
+export default function Home({ mostPopularBreeds, facts, breeds, images }) {
   const { data, mutate, isValidating } = useSWR(
     `${process.env.NEXT_PUBLIC_FACTS_URI}?limit=3&max_length=200`,
     { revalidateOnFocus: false, initialData: facts }
@@ -18,14 +20,15 @@ export default function Home({ mostPopularBreeds, facts, breeds }) {
   useEffect(() => {
     setData(breeds);
   }, []);
+
   return (
     <motion.div exit={{ opacity: 0 }}>
       <Head>
         <title>Meow Portal - Learn More About Your Cat Breed</title>
       </Head>
-      <Hero />
+      <Hero frontHeroImg={images[0]} backHeroImg={images[1]} />
       <MostPopular />
-      <Facts facts={data} mutate={mutate} isValidating={isValidating} />
+      <Facts facts={data} mutate={mutate} isValidating={isValidating} images={images} />
     </motion.div>
   );
 }
@@ -49,10 +52,20 @@ export const getStaticProps = async () => {
   );
   const breedsData = await breedsResponse.json();
 
+  const images = await Promise.all(
+    imgPaths.map(async (src) => {
+      const { base64, img } = await getPlaiceholder(src);
+
+      return {
+        ...img,
+        blurDataURL: base64,
+      };
+    })
+  ).then((values) => values);
   return {
     // to be changed to return data from db too
     // props: { mostPopularBreeds: JSON.parse(JSON.stringify(mostPopularBreeds)) },
-    props: { facts: factsData, breeds: breedsData },
+    props: { facts: factsData, breeds: breedsData, images },
     revalidate: 1800,
   };
 };

@@ -3,7 +3,7 @@ import SingleFact from '../components/SingleFact';
 import MyImage from './MyImage';
 import { motion } from 'framer-motion';
 
-const Facts = ({ facts, mutate, isValidating }) => {
+const Facts = ({ facts, mutate, isValidating, images }) => {
   const { data } = facts;
 
   return (
@@ -25,6 +25,8 @@ const Facts = ({ facts, mutate, isValidating }) => {
             width="300"
             height="200"
             alt="ginger cat cleaning itself"
+            placeholder="blur"
+            blurDataURL={images[2].blurDataURL}
           />
         </div>
         <div className="img-wrapper">
@@ -33,6 +35,8 @@ const Facts = ({ facts, mutate, isValidating }) => {
             width="300"
             height="200"
             alt="cat lying on its back"
+            placeholder="blur"
+            blurDataURL={images[3].blurDataURL}
           />
         </div>
         <div className="img-wrapper">
@@ -41,6 +45,8 @@ const Facts = ({ facts, mutate, isValidating }) => {
             width="300"
             height="200"
             alt="ginger cat"
+            placeholder="blur"
+            blurDataURL={images[4].blurDataURL}
           />
         </div>
       </div>

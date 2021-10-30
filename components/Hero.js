@@ -2,13 +2,9 @@ import styled from 'styled-components';
 import Search from './Search';
 import MyImage from './MyImage';
 import { motion } from 'framer-motion';
-import {
-  fadeInDown,
-  containerVariants,
+import { fadeInDown, containerVariants } from '../variants/animationVariants';
 
-} from '../variants/animationVariants';
-
-const Hero = () => {
+const Hero = ({ frontHeroImg, backHeroImg }) => {
   return (
     <Wrapper>
       <motion.div
@@ -35,6 +31,8 @@ const Hero = () => {
             width="280"
             height="180"
             priority={true}
+            placeholder="blur"
+            blurDataURL={frontHeroImg.blurDataURL}
           />
         </div>
         <div className="right-container">
@@ -44,6 +42,8 @@ const Hero = () => {
             width="589"
             height="690"
             priority={true}
+            placeholder="blur"
+            blurDataURL={backHeroImg.blurDataURL}
           />
         </div>
       </motion.div>

@@ -1,4 +1,6 @@
-module.exports = {
+const { withPlaiceholder } = require('@plaiceholder/next');
+
+module.exports = withPlaiceholder({
   images: {
     domains: [
       'cdn2.thecatapi.com',
@@ -17,4 +19,4 @@ module.exports = {
     loader: 'cloudinary',
     path: 'https://res.cloudinary.com/andantez/image/fetch/',
   },
-};
+});
