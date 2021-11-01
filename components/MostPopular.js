@@ -14,18 +14,19 @@ const MostPopular = () => {
     <StyledMain>
       <section>
         <h2>most popular breeds</h2>
-        {mostPopular.slice(0, 7).map((breed) => {
-          const { name, breedId, src, blurDataURL } = breed;
-          return (
-            <MostPopularItem
-              key={breedId}
-              name={name}
-              imageUrl={src}
-              id={breedId}
-              blurDataURL={blurDataURL}
-            />
-          );
-        })}
+        {mostPopular &&
+          mostPopular.slice(0, 7).map((breed) => {
+            const { name, breedId, src, blurDataURL } = breed;
+            return (
+              <MostPopularItem
+                key={breedId}
+                name={name}
+                imageUrl={src}
+                id={breedId}
+                blurDataURL={blurDataURL}
+              />
+            );
+          })}
 
         <h3>50+ breeds you can discover</h3>
         <Link href="/most-popular">
