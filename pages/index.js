@@ -15,10 +15,11 @@ export default function Home({ mostPopularBreeds, facts, breeds, images }) {
     `${process.env.NEXT_PUBLIC_FACTS_URI}?limit=3&max_length=200`,
     { revalidateOnFocus: false, initialData: facts }
   );
-  const { setData } = useHomeContext();
+  const { setData, setMostPopularBreeds } = useHomeContext();
 
   useEffect(() => {
     setData(breeds);
+    setMostPopularBreeds(mostPopularBreeds);
   }, []);
   // console.log(mostPopularBreeds);
   return (
