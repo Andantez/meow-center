@@ -21,7 +21,6 @@ export default function Home({ mostPopularBreeds, facts, breeds, images }) {
     setData(breeds);
     setMostPopularBreeds(mostPopularBreeds);
   }, []);
-  // console.log(mostPopularBreeds);
   return (
     <motion.div exit={{ opacity: 0 }}>
       <Head>

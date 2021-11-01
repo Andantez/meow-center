@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 const MostPopularItem = ({ name, imageUrl, id, blurDataURL }) => {
-  console.log(blurDataURL)
   return (
     <FigureStyled className="figure-container">
       <Link href={`/breeds/${id}`}>

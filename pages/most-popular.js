@@ -4,28 +4,32 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
 import Head from 'next/head';
+import { connectToDatabase } from '../utils/mongodb';
+import { getPlaiceholder } from 'plaiceholder';
 
-const MostPopular = () => {
+const MostPopular = ({ mostPopularBreeds }) => {
   const data = tempData.slice(0, 10);
+
   return (
     <StyledDiv exit={{ opacity: 0 }} initial="initial" animate="animate">
       <Head>
         <title>Most Popular | Meow Portal</title>
       </Head>
-      <h1>top 10 most popular breed</h1>
+      <h1>top 10 most popular breeds</h1>
       <section>
-        {data.map((breed, index) => {
-          const {
-            id,
-            name,
-            description,
-            image: { url },
-          } = breed;
+        {mostPopularBreeds.map((breed, index) => {
+          const { breedId, name, description, src, blurdDataURL } = breed;
           return (
-            <div key={id} className="background">
+            <div key={breedId} className="background">
               <div className="content">
                 <div className="img-container">
-                  <Image src={url} width="450" height="400" />
+                  <Image
+                    src={src}
+                    width="450"
+                    height="400"
+                    placeholder="blur"
+                    blurDataURL={blurdDataURL}
+                  />
                 </div>
                 <div className="info">
                   <p className="title">
@@ -33,7 +37,7 @@ const MostPopular = () => {
                     {name}
                   </p>
                   <p className="description">{description.slice(0, 200)}...</p>
-                  <Link href={`/breeds/${id}`}>
+                  <Link href={`/breeds/${breedId}`}>
                     <a>
                       Learn More
                       <BsArrowRightShort />
@@ -47,6 +51,41 @@ const MostPopular = () => {
       </section>
     </StyledDiv>
   );
+};
+
+export const getStaticProps = async () => {
+  const { db } = await connectToDatabase();
+
+  // fetch most popular breeds from db
+  const breedsData = await db
+    .collection('mostpopular')
+    .find()
+    .sort({ score: -1, breeId: 1 })
+    .limit(10)
+    .toArray();
+
+  //  generate base64 blurDataURL for all images.
+  const mostPopularBreeds = await Promise.all(
+    breedsData.map(async (src) => {
+      const { base64, img } = await getPlaiceholder(src.image);
+      const { name, description, score, breedId } = src;
+
+      return {
+        ...img,
+        blurdDataURL: base64,
+        name,
+        description,
+        score,
+        breedId,
+      };
+    })
+  ).then((values) => values);
+
+  return {
+    props: {
+      mostPopularBreeds: JSON.parse(JSON.stringify(mostPopularBreeds)),
+    },
+  };
 };
 
 const StyledDiv = styled.div`
