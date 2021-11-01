@@ -3,21 +3,27 @@ import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
 import MostPopularItem from '../components/MostPopularItem';
 import tempData from '../data/tempData';
+import { useHomeContext } from '../context/home_context';
 
 const MostPopular = () => {
+  const { mostPopular } = useHomeContext();
+
   const data = tempData.slice(5, 12);
+
   return (
     <StyledMain>
       <section>
         <h2>most popular breeds</h2>
-        {data.map((breed) => {
-          const {
-            name,
-            id,
-            image: { url },
-          } = breed;
+        {mostPopular.slice(0, 7).map((breed) => {
+          const { name, breedId, src, blurDataURL } = breed;
           return (
-            <MostPopularItem key={id} name={name} imageUrl={url} id={id} />
+            <MostPopularItem
+              key={breedId}
+              name={name}
+              imageUrl={src}
+              id={breedId}
+              blurDataURL={blurDataURL}
+            />
           );
         })}
 

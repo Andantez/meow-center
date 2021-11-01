@@ -2,12 +2,20 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-const MostPopularItem = ({ name, imageUrl, id }) => {
+const MostPopularItem = ({ name, imageUrl, id, blurDataURL }) => {
+  console.log(blurDataURL)
   return (
     <FigureStyled className="figure-container">
-      <Link href={`/breeds/${id}`} >
+      <Link href={`/breeds/${id}`}>
         <a>
-          <Image src={imageUrl} alt={name} width="450" height="300" />
+          <Image
+            src={imageUrl}
+            alt={name}
+            width="450"
+            height="300"
+            placeholder="blur"
+            blurDataURL={blurDataURL}
+          />
           <figcaption>{name}</figcaption>
         </a>
       </Link>
