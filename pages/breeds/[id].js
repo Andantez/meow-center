@@ -271,7 +271,6 @@ const BreedDetails = ({ breed, images }) => {
                             ? 'active img-wrapper'
                             : 'img-wrapper'
                         }`}
-                        layout
                       >
                         <Image
                           src={image.url}
