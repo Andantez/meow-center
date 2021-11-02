@@ -17,6 +17,7 @@ import {
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { motion } from 'framer-motion';
 import Spinner from '../../components/Spinner';
+import { getPlaiceholder } from 'plaiceholder';
 
 const BreedDetails = ({ breed, images }) => {
   const { isFallback } = useRouter();
@@ -32,7 +33,7 @@ const BreedDetails = ({ breed, images }) => {
   // const { url: mainImage } = imgList[imgIndex];
   // const { name, id: breedId, description, temperament, wikipedia_url } = breed;
   // const characteristics = getCharacteristics(breed);
-
+  
   useEffect(() => {
     if (!isFallback) {
       setBreedData(breed);
@@ -146,15 +147,18 @@ const BreedDetails = ({ breed, images }) => {
             >
               <Slider className="mobile-slider-container">
                 {imgList.map((img, index) => {
+                  const { id, src, blurDataURL} = img;
                   return (
-                    <Slide index={index} key={img.id} className="mobile-slide">
+                    <Slide index={index} key={id} className="mobile-slide">
                       <div className="mobile-img-wrapper">
                         <Image
-                          src={img.url}
+                          src={src}
                           alt={breedData.name}
                           width="700"
                           height="500"
                           priority={true}
+                          placeholder="blur"
+                          blurDataURL={blurDataURL}
                         />
                       </div>
                     </Slide>
@@ -224,11 +228,13 @@ const BreedDetails = ({ breed, images }) => {
           <div className="img-container">
             {imgList.length > 0 && (
               <Image
-                src={imgList[imgIndex].url}
+                src={imgList[imgIndex].src}
                 alt={breedData.name}
                 width="600"
                 height="600"
                 priority={true}
+                placeholder="blur"
+                blurDataURL={imgList[imgIndex].blurDataURL}
               />
             )}
           </div>
@@ -258,9 +264,10 @@ const BreedDetails = ({ breed, images }) => {
             >
               <Slider className="sliders-wrapper" moveThreshold={0.4}>
                 {imgList.map((image, index) => {
+                  const { id, src, blurDataURL} = image;
                   return (
                     <Slide
-                      key={image.id}
+                      key={id}
                       index={index}
                       className="single-slide"
                       onClick={() => setImgIndex(index + fromIndex)}
@@ -273,10 +280,12 @@ const BreedDetails = ({ breed, images }) => {
                         }`}
                       >
                         <Image
-                          src={image.url}
+                          src={src}
                           width="200"
                           height="200"
                           layout="responsive"
+                          placeholder="blur"
+                          blurDataURL={blurDataURL}
                         />
                       </div>
                     </Slide>
@@ -340,93 +349,23 @@ export const getStaticProps = async (context) => {
       },
     }
   );
-
   const data = await breedResponse.json();
 
   const breed = data[0].breeds[0];
 
-  // get the images
-  const images = data.map((breed) => {
-    const { url, id } = breed;
-    return { url, id };
-  });
+  const images = await Promise.all(
+    data.map(async (breed) => {
+      const { url, id } = breed;
+      const { base64, img } = await getPlaiceholder(url);
 
-  // temporary to minimize the api call.
-  const temporaryBreedImages = [
-    {
-      url: 'https://cdn2.thecatapi.com/images/j6oFGLpRG.jpg',
-      id: 'j6oFGLpRG',
-    },
-    {
-      url: 'https://cdn2.thecatapi.com/images/rw09G0crt.jpg',
-      id: 'rw09G0crt',
-    },
-    {
-      url: 'https://cdn2.thecatapi.com/images/Y4YIOqGKb.jpg',
-      id: 'Y4YIOqGKb',
-    },
-    {
-      url: 'https://cdn2.thecatapi.com/images/SpioNJPsd.jpg',
-      id: 'SpioNJPsd',
-    },
-    {
-      url: 'https://cdn2.thecatapi.com/images/qinVu0VLV.jpg',
-      id: 'qinVu0VLV',
-    },
-    {
-      url: 'https://cdn2.thecatapi.com/images/iY76694gN.jpg',
-      id: 'iY76694gN',
-    },
-    {
-      url: 'https://cdn2.thecatapi.com/images/ZSV_8HqoS.jpg',
-      id: 'ZSV_8HqoS',
-    },
-    {
-      url: 'https://cdn2.thecatapi.com/images/3-DZDkDGa.jpg',
-      id: '3-DZDkDGa',
-    },
-  ];
-  const temporaryBreedData = {
-    weight: { imperial: '6 - 15', metric: '3 - 7' },
-    id: 'char',
-    name: 'Chartreux',
-    cfa_url: 'http://cfa.org/Breeds/BreedsCJ/Chartreux.aspx',
-    vetstreet_url: 'http://www.vetstreet.com/cats/chartreux',
-    vcahospitals_url:
-      'https://vcahospitals.com/know-your-pet/cat-breeds/chartreux',
-    temperament: 'Affectionate, Loyal, Intelligent, Social, Lively, Playful',
-    origin: 'France',
-    country_codes: 'FR',
-    country_code: 'FR',
-    description: `The Chartreux is generally silent but communicative. Short play sessions, mixed with naps and meals are their perfect day. Whilst appreciating any attention you give them, they are not demanding, content instead to follow you around devotedly, sleep 
-on your bed and snuggle with you if you’re not feeling well.`,
-    life_span: '12 - 15',
-    indoor: 0,
-    lap: 1,
-    alt_names: '',
-    adaptability: 5,
-    affection_level: 5,
-    child_friendly: 4,
-    dog_friendly: 5,
-    energy_level: 2,
-    grooming: 1,
-    health_issues: 2,
-    intelligence: 4,
-    shedding_level: 3,
-    social_needs: 5,
-    stranger_friendly: 5,
-    vocalisation: 1,
-    experimental: 0,
-    hairless: 0,
-    natural: 0,
-    rare: 0,
-    rex: 1,
-    suppressed_tail: 0,
-    short_legs: 0,
-    wikipedia_url: 'https://en.wikipedia.org/wiki/Chartreux',
-    hypoallergenic: 1,
-    reference_image_id: 'j6oFGLpRG',
-  };
+      return {
+        ...img,
+        id,
+        blurDataURL: base64,
+      }
+    })
+  ).then((values) => values);
+
   return {
     props: {
       breed,
@@ -753,7 +692,7 @@ const StyledSection = styled.section`
     .mobile-img-container {
       display: none;
     }
-    
+
     .mobile-img {
       display: none;
     }
