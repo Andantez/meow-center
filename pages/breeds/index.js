@@ -9,8 +9,10 @@ import FiltersSidebar from '../../components/FiltersSidebar';
 import { useEffect } from 'react';
 import { useFiltersContext } from '../../context/filters_context';
 import { AnimatePresence } from 'framer-motion';
+import imagePaths from '../../data/imagePaths';
+import { getPlaiceholder } from 'plaiceholder';
 
-const BreedsPage = ({ breedsData }) => {
+const BreedsPage = ({ breedsData, heroImage }) => {
   const {
     openFiltersModal,
     closeFiltersModal,
@@ -49,7 +51,7 @@ const BreedsPage = ({ breedsData }) => {
       <AnimatePresence>
         {isFiltersModalOpen && <FiltersSidebar />}
       </AnimatePresence>
-      <BreedsHero />
+      <BreedsHero heroImage={heroImage} />
       <main>
         <StyledDiv>
           <div className="search-wrapper">
@@ -107,8 +109,16 @@ export const getStaticProps = async () => {
     (a, b) => a.name.localeCompare(b.name)
   ); //sort the breeds array alphabetically.
 
+  const { base64, img } = await getPlaiceholder(imagePaths[5]);
+
   return {
-    props: { breedsData: breedsSorted },
+    props: {
+      breedsData: breedsSorted,
+      heroImage: {
+        ...img,
+        blurDataURL: base64,
+      },
+    },
     revalidate: 1800,
   };
 };
