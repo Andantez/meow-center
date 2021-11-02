@@ -2,7 +2,7 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import MyImage from './MyImage';
 
-const BreedsHero = () => {
+const BreedsHero = ({ heroImage: { blurDataURL } }) => {
   return (
     <StyledDiv>
       <Head>
@@ -21,6 +21,8 @@ const BreedsHero = () => {
             height="250"
             alt="white cat"
             priority={true}
+            placeholder="blur"
+            blurDataURL={blurDataURL}
           />
         </div>
       </section>
