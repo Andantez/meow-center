@@ -6,11 +6,12 @@ import { BsArrowRight } from 'react-icons/bs';
 const GridView = ({ breeds }) => {
   return (
     <StyledSection>
-      {breeds.map((breed, index) => {
+      {breeds.map((breed) => {
         const {
           name,
           id,
           image: { url },
+          blurDataURL,
         } = breed;
         return (
           <article key={id}>
@@ -23,6 +24,8 @@ const GridView = ({ breeds }) => {
                     height="200"
                     alt={name}
                     layout="responsive"
+                    placeholder="blur"
+                    blurDataURL={blurDataURL}
                   />
                 </div>
                 <h2>{name}</h2>

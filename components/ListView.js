@@ -15,13 +15,21 @@ const ListView = ({ breeds }) => {
           life_span,
           weight: { metric: weight },
           image: { url },
+          blurDataURL,
         } = breed;
         return (
           <article key={id}>
             <Link href={`/breeds/${id}`}>
               <a className="list-item">
                 <div className="img-wrapper">
-                  <Image src={url} width="300" height="200" alt={name} />
+                  <Image
+                    src={url}
+                    width="300"
+                    height="200"
+                    alt={name}
+                    placeholder="blur"
+                    blurDataURL={blurDataURL}
+                  />
                 </div>
                 <div className="info">
                   <h2>{name}</h2>
