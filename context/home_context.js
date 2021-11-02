@@ -8,7 +8,7 @@ const HomeProvider = ({ children }) => {
   const [itsOnFocus, setItsOnFocus] = useState(false);
   const [breeds, setBreeds] = useState([]);
   const [filteredBreeds, setFilteredBreeds] = useState([]);
-  const [mostPopular, setMostPopular] = useState([]);
+  
   const isLoadingData = !filteredBreeds && query.length > 0;
   const noResultsFound =
     filteredBreeds?.length === 0 && query.length > 0 && itsOnFocus;
@@ -40,10 +40,6 @@ const HomeProvider = ({ children }) => {
     setBreeds(data);
   };
 
-  const setMostPopularBreeds = (data) => {
-    setMostPopular(data);
-  }
-
   return (
     <HomeContext.Provider
       value={{
@@ -60,8 +56,6 @@ const HomeProvider = ({ children }) => {
         setData,
         filteredBreeds,
         setFilteredBreeds,
-        setMostPopularBreeds,
-        mostPopular
       }}
     >
       {children}
