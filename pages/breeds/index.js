@@ -46,6 +46,7 @@ const BreedsPage = ({ breedsData, heroImage }) => {
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
   return (
     <>
       <AnimatePresence>
@@ -109,11 +110,27 @@ export const getStaticProps = async () => {
     (a, b) => a.name.localeCompare(b.name)
   ); //sort the breeds array alphabetically.
 
+  // generate base64 blurDataURL for hero image.
   const { base64, img } = await getPlaiceholder(imagePaths[5]);
+  
+  // generate base64 blurDataURL for all breeds.
+  const breedsDataWithBlurUrl = await Promise.all(
+    breedsSorted.map(async (src) => {
+      const {
+        image: { url },
+      } = src;
+      const { base64 } = await getPlaiceholder(url);
+
+      return {
+        ...src,
+        blurDataURL: base64,
+      };
+    })
+  ).then((values) => values);
 
   return {
     props: {
-      breedsData: breedsSorted,
+      breedsData: breedsDataWithBlurUrl,
       heroImage: {
         ...img,
         blurDataURL: base64,
