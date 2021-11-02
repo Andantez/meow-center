@@ -2,31 +2,24 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
 import MostPopularItem from '../components/MostPopularItem';
-import tempData from '../data/tempData';
-import { useHomeContext } from '../context/home_context';
 
-const MostPopular = () => {
-  const { mostPopular } = useHomeContext();
-
-  const data = tempData.slice(5, 12);
-
+const MostPopular = ({ mostPopularBreeds }) => {
   return (
     <StyledMain>
       <section>
         <h2>most popular breeds</h2>
-        {mostPopular &&
-          mostPopular.slice(0, 7).map((breed) => {
-            const { name, breedId, src, blurDataURL } = breed;
-            return (
-              <MostPopularItem
-                key={breedId}
-                name={name}
-                imageUrl={src}
-                id={breedId}
-                blurDataURL={blurDataURL}
-              />
-            );
-          })}
+        {mostPopularBreeds.slice(0, 7).map((breed) => {
+          const { name, breedId, src, blurDataURL } = breed;
+          return (
+            <MostPopularItem
+              key={breedId}
+              name={name}
+              imageUrl={src}
+              id={breedId}
+              blurDataURL={blurDataURL}
+            />
+          );
+        })}
 
         <h3>50+ breeds you can discover</h3>
         <Link href="/most-popular">

@@ -15,11 +15,10 @@ export default function Home({ mostPopularBreeds, facts, breeds, images }) {
     `${process.env.NEXT_PUBLIC_FACTS_URI}?limit=3&max_length=200`,
     { revalidateOnFocus: false, initialData: facts }
   );
-  const { setData, setMostPopularBreeds } = useHomeContext();
+  const { setData } = useHomeContext();
 
   useEffect(() => {
     setData(breeds);
-    setMostPopularBreeds(mostPopularBreeds);
   }, []);
   return (
     <motion.div exit={{ opacity: 0 }}>
@@ -27,7 +26,7 @@ export default function Home({ mostPopularBreeds, facts, breeds, images }) {
         <title>Meow Portal - Learn More About Your Cat Breed</title>
       </Head>
       <Hero frontHeroImg={images[0]} backHeroImg={images[1]} />
-      <MostPopular />
+      <MostPopular mostPopularBreeds={mostPopularBreeds} />
       <Facts
         facts={data}
         mutate={mutate}
