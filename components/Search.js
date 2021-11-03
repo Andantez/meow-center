@@ -91,7 +91,10 @@ const Search = () => {
               {/* if there are no results found */}
               {noResultsFound && (
                 <motion.div className="no-results" layout>
-                  <motion.p layout>No results for "{query.length < 35 ? query : `${query.slice(0, 35)}...`}".</motion.p>
+                  <motion.p layout>
+                    No results for "
+                    {query.length < 35 ? query : `${query.slice(0, 35)}...`}".
+                  </motion.p>
                   <motion.p layout>Try again with different name.</motion.p>
                 </motion.div>
               )}
@@ -152,13 +155,14 @@ const InputWrapper = styled.div`
     overflow-y: auto;
     box-shadow: 1px 2px 5px var(--clr-grey);
     overflow-x: hidden;
-    
+
     a {
       display: block;
       padding: 1em;
       letter-spacing: 0.5px;
       :hover {
         background: rgba(100, 100, 100, 0.05);
+        cursor: pointer;
       }
     }
   }
@@ -183,7 +187,7 @@ const InputWrapper = styled.div`
   .no-results {
     padding: 3em 1em;
     text-align: center;
-    
+
     p {
       font-size: 0.875rem;
     }
