@@ -33,7 +33,7 @@ const BreedDetails = ({ breed, images }) => {
   // const { url: mainImage } = imgList[imgIndex];
   // const { name, id: breedId, description, temperament, wikipedia_url } = breed;
   // const characteristics = getCharacteristics(breed);
-  
+
   useEffect(() => {
     if (!isFallback) {
       setBreedData(breed);
@@ -43,25 +43,28 @@ const BreedDetails = ({ breed, images }) => {
   }, [isFallback, breed, images]);
 
   // commented to reduce requests.
-  // useEffect(() => {
-  //   const breedData = {
-  //     breedId,
-  //     name,
-  //     description,
-  //     image: images[0].url,
-  //   };
-  //   const updateMostPopular = async () => {
-  //       fetch('/api/updateMostPopular', {
-  //       method: 'POST',
-  //       body: JSON.stringify(breedData),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-  //   };
+  useEffect(() => {
+    if (!isFallback) {
+      const { id, name, description } = breedData;
+      const breed = {
+        breedId: id,
+        name,
+        description,
+        image: images[0].src,
+      };
+      const updateMostPopular = async () => {
+          fetch('/api/updateMostPopular', {
+          method: 'POST',
+          body: JSON.stringify(breed),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+      };
 
-  //   updateMostPopular();
-  // }, []);
+      updateMostPopular();
+    }
+  }, [breedData ]);
 
   const nextSlide = () => {
     setFromIndexToIndex(([prevFrom, prevTo]) => {
@@ -147,7 +150,7 @@ const BreedDetails = ({ breed, images }) => {
             >
               <Slider className="mobile-slider-container">
                 {imgList.map((img, index) => {
-                  const { id, src, blurDataURL} = img;
+                  const { id, src, blurDataURL } = img;
                   return (
                     <Slide index={index} key={id} className="mobile-slide">
                       <div className="mobile-img-wrapper">
@@ -264,7 +267,7 @@ const BreedDetails = ({ breed, images }) => {
             >
               <Slider className="sliders-wrapper" moveThreshold={0.4}>
                 {imgList.map((image, index) => {
-                  const { id, src, blurDataURL} = image;
+                  const { id, src, blurDataURL } = image;
                   return (
                     <Slide
                       key={id}
@@ -362,7 +365,7 @@ export const getStaticProps = async (context) => {
         ...img,
         id,
         blurDataURL: base64,
-      }
+      };
     })
   ).then((values) => values);
 
