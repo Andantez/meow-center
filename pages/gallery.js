@@ -10,21 +10,21 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { fadeIn, fadeInDown, stagger } from '../variants/animationVariants';
 const breakpointColumnsObj = {
-  default: 3,
+  default: 4,
   // 1024: 3,
   768: 2,
   500: 2,
 };
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 30;
 
-const skeletonArray = Array.from({ length: 25 }, (_, index) => {
+const skeletonArray = Array.from({ length: PAGE_SIZE }, (_, index) => {
   return index;
 });
 const getKey = (pageIndex, previousData, mimeTypes, categoryId) => {
   if (previousData && !previousData.length) return null;
   return `${
     process.env.NEXT_PUBLIC_API_BASE_URI
-  }/images/search?limit=25&order=asc&page=${
+  }/images/search?limit=30&order=asc&page=${
     pageIndex + 1
   }&mime_types=${mimeTypes}&category_ids=${categoryId}`;
 };
@@ -104,7 +104,6 @@ const Gallery = ({ categories }) => {
     }
     setCategoryId(value);
   };
-  // if (!data) return 'loading';
   return (
     <motion.div exit={{ opacity: 0 }} initial="initial" animate="animate">
       <Head>
@@ -249,7 +248,7 @@ const Gallery = ({ categories }) => {
     </motion.div>
   );
 };
-export const getStaticProps = async (context) => {
+export const getStaticProps = async () => {
   const categoriesResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/categories`
   );
