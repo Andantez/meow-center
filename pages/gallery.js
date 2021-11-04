@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { fadeIn, fadeInDown, stagger } from '../variants/animationVariants';
 const breakpointColumnsObj = {
-  default: 3,
+  default: 4,
   // 1024: 3,
   768: 2,
   500: 2,
