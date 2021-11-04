@@ -119,7 +119,6 @@ const StyledDiv = styled.div`
       transition: opacity 250ms ease;
       line-height: 1.5rem;
       letter-spacing: 0.5px;
-      /* line-height: 1.35em; */
       &:hover {
         opacity: 0.7;
       }

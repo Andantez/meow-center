@@ -77,9 +77,6 @@ const customStyles = {
     ...styles,
     minWidth: '15em',
   }),
-  // valueContainer: (styles) => ({
-  //   ...styles,
-  // }),
   placeholder: (styles) => ({
     ...styles,
     margin: 0,
@@ -162,12 +159,6 @@ const ReactSelect = ({
 
   const handleSelect = (e) => {
     setSelectedData(e);
-    // temporary to be removed later.
-    // const filteredData = e.map((selectedBreed) => {
-    //   return data
-    //     .flat()
-    //     .find((breed) => breed['breed name'] === selectedBreed.value);
-    // });
   };
 
   return (

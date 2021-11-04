@@ -18,8 +18,6 @@ const About = () => {
         <motion.div className="img-container" variants={fadeInDown}>
           <MyImage
             src="/about-page-cat_kiw16m.jpg"
-            // width="440"
-            // height="300"
             layout="fill"
             objectFit="cover"
           />

@@ -57,7 +57,6 @@ const StyledFooter = styled.footer`
 
   .copyright {
     font-size: 0.8125em;
-    /* margin-bottom: 1em; */
   }
 `;
 export default Footer;

@@ -25,14 +25,6 @@ const BreedDetails = ({ breed, images }) => {
   const [imgList, setImageList] = useState([]);
   const [breedData, setBreedData] = useState({});
   const [characteristics, setCharacteristics] = useState();
-  const [[fromIndex, toIndex], setFromIndexToIndex] = useState([0, 3]);
-  // commented one until make sure it works fine like it is.
-  // if (router.isFallback) {
-  //   return <h2>Loading......</h2>;
-  // }
-  // const { url: mainImage } = imgList[imgIndex];
-  // const { name, id: breedId, description, temperament, wikipedia_url } = breed;
-  // const characteristics = getCharacteristics(breed);
 
   useEffect(() => {
     if (!isFallback) {
@@ -53,7 +45,7 @@ const BreedDetails = ({ breed, images }) => {
         image: images[0].src,
       };
       const updateMostPopular = async () => {
-          fetch('/api/updateMostPopular', {
+        fetch('/api/updateMostPopular', {
           method: 'POST',
           body: JSON.stringify(breed),
           headers: {
@@ -64,42 +56,8 @@ const BreedDetails = ({ breed, images }) => {
 
       updateMostPopular();
     }
-  }, [breedData ]);
+  }, [breedData]);
 
-  const nextSlide = () => {
-    setFromIndexToIndex(([prevFrom, prevTo]) => {
-      if (prevTo > images.length - 1) {
-        return [prevFrom, prevTo];
-      }
-      return [prevFrom + 1, prevTo + 1];
-    });
-  };
-  const previousSlide = () => {
-    setFromIndexToIndex(([prevFrom, prevTo]) => {
-      if (prevFrom <= 0) {
-        return [prevFrom, prevTo];
-      }
-      return [prevFrom - 1, prevTo - 1];
-    });
-  };
-
-  const previousImage = () => {
-    setImgIndex((prevIndex) => {
-      if (prevIndex <= 0) {
-        return imgList.length - 1;
-      }
-      return prevIndex - 1;
-    });
-  };
-
-  const nextImage = () => {
-    setImgIndex((prevIndex) => {
-      if (prevIndex >= imgList.length - 1) {
-        return 0;
-      }
-      return prevIndex + 1;
-    });
-  };
   if (isFallback) {
     return <Spinner />;
   }
@@ -111,33 +69,6 @@ const BreedDetails = ({ breed, images }) => {
       </Head>
       <div className="container">
         <div className="mobile-img-container">
-          {/* <div className="mobile-img">
-            {imgList.length > 0 && (
-              <Image
-                src={imgList[imgIndex].url}
-                alt={breedData.name}
-                width="700"
-                height="500"
-                priority={true}
-              />
-            )}
-            <button
-              type="button"
-              className="prev-slide"
-              onClick={previousImage}
-              disabled={imgList.length === 1}
-            >
-              <FaChevronLeft />
-            </button>
-            <button
-              type="button"
-              className="next-slide"
-              onClick={nextImage}
-              disabled={imgList.length === 1}
-            >
-              <FaChevronRight />
-            </button>
-          </div> */}
           {imgList.length > 0 && (
             <CarouselProvider
               naturalSlideWidth={700}
@@ -181,17 +112,6 @@ const BreedDetails = ({ breed, images }) => {
               </div>
             </CarouselProvider>
           )}
-          {/* {imgList.length > 0 && (
-            <div className="indicators">
-              {imgList.map((indicator, index) => (
-                <span
-                  key={index}
-                  className={`${index === imgIndex ? 'active-img' : ''}`}
-                  onClick={() => setImgIndex(index)}
-                ></span>
-              ))}
-            </div>
-          )} */}
         </div>
         <div className="details">
           <h1>{breedData.name}</h1>
@@ -242,17 +162,6 @@ const BreedDetails = ({ breed, images }) => {
             )}
           </div>
           <div>
-            {/* {imgList.slice(fromIndex, toIndex).map((image, index) => {
-              return (
-                <div
-                  key={image.id}
-                  onClick={() => setImgIndex(index + fromIndex)}
-                  className={`${index + fromIndex === imgIndex && 'active'}`}
-                >
-                  <Image src={image.url} width="250" height="250" />
-                </div>
-              );
-            })} */}
             <CarouselProvider
               naturalSlideWidth={200}
               // naturalSlideHeight={175}
@@ -273,11 +182,11 @@ const BreedDetails = ({ breed, images }) => {
                       key={id}
                       index={index}
                       className="single-slide"
-                      onClick={() => setImgIndex(index + fromIndex)}
+                      onClick={() => setImgIndex(index)}
                     >
                       <div
                         className={`${
-                          index + fromIndex === imgIndex
+                          index === imgIndex
                             ? 'active img-wrapper'
                             : 'img-wrapper'
                         }`}
@@ -302,26 +211,6 @@ const BreedDetails = ({ breed, images }) => {
                 <FaChevronRight />
               </ButtonNext>
             </CarouselProvider>
-            {/* <button
-              type="button"
-              className={`prev ${fromIndex === 0 && 'first-slide'} ${
-                imgList.length <= 3 ? 'hide' : ''
-              }`}
-              onClick={previousSlide}
-              disabled={imgList.length <= 3}
-            >
-              <FaChevronLeft />
-            </button>
-            <button
-              type="button"
-              className={`next ${imgList.length === toIndex && 'last-slide'} ${
-                imgList.length <= 3 ? 'hide' : ''
-              }`}
-              onClick={nextSlide}
-              disabled={imgList.length <= 3}
-            >
-              <FaChevronRight />
-            </button> */}
           </div>
         </div>
       </div>

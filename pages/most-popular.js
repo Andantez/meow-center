@@ -97,7 +97,6 @@ const StyledDiv = styled.div`
   section {
     display: grid;
     gap: 2em;
-    /* text-align: center; */
     margin-top: 3em;
   }
   h1 {

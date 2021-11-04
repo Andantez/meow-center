@@ -76,7 +76,6 @@ const Wrapper = styled.header`
     a {
       position: relative;
       &:hover {
-        /* opacity: 0.8; */
         color: var(--clr-secondary-500);
       }
       &::before {
