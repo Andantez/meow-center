@@ -96,8 +96,6 @@ export const getStaticProps = async () => {
   ).then((values) => values);
 
   return {
-    // to be changed to return data from db too
-    // props: { mostPopularBreeds: JSON.parse(JSON.stringify(mostPopularBreeds)) },
     props: {
       facts: factsData,
       breeds: breedsData,

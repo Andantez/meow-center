@@ -78,17 +78,6 @@ const Wrapper = styled.div`
       position: relative;
       z-index: 1;
     }
-    /* p {
-      font-family: var(--ff-paragraph);
-      text-transform: capitalize;
-      color: var(--clr-primary-500);
-      font-weight: var(--fw-bold);
-      letter-spacing: 0.1em;
-      font-size: 1em;
-      & + p {
-        margin-top: 0.25em;
-      }
-    } */
   }
 
   .arrow-wrapper {
@@ -150,10 +139,6 @@ const Wrapper = styled.div`
   }
 
   @media (min-width: 1200px) {
-    & {
-      /* clip-path: polygon(100% 0, 100% 100%, 19% 100%, 0 75%, 0 0); */
-    }
-
     .hero-container {
       grid-template-columns: 1.5fr 1fr 1fr;
     }

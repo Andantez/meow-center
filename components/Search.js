@@ -111,7 +111,6 @@ const InputWrapper = styled.div`
   margin: 3em 0 4em;
   .search-input {
     border: none;
-    /* box-shadow: 0 0 0 0.2em var(--clr-black); */
     width: 100%;
     border-radius: 1em;
     padding: 0.25em 2em 0.25em 1.75em;

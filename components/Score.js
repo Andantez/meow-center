@@ -45,7 +45,6 @@ const Score = ({ score, characteristic }) => {
 };
 const Wrapper = styled.div`
   display: flex;
-  /* justify-content: start; */
   align-items: center;
   gap: 0.1em;
   font-family: var(--ff-paragraph);

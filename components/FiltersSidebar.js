@@ -18,94 +18,94 @@ const FiltersSidebar = () => {
   const breedOrigins = getUniqueValues(allBreeds, 'origin');
 
   return (
-      <StyledDiv
-        initial="closed"
-        animate="open"
-        exit="exit"
-        variants={containerVariants}
-      >
-        <div className="nav-btn">
-          <button type="button" onClick={closeFiltersModal}>
-            <AiOutlineClose />
-          </button>
-        </div>
-        <div className="container">
-          <h1>Filter</h1>
-          <form>
-            <div className="form-control">
-              <h2>Sort By</h2>
-              <div className="input-wrapper">
-                <div className="form-input">
-                  <input
-                    type="radio"
-                    value="a-z"
-                    id="a-z"
-                    name="alphabetical"
-                    checked={sort === 'a-z'}
-                    onChange={updateSort}
-                  />
-                  <label htmlFor="a-z">Name: A - Z</label>
-                </div>
-
-                <div className="form-input">
-                  <input
-                    type="radio"
-                    value="z-a"
-                    id="z-a"
-                    name="alphabetical"
-                    onChange={updateSort}
-                    checked={sort === 'z-a'}
-                  />
-                  <label htmlFor="z-a">Name: Z - A</label>
-                </div>
-              </div>
-            </div>
-            <div className="form-control">
-              <h2>Temperament</h2>
-              <div className="input-wrapper">
-                {temperaments.map(({ value, isChecked }, index) => {
-                  return (
-                    <div className="form-input" key={value}>
-                      <input
-                        type="checkbox"
-                        id={`temperament-${index + 30}`}
-                        name={value}
-                        value={value}
-                        checked={isChecked}
-                        onChange={updateFilters}
-                      />
-                      <label htmlFor={`temperament-${index}`}>{value}</label>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="form-control">
-              <h2>Origin</h2>
-              <div className="input-wrapper">
-                {breedOrigins.map((breedOrigin) => {
-                  return (
-                    <div className="form-input" key={breedOrigin}>
-                      <input
-                        type="radio"
-                        value={breedOrigin}
-                        name="origin"
-                        id={breedOrigin}
-                        onChange={updateFilters}
-                        checked={breedOrigin === origin}
-                      />
-                      <label htmlFor={breedOrigin}>{breedOrigin}</label>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </form>
-        </div>
-        <button type="button" className="clear-btn" onClick={clearFilters}>
-          Clear Filters
+    <StyledDiv
+      initial="closed"
+      animate="open"
+      exit="exit"
+      variants={containerVariants}
+    >
+      <div className="nav-btn">
+        <button type="button" onClick={closeFiltersModal}>
+          <AiOutlineClose />
         </button>
-      </StyledDiv>
+      </div>
+      <div className="container">
+        <h1>Filter</h1>
+        <form>
+          <div className="form-control">
+            <h2>Sort By</h2>
+            <div className="input-wrapper">
+              <div className="form-input">
+                <input
+                  type="radio"
+                  value="a-z"
+                  id="a-z"
+                  name="alphabetical"
+                  checked={sort === 'a-z'}
+                  onChange={updateSort}
+                />
+                <label htmlFor="a-z">Name: A - Z</label>
+              </div>
+
+              <div className="form-input">
+                <input
+                  type="radio"
+                  value="z-a"
+                  id="z-a"
+                  name="alphabetical"
+                  onChange={updateSort}
+                  checked={sort === 'z-a'}
+                />
+                <label htmlFor="z-a">Name: Z - A</label>
+              </div>
+            </div>
+          </div>
+          <div className="form-control">
+            <h2>Temperament</h2>
+            <div className="input-wrapper">
+              {temperaments.map(({ value, isChecked }, index) => {
+                return (
+                  <div className="form-input" key={value}>
+                    <input
+                      type="checkbox"
+                      id={`temperament-${index + 30}`}
+                      name={value}
+                      value={value}
+                      checked={isChecked}
+                      onChange={updateFilters}
+                    />
+                    <label htmlFor={`temperament-${index}`}>{value}</label>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="form-control">
+            <h2>Origin</h2>
+            <div className="input-wrapper">
+              {breedOrigins.map((breedOrigin) => {
+                return (
+                  <div className="form-input" key={breedOrigin}>
+                    <input
+                      type="radio"
+                      value={breedOrigin}
+                      name="origin"
+                      id={breedOrigin}
+                      onChange={updateFilters}
+                      checked={breedOrigin === origin}
+                    />
+                    <label htmlFor={breedOrigin}>{breedOrigin}</label>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </form>
+      </div>
+      <button type="button" className="clear-btn" onClick={clearFilters}>
+        Clear Filters
+      </button>
+    </StyledDiv>
   );
 };
 
@@ -121,8 +121,6 @@ const StyledDiv = styled(motion.div)`
   z-index: 999;
   scroll-behavior: smooth;
   .nav-btn {
-    /* display: flex;
-    justify-content: flex-end; */
     color: var(--clr-secondary-900);
     width: max-content;
     margin-left: auto;

@@ -83,31 +83,6 @@ const PieChart = ({ data }) => {
               },
             },
           }}
-          // legends={[
-          //   {
-          //     anchor: 'right',
-          //     direction: 'column',
-          //     justify: false,
-          //     translateX: 0,
-          //     translateY: 0,
-          //     itemsSpacing: 4,
-          //     itemWidth: 100,
-          //     itemHeight: 18,
-          //     itemTextColor: '#999',
-          //     itemDirection: 'left-to-right',
-          //     itemOpacity: 1,
-          //     symbolSize: 18,
-          //     symbolShape: 'circle',
-          //     effects: [
-          //       {
-          //         on: 'hover',
-          //         style: {
-          //           itemTextColor: '#000',
-          //         },
-          //       },
-          //     ],
-          //   },
-          // ]}
         />
         <div className="legend-container">
           <AnimatePresence>

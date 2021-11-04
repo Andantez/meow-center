@@ -41,7 +41,7 @@ const StyledHeadingDiv = styled.div`
   margin: 3em auto;
   max-width: 1000px;
   color: var(--clr-primary-500);
-  
+
   h1 {
     font-family: var(--ff-heading);
     font-size: 2.25rem;
@@ -61,8 +61,6 @@ const StyledHeadingDiv = styled.div`
   }
 `;
 const StyledDiv = styled.div`
-  /* reminder to remove the height later and add grid and height to other charts */
-  /* height: 500px;   */
   width: 90vw;
   max-width: 1000px;
   margin: 0 auto;
@@ -94,7 +92,7 @@ export const getStaticProps = async () => {
   const radarChartData = paginate(formattedRadarData);
   return {
     props: { pieChartData, barChartData, radarChartData },
-    // revalidate: 1800,
+    revalidate: 1800,
   };
 };
 export default Charts;

@@ -34,7 +34,6 @@ const StyledArticle = styled.article`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* padding: 1em; */
   svg {
     color: var(--clr-red-100);
   }
