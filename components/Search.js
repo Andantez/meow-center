@@ -26,7 +26,7 @@ const Search = () => {
   }, []);
 
   const handleOnKeyDown = (e) => {
-    if (e.key === 'Enter' && filteredBreeds.length === 1) {
+    if (e.key === 'Enter') {
       router.push(`/breeds/${filteredBreeds[0].id}`);
     }
   };
