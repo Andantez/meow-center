@@ -242,6 +242,12 @@ export const getStaticProps = async (context) => {
     }
   );
   const data = await breedResponse.json();
+  // return 404 page if there is no page generated or invalid id.
+  if (data.length === 0) {
+    return {
+      notFound: true,
+    };
+  }
 
   const breed = data[0].breeds[0];
 
@@ -257,12 +263,6 @@ export const getStaticProps = async (context) => {
       };
     })
   ).then((values) => values);
-
-  if (data.length === 0) {
-    return {
-      notFound: true,
-    };
-  }
 
   return {
     props: {
