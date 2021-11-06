@@ -112,7 +112,7 @@ export const getStaticProps = async () => {
 
   // generate base64 blurDataURL for hero image.
   const { base64, img } = await getPlaiceholder(imagePaths[5]);
-  
+
   // generate base64 blurDataURL for all breeds.
   const breedsDataWithBlurUrl = await Promise.all(
     breedsSorted.map(async (src) => {

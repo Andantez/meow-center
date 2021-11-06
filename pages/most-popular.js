@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import tempData from '../data/tempData';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
@@ -8,7 +7,6 @@ import { connectToDatabase } from '../utils/mongodb';
 import { getPlaiceholder } from 'plaiceholder';
 
 const MostPopular = ({ mostPopularBreeds }) => {
-  const data = tempData.slice(0, 10);
 
   return (
     <StyledDiv exit={{ opacity: 0 }} initial="initial" animate="animate">
@@ -92,7 +90,6 @@ const StyledDiv = styled.div`
   max-width: 1200px;
   width: 90vw;
   margin: 3em auto;
-  /* border: 1px solid black; */
 
   section {
     display: grid;

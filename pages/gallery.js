@@ -15,16 +15,16 @@ const breakpointColumnsObj = {
   768: 2,
   500: 2,
 };
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 32;
 
-const skeletonArray = Array.from({ length: 25 }, (_, index) => {
+const skeletonArray = Array.from({ length: PAGE_SIZE }, (_, index) => {
   return index;
 });
 const getKey = (pageIndex, previousData, mimeTypes, categoryId) => {
   if (previousData && !previousData.length) return null;
   return `${
     process.env.NEXT_PUBLIC_API_BASE_URI
-  }/images/search?limit=25&order=asc&page=${
+  }/images/search?limit=${PAGE_SIZE}&order=asc&page=${
     pageIndex + 1
   }&mime_types=${mimeTypes}&category_ids=${categoryId}`;
 };
