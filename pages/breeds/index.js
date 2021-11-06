@@ -136,7 +136,7 @@ export const getStaticProps = async () => {
         blurDataURL: base64,
       },
     },
-    revalidate: 1800,
+    revalidate: 60,
   };
 };
 

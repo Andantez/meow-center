@@ -95,6 +95,12 @@ export const getStaticProps = async () => {
     })
   ).then((values) => values);
 
+  if (factsData.code === 404 || !breedsData || !images || !mostPopularBreeds) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       facts: factsData,
@@ -102,6 +108,6 @@ export const getStaticProps = async () => {
       images,
       mostPopularBreeds: JSON.parse(JSON.stringify(mostPopularBreeds)),
     },
-    revalidate: 1800,
+    revalidate: 60,
   };
 };
