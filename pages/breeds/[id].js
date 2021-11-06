@@ -258,18 +258,25 @@ export const getStaticProps = async (context) => {
     })
   ).then((values) => values);
 
+  if (data.length === 0) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       breed,
       images,
     },
+    revalidate: 60,
   };
 };
 
 export const getStaticPaths = async () => {
   return {
     paths: [],
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 

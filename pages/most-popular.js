@@ -7,7 +7,6 @@ import { connectToDatabase } from '../utils/mongodb';
 import { getPlaiceholder } from 'plaiceholder';
 
 const MostPopular = ({ mostPopularBreeds }) => {
-
   return (
     <StyledDiv exit={{ opacity: 0 }} initial="initial" animate="animate">
       <Head>
@@ -83,6 +82,7 @@ export const getStaticProps = async () => {
     props: {
       mostPopularBreeds: JSON.parse(JSON.stringify(mostPopularBreeds)),
     },
+    revalidate: 60,
   };
 };
 

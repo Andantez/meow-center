@@ -259,7 +259,7 @@ export const getStaticProps = async (context) => {
     props: {
       categories,
     },
-    revalidate: 1800,
+    revalidate: 60,
   };
 };
 
