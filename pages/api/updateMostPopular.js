@@ -4,13 +4,13 @@ const handler = async (req, res) => {
   const { db } = await connectToDatabase();
 
   if (req.method === 'POST') {
-    const { breedId, image, name, description, score } = req.body;
-    
+    const { breedId, image, name, description } = req.body;
+
     try {
       const dbResponse = await db.collection('mostpopular').findOneAndUpdate(
         { breedId },
         {
-          $set: { image, name, description },
+          $set: { breedId, image, name, description },
           $inc: { score: 1 },
         },
         { upsert: true, returnNewDocument: true }

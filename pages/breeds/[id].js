@@ -36,7 +36,7 @@ const BreedDetails = ({ breed, images }) => {
 
   // commented to reduce requests.
   useEffect(() => {
-    if (!isFallback) {
+    if (Object.keys(breedData).length > 0) {
       const { id, name, description } = breedData;
       const breed = {
         breedId: id,
@@ -47,13 +47,12 @@ const BreedDetails = ({ breed, images }) => {
       const updateMostPopular = async () => {
         fetch('/api/updateMostPopular', {
           method: 'POST',
-          body: JSON.stringify(breed),
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify(breed),
         });
       };
-
       updateMostPopular();
     }
   }, [breedData]);
