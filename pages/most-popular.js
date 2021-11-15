@@ -3,8 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
 import Head from 'next/head';
-import { connectToDatabase } from '../utils/mongodb';
 import { getPlaiceholder } from 'plaiceholder';
+// import { connectToDatabase } from '../utils/mongodb';
+import clientPromise from '../utils/mongodb';
 
 const MostPopular = ({ mostPopularBreeds }) => {
   return (
@@ -51,7 +52,9 @@ const MostPopular = ({ mostPopularBreeds }) => {
 };
 
 export const getStaticProps = async () => {
-  const { db } = await connectToDatabase();
+  // const { db } = await connectToDatabase();
+  const client = await clientPromise;
+  const db = client.db(process.env.MONGODB_DB);
 
   // fetch most popular breeds from db
   const breedsData = await db
