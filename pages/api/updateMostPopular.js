@@ -1,9 +1,13 @@
-import { connectToDatabase } from '../../utils/mongodb';
+// import { connectToDatabase } from '../../utils/mongodb';
+import clientPromise from '../../utils/mongodb';
 
 const handler = async (req, res) => {
-  const { db } = await connectToDatabase();
+  // const { db } = await connectToDatabase();
 
   if (req.method === 'POST') {
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_DB);
+
     const { breedId, image, name, description } = req.body;
 
     try {
