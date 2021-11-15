@@ -19,6 +19,7 @@ const handler = async (req, res) => {
         },
         { upsert: true, returnNewDocument: true }
       );
+      
       res.status(201).json(dbResponse);
     } catch (error) {
       res.status(500).json({ message: error });

@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import MyImage from '../components/MyImage';
 import { AiOutlineMail, AiOutlineArrowDown } from 'react-icons/ai';
+import { ImTwitter } from 'react-icons/im';
+import { FcGoogle } from 'react-icons/fc';
+import { ImFacebook } from 'react-icons/im';
 const Account = () => {
   return (
     <StyledDiv>
@@ -24,12 +27,23 @@ const Account = () => {
         <div className="providers-wrapper">
           <p>or sign in with</p>
           <AiOutlineArrowDown />
-          <button>Facebook</button>
-          <button>Google</button>
-          <button>Twitter</button>
+          <div className="providers-flex-wrapper">
+            <button className="providers-btn google">
+              <FcGoogle />
+              Google
+            </button>
+            <button className="providers-btn facebook">
+              <ImFacebook />
+              Facebook
+            </button>
+            <button className="providers-btn twitter">
+              <ImTwitter />
+              Twitter
+            </button>
+          </div>
         </div>
         <p>
-          Don't have an account yet ?{' '}
+          Don't have an account yet ?
           <button type="button" className="sign-up-btn">
             Sign up
           </button>
@@ -47,7 +61,8 @@ const StyledDiv = styled.div`
   width: 100%;
   height: 100vh;
   z-index: 1;
-
+  padding-top: 3em;
+  /* padding-bottom: 3em; */
   .bg-image-wrapper {
     position: absolute;
     top: 0;
@@ -59,9 +74,8 @@ const StyledDiv = styled.div`
 
   .section-wrapper {
     width: 80vw;
-    height: 100vh;
+    /* height: 100vh; */
     margin: 0 auto;
-    /* border: 2px solid black; */
     background: linear-gradient(
       0deg,
       rgba(181, 181, 181, 0.75) 0%,
@@ -101,7 +115,6 @@ const StyledDiv = styled.div`
     background: var(--clr-red-500);
     border: none;
     color: var(--clr-secondary-500);
-    margin: 0 auto;
     padding: 0.5em 2.5em;
     border-radius: 0.5em;
     font-weight: var(--fw-bold);
@@ -123,15 +136,56 @@ const StyledDiv = styled.div`
     background-color: transparent;
     color: var(--clr-red-100);
     cursor: pointer;
+    margin-left: .25em;
   }
-
+  .providers-flex-wrapper {
+    display: grid;
+    gap: 1em;
+    margin-top: 1em;
+  }
   .providers-wrapper {
-
-
+    padding: 1em;
     svg {
       display: block;
-      margin: 0 auto;
       color: var(--clr-black);
+    }
+  }
+  .providers-wrapper > svg {
+    margin: 0 auto;
+  }
+  .providers-btn {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    font-family: var(--ff-paragraph);
+    color: var(--clr-secondary-500);
+    cursor: pointer;
+  }
+
+  .google {
+    background-color: #ffffff;
+    color: var(--clr-grey);
+  }
+
+  .twitter svg,
+  .facebook svg {
+    color: var(--clr-secondary-500);
+  }
+  .twitter {
+    background-color: #1da1f2;
+
+    svg {
+      background-color: #1da1f2;
+    }
+  }
+  .facebook {
+    background-color: #4267b2;
+
+    svg {
+      background-color: #4267b2;
     }
   }
 `;
