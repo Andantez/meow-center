@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import MyImage from '../components/MyImage';
-import { AiOutlineMail, AiOutlineArrowDown } from 'react-icons/ai';
+import { AiOutlineArrowDown } from 'react-icons/ai';
 import { ImTwitter } from 'react-icons/im';
 import { FcGoogle } from 'react-icons/fc';
-import { ImFacebook } from 'react-icons/im';
+import { SiFacebook } from 'react-icons/si';
+
 const Account = () => {
   return (
     <StyledDiv>
@@ -16,38 +17,48 @@ const Account = () => {
         />
       </div>
       <section className="section-wrapper">
-        <h1>Sign In</h1>
-        <form className="form">
-          <input type="email" name="email" placeholder="Email" />
-          <input type="password" name="password" placeholder="Password" />
-          <button type="submit" className="submit-btn">
-            sign in
-          </button>
-        </form>
-        <div className="providers-wrapper">
-          <p>or sign in with</p>
-          <AiOutlineArrowDown />
-          <div className="providers-flex-wrapper">
-            <button className="providers-btn google">
-              <FcGoogle />
-              Google
+        <div className="left-container">
+          <h1>Sign In</h1>
+          <form className="form">
+            <input type="email" name="email" placeholder="Email" />
+            <input type="password" name="password" placeholder="Password" />
+            <button type="button" className="forgot-btn">
+              Forgot Password ?
             </button>
-            <button className="providers-btn facebook">
-              <ImFacebook />
-              Facebook
+            <button type="submit" className="submit-btn">
+              sign in
             </button>
-            <button className="providers-btn twitter">
-              <ImTwitter />
-              Twitter
-            </button>
+          </form>
+          <div className="providers-wrapper">
+            <p>or sign in with</p>
+            {/* <AiOutlineArrowDown /> */}
+            <div className="providers-grid-wrapper">
+              <button className="providers-btn google">
+                <FcGoogle />
+                Google
+              </button>
+              <button className="providers-btn facebook">
+                <SiFacebook />
+                Facebook
+              </button>
+              <button className="providers-btn twitter">
+                <ImTwitter />
+                Twitter
+              </button>
+            </div>
           </div>
+          <p>
+            Don't have an account yet ?
+            <button type="button" className="sign-up-btn">
+              Sign up
+            </button>
+          </p>
         </div>
-        <p>
-          Don't have an account yet ?
-          <button type="button" className="sign-up-btn">
-            Sign up
-          </button>
-        </p>
+        <div className="right-container">
+          <h2>Don't Have an account ?</h2>
+          <p>Join us and save your favourite pictures</p>
+          <button className="submit-btn">Sign Up</button>
+        </div>
       </section>
     </StyledDiv>
   );
@@ -74,25 +85,31 @@ const StyledDiv = styled.div`
 
   .section-wrapper {
     width: 80vw;
+    max-width: 1200px;
     /* height: 100vh; */
     margin: 0 auto;
+    /* backdrop-filter: blur(5px); */
     background: linear-gradient(
       0deg,
-      rgba(181, 181, 181, 0.75) 0%,
-      rgba(246, 249, 250, 0.75) 100%
+      rgba(181, 181, 181, 0.85) 0%,
+      rgba(246, 249, 250, 0.85) 100%
     );
+    padding: 2.5em 2em;
   }
+
   h1 {
-    font-family: var(--ff-heading);
+    font-family: var(--ff-paragraph);
+    font-weight: var(--fw-bold);
     color: var(--clr-primary-500);
     font-size: 2.5rem;
     text-align: center;
+    /* margin-bottom: 2.5em; */
   }
   .form {
     display: grid;
     font-family: var(--ff-paragraph);
     gap: 1em;
-    padding: 1em;
+    margin-top: 2.5em;
 
     input {
       letter-spacing: 1px;
@@ -134,17 +151,17 @@ const StyledDiv = styled.div`
     font-weight: var(--fw-bold);
     border: none;
     background-color: transparent;
-    color: var(--clr-red-100);
+    color: var(--clr-primary-500);
     cursor: pointer;
-    margin-left: .25em;
+    margin-left: 0.25em;
   }
-  .providers-flex-wrapper {
+  .providers-grid-wrapper {
     display: grid;
     gap: 1em;
     margin-top: 1em;
   }
   .providers-wrapper {
-    padding: 1em;
+    padding: 1em 0;
     svg {
       display: block;
       color: var(--clr-black);
@@ -163,6 +180,10 @@ const StyledDiv = styled.div`
     font-family: var(--ff-paragraph);
     color: var(--clr-secondary-500);
     cursor: pointer;
+    letter-spacing: 1px;
+    svg {
+      margin-right: 0.25em;
+    }
   }
 
   .google {
@@ -186,6 +207,58 @@ const StyledDiv = styled.div`
 
     svg {
       background-color: #4267b2;
+    }
+  }
+
+  .right-container {
+    display: none;
+  }
+  .forgot-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  @media (min-width: 768px) {
+    .section-wrapper {
+      display: grid;
+      width: 90vw;
+      grid-template-columns: 1.5fr 1fr;
+      padding: 0;
+    }
+    p:last-child {
+      display: none;
+    }
+
+    .left-container {
+      margin: 2.5em 2em;
+    }
+    .right-container {
+      display: grid;
+      place-content: center;
+      gap: 2em;
+      padding: 2.5em 2em;
+      background-color: var(--clr-secondary-500);
+
+      h2 {
+        font-size: 2rem;
+        font-family: var(--ff-paragraph);
+        color: var(--clr-primary-500);
+        text-align: center;
+      }
+      p {
+        color: var(--clr-primary-300);
+      }
+    }
+  }
+
+  @media (min-width: 1024px) {
+
+    .left-container {
+      .submit-btn, .providers-btn {
+        width: 30%;
+        margin: 0 auto;
+      }
     }
   }
 `;
