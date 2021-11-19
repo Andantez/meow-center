@@ -4,10 +4,21 @@ import { AiOutlineArrowDown } from 'react-icons/ai';
 import { ImTwitter } from 'react-icons/im';
 import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
+import { useEffect, useState } from 'react';
 
 const Account = () => {
+  const [[headerHeight, footerHeight], setHeaderFooterHeight] = useState([
+    0, 0,
+  ]);
+
+  useEffect(() => {
+    const headerElHeight = document.querySelector('header').offsetHeight;
+    const footerElHeight = document.querySelector('footer').offsetHeight;
+    setHeaderFooterHeight([headerElHeight, footerElHeight]);
+  }, []);
+
   return (
-    <StyledDiv>
+    <StyledDiv headerHeight={headerHeight} footerHeight={footerHeight}>
       <div className="bg-image-wrapper">
         <StyledImage
           src="logIn-background_fof5qg"
@@ -70,10 +81,10 @@ const StyledImage = styled(MyImage)`
 const StyledDiv = styled.div`
   position: relative;
   width: 100%;
-  height: 100vh;
+  /* min-height: 100%; */
   z-index: 1;
   padding-top: 3em;
-  /* padding-bottom: 3em; */
+  padding-bottom: 3em;
   .bg-image-wrapper {
     position: absolute;
     top: 0;
@@ -108,7 +119,7 @@ const StyledDiv = styled.div`
   .form {
     display: grid;
     font-family: var(--ff-paragraph);
-    gap: 1em;
+    gap: 1.5em;
     margin-top: 2.5em;
 
     input {
@@ -220,6 +231,7 @@ const StyledDiv = styled.div`
     text-decoration: underline;
   }
   @media (min-width: 768px) {
+    min-height: 100vh;
     .section-wrapper {
       display: grid;
       width: 90vw;
@@ -231,7 +243,7 @@ const StyledDiv = styled.div`
     }
 
     .left-container {
-      margin: 2.5em 2em;
+      margin: 5em 2em;
     }
     .right-container {
       display: grid;
@@ -253,10 +265,32 @@ const StyledDiv = styled.div`
   }
 
   @media (min-width: 1024px) {
+    display: grid;
+    place-items: center;
+    min-height: ${(props) =>
+      props.headerHeight &&
+      `calc(100vh - ${props.headerHeight + props.footerHeight}px - 2em)`};
 
+    .section-wrapper {
+      box-shadow: 0px 0px 2px var(--clr-lightgrey);
+    }
     .left-container {
-      .submit-btn, .providers-btn {
-        width: 30%;
+      .form {
+        input {
+          width: 50%;
+          margin: 0 auto;
+        }
+      }
+      .submit-btn,
+      .providers-btn {
+        width: 50%;
+        margin: 0 auto;
+      }
+    }
+
+    .right-container {
+      .submit-btn {
+        width: fit-content;
         margin: 0 auto;
       }
     }
