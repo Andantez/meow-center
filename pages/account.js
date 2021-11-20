@@ -1,20 +1,36 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MyImage from '../components/MyImage';
-import SignIn from '../components/SignIn';
-import { useEffect, useState } from 'react';
-import SignInSignUp from '../components/SigInSignUp';
+import SignInSignUp from '../components/SignInSignUp';
+import SignInSignUpAside from '../components/SignInSignUpAside';
+
 const Account = () => {
   const [[headerHeight, footerHeight], setHeaderFooterHeight] = useState([
     0, 0,
   ]);
-
+  // temporory to be removed later for testing purpose only
+  const [[signInWidth, buttonWidth], setSignInButtonWIdth] = useState([0, 0]);
+  const [isSigningIn, setIsSigningIn] = useState(true);
+  // ------------------------------------------------------------
+  useEffect(() => {
+    const signInElWidth =
+      document.querySelector('.sign-in-container').offsetWidth;
+    const buttonElWidth =
+      document.querySelector('.button-container').offsetWidth;
+    setSignInButtonWIdth([signInElWidth, buttonElWidth]);
+  }, []);
   useEffect(() => {
     const headerElHeight = document.querySelector('header').offsetHeight;
     const footerElHeight = document.querySelector('footer').offsetHeight;
     setHeaderFooterHeight([headerElHeight, footerElHeight]);
   }, []);
   return (
-    <StyledDiv headerHeight={headerHeight} footerHeight={footerHeight}>
+    <StyledDiv
+      headerHeight={headerHeight}
+      footerHeight={footerHeight}
+      signInWidth={signInWidth}
+      buttonWidth={buttonWidth}
+    >
       <div className="bg-image-wrapper">
         <StyledImage
           src="logIn-background_fof5qg"
@@ -24,8 +40,11 @@ const Account = () => {
         />
       </div>
       <section className="section-wrapper">
-        <SignIn />
-        <SignInSignUp />
+        <SignInSignUp isSigningIn={isSigningIn} />
+        <SignInSignUpAside
+          isSigningIn={isSigningIn}
+          setIsSigningIn={setIsSigningIn}
+        />
       </section>
     </StyledDiv>
   );
@@ -63,13 +82,30 @@ const StyledDiv = styled.div`
     );
     padding: 2.5em 2em;
   }
+  /* temporary --------------------- */
+  .sign-in-container,
+  .button-container {
+    transition: all 400ms ease-in;
+  }
+  .sign-in-container.signing-in {
+    /* transform: ${(props) =>
+      props.buttonWidth && `translateX(${props.buttonWidth}px)`}; */
+    transform: translateX(calc(75%));
+  }
+  .button-container.signing-in {
+    /* transform: ${(props) =>
+      props.signInWidth &&
+      `translateX(calc(-${props.signInWidth}px - 4em))`}; */
+    transform: translateX(calc(-150%));
+  }
 
+  /* --------------------------------- */
   @media (min-width: 768px) {
     min-height: 100vh;
     .section-wrapper {
       display: grid;
       width: 90vw;
-      grid-template-columns: 1.5fr 1fr;
+      grid-template-columns: 1fr 1fr;
       padding: 0;
     }
   }
@@ -83,6 +119,7 @@ const StyledDiv = styled.div`
 
     .section-wrapper {
       box-shadow: 0px 0px 2px var(--clr-lightgrey);
+      width: 100%;
     }
   }
 `;

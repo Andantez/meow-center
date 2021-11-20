@@ -1,11 +1,20 @@
 import styled from 'styled-components';
 
-const SignInSignUp = () => {
+const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
   return (
-    <StyledDiv>
-      <h2>Don't Have an account ?</h2>
-      <p>Join us and save your favourite pictures</p>
-      <button className="submit-btn">Sign Up</button>
+    <StyledDiv className={`button-container ${!isSigningIn && 'signing-in'}`}>
+      <h2>{isSigningIn ? `Don't Have an account ?` : 'Have an account ?'}</h2>
+      <p>
+        {isSigningIn
+          ? 'Join us and save your favourite pictures'
+          : 'Sign in and access your favourite pictures'}
+      </p>
+      <button
+        className="submit-btn"
+        onClick={() => setIsSigningIn(!isSigningIn)}
+      >
+        {isSigningIn ? 'Sign Up' : 'Sign In'}
+      </button>
     </StyledDiv>
   );
 };
@@ -49,4 +58,4 @@ const StyledDiv = styled.div`
     }
   }
 `;
-export default SignInSignUp;
+export default SignInSignUpAside;
