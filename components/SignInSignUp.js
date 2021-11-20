@@ -3,22 +3,58 @@ import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
 import styled from 'styled-components';
 
-const SignIn = () => {
+const SignInSignUp = ({ isSigningIn }) => {
   return (
-    <StyledDiv className="left-container">
-      <h1>Sign In</h1>
+    <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
+      <h1>{isSigningIn ? 'Sign In' : 'Sign Up'} </h1>
       <form className="form">
-        <input type="email" name="email" placeholder="Email" />
-        <input type="password" name="password" placeholder="Password" />
-        <button type="button" className="forgot-btn">
-          Forgot Password ?
-        </button>
-        <button type="submit" className="submit-btn">
-          sign in
-        </button>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          autoComplete="email"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          autoComplete={isSigningIn ? 'current-password' : 'new-password'}
+        />
+        {!isSigningIn && (
+          <>
+            <input
+              type="text"
+              name="username"
+              autoComplete="username"
+              placeholder="username"
+              hidden
+            />
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              autoComplete="new-password"
+            />
+          </>
+        )}
+        {isSigningIn && (
+          <button type="button" className="forgot-btn">
+            Forgot Password ?
+          </button>
+        )}
+        {isSigningIn && (
+          <button type="submit" className="submit-btn">
+            sign in
+          </button>
+        )}
+        {!isSigningIn && (
+          <button type="submit" className="submit-btn">
+            sign up
+          </button>
+        )}
       </form>
       <div className="providers-wrapper">
-        <p>or sign in with</p>
+        <p>or {isSigningIn ? 'sign in' : 'sign up'} with</p>
         {/* <AiOutlineArrowDown /> */}
         <div className="providers-grid-wrapper">
           <button className="providers-btn google">
@@ -163,6 +199,7 @@ const StyledDiv = styled.div`
     border: none;
     cursor: pointer;
     text-decoration: underline;
+    padding: 0.5em 0;
   }
 
   @media (min-width: 768px) {
@@ -186,4 +223,4 @@ const StyledDiv = styled.div`
     }
   }
 `;
-export default SignIn;
+export default SignInSignUp;
