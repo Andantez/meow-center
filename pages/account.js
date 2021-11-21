@@ -105,7 +105,7 @@ const StyledDiv = styled.div`
     .section-wrapper {
       display: grid;
       width: 90vw;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.5fr 1fr;
       padding: 0;
     }
   }
