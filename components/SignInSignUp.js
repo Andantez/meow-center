@@ -1,27 +1,80 @@
 import { ImTwitter } from 'react-icons/im';
 import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
+import { MdEmail } from 'react-icons/md';
+import { RiLockPasswordFill } from 'react-icons/ri';
+import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
+import { useState } from 'react';
 
 const SignInSignUp = ({ isSigningIn }) => {
+  const [userDetails, setUserDetails] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const { email, password, confirmPassword } = userDetails;
+
+  const handleOnChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setUserDetails({ ...userDetails, [name]: value });
+  };
+
+  const handleOnClick = () => {
+    setUserDetails({ ...userDetails, email: '' });
+  };
+  console.log(userDetails);
   return (
     <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
       <h1>{isSigningIn ? 'Sign In' : 'Sign Up'} </h1>
       <form className="form">
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          autoComplete="email"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          autoComplete={isSigningIn ? 'current-password' : 'new-password'}
-        />
+        <div className="input-wrapper">
+          <input
+            required
+            type="email"
+            name="email"
+            placeholder="Email"
+            autoComplete="email"
+            value={email}
+            onChange={handleOnChange}
+          />
+          {email ? (
+            <AiOutlineClose className="icon icon-btn" onClick={handleOnClick} />
+          ) : (
+            <MdEmail className="icon" />
+          )}
+        </div>
+        <div className="input-wrapper">
+          <input
+            required
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            placeholder="Password"
+            autoComplete={isSigningIn ? 'current-password' : 'new-password'}
+            value={password}
+            onChange={handleOnChange}
+          />
+          {password ? (
+            showPassword ? (
+              <AiFillEyeInvisible
+                className="icon icon-btn"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            ) : (
+              <AiFillEye
+                className="icon icon-btn"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            )
+          ) : (
+            <RiLockPasswordFill className="icon" />
+          )}
+        </div>
         {!isSigningIn && (
-          <>
+          <div className="input-wrapper">
             <input
               type="text"
               name="username"
@@ -30,12 +83,30 @@ const SignInSignUp = ({ isSigningIn }) => {
               hidden
             />
             <input
-              type="password"
+              required
+              type={showConfirmPassword ? 'text' : 'password'}
               name="confirmPassword"
               placeholder="Confirm Password"
               autoComplete="new-password"
+              value={confirmPassword}
+              onChange={handleOnChange}
             />
-          </>
+            {confirmPassword ? (
+              showConfirmPassword ? (
+                <AiFillEyeInvisible
+                  className="icon icon-btn"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
+              ) : (
+                <AiFillEye
+                  className="icon icon-btn"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
+              )
+            ) : (
+              <RiLockPasswordFill className="icon" />
+            )}
+          </div>
         )}
         {isSigningIn && (
           <button type="button" className="forgot-btn">
@@ -95,7 +166,7 @@ const StyledDiv = styled.div`
     font-family: var(--ff-paragraph);
     margin-top: 2.5em;
     /* gap: 1.5em; */
-    input:not(:first-child),
+    div:not(:first-child),
     button {
       margin-top: 1.5em;
     }
@@ -107,8 +178,11 @@ const StyledDiv = styled.div`
       text-indent: 0.75em;
       outline-color: var(--clr-grey);
       border-radius: 0.5em;
+      width: 100%;
     }
-
+    input::-ms-reveal {
+      display: none;
+    }
     input::placeholder {
       color: var(--clr-grey);
       text-indent: 0.75em;
@@ -204,8 +278,21 @@ const StyledDiv = styled.div`
     cursor: pointer;
     text-decoration: underline;
     padding: 0.5em 0;
+    text-underline-offset: 1px;
   }
-
+  .input-wrapper {
+    position: relative;
+  }
+  .icon {
+    position: absolute;
+    top: calc(50%);
+    right: 0.75em;
+    transform: translateY(-50%);
+    color: var(--clr-grey);
+  }
+  .icon-btn {
+    cursor: pointer;
+  }
   @media (min-width: 768px) {
     margin: 5em 2em;
     p:last-child {
@@ -215,7 +302,7 @@ const StyledDiv = styled.div`
 
   @media (min-width: 1024px) {
     .form {
-      input {
+      & > div {
         width: 50%;
         margin: 0 auto;
       }
