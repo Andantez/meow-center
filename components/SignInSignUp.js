@@ -7,7 +7,7 @@ import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useState } from 'react';
 
-const SignInSignUp = ({ isSigningIn }) => {
+const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const [userDetails, setUserDetails] = useState({
     email: '',
     password: '',
@@ -143,9 +143,13 @@ const SignInSignUp = ({ isSigningIn }) => {
         </div>
       </div>
       <p>
-        Don't have an account yet ?
-        <button type="button" className="sign-up-btn">
-          Sign up
+        {isSigningIn ? `Don't have an account ?` : 'Have an account ?'}
+        <button
+          type="button"
+          className="sign-up-btn"
+          onClick={() => setIsSigningIn(!isSigningIn)}
+        >
+          {isSigningIn ? 'Sign Up' : 'Sign In'}
         </button>
       </p>
     </StyledDiv>

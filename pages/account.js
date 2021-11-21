@@ -40,7 +40,7 @@ const Account = () => {
         />
       </div>
       <section className="section-wrapper">
-        <SignInSignUp isSigningIn={isSigningIn} />
+        <SignInSignUp isSigningIn={isSigningIn} setIsSigningIn={setIsSigningIn}/>
         <SignInSignUpAside
           isSigningIn={isSigningIn}
           setIsSigningIn={setIsSigningIn}
@@ -82,24 +82,7 @@ const StyledDiv = styled.div`
     );
     padding: 2.5em 2em;
   }
-  /* temporary --------------------- */
-  .sign-in-container,
-  .button-container {
-    transition: all 400ms ease-in;
-  }
-  .sign-in-container.signing-in {
-    /* transform: ${(props) =>
-      props.buttonWidth && `translateX(${props.buttonWidth}px)`}; */
-    transform: translateX(calc(75%));
-  }
-  .button-container.signing-in {
-    /* transform: ${(props) =>
-      props.signInWidth &&
-      `translateX(calc(-${props.signInWidth}px - 4em))`}; */
-    transform: translateX(calc(-150%));
-  }
 
-  /* --------------------------------- */
   @media (min-width: 768px) {
     min-height: 100vh;
     .section-wrapper {
@@ -108,6 +91,25 @@ const StyledDiv = styled.div`
       grid-template-columns: 1.5fr 1fr;
       padding: 0;
     }
+
+    /* temporary --------------------- */
+    .sign-in-container,
+    .button-container {
+      transition: all 400ms ease-in;
+    }
+    .sign-in-container.signing-in {
+      /* transform: ${(props) =>
+        props.buttonWidth && `translateX(${props.buttonWidth}px)`}; */
+      transform: translateX(calc(75%));
+    }
+    .button-container.signing-in {
+      /* transform: ${(props) =>
+        props.signInWidth &&
+        `translateX(calc(-${props.signInWidth}px - 4em))`}; */
+      transform: translateX(calc(-150%));
+    }
+
+    /* --------------------------------- */
   }
 
   @media (min-width: 1024px) {
