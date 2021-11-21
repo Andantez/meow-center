@@ -90,11 +90,15 @@ const StyledDiv = styled.div`
     /* margin-bottom: 2.5em; */
   }
   .form {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     font-family: var(--ff-paragraph);
-    gap: 1.5em;
     margin-top: 2.5em;
-
+    /* gap: 1.5em; */
+    input:not(:first-child),
+    button {
+      margin-top: 1.5em;
+    }
     input {
       letter-spacing: 1px;
       padding: 0.5em 0;

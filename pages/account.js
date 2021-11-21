@@ -119,7 +119,6 @@ const StyledDiv = styled.div`
 
     .section-wrapper {
       box-shadow: 0px 0px 2px var(--clr-lightgrey);
-      width: 100%;
     }
   }
 `;
