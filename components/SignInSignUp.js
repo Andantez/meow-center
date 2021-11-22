@@ -3,19 +3,19 @@ import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
+import { IoMdPerson } from 'react-icons/io';
 import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useState } from 'react';
 
 const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const [userDetails, setUserDetails] = useState({
+    name: '',
     email: '',
     password: '',
-    confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const { email, password, confirmPassword } = userDetails;
+  const {name, email, password } = userDetails;
 
   const handleOnChange = (e) => {
     const name = e.target.name;
@@ -23,14 +23,37 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     setUserDetails({ ...userDetails, [name]: value });
   };
 
-  const handleOnClick = () => {
-    setUserDetails({ ...userDetails, email: '' });
+  const handleOnClick = (e) => {
+    const name = e.target.getAttribute('name');
+    setUserDetails({ ...userDetails, [name]: '' });
   };
   console.log(userDetails);
   return (
     <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
       <h1>{isSigningIn ? 'Sign In' : 'Sign Up'} </h1>
       <form className="form">
+        {!isSigningIn && (
+          <div className="input-wrapper">
+            <input
+              required
+              type="name"
+              name="name"
+              placeholder="Name"
+              autoComplete="name"
+              value={name}
+              onChange={handleOnChange}
+            />
+            {name ? (
+              <AiOutlineClose
+                className="icon icon-btn"
+                onClick={handleOnClick}
+                name="name"
+              />
+            ) : (
+              <IoMdPerson className="icon" />
+            )}
+          </div>
+        )}
         <div className="input-wrapper">
           <input
             required
@@ -42,7 +65,11 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
             onChange={handleOnChange}
           />
           {email ? (
-            <AiOutlineClose className="icon icon-btn" onClick={handleOnClick} />
+            <AiOutlineClose
+              className="icon icon-btn"
+              onClick={handleOnClick}
+              name="email"
+            />
           ) : (
             <MdEmail className="icon" />
           )}
@@ -73,41 +100,6 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
             <RiLockPasswordFill className="icon" />
           )}
         </div>
-        {!isSigningIn && (
-          <div className="input-wrapper">
-            <input
-              type="text"
-              name="username"
-              autoComplete="username"
-              placeholder="username"
-              hidden
-            />
-            <input
-              required
-              type={showConfirmPassword ? 'text' : 'password'}
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              autoComplete="new-password"
-              value={confirmPassword}
-              onChange={handleOnChange}
-            />
-            {confirmPassword ? (
-              showConfirmPassword ? (
-                <AiFillEyeInvisible
-                  className="icon icon-btn"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                />
-              ) : (
-                <AiFillEye
-                  className="icon icon-btn"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                />
-              )
-            ) : (
-              <RiLockPasswordFill className="icon" />
-            )}
-          </div>
-        )}
         {isSigningIn && (
           <button type="button" className="forgot-btn">
             Forgot Password ?
@@ -183,6 +175,7 @@ const StyledDiv = styled.div`
       outline-color: var(--clr-grey);
       border-radius: 0.5em;
       width: 100%;
+      padding-right: 2em;
     }
     input::-ms-reveal {
       display: none;
