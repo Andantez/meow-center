@@ -7,7 +7,7 @@ import { IoMdPerson } from 'react-icons/io';
 import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useState } from 'react';
-
+import createUser from '../utils/createUser.js';
 const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const [userDetails, setUserDetails] = useState({
     name: '',
@@ -15,7 +15,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
-  const {name, email, password } = userDetails;
+  const { name, email, password } = userDetails;
 
   const handleOnChange = (e) => {
     const name = e.target.name;
@@ -27,11 +27,21 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     const name = e.target.getAttribute('name');
     setUserDetails({ ...userDetails, [name]: '' });
   };
-  console.log(userDetails);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!isSigningIn) {
+      const user = { name, email, password };
+
+      const createdUser = await createUser(name, email, password);
+      // console.log(createdUser);
+    }
+  };
   return (
     <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
       <h1>{isSigningIn ? 'Sign In' : 'Sign Up'} </h1>
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit}>
         {!isSigningIn && (
           <div className="input-wrapper">
             <input
