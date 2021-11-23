@@ -9,7 +9,8 @@ import {
   containerVariants,
   buttonVariants,
 } from '../variants/sidebarVariants';
-
+import { GoSignIn, GoSignOut } from 'react-icons/go';
+import { IoPerson } from 'react-icons/io5';
 const closeVariants = {
   exit: {
     opacity: 0,
@@ -57,6 +58,27 @@ const Sidebar = () => {
                     </li>
                   );
                 })}
+                <li>
+                  <Link href="#">
+                    <a>
+                      <IoPerson /> My Account
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/account">
+                    <a>
+                      <GoSignIn /> Sign In
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#">
+                    <a>
+                      <GoSignOut /> Sign Out
+                    </a>
+                  </Link>
+                </li>
               </motion.ul>
             </motion.aside>
           </motion.div>
