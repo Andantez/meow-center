@@ -32,10 +32,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     e.preventDefault();
 
     if (!isSigningIn) {
-      const user = { name, email, password };
-
       const createdUser = await createUser(name, email, password);
-      // console.log(createdUser);
     }
   };
   return (
