@@ -1,4 +1,3 @@
-
 export const createUser = async (name, email, password) => {
   const user = { name, email, password };
 
