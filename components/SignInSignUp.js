@@ -7,7 +7,7 @@ import { IoMdPerson } from 'react-icons/io';
 import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { createUser } from '../utils/createUser.js';
+import { createUser } from '../utils/userUtils';
 const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const [userDetails, setUserDetails] = useState({
     name: '',

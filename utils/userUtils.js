@@ -1,3 +1,4 @@
+
 export const createUser = async (name, email, password) => {
   const user = { name, email, password };
 
@@ -12,8 +13,6 @@ export const createUser = async (name, email, password) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
-
-
