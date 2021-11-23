@@ -8,6 +8,8 @@ import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { createUser } from '../utils/userUtils';
+import { signIn } from 'next-auth/react';
+
 const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const [userDetails, setUserDetails] = useState({
     name: '',
@@ -34,6 +36,13 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     if (!isSigningIn) {
       const createdUser = await createUser(name, email, password);
     }
+
+    const signInResponse = await signIn('credentials', {
+      redirect: false,
+      name,
+      email,
+      password,
+    });
   };
   return (
     <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
@@ -42,7 +51,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
         {!isSigningIn && (
           <div className="input-wrapper">
             <input
-              required
+              // required
               type="name"
               name="name"
               placeholder="Name"
@@ -63,7 +72,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
         )}
         <div className="input-wrapper">
           <input
-            required
+            // required
             type="email"
             name="email"
             placeholder="Email"
@@ -83,7 +92,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
         </div>
         <div className="input-wrapper">
           <input
-            required
+            // required
             type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder="Password"

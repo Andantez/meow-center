@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     return;
   }
   const hashedPassword = await bcrypt.hash(password, 12);
-  const userData = { name, email, hashedPassword };
+  const userData = { name, email, password: hashedPassword };
   const dbResponse = await db.collection('users').insertOne(userData);
 
   res.status(201).json(dbResponse);
