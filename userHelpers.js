@@ -1,4 +1,4 @@
-export const createUser = async (name, email, password) => {
+const createUser = async (name, email, password) => {
   const user = { name, email, password };
 
   try {
@@ -16,4 +16,4 @@ export const createUser = async (name, email, password) => {
   }
 };
 
-
+export default createUser;
