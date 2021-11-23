@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { HiMenu } from 'react-icons/hi';
 import { useHomeContext } from '../context/home_context';
 import MyImage from './MyImage';
+import { useSession, signOut } from 'next-auth/react';
 
 const Header = () => {
   const { openSidebar } = useHomeContext();
+  const { data: session, status } = useSession();
   return (
     <Wrapper>
       <nav className="nav-wrapper">
@@ -36,17 +38,21 @@ const Header = () => {
           <Link href="/about">
             <a>About</a>
           </Link>
-          <Link href="/about">
-            <a>
-              My Account
-            </a>
-          </Link>
-          <Link href="/account">
-            <a>Sign In</a>
-          </Link>
-          <Link href="/account">
-            <a>Sign Out</a>
-          </Link>
+          {session && status === 'authenticated' && (
+            <Link href="/">
+              <a>My Account</a>
+            </Link>
+          )}
+          {!session && (
+            <Link href="/account">
+              <a>Sign In</a>
+            </Link>
+          )}
+          {session && status === 'authenticated' && (
+            <Link href="/account">
+              <a onClick={signOut}>Sign Out</a>
+            </Link>
+          )}
         </div>
         <button className="navbar-toggle" type="button" onClick={openSidebar}>
           <HiMenu />

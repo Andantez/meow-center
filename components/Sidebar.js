@@ -11,6 +11,8 @@ import {
 } from '../variants/sidebarVariants';
 import { GoSignIn, GoSignOut } from 'react-icons/go';
 import { IoPerson } from 'react-icons/io5';
+import { useSession, signOut } from 'next-auth/react';
+
 const closeVariants = {
   exit: {
     opacity: 0,
@@ -18,6 +20,7 @@ const closeVariants = {
 };
 const Sidebar = () => {
   const { isSidebarOpen, closeSidebar } = useHomeContext();
+  const { data: session, status } = useSession();
   return (
     <StyledDiv>
       <AnimatePresence>
@@ -58,27 +61,33 @@ const Sidebar = () => {
                     </li>
                   );
                 })}
-                <li>
-                  <Link href="#">
-                    <a>
-                      <IoPerson /> My Account
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/account">
-                    <a>
-                      <GoSignIn /> Sign In
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#">
-                    <a>
-                      <GoSignOut /> Sign Out
-                    </a>
-                  </Link>
-                </li>
+                {session && status === 'authenticated' && (
+                  <li>
+                    <Link href="/">
+                      <a>
+                        <IoPerson /> My Account
+                      </a>
+                    </Link>
+                  </li>
+                )}
+                {!session && (
+                  <li>
+                    <Link href="/account">
+                      <a>
+                        <GoSignIn /> Sign In
+                      </a>
+                    </Link>
+                  </li>
+                )}
+                {session && status === 'authenticated' && (
+                  <li>
+                    <Link href="/">
+                      <a onClick={signOut}>
+                        <GoSignOut /> Sign Out
+                      </a>
+                    </Link>
+                  </li>
+                )}
               </motion.ul>
             </motion.aside>
           </motion.div>
