@@ -1,4 +1,6 @@
-import { ImHome, ImList2, ImImages, ImStatsBars, ImInfo } from 'react-icons/im';
+import { ImHome, ImList2, ImImages } from 'react-icons/im';
+import { IoMdInformationCircle } from 'react-icons/io';
+import { IoStatsChart } from 'react-icons/io5';
 
 const Links = [
   {
@@ -18,14 +20,14 @@ const Links = [
   },
   {
     title: 'Charts',
-    icon: <ImStatsBars />,
+    icon: <IoStatsChart />,
     link: '/charts',
   },
   {
     title: 'About',
-    icon: <ImInfo />,
+    icon: <IoMdInformationCircle />,
     link: '/about',
   },
 ];
 
-export default Links
+export default Links;

@@ -36,6 +36,17 @@ const Header = () => {
           <Link href="/about">
             <a>About</a>
           </Link>
+          <Link href="/about">
+            <a>
+              My Account
+            </a>
+          </Link>
+          <Link href="/account">
+            <a>Sign In</a>
+          </Link>
+          <Link href="/account">
+            <a>Sign Out</a>
+          </Link>
         </div>
         <button className="navbar-toggle" type="button" onClick={openSidebar}>
           <HiMenu />
@@ -105,6 +116,7 @@ const Wrapper = styled.header`
       display: grid;
       grid-auto-flow: column;
       gap: 2em;
+      place-items: center;
     }
   }
 `;
