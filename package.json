@@ -18,7 +18,7 @@
     "framer-motion": "^4.1.17",
     "mongodb": "^3.6.9",
     "next": "^11.0.0",
-    "next-auth": "4.0.0-beta.7",
+    "next-auth": "^0.0.0-pr.3217.87a21677",
     "plaiceholder": "^2.2.0",
     "pure-react-carousel": "^1.27.6",
     "react": "^17.0.2",
