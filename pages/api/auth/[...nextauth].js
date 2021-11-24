@@ -29,6 +29,9 @@ export default NextAuth({
       },
     }),
   ],
+  session: {
+    strategy: 'jwt',
+  },
   pages: {
     signIn: '/account',
   },
