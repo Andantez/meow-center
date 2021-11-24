@@ -20,9 +20,7 @@ export default NextAuth({
           credentials.password,
           existingUser.password
         );
-          console.log(isAuthenticated)
         if (existingUser && isAuthenticated) {
-
           const { name, email } = existingUser;
           return { name, email };
         }
@@ -37,4 +35,5 @@ export default NextAuth({
   pages: {
     signIn: '/account',
   },
+  secret: process.env.NEXT_AUTH_TOKEN_SECRET,
 });
