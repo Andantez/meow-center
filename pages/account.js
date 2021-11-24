@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import MyImage from '../components/MyImage';
 import SignInSignUp from '../components/SignInSignUp';
 import SignInSignUpAside from '../components/SignInSignUpAside';
-
+import { getSession } from 'next-auth/react';
 const Account = () => {
+
   const [[headerHeight, footerHeight], setHeaderFooterHeight] = useState([
     0, 0,
   ]);
@@ -24,6 +25,7 @@ const Account = () => {
     const footerElHeight = document.querySelector('footer').offsetHeight;
     setHeaderFooterHeight([headerElHeight, footerElHeight]);
   }, []);
+
   return (
     <StyledDiv
       headerHeight={headerHeight}
@@ -40,7 +42,10 @@ const Account = () => {
         />
       </div>
       <section className="section-wrapper">
-        <SignInSignUp isSigningIn={isSigningIn} setIsSigningIn={setIsSigningIn}/>
+        <SignInSignUp
+          isSigningIn={isSigningIn}
+          setIsSigningIn={setIsSigningIn}
+        />
         <SignInSignUpAside
           isSigningIn={isSigningIn}
           setIsSigningIn={setIsSigningIn}
@@ -48,6 +53,22 @@ const Account = () => {
       </section>
     </StyledDiv>
   );
+};
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 };
 const StyledImage = styled(MyImage)`
   object-fit: cover;
