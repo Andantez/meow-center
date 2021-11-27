@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { createUser } from '../utils/userUtils';
 import { signIn } from 'next-auth/react';
+import { validateEmail, validatePassword } from '../utils/helpers';
 
 const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const [userDetails, setUserDetails] = useState({
@@ -18,11 +19,48 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const { name, email, password } = userDetails;
+  const [errors, setErrors] = useState({ name: '', email: '', password: '' });
 
   const handleOnChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+
     setUserDetails({ ...userDetails, [name]: value });
+  };
+
+
+  const validateForm = (e) => {
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
+    const formErrors = errors;
+    switch (inputName) {
+      case 'name': {
+        formErrors.name =
+          inputValue.trim().length < 2
+            ? 'Name must be at least 2 characters long!'
+            : '';
+        break;
+      }
+      case 'email': {
+        formErrors.email =
+          inputValue.length === 0 // change error massage if the input field is empty or invalid.
+            ? 'Enter your email address'
+            : validateEmail(inputValue)
+            ? ''
+            : 'Enter a valid email address e.g in the format user@domain.com';
+        break;
+      }
+      case 'password': {
+        formErrors.password = validatePassword(inputValue)
+          ? ''
+          : 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.';
+        break;
+      }
+      default:
+        break;
+    }
+
+    setErrors({ ...formErrors });
   };
 
   const handleOnClick = (e) => {
@@ -32,11 +70,20 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+      
     if (!isSigningIn) {
+      const isValidForm =
+        name &&
+        email &&
+        password &&
+        (errors.name || errors.email || errors.password);
+      if (!isValidForm) {
+        console.log("should show this if there is empty fields",errors)
+        return;
+      }
+      console.log("should not reach here",errors)
       const createdUser = await createUser(name, email, password);
     }
-
     const signInResponse = await signIn('credentials', {
       redirect: false,
       name,
@@ -47,7 +94,8 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   return (
     <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
       <h1>{isSigningIn ? 'Sign In' : 'Sign Up'} </h1>
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit} noValidate>
+        {/* if the uses is not signing in e.g. is registering show the registering show name input field */}
         {!isSigningIn && (
           <div className="input-wrapper">
             <input
@@ -58,6 +106,9 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
               autoComplete="name"
               value={name}
               onChange={handleOnChange}
+              // If the user is signing in disable the onBlur event listener.
+              onBlur={!isSigningIn ? validateForm : undefined}
+              // autoFocus
             />
             {name ? (
               <AiOutlineClose
@@ -70,6 +121,8 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
             )}
           </div>
         )}
+        {/* show the user error  */}
+        {errors.name ? <small>{errors.name}</small> : ''}
         <div className="input-wrapper">
           <input
             // required
@@ -79,6 +132,8 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
             autoComplete="email"
             value={email}
             onChange={handleOnChange}
+            // If the user is signing in disable the onBlur event listener.
+            onBlur={!isSigningIn ? validateForm : undefined}
           />
           {email ? (
             <AiOutlineClose
@@ -90,6 +145,8 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
             <MdEmail className="icon" />
           )}
         </div>
+        {/* show the user error  */}
+        {errors.email ? <small>{errors.email}</small> : ''}
         <div className="input-wrapper">
           <input
             // required
@@ -99,6 +156,8 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
             autoComplete={isSigningIn ? 'current-password' : 'new-password'}
             value={password}
             onChange={handleOnChange}
+            // If the user is signing in disable the onBlur event listener.
+            onBlur={!isSigningIn ? validateForm : undefined}
           />
           {password ? (
             showPassword ? (
@@ -116,21 +175,16 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
             <RiLockPasswordFill className="icon" />
           )}
         </div>
+        {/* show the user error  */}
+        {errors.password ? <small>{errors.password}</small> : ''}
         {isSigningIn && (
           <button type="button" className="forgot-btn">
             Forgot Password ?
           </button>
         )}
-        {isSigningIn && (
-          <button type="submit" className="submit-btn">
-            sign in
-          </button>
-        )}
-        {!isSigningIn && (
-          <button type="submit" className="submit-btn">
-            sign up
-          </button>
-        )}
+        <button type="submit" className="submit-btn">
+          {isSigningIn ? 'sign in' : 'sign up'}
+        </button>
       </form>
       <div className="providers-wrapper">
         <p>or {isSigningIn ? 'sign in' : 'sign up'} with</p>
