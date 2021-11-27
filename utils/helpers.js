@@ -134,3 +134,15 @@ export const paginate = (arrayData) => {
   });
   return paginatedData;
 };
+
+export const validateEmail = (email) => {
+  const regEx =
+    /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+
+  return email.trim().toLowerCase().match(regEx);
+};
+
+export const validatePassword = (password) => {
+  const regEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/;
+  return password.match(regEx);
+};
