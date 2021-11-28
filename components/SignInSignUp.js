@@ -3,10 +3,10 @@ import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
-import { IoMdPerson } from 'react-icons/io';
+import { IoMdPerson, IoMdReturnRight } from 'react-icons/io';
 import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createUser } from '../utils/userUtils';
 import { signIn } from 'next-auth/react';
 import { validateEmail, validatePassword } from '../utils/helpers';
@@ -21,6 +21,11 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const { name, email, password } = userDetails;
   const [errors, setErrors] = useState({ name: '', email: '', password: '' });
 
+  useEffect(() => {
+    if (isSigningIn) {
+      setErrors({ name: '', email: '', password: '' });
+    }
+  }, [isSigningIn]);
   const handleOnChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -28,7 +33,25 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     setUserDetails({ ...userDetails, [name]: value });
   };
 
+  const validateOnSubmit = () => {
+    const formErrors = errors;
 
+    formErrors.name =
+      name.trim().length < 2 ? 'Name must be at least 2 characters long!' : '';
+
+    formErrors.email =
+      email.length === 0 // change error massage if the input field is empty or invalid.
+        ? 'Enter your email address'
+        : validateEmail(email)
+        ? ''
+        : 'Enter a valid email address e.g in the format user@domain.com';
+
+    formErrors.password = validatePassword(password)
+      ? ''
+      : 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.';
+
+    setErrors({ ...formErrors });
+  };
   const validateForm = (e) => {
     const inputName = e.target.name;
     const inputValue = e.target.value;
@@ -70,19 +93,26 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      
     if (!isSigningIn) {
-      const isValidForm =
-        name &&
-        email &&
-        password &&
-        (errors.name || errors.email || errors.password);
-      if (!isValidForm) {
-        console.log("should show this if there is empty fields",errors)
+      validateOnSubmit();
+      const itsInvalidForm =
+        !name ||
+        !email ||
+        !password ||
+        errors.name ||
+        errors.email ||
+        errors.password;
+
+      if (itsInvalidForm) {
         return;
       }
-      console.log("should not reach here",errors)
+      console.log('should reach here if errors object is empty', errors);
       const createdUser = await createUser(name, email, password);
+      signIn('credentials', {
+        email,
+        password,
+      });
+      return;
     }
     const signInResponse = await signIn('credentials', {
       redirect: false,
