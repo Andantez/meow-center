@@ -129,7 +129,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
         {!isSigningIn && (
           <div className="input-wrapper">
             <input
-              // required
+              className={`${errors.name && 'validation-error'}`}
               type="name"
               name="name"
               placeholder="Name"
@@ -152,10 +152,10 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
           </div>
         )}
         {/* show the user error  */}
-        {errors.name ? <small>{errors.name}</small> : ''}
+        {errors.name && <small className="error-message">{errors.name}</small>}
         <div className="input-wrapper">
           <input
-            // required
+            className={`${errors.email && 'validation-error'}`}
             type="email"
             name="email"
             placeholder="Email"
@@ -176,10 +176,12 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
           )}
         </div>
         {/* show the user error  */}
-        {errors.email ? <small>{errors.email}</small> : ''}
+        {errors.email && (
+          <small className="error-message">{errors.email}</small>
+        )}
         <div className="input-wrapper">
           <input
-            // required
+            className={`${errors.email && 'validation-error'}`}
             type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder="Password"
@@ -206,7 +208,9 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
           )}
         </div>
         {/* show the user error  */}
-        {errors.password ? <small>{errors.password}</small> : ''}
+        {errors.password && (
+          <small className="error-message">{errors.password}</small>
+        )}
         {isSigningIn && (
           <button type="button" className="forgot-btn">
             Forgot Password ?
@@ -269,7 +273,7 @@ const StyledDiv = styled.div`
     input {
       letter-spacing: 1px;
       padding: 0.5em 0;
-      border: none;
+      border: 1px solid transparent;
       background-color: var(--clr-secondary-500);
       text-indent: 0.75em;
       outline-color: var(--clr-grey);
@@ -390,6 +394,19 @@ const StyledDiv = styled.div`
   .icon-btn {
     cursor: pointer;
   }
+
+  .error-message {
+    font-family: var(--ff-paragraph);
+    font-size: 0.75rem;
+    /* text-align: center; */
+    letter-spacing: 0.5px;
+    color: var(--clr-red-900);
+    padding-left: 1em;
+    margin-top: 0.5em;
+  }
+  input.validation-error {
+    border: 1px solid var(--clr-red-900);
+  }
   @media (min-width: 768px) {
     margin: 5em 2em;
     p:last-child {
@@ -409,6 +426,13 @@ const StyledDiv = styled.div`
       width: 50%;
       margin: 0 auto;
     }
+  }
+
+  .error-message {
+    width: 50%;
+    margin: 0.5em auto 0;
+    /* font-size: .75em; */
+    line-height: 1.25em;
   }
 `;
 export default SignInSignUp;
