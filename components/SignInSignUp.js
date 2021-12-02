@@ -398,7 +398,6 @@ const StyledDiv = styled.div`
   .error-message {
     font-family: var(--ff-paragraph);
     font-size: 0.75rem;
-    /* text-align: center; */
     letter-spacing: 0.5px;
     color: var(--clr-red-900);
     padding-left: 1em;
@@ -426,13 +425,11 @@ const StyledDiv = styled.div`
       width: 50%;
       margin: 0 auto;
     }
-  }
-
-  .error-message {
-    width: 50%;
-    margin: 0.5em auto 0;
-    /* font-size: .75em; */
-    line-height: 1.25em;
+    .error-message {
+      width: 50%;
+      margin: 0.5em auto 0;
+      line-height: 1.25em;
+    }
   }
 `;
 export default SignInSignUp;
