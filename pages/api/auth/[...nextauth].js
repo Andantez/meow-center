@@ -10,19 +10,21 @@ export default NextAuth({
       async authorize(credentials, req) {
         const client = await clientPromise;
         const db = client.db();
-
         const existingUser = await db
           .collection('users')
           .findOne({ email: credentials.email });
-        // console.log("this are the credentials",credentials)
 
-        const isAuthenticated = await bcrypt.compare(
-          credentials.password,
-          existingUser.password
-        );
-        if (existingUser && isAuthenticated) {
-          const { name, email } = existingUser;
-          return { name, email };
+        if (existingUser) {
+          const isAuthenticated = await bcrypt.compare(
+            credentials.password,
+            existingUser.password
+          );
+
+          if (isAuthenticated) {
+            const { name, email } = existingUser;
+
+            return { name, email, userId: existingUser._id };
+          }
         }
 
         return null;
@@ -31,6 +33,18 @@ export default NextAuth({
   ],
   session: {
     strategy: 'jwt',
+  },
+  callbacks: {
+    async session({ session, token }) {
+      session.user = token.user;
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
   },
   pages: {
     signIn: '/account',
