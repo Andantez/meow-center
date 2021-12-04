@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { createUser } from '../utils/userUtils';
 import { signIn } from 'next-auth/react';
 import { validateEmail, validatePassword } from '../utils/helpers';
-
+import { useRouter } from 'next/router';
 const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const [userDetails, setUserDetails] = useState({
     name: '',
@@ -19,13 +19,17 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const { name, email, password } = userDetails;
-  const [errors, setErrors] = useState({ name: '', email: '', password: '' });
-
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    password: '',
+    authenticated: '',
+  });
+  const router = useRouter();
   useEffect(() => {
-    if (isSigningIn) {
-      setErrors({ name: '', email: '', password: '' });
-    }
+    setErrors({ name: '', email: '', password: '', authenticated: '' });
   }, [isSigningIn]);
+
   const handleOnChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -36,8 +40,11 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const validateOnSubmit = () => {
     const formErrors = errors;
 
-    formErrors.name =
-      name.trim().length < 2 ? 'Name must be at least 2 characters long!' : '';
+    formErrors.name = isSigningIn
+      ? ''
+      : name.trim().length < 2
+      ? 'Name must be at least 2 characters long!'
+      : '';
 
     formErrors.email =
       email.length === 0 // change error massage if the input field is empty or invalid.
@@ -46,9 +53,13 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
         ? ''
         : 'Enter a valid email address e.g in the format user@domain.com';
 
-    formErrors.password = validatePassword(password)
-      ? ''
-      : 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.';
+    if (isSigningIn) {
+      formErrors.password = password.length === 0 ? 'Enter your password' : '';
+    } else {
+      formErrors.password = validatePassword(password)
+        ? ''
+        : 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.';
+    }
 
     setErrors({ ...formErrors });
   };
@@ -91,27 +102,38 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     setUserDetails({ ...userDetails, [name]: '' });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSignUpSubmit = async (e) => {
     e.preventDefault();
-    if (!isSigningIn) {
-      validateOnSubmit();
-      const itsInvalidForm =
-        !name ||
-        !email ||
-        !password ||
-        errors.name ||
-        errors.email ||
-        errors.password;
 
-      if (itsInvalidForm) {
-        return;
-      }
-      console.log('should reach here if errors object is empty', errors);
-      const createdUser = await createUser(name, email, password);
-      signIn('credentials', {
-        email,
-        password,
-      });
+    validateOnSubmit();
+    const itsInvalidForm =
+      !name ||
+      !email ||
+      !password ||
+      errors.name ||
+      errors.email ||
+      errors.password;
+
+    if (itsInvalidForm) {
+      return;
+    }
+    const createdUser = await createUser(name, email, password);
+    signIn('credentials', {
+      name,
+      email,
+      password,
+    });
+    return;
+  };
+
+  const handleLogInSubmit = async (e) => {
+    e.preventDefault();
+    validateOnSubmit();
+
+    const itsInvalidForm =
+      !email || !password || errors.email || errors.password;
+
+    if (itsInvalidForm) {
       return;
     }
     const signInResponse = await signIn('credentials', {
@@ -120,12 +142,29 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
       email,
       password,
     });
+    if (signInResponse.status === 200 && signInResponse.ok) {
+      router.push('/');
+    }
+    if (signInResponse.status == 401 && signInResponse.ok === false) {
+      setErrors({
+        ...errors,
+        authenticated: 'The email or password is incorrect.',
+      });
+    }
   };
   return (
     <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
       <h1>{isSigningIn ? 'Sign In' : 'Sign Up'} </h1>
-      <form className="form" onSubmit={handleSubmit} noValidate>
-        {/* if the uses is not signing in e.g. is registering show the registering show name input field */}
+
+      <form
+        className="form"
+        onSubmit={isSigningIn ? handleLogInSubmit : handleSignUpSubmit}
+        noValidate
+      >
+        <small className="error-message">
+          {errors.authenticated && `${errors.authenticated}`}
+        </small>
+        {/* if the user is not signing in e.g. is registering show the registering show name input field */}
         {!isSigningIn && (
           <div className="input-wrapper">
             <input
@@ -181,7 +220,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
         )}
         <div className="input-wrapper">
           <input
-            className={`${errors.email && 'validation-error'}`}
+            className={`${errors.password && 'validation-error'}`}
             type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder="Password"
