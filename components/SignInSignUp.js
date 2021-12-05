@@ -3,14 +3,15 @@ import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
-import { IoMdPerson, IoMdReturnRight } from 'react-icons/io';
+import { IoMdPerson } from 'react-icons/io';
 import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { createUser } from '../utils/userUtils';
-import { signIn } from 'next-auth/react';
-import { validateEmail, validatePassword } from '../utils/helpers';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
+import { createUser } from '../utils/userUtils';
+import { validateEmail, validatePassword } from '../utils/helpers';
+
 const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
   const [userDetails, setUserDetails] = useState({
     name: '',
@@ -24,6 +25,8 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     email: '',
     password: '',
     authenticated: '',
+    ok: false,
+    message: '',
   });
   const router = useRouter();
   useEffect(() => {
@@ -117,7 +120,11 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     if (itsInvalidForm) {
       return;
     }
-    const createdUser = await createUser(name, email, password);
+    const createdUser = await createUser(name, email, password); // check user input and if valid create user and returns the user else return object with errors.
+
+    if (!createdUser.ok) {
+      setErrors({ ...errors, ...createdUser });
+    }
     signIn('credentials', {
       name,
       email,
