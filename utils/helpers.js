@@ -139,10 +139,28 @@ export const validateEmail = (email) => {
   const regEx =
     /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
-  return email.trim().toLowerCase().match(regEx);
+  return regEx.test(email.trim().toLowerCase());
 };
 
 export const validatePassword = (password) => {
   const regEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/;
-  return password.match(regEx);
+  return regEx.test(password);
+};
+
+export const validateUserDetails = (name, email, password) => {
+  const userDetailsErrors = {};
+
+  userDetailsErrors.name =
+    name.length >= 2 ? '' : 'Name must be at least 2 characters long!';
+  userDetailsErrors.email =
+    email.length === 0 // change error massage if the input field is empty or invalid.
+      ? 'Enter your email address'
+      : validateEmail(email)
+      ? ''
+      : 'Enter a valid email address e.g in the format user@domain.com';
+  userDetailsErrors.password = validatePassword(password)
+    ? ''
+    : 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.';
+
+    return userDetailsErrors;
 };
