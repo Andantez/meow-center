@@ -271,7 +271,6 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
         <div className="providers-grid-wrapper">
           {providers.map((provider) => {
             const { id, name } = provider;
-            console.log(id, name);
             return (
               <button
                 key={id}
