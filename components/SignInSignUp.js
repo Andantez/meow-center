@@ -276,7 +276,10 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
                 key={id}
                 className={`providers-btn ${id}`}
                 onClick={() =>
-                  signIn(id)
+                  signIn(id, {
+                    callbackUrl:
+                      'https://meow-portal-mffjd7iek-andantez.vercel.app/api/auth/callback/google',
+                  })
                 }
               >
                 {name === 'Google' ? <FcGoogle /> : <SiFacebook />}
