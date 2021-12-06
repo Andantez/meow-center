@@ -276,7 +276,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
                 key={id}
                 className={`providers-btn ${id}`}
                 onClick={() =>
-                  signIn()
+                  signIn(id)
                 }
               >
                 {name === 'Google' ? <FcGoogle /> : <SiFacebook />}
