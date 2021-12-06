@@ -277,7 +277,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
                 className={`providers-btn ${id}`}
                 onClick={() =>
                   signIn(id, {
-                    callbackUrl: 'http://localhost:3000/',
+                    callbackUrl: 'https://meow-portal.vercel.app/',
                   })
                 }
               >
