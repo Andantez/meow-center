@@ -1,10 +1,15 @@
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 import clientPromise from '../../../utils/mongodb';
 import bcrypt from 'bcrypt';
 
 export default NextAuth({
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+    }),
     CredentialsProvider({
       name: 'Credentials',
       async authorize(credentials, req) {
@@ -23,7 +28,7 @@ export default NextAuth({
           if (isAuthenticated) {
             const { name, email } = existingUser;
 
-            return { name, email, userId: existingUser._id };
+            return { name, email, id: existingUser._id };
           }
         }
 
@@ -39,9 +44,10 @@ export default NextAuth({
       session.user = token.user;
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
+      
       if (user) {
-        token.user = user;
+        token.user = { ...user, provider: account.provider };
       }
       return token;
     },
