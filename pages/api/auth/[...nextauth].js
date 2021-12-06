@@ -9,6 +9,7 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
+      authorizationUrl: `https://accounts.google.com/o/oauth2/auth/authorize?response_type=code&prompt=login`,
     }),
     CredentialsProvider({
       name: 'Credentials',
@@ -45,7 +46,6 @@ export default NextAuth({
       return session;
     },
     async jwt({ token, user, account }) {
-      
       if (user) {
         token.user = { ...user, provider: account.provider };
       }
