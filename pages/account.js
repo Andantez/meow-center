@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import MyImage from '../components/MyImage';
 import SignInSignUp from '../components/SignInSignUp';
 import SignInSignUpAside from '../components/SignInSignUpAside';
-import { getSession } from 'next-auth/react';
-const Account = () => {
-
+import { getProviders, getSession } from 'next-auth/react';
+const Account = ({ providers }) => {
   const [[headerHeight, footerHeight], setHeaderFooterHeight] = useState([
     0, 0,
   ]);
@@ -45,6 +44,7 @@ const Account = () => {
         <SignInSignUp
           isSigningIn={isSigningIn}
           setIsSigningIn={setIsSigningIn}
+          providers={providers}
         />
         <SignInSignUpAside
           isSigningIn={isSigningIn}
@@ -57,6 +57,10 @@ const Account = () => {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
+  const providers = await getProviders();
+  const filteredProviders = Object.values(providers).filter(
+    (provider) => provider.name !== 'Credentials'
+  );
 
   if (session) {
     return {
@@ -67,7 +71,9 @@ export const getServerSideProps = async (context) => {
     };
   }
   return {
-    props: {},
+    props: {
+      providers: filteredProviders,
+    },
   };
 };
 const StyledImage = styled(MyImage)`

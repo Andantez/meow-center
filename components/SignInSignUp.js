@@ -1,4 +1,3 @@
-import { ImTwitter } from 'react-icons/im';
 import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
 import { MdEmail } from 'react-icons/md';
@@ -12,7 +11,7 @@ import { signIn } from 'next-auth/react';
 import { createUser } from '../utils/userUtils';
 import { validateEmail, validatePassword } from '../utils/helpers';
 
-const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
+const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
   const [userDetails, setUserDetails] = useState({
     name: '',
     email: '',
@@ -29,6 +28,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
     message: '',
   });
   const router = useRouter();
+  
   useEffect(() => {
     setErrors({ name: '', email: '', password: '', authenticated: '' });
   }, [isSigningIn]);
@@ -268,20 +268,33 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn }) => {
       </form>
       <div className="providers-wrapper">
         <p>or {isSigningIn ? 'sign in' : 'sign up'} with</p>
-        {/* <AiOutlineArrowDown /> */}
         <div className="providers-grid-wrapper">
-          <button className="providers-btn google">
+          {providers.map((provider) => {
+            const { id, name } = provider;
+            console.log(id, name);
+            return (
+              <button
+                key={id}
+                className={`providers-btn ${id}`}
+                onClick={() =>
+                  signIn(id, {
+                    callbackUrl: 'http://localhost:3000/',
+                  })
+                }
+              >
+                {name === 'Google' ? <FcGoogle /> : <SiFacebook />}
+                {name}
+              </button>
+            );
+          })}
+          {/* <button className="providers-btn google">
             <FcGoogle />
             Google
           </button>
           <button className="providers-btn facebook">
             <SiFacebook />
             Facebook
-          </button>
-          <button className="providers-btn twitter">
-            <ImTwitter />
-            Twitter
-          </button>
+          </button> */}
         </div>
       </div>
       <p>
