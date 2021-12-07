@@ -276,9 +276,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
                 key={id}
                 className={`providers-btn ${id}`}
                 onClick={() =>
-                  signIn(id, {
-                    callbackUrl: 'http://localhost:3000/',
-                  })
+                  signIn(id)
                 }
               >
                 {name === 'Google' ? <FcGoogle /> : <SiFacebook />}

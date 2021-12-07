@@ -10,14 +10,15 @@ import { motion } from 'framer-motion';
 import { getPlaiceholder } from 'plaiceholder';
 import imgPaths from '../data/imagePaths';
 import clientPromise from '../utils/mongodb'
-
+import { useSession } from 'next-auth/react';
 export default function Home({ mostPopularBreeds, facts, breeds, images }) {
   const { data, mutate, isValidating } = useSWR(
     `${process.env.NEXT_PUBLIC_FACTS_URI}?limit=3&max_length=200`,
     { revalidateOnFocus: false, initialData: facts }
   );
   const { setData } = useHomeContext();
-
+    const { data: session, status} = useSession();
+    console.log(session)
   useEffect(() => {
     setData(breeds);
   }, []);
