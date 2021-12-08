@@ -23,32 +23,36 @@ export default NextAuth({
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
       authorization: {
         params: {
-          display: 'popup',
+          scope: 'email,public_profile',
+          auth_type: 'reauthenticate',
         },
       },
     }),
     CredentialsProvider({
       name: 'Credentials',
       async authorize(credentials, req) {
-        const client = await clientPromise;
-        const db = client.db();
-        const existingUser = await db
-          .collection('users')
-          .findOne({ email: credentials.email });
+        try {
+          const client = await clientPromise;
+          const db = client.db();
+          const existingUser = await db
+            .collection('users')
+            .findOne({ email: credentials.email });
 
-        if (existingUser) {
-          const isAuthenticated = await bcrypt.compare(
-            credentials.password,
-            existingUser.password
-          );
+          if (existingUser) {
+            const isAuthenticated = await bcrypt.compare(
+              credentials.password,
+              existingUser.password
+            );
 
-          if (isAuthenticated) {
-            const { name, email } = existingUser;
+            if (isAuthenticated) {
+              const { name, email } = existingUser;
 
-            return { name, email, id: existingUser._id };
+              return { name, email, id: existingUser._id };
+            }
           }
+        } catch (error) {
+          return null;
         }
-
         return null;
       },
     }),
@@ -72,4 +76,5 @@ export default NextAuth({
     signIn: '/account',
   },
   secret: process.env.NEXT_AUTH_TOKEN_SECRET,
+  debug: true,
 });
