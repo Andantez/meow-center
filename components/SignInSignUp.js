@@ -28,7 +28,6 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
     message: '',
   });
   const router = useRouter();
-  
   useEffect(() => {
     setErrors({ name: '', email: '', password: '', authenticated: '' });
   }, [isSigningIn]);
@@ -276,7 +275,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
                 key={id}
                 className={`providers-btn ${id}`}
                 onClick={() =>
-                  signIn(id)
+                  signIn(id, { callbackUrl: 'https://meow-portal.vercel.app/' })
                 }
               >
                 {name === 'Google' ? <FcGoogle /> : <SiFacebook />}

@@ -35,24 +35,24 @@ const Gallery = ({ categories }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [mimeType, setMimeType] = useState('jpg,png,gif');
   const [categoryId, setCategoryId] = useState('');
-  const { data, error, isValidating, size, setSize } = useSWRInfinite(
-    (...args) => getKey(...args, mimeType, categoryId),
-    {
-      revalidateOnFocus: false,
-    }
-  );
-  const categoriesList = [{ id: 'all', name: 'all' }, ...categories];
-  const ref = useRef();
-  const isVisible = useIsIntersecting(ref);
-  const allImages = data ? [].concat(...data) : [];
-  const isEmpty = data?.[0]?.length === 0;
-  const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
-  const isRefreshing = isValidating && data && data.length === size;
-  const isLoadingInitialData = !data && !error;
-  const isLoadingMore =
-    isLoadingInitialData ||
-    (size > 0 && data && typeof data[size - 1] === 'undefined');
+  // const { data, error, isValidating, size, setSize } = useSWRInfinite(
+  //   (...args) => getKey(...args, mimeType, categoryId),
+  //   {
+  //     revalidateOnFocus: false,
+  //   }
+  // );
+  // const categoriesList = [{ id: 'all', name: 'all' }, ...categories];
+  // const ref = useRef();
+  // const isVisible = useIsIntersecting(ref);
+  // const allImages = data ? [].concat(...data) : [];
+  // const isEmpty = data?.[0]?.length === 0;
+  // const isReachingEnd =
+  //   isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
+  // const isRefreshing = isValidating && data && data.length === size;
+  // const isLoadingInitialData = !data && !error;
+  // const isLoadingMore =
+  //   isLoadingInitialData ||
+  //   (size > 0 && data && typeof data[size - 1] === 'undefined');
 
   const handleScroll = () => {
     setIsOpen(false);
@@ -61,49 +61,49 @@ const Gallery = ({ categories }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  useEffect(() => {
-    cache.clear();
-  }, [mimeType, categoryId]);
+  // useEffect(() => {
+  //   cache.clear();
+  // }, [mimeType, categoryId]);
 
-  useEffect(() => {
-    const handleRouteChange = () => {
-      cache.clear();
-    };
-    router.events.on('routeChangeStart', handleRouteChange);
+  // useEffect(() => {
+  //   const handleRouteChange = () => {
+  //     cache.clear();
+  //   };
+  //   router.events.on('routeChangeStart', handleRouteChange);
 
-    return () => {
-      router.events.off('routerChangeStart', handleRouteChange);
-    };
-  }, []);
-  useEffect(() => {
-    if (isVisible && !isReachingEnd && !isRefreshing) {
-      setSize(size + 1);
-    }
-  }, [isVisible]);
+  //   return () => {
+  //     router.events.off('routerChangeStart', handleRouteChange);
+  //   };
+  // }, []);
+  // useEffect(() => {
+  //   if (isVisible && !isReachingEnd && !isRefreshing) {
+  //     setSize(size + 1);
+  //   }
+  // }, [isVisible]);
 
-  const handleData = async (e) => {
-    const name = e.target.name;
-    if (name === 'animated') {
-      setMimeType('gif');
-    }
+  // const handleData = async (e) => {
+  //   const name = e.target.name;
+  //   if (name === 'animated') {
+  //     setMimeType('gif');
+  //   }
 
-    if (name === 'static') {
-      setMimeType('jpg,png');
-    }
+  //   if (name === 'static') {
+  //     setMimeType('jpg,png');
+  //   }
 
-    if (name === 'all') {
-      setMimeType('jpg,png,gif');
-    }
-  };
+  //   if (name === 'all') {
+  //     setMimeType('jpg,png,gif');
+  //   }
+  // };
 
-  const handleOnChange = (e) => {
-    const value = e.target.value;
-    if (value === 'all') {
-      setCategoryId('');
-      return;
-    }
-    setCategoryId(value);
-  };
+  // const handleOnChange = (e) => {
+  //   const value = e.target.value;
+  //   if (value === 'all') {
+  //     setCategoryId('');
+  //     return;
+  //   }
+  //   setCategoryId(value);
+  // };
   // if (!data) return 'loading';
   return (
     <motion.div exit={{ opacity: 0 }} initial="initial" animate="animate">
@@ -111,7 +111,7 @@ const Gallery = ({ categories }) => {
         <title>Gallery | Meow Portal</title>
       </Head>
       <StyledSection>
-        <div className="container">
+        {/* <div className="container">
           <motion.h1 variants={fadeInDown}>Cat Photos</motion.h1>
           <form>
             <motion.div
@@ -244,7 +244,7 @@ const Gallery = ({ categories }) => {
               {isLoadingMore && 'Grabbing more pictures'}
             </div>
           </div>
-        </div>
+        </div> */}
       </StyledSection>
     </motion.div>
   );
