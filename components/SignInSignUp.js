@@ -266,7 +266,8 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
         </button>
       </form>
       <div className="providers-wrapper">
-        <p>or {isSigningIn ? 'sign in' : 'sign up'} with</p>
+        {/* <p>or</p> */}
+        <hr className='hr-line' />
         <div className="providers-grid-wrapper">
           {providers.map((provider) => {
             const { id, name } = provider;
@@ -279,7 +280,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
                 }
               >
                 {name === 'Google' ? <FcGoogle /> : <SiFacebook />}
-                {name}
+                Continue with {name}
               </button>
             );
           })}
@@ -350,7 +351,7 @@ const StyledDiv = styled.div`
     background: var(--clr-red-500);
     border: none;
     color: var(--clr-secondary-500);
-    padding: 0.5em 2.5em;
+    padding: 0.75em 2.5em;
     border-radius: 0.5em;
     font-weight: var(--fw-bold);
     font-size: 1rem;
@@ -393,12 +394,12 @@ const StyledDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5em 1em;
+    padding: .75em;
     border-radius: 0.5em;
     font-family: var(--ff-paragraph);
     color: var(--clr-secondary-500);
     cursor: pointer;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     svg {
       margin-right: 0.25em;
     }
@@ -461,6 +462,10 @@ const StyledDiv = styled.div`
   input.validation-error {
     border: 1px solid var(--clr-red-900);
   }
+
+  .hr-line {
+    border-top: 1px solid var(--clr-grey);
+  }
   @media (min-width: 768px) {
     margin: 5em 2em;
     p:last-child {
@@ -485,6 +490,11 @@ const StyledDiv = styled.div`
       margin: 0.5em auto 0;
       line-height: 1.25em;
     }
+  }
+
+  .hr-line {
+    width: 50%;
+    margin: 0 auto;
   }
 `;
 export default SignInSignUp;

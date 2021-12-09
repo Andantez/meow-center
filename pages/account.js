@@ -97,7 +97,7 @@ const StyledDiv = styled.div`
   }
 
   .section-wrapper {
-    width: 80vw;
+    width: 90vw;
     max-width: 1200px;
     /* height: 100vh; */
     margin: 0 auto;
@@ -107,9 +107,14 @@ const StyledDiv = styled.div`
       rgba(181, 181, 181, 0.85) 0%,
       rgba(246, 249, 250, 0.85) 100%
     );
-    padding: 2.5em 2em;
+    padding: 2.5em 1em;
   }
-
+  @media (min-width: 414px) {
+    .section-wrapper {
+      width: 90vw;
+      padding: 2.5em 2em;
+    }
+  }
   @media (min-width: 768px) {
     min-height: 100vh;
     .section-wrapper {
