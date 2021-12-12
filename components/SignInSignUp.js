@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { createUser } from '../utils/userUtils';
 import { validateEmail, validatePassword } from '../utils/helpers';
+import Link from 'next/link';
 
 const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
   const [userDetails, setUserDetails] = useState({
@@ -257,9 +258,9 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
           <small className="error-message">{errors.password}</small>
         )}
         {isSigningIn && (
-          <button type="button" className="forgot-btn">
-            Forgot Password ?
-          </button>
+          <Link href="/account/forgottenpassword">
+            <a className="forgot-link">Forgot Password?</a>
+          </Link>
         )}
         <button type="submit" className="submit-btn">
           {isSigningIn ? 'sign in' : 'sign up'}
@@ -267,7 +268,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
       </form>
       <div className="providers-wrapper">
         {/* <p>or</p> */}
-        <hr className='hr-line' />
+        <hr className="hr-line" />
         <div className="providers-grid-wrapper">
           {providers.map((provider) => {
             const { id, name } = provider;
@@ -394,7 +395,7 @@ const StyledDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: .75em;
+    padding: 0.75em;
     border-radius: 0.5em;
     font-family: var(--ff-paragraph);
     color: var(--clr-secondary-500);
@@ -429,13 +430,15 @@ const StyledDiv = styled.div`
     }
   }
 
-  .forgot-btn {
-    background-color: transparent;
-    border: none;
+  .forgot-link {
+    /* background-color: transparent;
+    border: none; */
     cursor: pointer;
     text-decoration: underline;
     padding: 0.5em 0;
     text-underline-offset: 1px;
+    text-align: center;
+    margin-top: 1.5em;
   }
   .input-wrapper {
     position: relative;
