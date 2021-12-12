@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import MyImage from '../components/MyImage';
-import SignInSignUp from '../components/SignInSignUp';
-import SignInSignUpAside from '../components/SignInSignUpAside';
+import MyImage from '../../components/MyImage';
+import SignInSignUp from '../../components/SignInSignUp';
+import SignInSignUpAside from '../../components/SignInSignUpAside';
 import { getProviders, getSession } from 'next-auth/react';
 const Account = ({ providers }) => {
   const [[headerHeight, footerHeight], setHeaderFooterHeight] = useState([
