@@ -11,12 +11,12 @@ export default async function handler(req, res) {
 
       const existingUser = await db.collection('users').findOne({ email });
 
-      // if (!existingUser) {
-      //   return res.status(200).json({
-      //     success: true,
-      //     message: `We've sent an email to ${email} with a link to create new password.`,
-      //   });
-      // }
+      if (!existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: `We coudnt send an email to ${email} with a link to create new password.`,
+        });
+      }
 
       const resetToken = crypto.randomBytes(32).toString('hex');
 
@@ -26,24 +26,26 @@ export default async function handler(req, res) {
         .digest('hex');
       const tokenExpirationTime = new Date(Date.now() + 10 * 60 * 1000);
 
-      // const updatedExistingUser = await db
-      //   .collection('users')
-      //   .updateOne(
-      //     { email },
-      //     { $set: { hashedPasswordResetToken, tokenExpirationTime } }
-      //   );
+      const updatedExistingUser = await db
+        .collection('users')
+        .updateOne(
+          { email },
+          { $set: { hashedPasswordResetToken, tokenExpirationTime } }
+        );
 
-      // not completed yet
       try {
         const info = await sendEmail({
-          to: email,
+          to: existingUser.email,
           subject: 'Reset your Meow Portal password',
-          text: `Hi ${email} There was a request to change your password!
-
-              If you did not make this request then please ignore this email.
-
-              Otherwise, please click this link to change your password: <a href="http://localhost:3000/account/passwordreset/${hashedPasswordResetToken}">Reset your password</a>`,
-          html: `<p>Hi ${email},</p><p>There was a request to change your password!</p><p>If you did not make this request then please ignore this email.</p><p> Otherwise, please click the link to change your password: <a href="http://localhost:3000/account/passwordreset/${hashedPasswordResetToken}">Reset your password</a></p>`,
+          text: `Hi ${existingUser.name} There was a request to change your password! If you did not make this request then please ignore this email. Otherwise, please click this link to change your password: <a href="http://localhost:3000/account/passwordreset/${resetToken}">Reset your password</a>`,
+          html: `<span style="opacity: 0">${Date.now()} </span>
+          <p>Hi ${existingUser.name},</p>
+          <p>There was a request to change your password!</p>
+          <p>If you did not make this request then please ignore this email.</p>
+          <p> Otherwise, please click the link to change your password: <a href="http://localhost:3000/account/passwordreset/${resetToken}" clickTracking=off>Reset your password</a></p>
+          <span style="opacity: 0">${Date.now()} </span>
+          `,
+          // span tags are to ensure gmail is not going to trimm the content.
         });
 
         res.status(200).json({
@@ -51,18 +53,18 @@ export default async function handler(req, res) {
           message: `We've sent an email to ${email} with a link to create new password.`,
         });
       } catch (error) {
-        const updatedExistingUser = await db
-          .collection('users')
-          .updateOne(
-            { email },
-            {
-              $set: {
-                hashedPasswordResetToken: undefined,
-                tokenExpirationTime: undefined,
-              },
-            }
-          );
-          res.status(500).json({success: false, message: "Email could not be send"})
+        const updatedExistingUser = await db.collection('users').updateOne(
+          { email },
+          {
+            $set: {
+              hashedPasswordResetToken: undefined,
+              tokenExpirationTime: undefined,
+            },
+          }
+        );
+        res
+          .status(500)
+          .json({ success: false, message: 'Email could not be send' });
       }
     } catch (error) {
       console.log(error);
