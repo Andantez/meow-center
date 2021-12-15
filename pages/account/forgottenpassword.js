@@ -74,6 +74,7 @@ const StyledDiv = styled.div`
   height: 100vh;
   align-items: center;
   justify-content: center;
+  
   .container {
     display: grid;
     gap: 2em;
