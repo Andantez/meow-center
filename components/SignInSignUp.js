@@ -188,7 +188,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
             />
             {name ? (
               <AiOutlineClose
-                className="icon icon-btn"
+                className="icon icon-btn icon-dark"
                 onClick={handleOnClick}
                 name="name"
               />
@@ -213,7 +213,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
           />
           {email ? (
             <AiOutlineClose
-              className="icon icon-btn"
+              className="icon icon-btn icon-dark"
               onClick={handleOnClick}
               name="email"
             />
@@ -240,7 +240,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
           {password ? (
             showPassword ? (
               <AiFillEyeInvisible
-                className="icon icon-btn"
+                className="icon icon-btn icon-dark"
                 onClick={() => setShowPassword(!showPassword)}
               />
             ) : (
@@ -453,7 +453,9 @@ const StyledDiv = styled.div`
   .icon-btn {
     cursor: pointer;
   }
-
+  .icon-dark {
+    color: var(--clr-black);
+  }
   .error-message {
     font-family: var(--ff-paragraph);
     font-size: 0.75rem;
