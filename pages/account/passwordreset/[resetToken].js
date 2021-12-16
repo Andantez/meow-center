@@ -10,19 +10,43 @@ const ResetToken = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
-
-  const handleSubmit = (e) => {
+  const { resetToken } = router.query;
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       setError("Your password doesn't match - please try again");
       return;
     }
+    if (password === '' || confirmPassword === '') {
+      setError('Password and Confirm Password field cannot be blank');
+    }
+
+    const res = await fetch(`/api/auth/passwordreset/${resetToken}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'PUT',
+      body: JSON.stringify({password}),
+    });
+    const data = await res.json();
+    if (data.success) {
+      setSuccess(true);
+    } else {
+      setError(data.message)
+    }
   };
+
   return (
     <StyledDiv>
       <div className="container">
         <h1>Create new password</h1>
+        {/* Temporary */}
+        {success && <p>Password change successful</p> }
+        {error && <p>{error}</p> }
+        {/* --------- */}
         <form className="form-grid" noValidate onSubmit={handleSubmit}>
           <div className="form-input-container">
             <label htmlFor="password" className="password-label">

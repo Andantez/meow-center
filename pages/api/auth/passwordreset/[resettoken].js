@@ -22,7 +22,9 @@ export default async function handler(req, res) {
         res
           .status(400)
           .json({ success: false, message: 'Invalid reset token.' });
+          return;
       }
+      
       const hashedPassword = await bcrypt.hash(req.body.password, 12);
       const updatedUser = await db.collection('users').updateOne(
         {
