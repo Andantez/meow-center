@@ -3,7 +3,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { RiLockPasswordFill } from 'react-icons/ri';
-
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import Link from 'next/link';
+import { ImSad } from 'react-icons/im'
 const ResetToken = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -11,6 +13,7 @@ const ResetToken = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [invalidToken, setInvalidToken] = useState(false);
   const router = useRouter();
   const { resetToken } = router.query;
   const handleSubmit = async (e) => {
@@ -22,6 +25,7 @@ const ResetToken = () => {
     }
     if (password === '' || confirmPassword === '') {
       setError('Password and Confirm Password field cannot be blank');
+      return;
     }
 
     const res = await fetch(`/api/auth/passwordreset/${resetToken}`, {
@@ -29,93 +33,133 @@ const ResetToken = () => {
         'Content-Type': 'application/json',
       },
       method: 'PUT',
-      body: JSON.stringify({password}),
+      body: JSON.stringify({ password }),
     });
     const data = await res.json();
     if (data.success) {
       setSuccess(true);
     } else {
-      setError(data.message)
+      setInvalidToken(true);
     }
   };
 
   return (
     <StyledDiv>
-      <div className="container">
-        <h1>Create new password</h1>
-        {/* Temporary */}
-        {success && <p>Password change successful</p> }
-        {error && <p>{error}</p> }
-        {/* --------- */}
-        <form className="form-grid" noValidate onSubmit={handleSubmit}>
-          <div className="form-input-container">
-            <label htmlFor="password" className="password-label">
-              Password*
-            </label>
-            <div className="input-wrapper">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                name="password"
-                className={`password-input ${error ? 'validation-error' : ''}`}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="new-password"
-              />
-              {password ? (
-                showPassword ? (
-                  <AiFillEyeInvisible
-                    className="icon icon-btn icon-dark"
-                    onClick={() => setShowPassword(!showPassword)}
-                  />
+      {!success && !invalidToken && (
+        <div className="container">
+          <h1>Create new password</h1>
+          <form className="form-grid" noValidate onSubmit={handleSubmit}>
+            <div className="form-input-container">
+              <label htmlFor="password" className="password-label">
+                Password*
+              </label>
+              <div className="input-wrapper">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  className={`password-input ${
+                    error ? 'validation-error' : ''
+                  }`}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
+                {password ? (
+                  showPassword ? (
+                    <AiFillEyeInvisible
+                      className="icon icon-btn icon-dark"
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
+                  ) : (
+                    <AiFillEye
+                      className="icon icon-btn"
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
+                  )
                 ) : (
-                  <AiFillEye
-                    className="icon icon-btn"
-                    onClick={() => setShowPassword(!showPassword)}
-                  />
-                )
-              ) : (
-                <RiLockPasswordFill className="icon" />
-              )}
+                  <RiLockPasswordFill className="icon" />
+                )}
+              </div>
             </div>
-          </div>
-          <div className="form-input-container">
-            <label htmlFor="confirm-password" className="password-label">
-              Confirm password*
-            </label>
-            <div className="input-wrapper">
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                id="confirm-password"
-                name="new-password"
-                className={`password-input ${error ? 'validation-error' : ''}`}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                autoComplete="new-password"
-              />
-              {confirmPassword ? (
-                showConfirmPassword ? (
-                  <AiFillEyeInvisible
-                    className="icon icon-btn icon-dark"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  />
+            <div className="form-input-container">
+              <label htmlFor="confirm-password" className="password-label">
+                Confirm password*
+              </label>
+              <div className="input-wrapper">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  id="confirm-password"
+                  name="new-password"
+                  className={`password-input ${
+                    error ? 'validation-error' : ''
+                  }`}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
+                {confirmPassword ? (
+                  showConfirmPassword ? (
+                    <AiFillEyeInvisible
+                      className="icon icon-btn icon-dark"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    />
+                  ) : (
+                    <AiFillEye
+                      className="icon icon-btn"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    />
+                  )
                 ) : (
-                  <AiFillEye
-                    className="icon icon-btn"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  />
-                )
-              ) : (
-                <RiLockPasswordFill className="icon" />
-              )}
+                  <RiLockPasswordFill className="icon" />
+                )}
+              </div>
+              {error && <small className="error-message">{error}</small>}
             </div>
-            {error && <small className="error-message">{error}</small>}
+            <button type="submit" className="submit-btn">
+              Save new password
+            </button>
+          </form>
+        </div>
+      )}
+      {success && (
+        <div className="container">
+          <div className="heading-wrapper">
+            <AiOutlineCheckCircle className="icon-heading" />
+            <h1>Success!</h1>
           </div>
-          <button type="submit" className="submit-btn">
-            Save new password
-          </button>
-        </form>
-      </div>
+          <div className="info-text">
+            <p>
+              Your password has been changed and you can sign in with your new
+              password.
+            </p>
+            <Link href="/account">
+              <a className="redirect-link">Sign In</a>
+            </Link>
+          </div>
+        </div>
+      )}
+      {invalidToken && (
+        <div className="container">
+          <div className="heading-wrapper">
+            <ImSad className="icon-heading" />
+            <h1>Your password reset link has expired</h1>
+          </div>
+          <div className="info-text">
+            <p>
+              Please follow the link bellow and re-enter your email and we will
+              send you a new link.
+            </p>
+            <Link href="/account/forgottenpassword">
+              <a className="redirect-link">Enter your email</a>
+            </Link>
+          </div>
+        </div>
+      )}
     </StyledDiv>
   );
 };
@@ -137,11 +181,11 @@ const StyledDiv = styled.div`
   .container {
     display: grid;
     gap: 2em;
-    background-color: hsl(270, 2%, 88%);
+    background-color: var(--clr-secondary-500);
     color: var(--clr-black);
     padding: 1.5em;
     border-radius: 0.5em;
-    box-shadow: 0 0 4px var(--clr-grey);
+    border: 1px solid var(--clr-lightgrey);
     max-width: 400px;
     width: 100%;
   }
@@ -209,6 +253,38 @@ const StyledDiv = styled.div`
   }
   .icon-dark {
     color: var(--clr-black);
+  }
+
+  .heading-wrapper {
+    h1 {
+      margin-top:.5em;
+    }
+    text-align: center;
+    .icon-heading {
+      font-size: 3rem;
+      color: var(--clr-yellow);
+    }
+  }
+
+  .info-text {
+    text-align: center;
+    font-size: 0.875rem;
+    display: grid;
+    gap: 2em;
+    color: var(--clr-primary-500);
+  }
+
+  .redirect-link {
+    background-color: var(--clr-red-500);
+    color: var(--clr-secondary-500);
+    font-weight: var(--fw-bold);
+    border-radius: 0.5em;
+    padding: 0.75em 3em;
+  }
+  @media (min-width: 768px) {
+    .info-text {
+      font-size: 1rem;
+    }
   }
 `;
 

@@ -12,10 +12,10 @@ export default async function handler(req, res) {
       const existingUser = await db.collection('users').findOne({ email });
 
       if (!existingUser) {
-        return res.status(400).json({
+        return res.status(200).json({
           // reminder to change it later.
-          success: false,
-          message: `We coudnt send an email to ${email} with a link to create new password.`,
+          success: true,
+          message: `We've sent an email to ${email} with a link to create new password.`,
         });
       }
 
@@ -35,12 +35,13 @@ export default async function handler(req, res) {
         );
 
       try {
-        const url = `http://localhost:3000/account/passwordreset/${resetToken}`;
+        const url = `https://meow-portal.vercel.app/account/passwordreset/${resetToken}`;
         const html = `<span style="opacity: 0">${Date.now()} </span>
           <p>Hi ${existingUser.name},</p>
           <p>There was a request to change your password!</p>
-          <p>If you did not make this request then please ignore this email.</p>
-          <p> Otherwise, please click the link to change your password: <a href="${url}" clickTracking=off>Reset your password</a></p>
+          <p>This password reset link is only valid for <span style="font-weight: bold">10 minutes</span> from receiving this email.
+          <p> Otherwise, please click the link to change your password: <a href="${url}" clickTracking=off style="text-decoration: underline;font-weight: bold;">Reset your password</a></p>
+          <small>If you did not make this request then please ignore this email. Only a person with access to your email can reset your password</small>
           <span style="opacity: 0">${Date.now()} </span>
           `;
 

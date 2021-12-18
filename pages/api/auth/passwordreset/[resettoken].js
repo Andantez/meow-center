@@ -20,8 +20,8 @@ export default async function handler(req, res) {
       );
       if (!existingUser) {
         res
-          .status(400)
-          .json({ success: false, message: 'Invalid reset token.' });
+          .status(401)
+          .json({ success: false, message: 'Your reset link has expired. Please re-enter your email and we will send you new link.' });
           return;
       }
       

@@ -5,7 +5,7 @@ import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import { MdMailOutline } from 'react-icons/md';
 const ForgottenPassword = () => {
   const [error, setError] = useState(false);
-  const [email, setEmail] = useState('dasdadadASdasda@dasdadsada.com');
+  const [email, setEmail] = useState('');
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
