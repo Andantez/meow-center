@@ -40,7 +40,7 @@ export default async function handler(req, res) {
           <p>Hi ${existingUser.name},</p>
           <p>There was a request to change your password for the Meow Portal account associated with this email.</p>
           <p> You  can reset your password clicking the link: <a href="${url}" clickTracking=off style="text-decoration: underline;font-weight: bold;">Reset your password</a></p>
-          <p>This password reset link is only valid for <span style="font-weight: bold">10 minutes</span> from receiving this email.
+          <p>This password reset link is only valid for <span style="font-weight: bold">10 minutes</span> from receiving this email.</p>
           <small>If you did not make this request then please ignore this email. Only a person with access to your email can reset your password</small>
           <span style="opacity: 0">${Date.now()} </span>
           `;
