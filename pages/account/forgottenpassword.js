@@ -2,10 +2,11 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { validateEmail } from '../../utils/helpers';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
+import { MdMailOutline } from 'react-icons/md';
 const ForgottenPassword = () => {
   const [error, setError] = useState(false);
-  const [email, setEmail] = useState('');
-  const [success, setSuccess] = useState('');
+  const [email, setEmail] = useState('dasdadadASdasda@dasdadsada.com');
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,43 +24,66 @@ const ForgottenPassword = () => {
       body: JSON.stringify({ email }),
     });
     const data = await res.json();
-    console.log(data);
+    setSuccess(true);
   };
   return (
     <StyledDiv>
-      <div className="container">
-        <p>
-          Forgot your account's password or having trouble logging? Enter your
-          email below and we'll send you a link so you can setup a new password.
-        </p>
-        <div>
-          <form className="form-grid" onSubmit={handleSubmit} noValidate>
-            <div className="div-grid">
-              <label htmlFor="email">Email</label>
-              <div className="input-wrapper">
-                <input
-                  type="email"
-                  name="forgottenpassword-email"
-                  id="email"
-                  className={`email-input ${error && 'validation-error'}`}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                />
+      {success && (
+        <div className="container">
+          <div className="heading-wrapper">
+            <MdMailOutline className="icon-mail" />
+            <h2>Check your email</h2>
+          </div>
+          <div className="confirmation-text">
+            <p>
+              We've sent an email to <span>{email}</span> with a link to create
+              your new password.
+            </p>
+          </div>
+          <div className='extra-info-text'>
+            <p>
+              If you don’t see this email in your inbox, try checking your junk
+              folder.
+            </p>
+          </div>
+        </div>
+      )}
+      {!success && (
+        <div className="container">
+          <p>
+            Forgot your account's password or having trouble logging? Enter your
+            email below and we'll send you a link so you can setup a new
+            password.
+          </p>
+          <div>
+            <form className="form-grid" onSubmit={handleSubmit} noValidate>
+              <div className="div-grid">
+                <label htmlFor="email">Email</label>
+                <div className="input-wrapper">
+                  <input
+                    type="email"
+                    name="forgottenpassword-email"
+                    id="email"
+                    className={`email-input ${error && 'validation-error'}`}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                  />
+                  {error && (
+                    <BsFillExclamationCircleFill className="exclamation-icon" />
+                  )}
+                </div>
                 {error && (
-                  <BsFillExclamationCircleFill className="exclamation-icon" />
+                  <small className="error-text">Invalid email address</small>
                 )}
               </div>
-              {error && (
-                <small className="error-text">Invalid email address</small>
-              )}
-            </div>
-            <button type="submit" className="submit-btn">
-              Send email
-            </button>
-          </form>
+              <button type="submit" className="submit-btn">
+                Send email
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </StyledDiv>
   );
 };
@@ -74,15 +98,15 @@ const StyledDiv = styled.div`
   height: 100vh;
   align-items: center;
   justify-content: center;
-  
+
   .container {
     display: grid;
     gap: 2em;
-    background-color: hsl(270, 2%, 88%);
+    background-color: var(--clr-secondary-500);
     color: var(--clr-black);
     padding: 1.5em;
     border-radius: 0.5em;
-    box-shadow: 0 0 4px var(--clr-grey);
+    border: 1px solid var(--clr-lightgrey);
     max-width: 400px;
   }
 
@@ -141,6 +165,39 @@ const StyledDiv = styled.div`
   label {
     font-weight: var(--fw-bold);
     font-size: 1.125rem;
+  }
+  .heading-wrapper {
+    text-align: center;
+    h2 {
+      font-size: 1.25rem;
+    }
+    svg {
+      font-size: 3rem;
+      color: var(--clr-yellow);
+    }
+  }
+  .confirmation-text {
+    text-align: center;
+    letter-spacing: 0.5px;
+    span {
+      font-weight: var(--fw-bold);
+      line-height: 2;
+    }
+  }
+  .extra-info-text {
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  .confirmation-text,
+  .extra-info-text {
+    font-size: 0.875rem;
+  }
+  @media (min-width: 768px) {
+    .confirmation-text,
+    .extra-info-text {
+      font-size: 1rem;
+    }
   }
 `;
 export default ForgottenPassword;
