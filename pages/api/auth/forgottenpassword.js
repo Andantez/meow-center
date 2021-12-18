@@ -34,17 +34,20 @@ export default async function handler(req, res) {
         );
 
       try {
-        const info = await sendEmail({
-          to: existingUser.email,
-          subject: 'Reset your Meow Portal password',
-          text: `Hi ${existingUser.name} There was a request to change your password! If you did not make this request then please ignore this email. Otherwise, please click this link to change your password: <a href="http://localhost:3000/account/passwordreset/${resetToken}">Reset your password</a>`,
-          html: `<span style="opacity: 0">${Date.now()} </span>
+        const url = `http://localhost:3000/account/passwordreset/${resetToken}`;
+        const html = `<span style="opacity: 0">${Date.now()} </span>
           <p>Hi ${existingUser.name},</p>
           <p>There was a request to change your password!</p>
           <p>If you did not make this request then please ignore this email.</p>
-          <p> Otherwise, please click the link to change your password: <a href="http://localhost:3000/account/passwordreset/${resetToken}" clickTracking=off>Reset your password</a></p>
+          <p> Otherwise, please click the link to change your password: <a href="${url}" clickTracking=off>Reset your password</a></p>
           <span style="opacity: 0">${Date.now()} </span>
-          `,
+          `,;
+
+        const info = await sendEmail({
+          to: existingUser.email,
+          subject: 'Reset your Meow Portal password',
+          text: `Hi ${existingUser.name} There was a request to change your password! If you did not make this request then please ignore this email. Otherwise, please click this link to change your password: <a href="${url}">Reset your password</a>`,
+          html: html,
           // span tags are to ensure gmail is not going to trimm the content.
         });
 
