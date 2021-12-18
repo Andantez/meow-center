@@ -13,6 +13,7 @@ export default async function handler(req, res) {
 
       if (!existingUser) {
         return res.status(400).json({
+          // reminder to change it later.
           success: false,
           message: `We coudnt send an email to ${email} with a link to create new password.`,
         });
@@ -41,7 +42,7 @@ export default async function handler(req, res) {
           <p>If you did not make this request then please ignore this email.</p>
           <p> Otherwise, please click the link to change your password: <a href="${url}" clickTracking=off>Reset your password</a></p>
           <span style="opacity: 0">${Date.now()} </span>
-          `,;
+          `;
 
         const info = await sendEmail({
           to: existingUser.email,
