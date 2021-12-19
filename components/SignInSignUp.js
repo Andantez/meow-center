@@ -495,11 +495,10 @@ const StyledDiv = styled.div`
       margin: 0.5em auto 0;
       line-height: 1.25em;
     }
-  }
-
-  .hr-line {
-    width: 50%;
-    margin: 0 auto;
+    .hr-line {
+      width: 50%;
+      margin: 0 auto;
+    }
   }
 `;
 export default SignInSignUp;
