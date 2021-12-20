@@ -41,6 +41,8 @@ const Account = ({ providers }) => {
         />
       </div>
       <section className="section-wrapper">
+        <span className="top-left-corner"></span>
+        <span className="top-right-corner"></span>
         <SignInSignUp
           isSigningIn={isSigningIn}
           setIsSigningIn={setIsSigningIn}
@@ -50,6 +52,8 @@ const Account = ({ providers }) => {
           isSigningIn={isSigningIn}
           setIsSigningIn={setIsSigningIn}
         />
+        <span className="bottom-left-corner"></span>
+        <span className="bottom-right-corner"></span>
       </section>
     </StyledDiv>
   );
@@ -97,6 +101,7 @@ const StyledDiv = styled.div`
   }
 
   .section-wrapper {
+    position: relative;
     width: 90vw;
     max-width: 1200px;
     /* height: 100vh; */
@@ -108,6 +113,46 @@ const StyledDiv = styled.div`
       rgba(246, 249, 250, 0.85) 100%
     );
     padding: 2.5em 1em;
+  }
+  .top-left-corner,
+  .top-right-corner {
+    position: absolute;
+    content: '';
+    top: 0;
+    border-top: 0.5em solid var(--clr-primary-500);
+    width: 3em;
+    height: 3em;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .top-left-corner {
+    left: 0;
+    border-left: 0.5em solid var(--clr-primary-500);
+    /* transition: all 400ms ease; */
+  }
+
+  .top-right-corner {
+    right: 0;
+    border-right: 0.5em solid var(--clr-primary-500);
+  }
+  .bottom-left-corner,
+  .bottom-right-corner {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    border-bottom: 0.5em solid var(--clr-primary-500);
+    width: 3em;
+    height: 3em;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .bottom-left-corner {
+    left: 0;
+    border-left: 0.5em solid var(--clr-primary-500);
+  }
+  .bottom-right-corner {
+    right: 0;
+    border-right: 0.5em solid var(--clr-primary-500);
   }
   @media (min-width: 414px) {
     .section-wrapper {
@@ -142,6 +187,32 @@ const StyledDiv = styled.div`
     }
 
     /* --------------------------------- */
+
+    .top-left-border,
+    .top-right-border {
+      border-top: 0.65em solid var(--clr-primary-500);
+      width: 4em;
+      height: 4em;
+    }
+    .top-left-border {
+      border-left: 0.65em solid var(--clr-primary-500);
+    }
+    .top-right-border {
+      border-right: 0.65em solid var(--clr-primary-500);
+    }
+
+    .bottom-left-border,
+    .bottom-right-border {
+      border-bottom: 0.65em solid var(--clr-primary-500);
+      width: 4em;
+      height: 4em;
+    }
+    .bottom-left-border {
+      border-left: 0.65em solid var(--clr-primary-500);
+    }
+    .bottom-right-border {
+      border-right: 0.65em solid var(--clr-primary-500);
+    }
   }
 
   @media (min-width: 1024px) {
@@ -153,6 +224,32 @@ const StyledDiv = styled.div`
 
     .section-wrapper {
       box-shadow: 0px 0px 2px var(--clr-lightgrey);
+    }
+
+    .top-left-corner,
+    .top-right-corner {
+      border-top: 0.75em solid var(--clr-primary-500);
+      width: 5em;
+      height: 5em;
+    }
+    .top-left-corner {
+      border-left: 0.75em solid var(--clr-primary-500);
+    }
+    .top-right-corner {
+      border-right: 0.75em solid var(--clr-primary-500);
+    }
+
+    .bottom-left-corner,
+    .bottom-right-corner {
+      border-bottom: 0.75em solid var(--clr-primary-500);
+      width: 5em;
+      height: 5em;
+    }
+    .bottom-left-corner {
+      border-left: 0.75em solid var(--clr-primary-500);
+    }
+    .bottom-right-corner {
+      border-right: 0.75em solid var(--clr-primary-500);
     }
   }
 `;
