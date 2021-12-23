@@ -5,7 +5,8 @@ import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import Link from 'next/link';
-import { ImSad } from 'react-icons/im'
+import { ImSad } from 'react-icons/im';
+import { validatePassword } from '../../../utils/helpers';
 const ResetToken = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,8 +15,10 @@ const ResetToken = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [success, setSuccess] = useState(false);
   const [invalidToken, setInvalidToken] = useState(false);
+
   const router = useRouter();
   const { resetToken } = router.query;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -28,6 +31,13 @@ const ResetToken = () => {
       return;
     }
 
+    const isValidPassword = validatePassword(password);
+    if (!isValidPassword) {
+      setError(
+        "'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.'"
+      );
+      return;
+    }
     const res = await fetch(`/api/auth/passwordreset/${resetToken}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -38,6 +48,10 @@ const ResetToken = () => {
     const data = await res.json();
     if (data.success) {
       setSuccess(true);
+    } else if (data.error === 'Invalid Password Criteria') {
+      setError(
+        "'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.'"
+      );
     } else {
       setInvalidToken(true);
     }
@@ -257,7 +271,7 @@ const StyledDiv = styled.div`
 
   .heading-wrapper {
     h1 {
-      margin-top:.5em;
+      margin-top: 0.5em;
     }
     text-align: center;
     .icon-heading {
