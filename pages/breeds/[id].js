@@ -236,7 +236,7 @@ export const getStaticProps = async (context) => {
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?breed_id=${id}&limit=12&order=ASC`,
     {
       headers: {
-        'x-api-key': process.env.X_API_KEY,
+        'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
       },
     }
   );
