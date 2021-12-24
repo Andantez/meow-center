@@ -80,7 +80,7 @@ const StyledDiv = styled.div`
 export const getStaticProps = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URI}/breeds`, {
     headers: {
-      'x-api-key': process.env.X_API_KEY,
+      'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
     },
   });
   const data = await res.json();

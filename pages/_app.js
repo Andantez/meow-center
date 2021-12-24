@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router'
 import Spinner from '../components/Spinner';
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+  console.log(process.env.NEXT_PUBLIC_X_API_KEY);
   return (
     <SessionProvider session={session}>
       <HomeProvider>
@@ -18,7 +19,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               fetcher: (url) =>
                 fetch(url, {
                   headers: {
-                    'x-api-key': process.env.X_API_KEY,
+                    'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
                   },
                 }).then((res) => res.json()),
             }}
