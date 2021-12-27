@@ -9,6 +9,8 @@ import Skeleton from '../components/Skeleton';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { fadeIn, fadeInDown, stagger } from '../variants/animationVariants';
+import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
+
 const breakpointColumnsObj = {
   default: 4,
   // 1024: 3,
@@ -41,7 +43,7 @@ const Gallery = ({ categories }) => {
   //     revalidateOnFocus: false,
   //   }
   // );
-  // const categoriesList = [{ id: 'all', name: 'all' }, ...categories];
+  const categoriesList = [{ id: 'all', name: 'all' }, ...categories];
   // const ref = useRef();
   // const isVisible = useIsIntersecting(ref);
   // const allImages = data ? [].concat(...data) : [];
@@ -57,6 +59,7 @@ const Gallery = ({ categories }) => {
   const handleScroll = () => {
     setIsOpen(false);
   };
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -81,37 +84,152 @@ const Gallery = ({ categories }) => {
   //   }
   // }, [isVisible]);
 
-  // const handleData = async (e) => {
-  //   const name = e.target.name;
-  //   if (name === 'animated') {
-  //     setMimeType('gif');
-  //   }
+  const handleData = async (e) => {
+    const name = e.target.name;
+    if (name === 'animated') {
+      setMimeType('gif');
+    }
 
-  //   if (name === 'static') {
-  //     setMimeType('jpg,png');
-  //   }
+    if (name === 'static') {
+      setMimeType('jpg,png');
+    }
 
-  //   if (name === 'all') {
-  //     setMimeType('jpg,png,gif');
-  //   }
-  // };
+    if (name === 'all') {
+      setMimeType('jpg,png,gif');
+    }
+  };
 
-  // const handleOnChange = (e) => {
-  //   const value = e.target.value;
-  //   if (value === 'all') {
-  //     setCategoryId('');
-  //     return;
-  //   }
-  //   setCategoryId(value);
-  // };
+  const handleOnChange = (e) => {
+    const value = e.target.value;
+    if (value === 'all') {
+      setCategoryId('');
+      return;
+    }
+    setCategoryId(value);
+  };
+
+  const handleLike = (e) => {
+    e.stopPropagation();
+    console.log("LIKED")
+  }
   // if (!data) return 'loading';
+
+  // temporary -------------------------------------
+  const allImages = [
+    {
+      breeds: [],
+      height: 333,
+      id: '2mj',
+      url: 'https://cdn2.thecatapi.com/images/2mj.jpg',
+      width: 500,
+    },
+    {
+      breeds: [],
+      categories: [
+        {
+          id: 5,
+          name: 'boxes',
+        },
+      ],
+      height: 333,
+      id: '5l2',
+      url: 'https://cdn2.thecatapi.com/images/5l2.jpg',
+      width: 500,
+    },
+    {
+      breeds: [],
+      categories: [
+        {
+          id: 6,
+          name: 'caturday',
+        },
+      ],
+      height: 600,
+      id: '5u8',
+      url: 'https://cdn2.thecatapi.com/images/5u8.jpg',
+      width: 408,
+    },
+    {
+      breeds: [],
+      categories: [
+        {
+          id: 9,
+          name: 'dream',
+        },
+      ],
+      height: 313,
+      id: '6hp',
+      url: 'https://cdn2.thecatapi.com/images/6hp.jpg',
+      width: 500,
+    },
+    {
+      breeds: [],
+      categories: [
+        {
+          id: 14,
+          name: 'sinks',
+        },
+      ],
+      height: 1552,
+      id: '8os',
+      url: 'https://cdn2.thecatapi.com/images/8os.jpg',
+      width: 2592,
+    },
+    {
+      breeds: [],
+      height: 647,
+      id: 'aq6',
+      url: 'https://cdn2.thecatapi.com/images/aq6.png',
+      width: 415,
+    },
+    {
+      breeds: [],
+      height: 640,
+      id: 'di3',
+      url: 'https://cdn2.thecatapi.com/images/di3.jpg',
+      width: 427,
+    },
+    {
+      breeds: [],
+      height: 374,
+      id: 'e49',
+      url: 'https://cdn2.thecatapi.com/images/e49.jpg',
+      width: 500,
+    },
+    {
+      breed_ids: null,
+      breeds: [],
+      created_at: '2021-09-02T23:06:23.000Z',
+      height: 682,
+      id: 'HkoR633xp',
+      original_filename: 'IMGP3160.jpg',
+      sub_id: 'demo-26beae',
+      url: 'https://cdn2.thecatapi.com/images/HkoR633xp.jpg',
+      width: 1024,
+    },
+    {
+      breed_ids: null,
+      breeds: [],
+      created_at: '2021-12-03T05:46:46.000Z',
+      height: 391,
+      id: 'QjKNuv5hE',
+      original_filename: 'image.jpg',
+      sub_id: null,
+      url: 'https://cdn2.thecatapi.com/images/QjKNuv5hE.jpg',
+      width: 499,
+    },
+  ];
+  const data = true;
+  const isEmpty = false;
+  const isLoadingMore = false;
+  // ----------------------------------------------------
   return (
     <motion.div exit={{ opacity: 0 }} initial="initial" animate="animate">
       <Head>
         <title>Gallery | Meow Portal</title>
       </Head>
       <StyledSection>
-        {/* <div className="container">
+        <div className="container">
           <motion.h1 variants={fadeInDown}>Cat Photos</motion.h1>
           <form>
             <motion.div
@@ -211,13 +329,23 @@ const Gallery = ({ categories }) => {
                         onClick={() => setIsOpen(!isOpen)}
                         layout
                       >
-                        <Image
-                          src={url}
-                          width={width}
-                          height={height}
-                          layout="responsive"
-                          alt={url}
-                        />
+                        <motion.div className="wrapper-relative" layout>
+                          <Image
+                            src={url}
+                            width={width}
+                            height={height}
+                            layout="responsive"
+                            alt={url}
+                          />
+                          <motion.div
+                            className="icon-wrapper"
+                            layout
+                          >
+                            <motion.div className="icon" onClick={handleLike} layout>
+                              <MdFavorite />
+                            </motion.div>
+                          </motion.div>
+                        </motion.div>
                       </motion.div>
                     </StyledDiv>
                   );
@@ -240,11 +368,14 @@ const Gallery = ({ categories }) => {
             <div>
               <h2 className="no-results-heading">No More Results</h2>
             </div>
-            <div className="loading-notification" ref={ref}>
+            {/* <div className="loading-notification" ref={ref}>
+              {isLoadingMore && 'Grabbing more pictures'}
+            </div> */}
+            <div className="loading-notification">
               {isLoadingMore && 'Grabbing more pictures'}
             </div>
           </div>
-        </div> */}
+        </div>
       </StyledSection>
     </motion.div>
   );
@@ -285,11 +416,16 @@ const StyledDiv = styled.div`
         : '35vh'};
   }
 
-  &.open .img-wrapper > div {
+  &.open .img-wrapper .wrapper-relative {
     width: 100%;
     height: 100%;
   }
-
+  .wrapper-relative > div:first-child {
+    height: 100%;
+  }
+  &.open .icon-wrapper {
+    padding: .75em;
+  }
   @media (min-width: 768px) {
     &.open .img-wrapper {
       width: ${(props) =>
@@ -320,6 +456,16 @@ const StyledDiv = styled.div`
           : props.animatedImage
           ? '40vh'
           : '80vh'};
+    }
+    &.open .icon-wrapper {
+      padding: 1.75em;
+    }
+    &.open .icon {
+      padding: 0.75em;
+
+      svg {
+        font-size: 1.5rem;
+      }
     }
   }
 `;
@@ -441,6 +587,7 @@ const StyledSection = styled.section`
     pointer-events: auto;
     cursor: zoom-out;
   }
+
   .shade {
     position: fixed;
     top: 0;
@@ -457,6 +604,33 @@ const StyledSection = styled.section`
     position: relative;
     z-index: 99;
   }
+
+  .wrapper-relative {
+    position: relative;
+  }
+  
+  .icon-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    color: var(--clr-grey);
+    padding: 0.5em;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  }
+
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    background-color: var(--clr-secondary-500);
+    padding: 0.25em;
+    border-radius: 0.25em;
+    cursor: pointer;
+  }
   @media (min-width: 768px) {
     .form-control {
       button,
@@ -468,6 +642,15 @@ const StyledSection = styled.section`
     form {
       flex-direction: row;
       justify-content: space-between;
+    }
+
+    .icon {
+      svg {
+        font-size: 1.25rem;
+      }
+    }
+    .icon-wrapper {
+      padding: .75em;
     }
   }
 
@@ -485,6 +668,19 @@ const StyledSection = styled.section`
     h2 {
       font-size: 1.5rem;
       margin: 7em 0;
+    }
+
+    .icon {
+      padding: 0.5em;
+    }
+    .icon-wrapper {
+      padding: 1em;
+      opacity: 0;
+      transition: opacity 250ms ease-out;
+    }
+    .img-wrapper:hover .icon-wrapper {
+      opacity: 1;
+      transition: opacity 250ms ease-in;
     }
   }
 `;
