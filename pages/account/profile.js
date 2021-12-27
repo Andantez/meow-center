@@ -4,15 +4,15 @@ import Spinner from '../../components/Spinner';
 import styled from 'styled-components';
 import useSWR from 'swr';
 import Image from 'next/image';
-import { IoTrashOutline } from 'react-icons/io5';
+import { MdDelete } from 'react-icons/md';
 
 const Profile = () => {
   const { data: session, status } = useSession();
   const { name, email, id, image, provider } = session.user;
   const { data, error } = useSWR('https://api.thecatapi.com/v1/favourites'); // will fetch user favourite images.
   const router = useRouter();
-  const withCredentials = provider; // to be changed to provider === 'credentials 
-  console.log(withCredentials)
+  const withCredentials = provider; // to be changed to provider === 'credentials
+  console.log(withCredentials);
   // console.log(data);
   const tempImages = [
     {
@@ -111,9 +111,15 @@ const Profile = () => {
             } = image;
             return (
               <div key={id} className="fav-img">
-                <Image src={url} alt="cat image" width="200px" height="200px" />
+                <Image
+                  src={url}
+                  alt="cat image"
+                  width="200px"
+                  height="200px"
+                  layout="responsive"
+                />
                 <div className="icon-delete">
-                  <IoTrashOutline />
+                  <MdDelete />
                 </div>
               </div>
             );
@@ -129,19 +135,19 @@ const StyledSection = styled.section`
   width: 90vw;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 2em 0;
   font-family: var(--ff-paragraph);
   .profile-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 2em;
-    /* temporary */
+    flex-wrap: wrap;
   }
   .profile-info {
     display: grid;
     gap: 1em;
     h1 {
-      font-size: 2rem;
+      font-size: 1.5rem;
       color: var(--clr-primary-500);
     }
 
@@ -173,8 +179,70 @@ const StyledSection = styled.section`
   }
 
   .profile-gallery {
-    margin-top: 2em; 
+    padding-top: 3em;
     /* temporary */
+    display: grid;
+    gap: 3em;
+  }
+
+  .fav-img {
+    display: block;
+    position: relative;
+    border-radius: .5em;
+    transition: box-shadow 250ms ease;
+    &:hover {
+      box-shadow: 0 0 4px var(--clr-grey);
+      cursor: zoom-in;
+    }
+  }
+
+  .fav-img > div:first-child {
+    border-radius: .5em;
+  }
+  .images-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
+  }
+
+  .icon-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    background-color: rgba(32, 32, 39, 0.5);
+    border-radius: 50%;
+    padding: 0.5em;
+    transition: background-color 250ms ease;
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(32, 32, 39, 0.8);
+    }
+    svg {
+      color: var(--clr-secondary-500);
+    }
+  }
+
+  @media (min-width: 768px) {
+    min-height: 100vh;
+    .images-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    padding: 5em 0;
+    .images-container {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .profile-info {
+      h1 {
+        font-size: 2rem;
+      }
+    }
   }
 `;
 export default Profile;
