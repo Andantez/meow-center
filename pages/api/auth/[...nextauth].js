@@ -24,7 +24,7 @@ export default NextAuth({
       authorization: {
         params: {
           scope: 'email,public_profile',
-          auth_type: 'reauthenticate',
+          // auth_type: 'reauthenticate',
         },
       },
     }),
