@@ -679,7 +679,11 @@ const StyledSection = styled.section`
     background-color: var(--clr-secondary-500);
     padding: 0.25em;
     border-radius: 0.25em;
+    transition: background-color 250ms ease;
     cursor: pointer;
+    &:hover {
+      background-color: hsl(270, 2%, 90%);
+    }
   }
 
   .favourite {
