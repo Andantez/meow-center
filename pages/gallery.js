@@ -10,7 +10,8 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { fadeIn, fadeInDown, stagger } from '../variants/animationVariants';
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
-
+import { useSession } from 'next-auth/react';
+import useSWR from 'swr';
 const breakpointColumnsObj = {
   default: 4,
   // 1024: 3,
@@ -37,12 +38,24 @@ const Gallery = ({ categories }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [mimeType, setMimeType] = useState('jpg,png,gif');
   const [categoryId, setCategoryId] = useState('');
+  const [favouritesHash, setFavouritesHash] = useState({});
+  const { data: session, status } = useSession();
   // const { data, error, isValidating, size, setSize } = useSWRInfinite(
   //   (...args) => getKey(...args, mimeType, categoryId),
   //   {
   //     revalidateOnFocus: false,
   //   }
   // );
+  const {
+    data: favourites,
+    error,
+    mutate,
+  } = useSWR(
+    session?.user
+      ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/favourites?sub_id=${session.user.id}`
+      : null
+  ); // if there is user session => fetch his favourite images.
+
   const categoriesList = [{ id: 'all', name: 'all' }, ...categories];
   // const ref = useRef();
   // const isVisible = useIsIntersecting(ref);
@@ -84,7 +97,18 @@ const Gallery = ({ categories }) => {
   //   }
   // }, [isVisible]);
 
-  const handleData = async (e) => {
+  useEffect(() => {
+    if (favourites) {
+      const favHash = favourites.reduce((acc, current) => {
+        // convert the favourites list to hash with image id as property
+        const { image_id } = current;
+        return { ...acc, [image_id]: true };
+      }, {});
+      setFavouritesHash(favHash);
+    }
+  }, [favourites]);
+
+  const handleData = (e) => {
     const name = e.target.name;
     if (name === 'animated') {
       setMimeType('gif');
@@ -108,10 +132,32 @@ const Gallery = ({ categories }) => {
     setCategoryId(value);
   };
 
-  const handleLike = (e) => {
-    e.stopPropagation();
-    console.log("LIKED")
-  }
+  const handleLike = async (e, image_id) => {
+    e.stopPropagation(); // prevent the event from bubbling up
+    try {
+      const { id: sub_id } = session.user;
+      const favImg = { image_id, sub_id };
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URI}/favourites`, // add image as favourite with user id.
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
+          },
+          body: JSON.stringify(favImg),
+        }
+      );
+      if (!res.ok) {
+        throw new Error();
+      }
+      setFavouritesHash({ ...favouritesHash, [image_id]: true }); // update the hash table.
+      mutate(); // revalidate the favourites list.
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // if (!data) return 'loading';
 
   // temporary -------------------------------------
@@ -309,6 +355,7 @@ const Gallery = ({ categories }) => {
                   const { id, url, height, width } = image;
                   const itsPortrait = height > width;
                   const itsAnimated = url.endsWith('gif');
+
                   return (
                     <StyledDiv
                       key={id + index}
@@ -337,11 +384,14 @@ const Gallery = ({ categories }) => {
                             layout="responsive"
                             alt={url}
                           />
-                          <motion.div
-                            className="icon-wrapper"
-                            layout
-                          >
-                            <motion.div className="icon" onClick={handleLike} layout>
+                          <motion.div className="icon-wrapper" layout>
+                            <motion.div
+                              className={`icon ${
+                                favouritesHash[id] ? 'favourite' : ''
+                              }`}
+                              onClick={(e) => handleLike(e, id)}
+                              layout
+                            >
                               <MdFavorite />
                             </motion.div>
                           </motion.div>
@@ -424,7 +474,7 @@ const StyledDiv = styled.div`
     height: 100%;
   }
   &.open .icon-wrapper {
-    padding: .75em;
+    padding: 0.75em;
   }
   @media (min-width: 768px) {
     &.open .img-wrapper {
@@ -461,7 +511,7 @@ const StyledDiv = styled.div`
       padding: 1.75em;
     }
     &.open .icon {
-      padding: 0.75em;
+      padding: 0.5em;
 
       svg {
         font-size: 1.5rem;
@@ -608,7 +658,7 @@ const StyledSection = styled.section`
   .wrapper-relative {
     position: relative;
   }
-  
+
   .icon-wrapper {
     display: flex;
     justify-content: flex-end;
@@ -631,6 +681,12 @@ const StyledSection = styled.section`
     border-radius: 0.25em;
     cursor: pointer;
   }
+
+  .favourite {
+    svg {
+      color: var(--clr-red-100);
+    }
+  }
   @media (min-width: 768px) {
     .form-control {
       button,
@@ -650,7 +706,7 @@ const StyledSection = styled.section`
       }
     }
     .icon-wrapper {
-      padding: .75em;
+      padding: 0.75em;
     }
   }
 

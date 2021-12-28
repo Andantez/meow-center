@@ -6,10 +6,9 @@ import '../styles/globals.css';
 import { SessionProvider } from 'next-auth/react';
 import { useSession, signIn } from 'next-auth/react';
 import { useEffect } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import Spinner from '../components/Spinner';
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  console.log(process.env.NEXT_PUBLIC_X_API_KEY);
   return (
     <SessionProvider session={session}>
       <HomeProvider>
@@ -46,7 +45,7 @@ function Auth({ children }) {
   const isUser = !!session?.user;
   useEffect(() => {
     if (status === 'loading') return; // Do nothing while loading
-    if (!isUser) router.push('/account'); // If not authenticated, redirect
+    if (!isUser) router.replace('/account'); // If not authenticated, redirect
   }, [isUser, status]);
 
   if (isUser) {
