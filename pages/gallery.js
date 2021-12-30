@@ -9,7 +9,8 @@ import Skeleton from '../components/Skeleton';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { fadeIn, fadeInDown, stagger } from '../variants/animationVariants';
-import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
+import { MdFavorite } from 'react-icons/md';
+import { IoMdHeartDislike } from 'react-icons/io';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 const breakpointColumnsObj = {
@@ -39,6 +40,7 @@ const Gallery = ({ categories }) => {
   const [mimeType, setMimeType] = useState('jpg,png,gif');
   const [categoryId, setCategoryId] = useState('');
   const [favouritesHash, setFavouritesHash] = useState({});
+  const [willDislike, setWillDislike] = useState(false);
   const { data: session, status } = useSession();
   // const { data, error, isValidating, size, setSize } = useSWRInfinite(
   //   (...args) => getKey(...args, mimeType, categoryId),
@@ -55,7 +57,6 @@ const Gallery = ({ categories }) => {
       ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/favourites?sub_id=${session.user.id}`
       : null
   ); // if there is user session => fetch his favourite images.
-
   const categoriesList = [{ id: 'all', name: 'all' }, ...categories];
   // const ref = useRef();
   // const isVisible = useIsIntersecting(ref);
@@ -101,13 +102,12 @@ const Gallery = ({ categories }) => {
     if (favourites) {
       const favHash = favourites.reduce((acc, current) => {
         // convert the favourites list to hash with image id as property
-        const { image_id } = current;
-        return { ...acc, [image_id]: true };
+        const { image_id, id: favourite_id } = current;
+        return { ...acc, [image_id]: { image_id, favourite_id } };
       }, {});
       setFavouritesHash(favHash);
     }
   }, [favourites]);
-
   const handleData = (e) => {
     const name = e.target.name;
     if (name === 'animated') {
@@ -151,15 +151,45 @@ const Gallery = ({ categories }) => {
       if (!res.ok) {
         throw new Error();
       }
-      setFavouritesHash({ ...favouritesHash, [image_id]: true }); // update the hash table.
+      const data = await res.json();
+      setFavouritesHash({
+        ...favouritesHash,
+        [image_id]: { image_id, favourite_id: data.id },
+      }); // update the hash table.
       mutate(); // revalidate the favourites list.
+      setWillDislike(true);
     } catch (error) {
       console.log(error);
     }
   };
+  const handleDislike = async (e, id) => {
+    e.stopPropagation();
+    try {
+      const { favourite_id } = favouritesHash[id]; // get the favourite id of the image from the favouritesHash
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URI}/favourites/${favourite_id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
+          },
+        }
+      );
 
+      if (!res.ok) {
+        throw new Error();
+      }
+
+      const newFavouritesHash = { ...favouritesHash };
+      delete newFavouritesHash.id;
+      setFavouritesHash(newFavouritesHash);
+      mutate(); //revalidate the favourites hash
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // if (!data) return 'loading';
-
   // temporary -------------------------------------
   const allImages = [
     {
@@ -386,13 +416,40 @@ const Gallery = ({ categories }) => {
                           />
                           <motion.div className="icon-wrapper" layout>
                             <motion.div
+                              title={`${
+                                favouritesHash[id]
+                                  ? 'Click to remove from your favourites.'
+                                  : 'Add to your favourites'
+                              }`}
                               className={`icon ${
                                 favouritesHash[id] ? 'favourite' : ''
                               }`}
-                              onClick={(e) => handleLike(e, id)}
+                              onClick={
+                                willDislike
+                                  ? (e) => handleDislike(e, id)
+                                  : (e) => handleLike(e, id)
+                              }
+                              onMouseEnter={
+                                favouritesHash[id]
+                                  ? () => {
+                                      setWillDislike(true);
+                                    }
+                                  : undefined
+                              }
+                              onMouseLeave={
+                                favouritesHash[id] || willDislike
+                                  ? () => {
+                                      setWillDislike(false);
+                                    }
+                                  : undefined
+                              }
                               layout
                             >
-                              <MdFavorite />
+                              {willDislike && favouritesHash[id] ? (
+                                <IoMdHeartDislike />
+                              ) : (
+                                <MdFavorite />
+                              )}
                             </motion.div>
                           </motion.div>
                         </motion.div>
@@ -685,7 +742,9 @@ const StyledSection = styled.section`
       background-color: hsl(270, 2%, 90%);
     }
   }
-
+  .icon.favourite:hover {
+    background-color: hsl(359, 79%, 96%);
+  }
   .favourite {
     svg {
       color: var(--clr-red-100);
