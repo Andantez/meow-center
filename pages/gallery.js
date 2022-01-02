@@ -42,6 +42,7 @@ const Gallery = ({ categories }) => {
   const [favouritesHash, setFavouritesHash] = useState({});
   const [willDislike, setWillDislike] = useState(false);
   const { data: session, status } = useSession();
+  const [disable, setDisable] = useState(false);
   // const { data, error, isValidating, size, setSize } = useSWRInfinite(
   //   (...args) => getKey(...args, mimeType, categoryId),
   //   {
@@ -135,6 +136,9 @@ const Gallery = ({ categories }) => {
   const handleLike = async (e, image_id) => {
     e.stopPropagation(); // prevent the event from bubbling up
     try {
+      if (disable) return;
+      setDisable(true);
+      setWillDislike(true);
       const { id: sub_id } = session.user;
       const favImg = { image_id, sub_id };
       const res = await fetch(
@@ -157,15 +161,25 @@ const Gallery = ({ categories }) => {
         [image_id]: { image_id, favourite_id: data.id },
       }); // update the hash table.
       mutate(); // revalidate the favourites list.
-      setWillDislike(true);
+      setDisable(false);
     } catch (error) {
+      setDisable(false);
       console.log(error);
     }
   };
   const handleDislike = async (e, id) => {
     e.stopPropagation();
     try {
+      if (disable) return;
+      setDisable(true);
       const { favourite_id } = favouritesHash[id]; // get the favourite id of the image from the favouritesHash
+      const newFavouritesHash = { ...favouritesHash };
+      delete newFavouritesHash.id;
+      setFavouritesHash(newFavouritesHash);
+      mutate(
+        favourites.filter((favourite) => favourite.image_id !== id),
+        false
+      );
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URI}/favourites/${favourite_id}`,
         {
@@ -176,16 +190,14 @@ const Gallery = ({ categories }) => {
           },
         }
       );
-
+      const data = await res.json();
       if (!res.ok) {
         throw new Error();
       }
-
-      const newFavouritesHash = { ...favouritesHash };
-      delete newFavouritesHash.id;
-      setFavouritesHash(newFavouritesHash);
-      mutate(); //revalidate the favourites hash
+      setDisable(false);
+      mutate();
     } catch (error) {
+      setDisable(false);
       console.log(error);
     }
   };
@@ -425,7 +437,7 @@ const Gallery = ({ categories }) => {
                                 favouritesHash[id] ? 'favourite' : ''
                               }`}
                               onClick={
-                                willDislike
+                                willDislike && favouritesHash[id]
                                   ? (e) => handleDislike(e, id)
                                   : (e) => handleLike(e, id)
                               }
@@ -750,6 +762,7 @@ const StyledSection = styled.section`
       color: var(--clr-red-100);
     }
   }
+
   @media (min-width: 768px) {
     .form-control {
       button,
