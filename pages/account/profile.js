@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { MdDelete } from 'react-icons/md';
 import Skeleton from '../../components/Skeleton';
 import { deleteFavourite } from '../../utils/userUtils';
+import { useState } from 'react';
 
 const skeletonArray = Array.from({ length: 10 }, (_, index) => {
   return index;
@@ -18,10 +19,24 @@ const getKey = (pageIndex, previousPageData, user_id) => {
 };
 const Profile = () => {
   const { data: session, status } = useSession();
-  const { name, email, id, image, provider } = session.user;
+  const {
+    name: sessionName,
+    email: sessionEmail,
+    id,
+    image,
+    provider,
+  } = session.user;
+  const [userInfo, setUserInfo] = useState({
+    name: sessionName,
+    email: sessionEmail,
+    oldPassword: '',
+    newPassword: '',
+  });
   const { data, error, isValidating, size, setSize, mutate } = useSWRInfinite(
     (...args) => getKey(...args, id)
   );
+  const [isEditing, setIsEditing] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const router = useRouter();
   const favourites = data ? [].concat(...data) : []; // convert favourites to single Array.
   const isEmpty = data?.[0]?.lenght === 0;
@@ -106,22 +121,125 @@ const Profile = () => {
     const message = await deleteFavourite(id);
     mutate();
   };
-
+  const handleClick = () => {
+    setIsEditing(true);
+  };
+  const handleSave = () => {
+    setIsEditing(false);
+  };
+  const handleChange = (e) => {
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
+    setUserInfo({ ...userInfo, [inputName]: inputValue });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // TODO the rest
+    setIsEditing(false);
+    setIsChangingPassword(false);
+  }
+  const { name, email, oldPassword, newPassword } = userInfo;
   return (
     <StyledSection>
       <div className="profile-container">
-        <div className="profile-img">
-          {image && <img src={image} alt="profile" />}
-        </div>
-        <div className="profile-info">
-          <h1>{name}</h1>
-          <p>{email}</p>
-          {withCredentials && (
-            <button type="button" className="edit-btn">
-              Edit Profile
-            </button>
-          )}
-        </div>
+        {isEditing ? (
+          <div className="edit-container">
+            <ul className="profile-section">
+              <li
+                className={`${!isChangingPassword ? 'changing-profile' : ''}`}
+                onClick={() => setIsChangingPassword(false)}
+              >
+                Profile
+              </li>
+              <li
+                className={`${isChangingPassword ? 'changing-password' : ''}`}
+                onClick={() => setIsChangingPassword(true)}
+              >
+                Password
+              </li>
+            </ul>
+            <form className="edit-form" onSubmit={handleSubmit}>
+              {isChangingPassword ? (
+                <>
+                <input hidden type="text" autoComplete="username" value={name} readOnly />
+                  <div className="form-field">
+                    <label htmlFor="old-password">Old Password</label>
+                    <input
+                      type="password"
+                      id="old-password"
+                      value={oldPassword}
+                      autoComplete="current-password"
+                      name="oldPassword"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="new-password">New Password</label>
+                    <input
+                      type="password"
+                      id="new-password"
+                      value={newPassword}
+                      autoComplete="new-password"
+                      name="newPassword"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="form-field">
+                    <label htmlFor="name">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      value={name}
+                      autoComplete="username"
+                      name="name"
+                      autoCapitalize="off"
+                      autoCorrect="off"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      value={email}
+                      autoComplete="email"
+                      name="email"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </>
+              )}
+              <div className="button-wrapper">
+                <button type="submit" className="edit-btn" onClick={handleSave}>
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : (
+          <>
+            <div className="profile-img">
+              {image && <img src={image} alt="profile" />}
+            </div>
+            <div className="profile-info">
+              <h1>{name}</h1>
+              <p>{email}</p>
+              {withCredentials && (
+                <button
+                  type="button"
+                  className="edit-btn"
+                  onClick={handleClick}
+                >
+                  Edit Profile
+                </button>
+              )}
+            </div>
+          </>
+        )}
       </div>
       <div className="profile-gallery">
         <div>
@@ -147,6 +265,7 @@ const Profile = () => {
                     layout="responsive"
                   />
                   <div
+                    title="Remove from favourites."
                     className="icon-delete"
                     onClick={(e) => handleRemoveFavourite(id, index)}
                   >
@@ -156,17 +275,26 @@ const Profile = () => {
               );
             })}
         </div>
-        <button
-          type="button"
-          onClick={() => setSize(size + 1)}
-          disabled={isLoadingMore || isReachingEnd}
-        >
-          {isLoadingMore
-            ? 'Loading...'
-            : isReachingEnd
-            ? 'No more results'
-            : 'Load More'}
-        </button>
+        {favourites && (
+          <div
+            className={`button-wrapper ${isReachingEnd ? 'not-allowed' : ''}`}
+          >
+            <button
+              type="button"
+              onClick={() => setSize(size + 1)}
+              disabled={isLoadingMore || isReachingEnd}
+              className={`btn-more ${
+                isReachingEnd ? 'disabled' : isLoadingMore ? 'loading' : ''
+              }`}
+            >
+              {isLoadingMore
+                ? 'Loading...'
+                : isReachingEnd
+                ? 'No more results'
+                : 'Load More'}
+            </button>
+          </div>
+        )}
       </div>
     </StyledSection>
   );
@@ -267,13 +395,103 @@ const StyledSection = styled.section`
     }
   }
 
+  .button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.75em;
+  }
+  .btn-more {
+    width: fit-content;
+    background: var(--clr-red-500);
+    border: none;
+    color: var(--clr-secondary-500);
+    padding: 0.75em 2.5em;
+    border-radius: 0.5em;
+    font-weight: var(--fw-bold);
+    font-size: 0.875rem;
+    text-transform: capitalize;
+    cursor: pointer;
+  }
+  .btn-more.disabled {
+    background-color: var(--clr-grey);
+    pointer-events: none;
+  }
+  .btn-more.loading {
+    cursor: wait;
+  }
+
+  .not-allowed {
+    cursor: not-allowed;
+  }
+
+  .profile-section {
+    .changing-password,
+    .changing-profile {
+      font-weight: var(--fw-bold);
+      padding: .75em 1.5em;
+      color: var(--clr-yellow);
+    }
+  }
+  .edit-container {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--ff-paragraph);
+    width: 100%;
+  }
+
+  .profile-section {
+    display: flex;
+    justify-content: center;
+    li {
+      padding: .75em 1.5em;
+      cursor: pointer;
+    }
+  }
+
+  .form-field {
+    display: grid;
+    gap: 0.5em;
+    color: var(--clr-primary-500);
+    label {
+      font-weight: var(--fw-bold);
+    }
+    input {
+      letter-spacing: 1px;
+      padding: 0.5em 0;
+      border: 1px solid transparent;
+      background-color: hsl(270, 2%, 94%);
+      text-indent: 0.75em;
+      outline-color: var(--clr-grey);
+      border-radius: 0.5em;
+      width: 100%;
+      padding-right: 2em;
+      color: var(--clr-black);
+    }
+
+    input::-ms-reveal {
+      display: none;
+    }
+    input:focus {
+      background-color: transparent;
+    }
+  }
   @media (min-width: 768px) {
     min-height: 100vh;
     .images-container {
       grid-template-columns: repeat(3, 1fr);
     }
+
+    .btn-more {
+      font-size: 1rem;
+    }
   }
 
+  .edit-form {
+    display: grid;
+    gap: 1.5em;
+    padding-top: 1.5em;
+  }
   @media (min-width: 1024px) {
     padding: 5em 0;
     .images-container {
@@ -284,6 +502,10 @@ const StyledSection = styled.section`
       h1 {
         font-size: 2rem;
       }
+    }
+
+    .edit-container {
+      max-width: 30vw;
     }
   }
 `;
