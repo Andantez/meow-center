@@ -2,18 +2,37 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Spinner from '../../components/Spinner';
 import styled from 'styled-components';
-import useSWR from 'swr';
+import { useSWRInfinite } from 'swr';
 import Image from 'next/image';
 import { MdDelete } from 'react-icons/md';
+import Skeleton from '../../components/Skeleton';
+import { deleteFavourite } from '../../utils/userUtils';
 
+const skeletonArray = Array.from({ length: 10 }, (_, index) => {
+  return index;
+});
+const PAGE_SIZE = 2;
+const getKey = (pageIndex, previousPageData, user_id) => {
+  if (previousPageData && !previousPageData.length) return null; // reached the end
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/favourites?sub_id=${user_id}&page=${pageIndex}&limit=${PAGE_SIZE}`; // SWR key
+};
 const Profile = () => {
   const { data: session, status } = useSession();
   const { name, email, id, image, provider } = session.user;
-  const { data, error } = useSWR('https://api.thecatapi.com/v1/favourites'); // will fetch user favourite images.
+  const { data, error, isValidating, size, setSize, mutate } = useSWRInfinite(
+    (...args) => getKey(...args, id)
+  );
   const router = useRouter();
+  const favourites = data ? [].concat(...data) : []; // convert favourites to single Array.
+  const isEmpty = data?.[0]?.lenght === 0;
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
+  const isLoadingInitialData = !data && !error;
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === 'undefined');
   const withCredentials = provider; // to be changed to provider === 'credentials
-  console.log(withCredentials);
-  // console.log(data);
+  // console.log(withCredentials);
   const tempImages = [
     {
       created_at: '2018-10-28T00:20:09.000Z',
@@ -82,7 +101,12 @@ const Profile = () => {
       user_id: '4',
     },
   ]; // temporary to reduce api calls.
-  console.log(session.user);
+  // console.log(session.user);
+  const handleRemoveFavourite = async (id, index) => {
+    const message = await deleteFavourite(id);
+    mutate();
+  };
+
   return (
     <StyledSection>
       <div className="profile-container">
@@ -103,28 +127,46 @@ const Profile = () => {
         <div>
           <hr />
         </div>
+        <p>Favourite images: {isLoadingMore ? '...' : favourites.length}</p>
         <div className="images-container">
-          {tempImages.map((image) => {
-            const {
-              image: { url },
-              id,
-            } = image;
-            return (
-              <div key={id} className="fav-img">
-                <Image
-                  src={url}
-                  alt="cat image"
-                  width="200px"
-                  height="200px"
-                  layout="responsive"
-                />
-                <div className="icon-delete">
-                  <MdDelete />
+          {!favourites &&
+            skeletonArray.map((_, index) => <Skeleton key={index} />)}
+          {favourites &&
+            favourites.map((image, index) => {
+              const {
+                image: { url },
+                id,
+              } = image;
+              return (
+                <div key={id} className="fav-img">
+                  <Image
+                    src={url}
+                    alt="cat image"
+                    width="200px"
+                    height="200px"
+                    layout="responsive"
+                  />
+                  <div
+                    className="icon-delete"
+                    onClick={(e) => handleRemoveFavourite(id, index)}
+                  >
+                    <MdDelete />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
+        <button
+          type="button"
+          onClick={() => setSize(size + 1)}
+          disabled={isLoadingMore || isReachingEnd}
+        >
+          {isLoadingMore
+            ? 'Loading...'
+            : isReachingEnd
+            ? 'No more results'
+            : 'Load More'}
+        </button>
       </div>
     </StyledSection>
   );
@@ -188,7 +230,7 @@ const StyledSection = styled.section`
   .fav-img {
     display: block;
     position: relative;
-    border-radius: .5em;
+    border-radius: 0.5em;
     transition: box-shadow 250ms ease;
     &:hover {
       box-shadow: 0 0 4px var(--clr-grey);
@@ -197,7 +239,7 @@ const StyledSection = styled.section`
   }
 
   .fav-img > div:first-child {
-    border-radius: .5em;
+    border-radius: 0.5em;
   }
   .images-container {
     display: grid;
