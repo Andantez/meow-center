@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { useSession, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Spinner from '../../components/Spinner';
 import styled from 'styled-components';
@@ -31,12 +31,14 @@ const Profile = () => {
     email: sessionEmail,
     oldPassword: '',
     newPassword: '',
+    userId: id,
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [profileError, setProfileError] = useState({ error: '' });
   const { data, error, isValidating, size, setSize, mutate } = useSWRInfinite(
     (...args) => getKey(...args, id)
   );
-  const [isEditing, setIsEditing] = useState(false);
-  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const router = useRouter();
   const favourites = data ? [].concat(...data) : []; // convert favourites to single Array.
   const isEmpty = data?.[0]?.lenght === 0;
@@ -132,13 +134,25 @@ const Profile = () => {
     const inputValue = e.target.value;
     setUserInfo({ ...userInfo, [inputName]: inputValue });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO the rest
     setIsEditing(false);
     setIsChangingPassword(false);
-  }
+    const res = await fetch('/api/users/updateProfile', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userInfo),
+    });
+
+    const data = await res.json();
+    await getSession();
+  };
+
   const { name, email, oldPassword, newPassword } = userInfo;
+
   return (
     <StyledSection>
       <div className="profile-container">
@@ -161,7 +175,13 @@ const Profile = () => {
             <form className="edit-form" onSubmit={handleSubmit}>
               {isChangingPassword ? (
                 <>
-                <input hidden type="text" autoComplete="username" value={name} readOnly />
+                  <input
+                    hidden
+                    type="text"
+                    autoComplete="username"
+                    value={name}
+                    readOnly
+                  />
                   <div className="form-field">
                     <label htmlFor="old-password">Old Password</label>
                     <input
@@ -214,7 +234,7 @@ const Profile = () => {
                 </>
               )}
               <div className="button-wrapper">
-                <button type="submit" className="edit-btn" onClick={handleSave}>
+                <button type="submit" className="edit-btn">
                   Save Changes
                 </button>
               </div>
@@ -247,8 +267,7 @@ const Profile = () => {
         </div>
         <p>Favourite images: {isLoadingMore ? '...' : favourites.length}</p>
         <div className="images-container">
-          {!favourites &&
-            skeletonArray.map((_, index) => <Skeleton key={index} />)}
+          {!data && skeletonArray.map((_, index) => <Skeleton key={index} />)}
           {favourites &&
             favourites.map((image, index) => {
               const {
@@ -429,7 +448,7 @@ const StyledSection = styled.section`
     .changing-password,
     .changing-profile {
       font-weight: var(--fw-bold);
-      padding: .75em 1.5em;
+      padding: 0.75em 1.5em;
       color: var(--clr-yellow);
     }
   }
@@ -444,7 +463,7 @@ const StyledSection = styled.section`
     display: flex;
     justify-content: center;
     li {
-      padding: .75em 1.5em;
+      padding: 0.75em 1.5em;
       cursor: pointer;
     }
   }

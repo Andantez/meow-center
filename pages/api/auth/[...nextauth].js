@@ -4,6 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import clientPromise from '../../../utils/mongodb';
 import bcrypt from 'bcrypt';
+import { ObjectId } from 'mongodb';
 
 export default NextAuth({
   providers: [
@@ -62,6 +63,24 @@ export default NextAuth({
   },
   callbacks: {
     async session({ session, token }) {
+      if (token.user.provider === 'credentials') {
+        const client = await clientPromise;
+        const db = await client.db();
+        const u_ObjectId = new ObjectId(token.user.id);
+        const existingUser = await db
+          .collection('users')
+          .findOne({ _id: u_ObjectId });
+        const user = {
+          name: existingUser.name,
+          email: existingUser.email,
+          id: existingUser._id.toString(),
+          provider: token.user.provider,
+        };
+        // TODO finish it.
+        session.user = user;
+        return session;
+      }
+
       session.user = token.user;
       return session;
     },
