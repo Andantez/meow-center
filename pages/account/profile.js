@@ -118,7 +118,7 @@ const Profile = () => {
       user_id: '4',
     },
   ]; // temporary to reduce api calls.
-  // console.log(session.user);
+
   const handleRemoveFavourite = async (id, index) => {
     const message = await deleteFavourite(id);
     mutate();
@@ -148,7 +148,14 @@ const Profile = () => {
     });
 
     const data = await res.json();
-    await getSession();
+    const updatedSession = await fetch('/api/auth/session?update'); // fetch the updated session.
+    reloadSession();
+  };
+
+  const reloadSession = () => {
+    // trigger session revalidation on the active browser tab.  when called and force next-auth to update the session.
+    const event = new Event('visibilitychange');
+    document.dispatchEvent(event);
   };
 
   const { name, email, oldPassword, newPassword } = userInfo;
