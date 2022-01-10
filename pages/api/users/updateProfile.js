@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     // console.log(req.body);
 
     const isUpdatingEmail = email !== user.email;
-    // console.log(isUpdatingEmail);
+    const sameName = user.name === name;
 
     if (isUpdatingEmail) {
       const existingUser = await db.collection('users').findOne({ email });
