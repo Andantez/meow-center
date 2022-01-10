@@ -39,7 +39,7 @@ const Header = () => {
             <a>About</a>
           </Link>
           {session && status === 'authenticated' && (
-            <Link href="/">
+            <Link href="/account/profile">
               <a>My Account</a>
             </Link>
           )}

@@ -81,7 +81,6 @@ export default async function auth(req, res) {
             id: existingUser._id.toString(),
             provider: token.user.provider,
           };
-          // TODO finish it.
           token.user = user;
           return token;
         }

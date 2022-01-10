@@ -8,6 +8,7 @@ import { MdDelete } from 'react-icons/md';
 import Skeleton from '../../components/Skeleton';
 import { deleteFavourite } from '../../utils/userUtils';
 import { useState } from 'react';
+import { validateEmail } from '../../utils/helpers';
 
 const skeletonArray = Array.from({ length: 10 }, (_, index) => {
   return index;
@@ -35,7 +36,12 @@ const Profile = () => {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-  const [profileError, setProfileError] = useState({ error: '' });
+  const [profileError, setProfileError] = useState({
+    nameError: '',
+    emailError: '',
+    oldPasswordError: '',
+    newPasswordError: '',
+  });
   const { data, error, isValidating, size, setSize, mutate } = useSWRInfinite(
     (...args) => getKey(...args, id)
   );
@@ -137,8 +143,36 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO the rest
-    setIsEditing(false);
-    setIsChangingPassword(false);
+    const isSameName = userInfo.name === session.user.name;
+    const isUpdatingEmail = userInfo.email !== session.user.email;
+
+    if (isSameName && !isUpdatingEmail) {
+      setIsEditing(false);
+      setProfileError('');
+      return;
+    }
+    
+    // to be exported in separate function.
+    const isValidEmail = validateEmail(userInfo.email);
+    const isValidName =
+      userInfo.name.trim().length >= 2 && userInfo.name.trim().length <= 16;
+    if (!isValidName) {
+      setProfileError({
+        ...profileError,
+        nameError: 'Name must be between 2 and 16 characters long!',
+      });
+    }
+    if (!isValidEmail) {
+      setProfileError({
+        ...profileError,
+        emailError:
+          'Enter a valid email address e.g in the format user@domain.com',
+      });
+    }
+
+    if (!isValidEmail || !isValidName) {
+      return;
+    }
     const res = await fetch('/api/users/updateProfile', {
       method: 'PATCH',
       headers: {
@@ -148,8 +182,14 @@ const Profile = () => {
     });
 
     const data = await res.json();
+    if (!data.status) {
+      setProfileError(data.message);
+      return;
+    }
     const updatedSession = await fetch('/api/auth/session?update'); // fetch the updated session.
     reloadSession();
+    setIsEditing(false);
+    setIsChangingPassword(false);
   };
 
   const reloadSession = () => {
@@ -157,7 +197,7 @@ const Profile = () => {
     const event = new Event('visibilitychange');
     document.dispatchEvent(event);
   };
-
+  console.log(session);
   const { name, email, oldPassword, newPassword } = userInfo;
 
   return (
@@ -227,6 +267,7 @@ const Profile = () => {
                       onChange={handleChange}
                     />
                   </div>
+                  {profileError && <p>{profileError.nameError}</p>}
                   <div className="form-field">
                     <label htmlFor="email">Email</label>
                     <input
@@ -240,6 +281,7 @@ const Profile = () => {
                   </div>
                 </>
               )}
+              {profileError && <p>{profileError.emailError}</p>}
               <div className="button-wrapper">
                 <button type="submit" className="edit-btn">
                   Save Changes
