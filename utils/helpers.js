@@ -162,5 +162,36 @@ export const validateUserDetails = (name, email, password) => {
     ? ''
     : 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.';
 
-    return userDetailsErrors;
+  return userDetailsErrors;
+};
+
+export const validateProfileDetails = (
+  name,
+  email,
+  oldPassword,
+  newPassword
+) => {
+  const userDetailsErrors = {};
+  const isValidPassword =
+    validatePassword(oldPassword) && validatePassword(newPassword);
+  const isChangingPassword = oldPassword.length > 0 || newPassword.length > 0;
+  userDetailsErrors.nameError =
+    name.trim().length >= 2
+      ? ''
+      : 'Name must be between 2 and 16 characters long!';
+  userDetailsErrors.emailError = validateEmail(email)
+    ? ''
+    : 'Enter a valid email address e.g in the format user@domain.com';
+  userDetailsErrors.passwordError =
+    oldPassword !== newPassword && isChangingPassword
+      ? 'Passwords do not match'
+      : !isValidPassword && isChangingPassword
+      ? 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.'
+      : '';
+
+    if (userDetailsErrors.nameError || userDetailsErrors.emailError || userDetailsErrors.passwordError) {
+      userDetailsErrors.errors = true;
+    }
+    
+    return userDetailsErrors
 };

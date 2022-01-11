@@ -8,7 +8,11 @@ import { MdDelete } from 'react-icons/md';
 import Skeleton from '../../components/Skeleton';
 import { deleteFavourite } from '../../utils/userUtils';
 import { useState } from 'react';
-import { validateEmail } from '../../utils/helpers';
+import {
+  validateEmail,
+  validatePassword,
+  validateProfileDetails,
+} from '../../utils/helpers';
 
 const skeletonArray = Array.from({ length: 10 }, (_, index) => {
   return index;
@@ -142,37 +146,34 @@ const Profile = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO the rest
+
     const isSameName = userInfo.name === session.user.name;
-    const isUpdatingEmail = userInfo.email !== session.user.email;
+    const isSameEmail = userInfo.email === session.user.email;
+    const isChangingPassword = oldPassword.length > 0 || newPassword.length > 0;
 
-    if (isSameName && !isUpdatingEmail) {
+    if (isSameName && isSameEmail && !isChangingPassword) {
       setIsEditing(false);
-      setProfileError('');
+      setProfileError({
+        ...profileError,
+        nameError: '',
+        emailError: '',
+        passwordError: '',
+      });
       return;
-    }
-    
-    // to be exported in separate function.
-    const isValidEmail = validateEmail(userInfo.email);
-    const isValidName =
-      userInfo.name.trim().length >= 2 && userInfo.name.trim().length <= 16;
-    if (!isValidName) {
-      setProfileError({
-        ...profileError,
-        nameError: 'Name must be between 2 and 16 characters long!',
-      });
-    }
-    if (!isValidEmail) {
-      setProfileError({
-        ...profileError,
-        emailError:
-          'Enter a valid email address e.g in the format user@domain.com',
-      });
     }
 
-    if (!isValidEmail || !isValidName) {
+    const profileDetailsErrors = validateProfileDetails(
+      userInfo.name,
+      userInfo.email,
+      userInfo.oldPassword,
+      userInfo.newPassword
+    );
+
+    if (profileDetailsErrors.errors) {
+      setProfileError(profileDetailsErrors);
       return;
     }
+
     const res = await fetch('/api/users/updateProfile', {
       method: 'PATCH',
       headers: {
@@ -182,8 +183,19 @@ const Profile = () => {
     });
 
     const data = await res.json();
+    if (res.status === 409) {
+      setProfileError({ ...profileError, emailError: data.message });
+      return;
+    }
     if (!data.status) {
-      setProfileError(data.message);
+      const { data: resDataErrors } = data;
+      console.log(resDataErrors);
+      setProfileError({
+        ...profileError,
+        nameError: resDataErrors.nameError,
+        emailError: resDataErrors.emailError,
+        passwordError: resDataErrors.passwordError,
+      });
       return;
     }
     const updatedSession = await fetch('/api/auth/session?update'); // fetch the updated session.
@@ -197,7 +209,7 @@ const Profile = () => {
     const event = new Event('visibilitychange');
     document.dispatchEvent(event);
   };
-  console.log(session);
+  // console.log(session);
   const { name, email, oldPassword, newPassword } = userInfo;
 
   return (
@@ -239,6 +251,9 @@ const Profile = () => {
                       name="oldPassword"
                       onChange={handleChange}
                     />
+                    {profileError.passwordError && (
+                      <small>{profileError.passwordError}</small>
+                    )}
                   </div>
                   <div className="form-field">
                     <label htmlFor="new-password">New Password</label>
@@ -250,6 +265,9 @@ const Profile = () => {
                       name="newPassword"
                       onChange={handleChange}
                     />
+                    {profileError.passwordError && (
+                      <small>{profileError.passwordError}</small>
+                    )}
                   </div>
                 </>
               ) : (
@@ -267,7 +285,7 @@ const Profile = () => {
                       onChange={handleChange}
                     />
                   </div>
-                  {profileError && <p>{profileError.nameError}</p>}
+                  {profileError.nameError && <p>{profileError.nameError}</p>}
                   <div className="form-field">
                     <label htmlFor="email">Email</label>
                     <input
@@ -281,7 +299,7 @@ const Profile = () => {
                   </div>
                 </>
               )}
-              {profileError && <p>{profileError.emailError}</p>}
+              {profileError.emailError && <p>{profileError.emailError}</p>}
               <div className="button-wrapper">
                 <button type="submit" className="edit-btn">
                   Save Changes
