@@ -75,14 +75,13 @@ export default async function auth(req, res) {
           const existingUser = await db
             .collection('users')
             .findOne({ _id: u_ObjectId });
-          const user = {
+          const updatedUser = {
             name: existingUser.name,
             email: existingUser.email,
             id: existingUser._id.toString(),
             provider: token.user.provider,
           };
-          token.user = user;
-          console.log(token)
+          token.user = updatedUser;
           return token;
         }
 
