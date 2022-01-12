@@ -207,7 +207,6 @@ const Profile = () => {
   };
 
   const reloadSession = () => {
-    console.log("should call this function.")
     // trigger session revalidation on the active browser tab.  when called and force next-auth to update the session.
     const event = new Event('visibilitychange');
     document.dispatchEvent(event);

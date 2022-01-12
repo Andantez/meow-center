@@ -82,6 +82,7 @@ export default async function auth(req, res) {
             provider: token.user.provider,
           };
           token.user = user;
+          console.log(token)
           return token;
         }
 
