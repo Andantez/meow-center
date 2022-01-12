@@ -76,17 +76,19 @@ export default async function auth(req, res) {
             .collection('users')
             .findOne({ _id: u_ObjectId });
           const updatedUser = {
-            name: existingUser.name,
-            email: existingUser.email,
-            id: existingUser._id.toString(),
-            provider: token.user.provider,
+            name: "test",
+            email: "test@'gmail.com",
+            id: "existingUser._id.toString()",
+            provider:"credentials",
           };
           token.user = updatedUser;
+          console.log("should print only once")
         }
 
         if (user) {
           token.user = { ...user, provider: account.provider };
         }
+        console.log(token.user)
         return token;
       },
     },
