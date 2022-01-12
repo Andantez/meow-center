@@ -69,6 +69,7 @@ export default async function auth(req, res) {
       },
       async jwt({ token, user, account }) {
         if (req.url === '/api/auth/session?update') {
+          console.log(req.url === '/api/auth/session?update');
           const client = await clientPromise;
           const db = await client.db();
           const u_ObjectId = new ObjectId(token.user.id);
@@ -76,19 +77,16 @@ export default async function auth(req, res) {
             .collection('users')
             .findOne({ _id: u_ObjectId });
           const updatedUser = {
-            name: "test",
-            email: "test@'gmail.com",
-            id: "existingUser._id.toString()",
-            provider:"credentials",
+            name: existingUser.name,
+            email: existingUser.email,
+            id: existingUser._id.toString(),
+            provider: token.user.provider,
           };
           token.user = updatedUser;
-          console.log("should print only once")
+        } else {
+          user && (token.user = { ...user, provider: account.provider });
         }
 
-        if (user) {
-          token.user = { ...user, provider: account.provider };
-        }
-        console.log(token.user)
         return token;
       },
     },
