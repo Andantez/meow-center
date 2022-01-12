@@ -199,19 +199,21 @@ const Profile = () => {
       return;
     }
     const updatedSession = await fetch('/api/auth/session?update'); // fetch the updated session.
+    
     reloadSession();
     setIsEditing(false);
     setIsChangingPassword(false);
   };
 
   const reloadSession = () => {
+    console.log("should call this function.")
     // trigger session revalidation on the active browser tab.  when called and force next-auth to update the session.
     const event = new Event('visibilitychange');
     document.dispatchEvent(event);
   };
   // console.log(session);
   const { name, email, oldPassword, newPassword } = userInfo;
-
+  console.log(session)
   return (
     <StyledSection>
       <div className="profile-container">
