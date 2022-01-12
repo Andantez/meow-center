@@ -202,7 +202,7 @@ const Profile = () => {
     const sessionData = await updatedSession.json();
     // const newSession = await getSession();
     // console.log("updated session",newSession)
-    console.log("session?update response",updatedSession)
+    console.log("session?update response",sessionData)
     reloadSession();
     setIsEditing(false);
     setIsChangingPassword(false);
