@@ -199,7 +199,8 @@ const Profile = () => {
       return;
     }
     const updatedSession = await fetch('/api/auth/session?update'); // fetch the updated session.
-    
+    const newSession = await getSession();
+    console.log("updated session",newSession)
     reloadSession();
     setIsEditing(false);
     setIsChangingPassword(false);
