@@ -82,7 +82,6 @@ export default async function auth(req, res) {
             provider: token.user.provider,
           };
           token.user = updatedUser;
-          return token;
         }
 
         if (user) {
