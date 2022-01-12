@@ -201,6 +201,7 @@ const Profile = () => {
     const updatedSession = await fetch('/api/auth/session?update'); // fetch the updated session.
     const newSession = await getSession();
     console.log("updated session",newSession)
+    console.log(data)
     reloadSession();
     setIsEditing(false);
     setIsChangingPassword(false);
@@ -209,7 +210,8 @@ const Profile = () => {
   const reloadSession = () => {
     // trigger session revalidation on the active browser tab.  when called and force next-auth to update the session.
     const event = new Event('visibilitychange');
-    document.dispatchEvent(event);
+    const eventRes = document.dispatchEvent(event);
+    console.log(eventRes)
   };
   // console.log(session);
   const { name, email, oldPassword, newPassword } = userInfo;
