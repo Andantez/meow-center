@@ -198,7 +198,7 @@ const Profile = () => {
       });
       return;
     }
-    const updatedSession = await fetch('/api/auth/session?update'); // fetch the updated session.
+    const updatedSession = await fetch('/api/auth/session?update=session'); // fetch the updated session.
     const sessionData = await updatedSession.json();
     // const newSession = await getSession();
     // console.log("updated session",newSession)

@@ -68,8 +68,8 @@ export default async function auth(req, res) {
         return session;
       },
       async jwt({ token, user, account }) {
-        if (req.url === '/api/auth/session?update') {
-          console.log(process.env.NEXT_AUTH_TOKEN_SECRET);
+        if (req.query.update === 'session') {
+          console.log(req.url);
           const client = await clientPromise;
           const db = await client.db();
           // const u_ObjectId = new ObjectId(token.user.id);
@@ -86,7 +86,7 @@ export default async function auth(req, res) {
           const test = await db.collection('users').updateOne(
             { email: 'ades@gmail.com' },
             {
-              $set: { hashedPasswordResetToken: "test" },
+              $set: { hashedPasswordResetToken: 'grr' },
             }
           );
         } else {
@@ -100,6 +100,5 @@ export default async function auth(req, res) {
       signIn: '/account',
     },
     secret: process.env.NEXT_AUTH_TOKEN_SECRET,
-    // debug: true,
   });
 }
