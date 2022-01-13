@@ -83,9 +83,12 @@ export default async function auth(req, res) {
           //   provider: token.user.provider,
           // };
           // token.user = updatedUser;
-          const test = await db.collection("users").updateOne({email: "ades@gmail.com",}, {
-            $set: {name: "Testing Name"}
-          })
+          const test = await db.collection('users').updateOne(
+            { email: 'ades@gmail.com' },
+            {
+              $set: { hashedPasswordResetToken: undefined },
+            }
+          );
         } else {
           user && (token.user = { ...user, provider: account.provider });
         }
