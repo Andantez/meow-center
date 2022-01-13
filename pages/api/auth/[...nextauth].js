@@ -72,23 +72,18 @@ export default async function auth(req, res) {
           console.log(req.url);
           const client = await clientPromise;
           const db = await client.db();
-          // const u_ObjectId = new ObjectId(token.user.id);
-          // const existingUser = await db
-          //   .collection('users')
-          //   .findOne({ _id: u_ObjectId });
-          // const updatedUser = {
-          //   name: existingUser.name,
-          //   email: existingUser.email,
-          //   id: existingUser._id.toString(),
-          //   provider: token.user.provider,
-          // };
-          // token.user = updatedUser;
-          const test = await db.collection('users').updateOne(
-            { email: 'ades@gmail.com' },
-            {
-              $set: { hashedPasswordResetToken: 'grr' },
-            }
-          );
+          const u_ObjectId = new ObjectId(token.user.id);
+          const existingUser = await db
+            .collection('users')
+            .findOne({ _id: u_ObjectId });
+          const updatedUser = {
+            name: existingUser.name,
+            email: existingUser.email,
+            id: existingUser._id.toString(),
+            provider: token.user.provider,
+          };
+          token.user = updatedUser;
+          
         } else {
           user && (token.user = { ...user, provider: account.provider });
         }
