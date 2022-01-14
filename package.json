@@ -15,7 +15,7 @@
     "@plaiceholder/next": "^2.2.0",
     "bcrypt": "^5.0.1",
     "framer-motion": "^4.1.17",
-    "mongodb": "^3.6.9",
+    "mongodb": "^4.3.0",
     "next": "^11.0.0",
     "next-auth": "^4.0.2",
     "nodemailer": "^6.7.2",

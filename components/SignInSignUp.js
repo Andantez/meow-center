@@ -1,8 +1,8 @@
 import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
 import { MdEmail } from 'react-icons/md';
-import { RiLockPasswordFill } from 'react-icons/ri';
 import { IoMdPerson } from 'react-icons/io';
+import { RiLockPasswordFill } from 'react-icons/ri';
 import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
@@ -445,7 +445,7 @@ const StyledDiv = styled.div`
   }
   .icon {
     position: absolute;
-    top: calc(50%);
+    top: 50%;
     right: 0.75em;
     transform: translateY(-50%);
     color: var(--clr-grey);
