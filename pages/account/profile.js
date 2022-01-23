@@ -13,6 +13,7 @@ import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { MdEmail } from 'react-icons/md';
 import { IoMdPerson } from 'react-icons/io';
+import { motion } from 'framer-motion';
 
 const skeletonArray = Array.from({ length: 10 }, (_, index) => {
   return index;
@@ -47,6 +48,8 @@ const Profile = () => {
     emailError: '',
     passwordError: '',
   });
+  const [imageIndex, setImageIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, error, isValidating, size, setSize, mutate } = useSWRInfinite(
     (...args) => getKey(...args, id)
   );
@@ -131,6 +134,7 @@ const Profile = () => {
   ]; // temporary to reduce api calls.
 
   const handleRemoveFavourite = async (id, index) => {
+    if (isModalOpen) setIsModalOpen(false);
     const message = await deleteFavourite(id);
     mutate();
   };
@@ -215,7 +219,8 @@ const Profile = () => {
   };
   // console.log(session);
   const { name, email, oldPassword, newPassword } = userInfo;
-  console.log(session);
+  // console.log(session);
+  console.log(favourites)
   return (
     <StyledSection>
       <div className="profile-container">
@@ -346,7 +351,7 @@ const Profile = () => {
                         autoCorrect="off"
                         onChange={handleChange}
                       />
-                      <IoMdPerson className='icon' />
+                      <IoMdPerson className="icon" />
                     </div>
                     {profileError.nameError && (
                       <small className="error-message">
@@ -368,7 +373,7 @@ const Profile = () => {
                         name="email"
                         onChange={handleChange}
                       />
-                      <MdEmail className='icon' />
+                      <MdEmail className="icon" />
                     </div>
                     {profileError.emailError && (
                       <small className="error-message">
@@ -412,6 +417,11 @@ const Profile = () => {
         </div>
         <p>Favourite images: {isLoadingMore ? '...' : favourites.length}</p>
         <div className="images-container">
+          <motion.div
+            className={`shade ${isModalOpen ? 'visible' : ''}`}
+            animate={{ opacity: isModalOpen ? 1 : 0 }}
+            onClick={() => setIsModalOpen(false)}
+          ></motion.div>
           {!data && skeletonArray.map((_, index) => <Skeleton key={index} />)}
           {favourites &&
             favourites.map((image, index) => {
@@ -420,22 +430,38 @@ const Profile = () => {
                 id,
               } = image;
               return (
-                <div key={id} className="fav-img">
-                  <Image
-                    src={url}
-                    alt="cat image"
-                    width="200px"
-                    height="200px"
-                    layout="responsive"
-                  />
-                  <div
-                    title="Remove from favourites."
-                    className="icon-delete"
-                    onClick={(e) => handleRemoveFavourite(id, index)}
-                  >
-                    <MdDelete />
-                  </div>
-                </div>
+                <motion.div
+                  key={id}
+                  className={`fav-img ${
+                    imageIndex === index && isModalOpen ? 'open' : ''
+                  } ${imageIndex === index ? 'selected-image' : ''}`}
+                  onClick={!isModalOpen ? () => setImageIndex(index) : () => setIsModalOpen(false)}
+                >
+                  <motion.div className="image-wrapper" layout>
+                    <motion.div
+                      className="wrapper-relative"
+                      onClick={() => setIsModalOpen(!isModalOpen)}
+                      layout
+                      // transition={{duration: 2}}
+                    >
+                      <Image
+                        src={url}
+                        alt="cat image"
+                        width="200px"
+                        height="200px"
+                        layout="responsive"
+                      />
+                    </motion.div>
+                      <motion.div
+                        title="Remove from favourites."
+                        className="icon-delete"
+                        onClick={(e) => handleRemoveFavourite(id, index)}
+                        layout
+                      >
+                        <MdDelete />
+                      </motion.div>
+                  </motion.div>
+                </motion.div>
               );
             })}
         </div>
@@ -533,7 +559,7 @@ const StyledSection = styled.section`
     }
   }
 
-  .fav-img > div:first-child {
+  .image-wrapper > div:first-child {
     border-radius: 0.5em;
   }
   .images-container {
@@ -672,6 +698,52 @@ const StyledSection = styled.section`
   }
   .icon-dark {
     color: var(--clr-black);
+  }
+  .shade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    background: rgba(0, 0, 0, 0.85);
+    pointer-events: none;
+    opacity: 0;
+  }
+  .visible {
+    pointer-events: auto;
+    cursor: zoom-out;
+  }
+
+  .open .image-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  .open .image-wrapper .wrapper-relative {
+    width: 100%;
+    height: 100%;
+  }
+  .wrapper-relative > div:first-child {
+    height: 100%;
+  }
+  .selected-image {
+    z-index: 99;
+  }
+  .open .image-wrapper {
+    max-width: 60vw;
+    max-height: 90vh;
+  }
+
+  .fav-img.open .image-wrapper {
+    cursor: zoom-out;
+  }
+  .fav-img.open {
+    box-shadow: none;
+    cursor: zoom-out;
   }
   @media (min-width: 768px) {
     min-height: 100vh;
