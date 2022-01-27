@@ -355,7 +355,7 @@ const StyledDiv = styled.div`
     padding: 0.75em 2.5em;
     border-radius: 0.5em;
     font-weight: var(--fw-bold);
-    font-size: 1rem;
+    font-size: 0.938rem;
     text-transform: capitalize;
     cursor: pointer;
   }
@@ -398,6 +398,7 @@ const StyledDiv = styled.div`
     padding: 0.75em;
     border-radius: 0.5em;
     font-family: var(--ff-paragraph);
+    font-size: 0.875rem;
     color: var(--clr-secondary-500);
     cursor: pointer;
     /* letter-spacing: 1px; */

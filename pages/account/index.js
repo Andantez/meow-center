@@ -175,15 +175,15 @@ const StyledDiv = styled.div`
       transition: all 400ms ease-in;
     }
     .sign-in-container.signing-in {
-      /* transform: ${(props) =>
-        props.buttonWidth && `translateX(${props.buttonWidth}px)`}; */
-      transform: translateX(calc(75%));
+      transform: ${(props) =>
+        props.buttonWidth && `translateX(${props.buttonWidth}px)`};
+      /* transform: translateX(calc(75%)); */
     }
     .button-container.signing-in {
-      /* transform: ${(props) =>
+      transform: ${(props) =>
         props.signInWidth &&
-        `translateX(calc(-${props.signInWidth}px - 4em))`}; */
-      transform: translateX(calc(-150%));
+        `translateX(calc(-${props.signInWidth}px - 4em))`};
+      /* transform: translateX(calc(-150%)); */
     }
 
     /* --------------------------------- */
