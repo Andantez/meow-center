@@ -29,7 +29,7 @@ const StyledDiv = styled.div`
     padding: 0.75em 3.5em;
     border-radius: 0.5em;
     font-weight: var(--fw-bold);
-    font-size: 1rem;
+    font-size: 0.938rem;
     text-transform: capitalize;
     cursor: pointer;
   }
