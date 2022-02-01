@@ -71,7 +71,6 @@ export const fadeIn = {
   },
 };
 
-
 export const fadeInRight = {
   initial: {
     x: 60,
@@ -96,13 +95,27 @@ export const profileVariants = {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 0.3,
-      type: 'tween',
-      ease: 'easeInOut',
+      duration: 0.15,
     },
   },
   exit: {
     y: 20,
+    opacity: 0,
+  },
+};
+
+export const profileDropdownVariants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+
+    transition: {
+      duration: 0.15,
+    },
+  },
+  exit: {
     opacity: 0,
   },
 };

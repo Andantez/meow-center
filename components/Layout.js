@@ -8,11 +8,12 @@ import { useHomeContext } from '../context/home_context';
 
 const Layout = ({ children }) => {
   const router = useRouter();
-  const { closeSidebar} = useHomeContext();
+  const { closeSidebar, hideDropdown} = useHomeContext();
 
   useEffect(() => {
     const handleRouterChange = () => {
       closeSidebar();
+      hideDropdown();
     }
     router.events.on('routeChangeStart', handleRouterChange);
 

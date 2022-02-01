@@ -8,13 +8,15 @@ const HomeProvider = ({ children }) => {
   const [itsOnFocus, setItsOnFocus] = useState(false);
   const [breeds, setBreeds] = useState([]);
   const [filteredBreeds, setFilteredBreeds] = useState([]);
-  
+  const [showDropdownMenu, setShowDropdownMenu] = useState(true);
   const isLoadingData = !filteredBreeds && query.length > 0;
   const noResultsFound =
     filteredBreeds?.length === 0 && query.length > 0 && itsOnFocus;
 
   useEffect(() => {
-    const filteredData = query ? breeds.filter(breed => breed.name.toLowerCase().includes(query)): [];
+    const filteredData = query
+      ? breeds.filter((breed) => breed.name.toLowerCase().includes(query))
+      : [];
     setFilteredBreeds(filteredData);
   }, [query]);
 
@@ -40,6 +42,17 @@ const HomeProvider = ({ children }) => {
     setBreeds(data);
   };
 
+  const showDropdown = (e) => {
+    e.stopPropagation();
+    setShowDropdownMenu(true);
+  };
+  const hideDropdown = () => {
+    setShowDropdownMenu(false);
+  };
+
+  const handleDropdown = (e) => {
+    setShowDropdownMenu(false);
+  };
   return (
     <HomeContext.Provider
       value={{
@@ -56,6 +69,10 @@ const HomeProvider = ({ children }) => {
         setData,
         filteredBreeds,
         setFilteredBreeds,
+        showDropdown,
+        hideDropdown,
+        showDropdownMenu,
+        handleDropdown,
       }}
     >
       {children}
