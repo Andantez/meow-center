@@ -15,6 +15,7 @@ import { MdEmail } from 'react-icons/md';
 import { IoMdPerson } from 'react-icons/io';
 import { motion, AnimatePresence } from 'framer-motion';
 import { profileVariants } from '../../variants/animationVariants';
+
 const skeletonArray = Array.from({ length: 10 }, (_, index) => {
   return index;
 });
@@ -23,7 +24,6 @@ const getKey = (pageIndex, previousPageData, user_id) => {
   if (previousPageData && !previousPageData.length) return null; // reached the end
   return `${process.env.NEXT_PUBLIC_API_BASE_URI}/favourites?sub_id=${user_id}&page=${pageIndex}&limit=${PAGE_SIZE}`; // SWR key
 };
-
 
 const Profile = () => {
   const { data: session, status } = useSession();
@@ -227,227 +227,213 @@ const Profile = () => {
     <StyledSection>
       <div className="profile-container">
         <AnimatePresence exitBeforeEnter initial={false}>
-          
-            {isEditing ? (
-              <motion.div
-                key="edit-form"
-                className="edit-container"
-                initial="initial"
-                animate="animate"
-                variants={profileVariants}
-                layout
-              >
-                <ul className="profile-section">
-                  <li
-                    className={`${
-                      !isChangingPassword ? 'changing-profile' : ''
-                    }`}
-                    onClick={() => setIsChangingPassword(false)}
-                  >
-                    Profile
-                  </li>
-                  <li
-                    className={`${
-                      isChangingPassword ? 'changing-password' : ''
-                    }`}
-                    onClick={() => setIsChangingPassword(true)}
-                  >
-                    Password
-                  </li>
-                </ul>
-                <form className="edit-form" onSubmit={handleSubmit}>
-                  {isChangingPassword ? (
-                    <div className="form-wrapper">
-                      <input
-                        hidden
-                        type="text"
-                        autoComplete="username"
-                        value={name}
-                        readOnly
-                      />
-                      <div className="form-field">
-                        <label htmlFor="old-password">Old Password</label>
-                        <div className="input-wrapper">
-                          <input
-                            className={`${
-                              profileError.passwordError
-                                ? 'validation-error'
-                                : ''
-                            }`}
-                            type={showOldPassword ? 'text' : 'password'}
-                            id="old-password"
-                            value={oldPassword}
-                            autoComplete="current-password"
-                            name="oldPassword"
-                            onChange={handleChange}
-                          />
-                          {oldPassword ? (
-                            showOldPassword ? (
-                              <AiFillEyeInvisible
-                                className="icon icon-btn icon-dark"
-                                onClick={() =>
-                                  setShowOldPassword(!showOldPassword)
-                                }
-                              />
-                            ) : (
-                              <AiFillEye
-                                className="icon icon-btn"
-                                onClick={() =>
-                                  setShowOldPassword(!showOldPassword)
-                                }
-                              />
-                            )
-                          ) : (
-                            <RiLockPasswordFill
-                              className="icon"
+          {isEditing ? (
+            <motion.div
+              key="edit-form"
+              className="edit-container"
+              initial="initial"
+              animate="animate"
+              variants={profileVariants}
+              layout
+            >
+              <ul className="profile-section">
+                <li
+                  className={`${!isChangingPassword ? 'changing-profile' : ''}`}
+                  onClick={() => setIsChangingPassword(false)}
+                >
+                  Profile
+                </li>
+                <li
+                  className={`${isChangingPassword ? 'changing-password' : ''}`}
+                  onClick={() => setIsChangingPassword(true)}
+                >
+                  Password
+                </li>
+              </ul>
+              <form className="edit-form" onSubmit={handleSubmit}>
+                {isChangingPassword ? (
+                  <div className="form-wrapper">
+                    <input
+                      hidden
+                      type="text"
+                      autoComplete="username"
+                      value={name}
+                      readOnly
+                    />
+                    <div className="form-field">
+                      <label htmlFor="old-password">Old Password</label>
+                      <div className="input-wrapper">
+                        <input
+                          className={`${
+                            profileError.passwordError ? 'validation-error' : ''
+                          }`}
+                          type={showOldPassword ? 'text' : 'password'}
+                          id="old-password"
+                          value={oldPassword}
+                          autoComplete="current-password"
+                          name="oldPassword"
+                          onChange={handleChange}
+                        />
+                        {oldPassword ? (
+                          showOldPassword ? (
+                            <AiFillEyeInvisible
+                              className="icon icon-btn icon-dark"
                               onClick={() =>
                                 setShowOldPassword(!showOldPassword)
                               }
                             />
-                          )}
-                        </div>
-                        {profileError.passwordError &&
-                          profileError.passwordError ===
-                            'Passwords do not match' && (
-                            <small className="error-message">
-                              {profileError.passwordError}
-                            </small>
-                          )}
-                      </div>
-                      <div className="form-field">
-                        <label htmlFor="new-password">New Password</label>
-                        <div className="input-wrapper">
-                          <input
-                            className={`${
-                              profileError.passwordError
-                                ? 'validation-error'
-                                : ''
-                            }`}
-                            type={showNewPassword ? 'text' : 'password'}
-                            id="new-password"
-                            value={newPassword}
-                            autoComplete="new-password"
-                            name="newPassword"
-                            onChange={handleChange}
-                          />
-                          {newPassword ? (
-                            showNewPassword ? (
-                              <AiFillEyeInvisible
-                                className="icon icon-btn icon-dark"
-                                onClick={() =>
-                                  setShowNewPassword(!showNewPassword)
-                                }
-                              />
-                            ) : (
-                              <AiFillEye
-                                className="icon icon-btn"
-                                onClick={() =>
-                                  setShowNewPassword(!showNewPassword)
-                                }
-                              />
-                            )
                           ) : (
-                            <RiLockPasswordFill
-                              className="icon"
+                            <AiFillEye
+                              className="icon icon-btn"
+                              onClick={() =>
+                                setShowOldPassword(!showOldPassword)
+                              }
+                            />
+                          )
+                        ) : (
+                          <RiLockPasswordFill
+                            className="icon"
+                            onClick={() => setShowOldPassword(!showOldPassword)}
+                          />
+                        )}
+                      </div>
+                      {profileError.passwordError &&
+                        profileError.passwordError ===
+                          'Passwords do not match' && (
+                          <small className="error-message">
+                            {profileError.passwordError}
+                          </small>
+                        )}
+                    </div>
+                    <div className="form-field">
+                      <label htmlFor="new-password">New Password</label>
+                      <div className="input-wrapper">
+                        <input
+                          className={`${
+                            profileError.passwordError ? 'validation-error' : ''
+                          }`}
+                          type={showNewPassword ? 'text' : 'password'}
+                          id="new-password"
+                          value={newPassword}
+                          autoComplete="new-password"
+                          name="newPassword"
+                          onChange={handleChange}
+                        />
+                        {newPassword ? (
+                          showNewPassword ? (
+                            <AiFillEyeInvisible
+                              className="icon icon-btn icon-dark"
                               onClick={() =>
                                 setShowNewPassword(!showNewPassword)
                               }
                             />
-                          )}
-                        </div>
-                        {profileError.passwordError &&
-                          profileError.passwordError !==
-                            'Passwords do not match' && (
-                            <small className="error-message">
-                              {profileError.passwordError}
-                            </small>
-                          )}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="form-wrapper">
-                      <div className="form-field">
-                        <label htmlFor="name">Name</label>
-                        <div className="input-wrapper">
-                          <input
-                            className={`${
-                              profileError.nameError ? 'validation-error' : ''
-                            }`}
-                            type="text"
-                            id="name"
-                            value={name}
-                            autoComplete="username"
-                            name="name"
-                            autoCapitalize="off"
-                            autoCorrect="off"
-                            onChange={handleChange}
+                          ) : (
+                            <AiFillEye
+                              className="icon icon-btn"
+                              onClick={() =>
+                                setShowNewPassword(!showNewPassword)
+                              }
+                            />
+                          )
+                        ) : (
+                          <RiLockPasswordFill
+                            className="icon"
+                            onClick={() => setShowNewPassword(!showNewPassword)}
                           />
-                          <IoMdPerson className="icon" />
-                        </div>
-                        {profileError.nameError && (
-                          <small className="error-message">
-                            {profileError.nameError}
-                          </small>
                         )}
                       </div>
-                      <div className="form-field">
-                        <label htmlFor="email">Email</label>
-                        <div className="input-wrapper">
-                          <input
-                            className={`${
-                              profileError.emailError ? 'validation-error' : ''
-                            }`}
-                            type="email"
-                            id="email"
-                            value={email}
-                            autoComplete="email"
-                            name="email"
-                            onChange={handleChange}
-                          />
-                          <MdEmail className="icon" />
-                        </div>
-                        {profileError.emailError && (
+                      {profileError.passwordError &&
+                        profileError.passwordError !==
+                          'Passwords do not match' && (
                           <small className="error-message">
-                            {profileError.emailError}
+                            {profileError.passwordError}
                           </small>
                         )}
-                      </div>
                     </div>
-                  )}
-                  <div className="button-wrapper">
-                    <button type="submit" className="edit-btn">
-                      Save Changes
-                    </button>
                   </div>
-                </form>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="profile-info"
-                initial="initial"
-                animate="animate"
-                variants={profileVariants}
-                layout
-              >
-                <div className="profile-img">
-                  {image && <img src={image} alt="profile" />}
+                ) : (
+                  <div className="form-wrapper">
+                    <div className="form-field">
+                      <label htmlFor="name">Name</label>
+                      <div className="input-wrapper">
+                        <input
+                          className={`${
+                            profileError.nameError ? 'validation-error' : ''
+                          }`}
+                          type="text"
+                          id="name"
+                          value={name}
+                          autoComplete="username"
+                          name="name"
+                          autoCapitalize="off"
+                          autoCorrect="off"
+                          onChange={handleChange}
+                        />
+                        <IoMdPerson className="icon" />
+                      </div>
+                      {profileError.nameError && (
+                        <small className="error-message">
+                          {profileError.nameError}
+                        </small>
+                      )}
+                    </div>
+                    <div className="form-field">
+                      <label htmlFor="email">Email</label>
+                      <div className="input-wrapper">
+                        <input
+                          className={`${
+                            profileError.emailError ? 'validation-error' : ''
+                          }`}
+                          type="email"
+                          id="email"
+                          value={email}
+                          autoComplete="email"
+                          name="email"
+                          onChange={handleChange}
+                        />
+                        <MdEmail className="icon" />
+                      </div>
+                      {profileError.emailError && (
+                        <small className="error-message">
+                          {profileError.emailError}
+                        </small>
+                      )}
+                    </div>
+                  </div>
+                )}
+                <div className="button-wrapper">
+                  <button type="submit" className="edit-btn">
+                    Save Changes
+                  </button>
                 </div>
-                <div className="profile-info">
-                  <h1>{name}</h1>
-                  <p>{email}</p>
-                  {withCredentials && (
-                    <button
-                      type="button"
-                      className="edit-btn"
-                      onClick={handleClick}
-                    >
-                      Edit Profile
-                    </button>
-                  )}
-                </div>
-              </motion.div>
-            )}
-        
+              </form>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="profile-info"
+              initial="initial"
+              animate="animate"
+              variants={profileVariants}
+              layout
+            >
+              <div className="profile-img">
+                {image && <img src={image} alt="profile" />}
+              </div>
+              <div className="profile-info">
+                <h1>{name}</h1>
+                <p>{email}</p>
+                {withCredentials && (
+                  <button
+                    type="button"
+                    className="edit-btn"
+                    onClick={handleClick}
+                  >
+                    Edit Profile
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
       <div className="profile-gallery">

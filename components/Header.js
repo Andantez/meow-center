@@ -5,15 +5,23 @@ import { HiMenu } from 'react-icons/hi';
 import { useHomeContext } from '../context/home_context';
 import MyImage from './MyImage';
 import { useSession, signOut } from 'next-auth/react';
+import ProfileModal from './ProfileModal';
+import { AnimatePresence } from 'framer-motion';
 
 const Header = () => {
-  const { openSidebar } = useHomeContext();
+  const {
+    openSidebar,
+    showDropdown,
+    hideDropdown,
+    showDropdownMenu,
+    handleDropdown,
+  } = useHomeContext();
   const { data: session, status } = useSession();
   return (
-    <Wrapper>
+    <Wrapper onMouseOver={handleDropdown}>
       <nav className="nav-wrapper">
         <Link href="/">
-          <a>
+          <a className="link">
             <MyImage
               src="/logo3_ilsd46.png"
               alt="logo"
@@ -24,33 +32,35 @@ const Header = () => {
         </Link>
         <div className="nav-links">
           <Link href="/">
-            <a>Home</a>
+            <a className="link">Home</a>
           </Link>
           <Link href="/breeds">
-            <a>Breeds</a>
+            <a className="link">Breeds</a>
           </Link>
           <Link href="/gallery">
-            <a>Gallery</a>
+            <a className="link">Gallery</a>
           </Link>
           <Link href="/charts">
-            <a>Charts</a>
+            <a className="link">Charts</a>
           </Link>
           <Link href="/about">
-            <a>About</a>
+            <a className="link">About</a>
           </Link>
           {session && status === 'authenticated' && (
-            <Link href="/account/profile">
-              <a>My Account</a>
-            </Link>
+            <div
+              className="modal-wrapper"
+              onMouseOver={showDropdown}
+              onMouseLeave={hideDropdown}
+            >
+              <p>My Account</p>
+              <AnimatePresence>
+                {showDropdownMenu && <ProfileModal />}
+              </AnimatePresence>
+            </div>
           )}
           {!session && (
             <Link href="/account">
               <a>Sign In</a>
-            </Link>
-          )}
-          {session && status === 'authenticated' && (
-            <Link href="/account">
-              <a onClick={signOut}>Sign Out</a>
             </Link>
           )}
         </div>
@@ -90,7 +100,7 @@ const Wrapper = styled.header`
     font-family: var(--ff-paragraph);
     font-weight: var(--fw-bold);
     display: none;
-    a {
+    .link {
       position: relative;
       &:hover {
         color: var(--clr-secondary-500);
@@ -113,6 +123,12 @@ const Wrapper = styled.header`
       }
     }
   }
+  .modal-wrapper {
+    position: relative;
+    padding: 1em 0;
+    cursor: pointer;
+  }
+
   @media (min-width: 992px) {
     .navbar-toggle {
       display: none;

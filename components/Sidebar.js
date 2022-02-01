@@ -63,7 +63,7 @@ const Sidebar = () => {
                 })}
                 {session && status === 'authenticated' && (
                   <li>
-                    <Link href="/">
+                    <Link href="/account/profile">
                       <a>
                         <IoPerson /> My Account
                       </a>
