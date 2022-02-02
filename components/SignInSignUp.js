@@ -309,6 +309,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
   );
 };
 const StyledDiv = styled.div`
+
   h1 {
     font-family: var(--ff-paragraph);
     font-weight: var(--fw-bold);

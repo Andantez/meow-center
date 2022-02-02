@@ -37,9 +37,11 @@ const Header = () => {
           <Link href="/breeds">
             <a className="link">Breeds</a>
           </Link>
-          <Link href="/gallery">
-            <a className="link">Gallery</a>
-          </Link>
+          {session && status === 'authenticated' && (
+            <Link href="/gallery">
+              <a className="link">Gallery</a>
+            </Link>
+          )}
           <Link href="/charts">
             <a className="link">Charts</a>
           </Link>
@@ -60,7 +62,7 @@ const Header = () => {
           )}
           {!session && (
             <Link href="/account">
-              <a>Sign In</a>
+              <a className="link">Sign In</a>
             </Link>
           )}
         </div>

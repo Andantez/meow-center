@@ -55,7 +55,7 @@ const PieChart = ({ data }) => {
   return (
     <div>
       <StyledInfoDiv>
-        <h2>Cat breeds per country of origin.</h2>
+        <h2>Cat breeds per country of origin</h2>
       </StyledInfoDiv>
       <StyledDiv>
         <ResponsivePie
