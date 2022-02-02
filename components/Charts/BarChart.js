@@ -66,7 +66,7 @@ const BarChart = ({ data }) => {
   return (
     <StyledDiv>
       <div className="info">
-        <h2>Compare breeds based on their lifespan andn weight.</h2>
+        <h2>Compare breeds based on their lifespan and weight</h2>
       </div>
       <div className="select-wrapper">
         <div className="breeds-select">

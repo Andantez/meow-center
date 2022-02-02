@@ -32,15 +32,15 @@ const Account = ({ providers }) => {
       signInWidth={signInWidth}
       buttonWidth={buttonWidth}
     >
-      <div className="bg-image-wrapper">
-        <StyledImage
-          src="logIn-background_fof5qg"
-          alt="black cat"
-          layout="fill"
-          priority={true}
-        />
-      </div>
       <section className="section-wrapper">
+        <div className="bg-image-wrapper">
+          <StyledImage
+            src="logIn-background_fof5qg"
+            alt="black cat"
+            layout="fill"
+            priority={true}
+          />
+        </div>
         <span className="top-left-corner"></span>
         <span className="top-right-corner"></span>
         <SignInSignUp
@@ -106,11 +106,10 @@ const StyledDiv = styled.div`
     max-width: 1200px;
     /* height: 100vh; */
     margin: 0 auto;
-    /* backdrop-filter: blur(5px); */
     background: linear-gradient(
       0deg,
-      rgba(181, 181, 181, 0.85) 0%,
-      rgba(246, 249, 250, 0.85) 100%
+      rgba(181, 181, 181, 0.75) 0%,
+      rgba(246, 249, 250, 0.65) 100%
     );
     padding: 2.5em 1em;
   }
