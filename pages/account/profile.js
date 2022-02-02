@@ -481,7 +481,7 @@ const Profile = () => {
                       />
                     </motion.div>
                     <motion.div
-                      title="Remove from favourites."
+                      title="Remove from favourites"
                       className="icon-delete"
                       onClick={(e) => handleRemoveFavourite(id, index)}
                       layout
@@ -763,8 +763,8 @@ const StyledSection = styled.section`
     z-index: 99;
   }
   .open .image-wrapper {
-    max-width: 60vw;
-    max-height: 90vh;
+    max-width: 90vw;
+    max-height: 50vh;
   }
 
   .fav-img.open .image-wrapper {
@@ -782,6 +782,13 @@ const StyledSection = styled.section`
     display: grid;
     gap: 1.5em;
   }
+
+  @media (min-width: 600px) {
+    .open .image-wrapper {
+      max-width: 90vw;
+      max-height: 70vh;
+    }
+  }
   @media (min-width: 768px) {
     min-height: 100vh;
     .images-container {
@@ -793,6 +800,19 @@ const StyledSection = styled.section`
     }
   }
 
+  @media (min-width: 800px) {
+    .open .image-wrapper {
+      max-width: 90vw;
+      max-height: 80vh;
+    }
+
+    @media (min-width: 1000px) {
+      .open .image-wrapper {
+        max-width: 90vw;
+        max-height: 90vh;
+      }
+    }
+  }
   @media (min-width: 1024px) {
     padding: 5em 0;
     .images-container {
@@ -807,6 +827,13 @@ const StyledSection = styled.section`
 
     .edit-container {
       max-width: 30vw;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .open .image-wrapper {
+      width: 900px;
+      height: 800px;
     }
   }
 `;

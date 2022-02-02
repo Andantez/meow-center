@@ -8,7 +8,7 @@ const HomeProvider = ({ children }) => {
   const [itsOnFocus, setItsOnFocus] = useState(false);
   const [breeds, setBreeds] = useState([]);
   const [filteredBreeds, setFilteredBreeds] = useState([]);
-  const [showDropdownMenu, setShowDropdownMenu] = useState(true);
+  const [showDropdownMenu, setShowDropdownMenu] = useState(false);
   const isLoadingData = !filteredBreeds && query.length > 0;
   const noResultsFound =
     filteredBreeds?.length === 0 && query.length > 0 && itsOnFocus;
