@@ -7,7 +7,7 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
       <AnimatePresence exitBeforeEnter initial={false}>
         {isSigningIn ? (
           <motion.h2
-            key="sign-in"
+            key="sign-in-header"
             initial={{ x: '-100%', opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '-100%', opacity: 0 }}
@@ -17,7 +17,7 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
           </motion.h2>
         ) : (
           <motion.h2
-            key="sign-up"
+            key="sign-up-header"
             initial={{ x: '100%', opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0 }}
@@ -26,16 +26,15 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
             Have an account?
           </motion.h2>
         )}
-      </AnimatePresence>
-      {/* <p>
+
+        {/* <p>
         {isSigningIn
           ? 'Join us and save your favourite pictures'
           : 'Sign in and access your favourite pictures'}
       </p> */}
-      <AnimatePresence exitBeforeEnter initial={false}>
         {isSigningIn ? (
           <motion.p
-            key="sign-in"
+            key="sign-in-paragraph"
             initial={{ x: '100%', opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0 }}
@@ -46,7 +45,7 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
           </motion.p>
         ) : (
           <motion.p
-            key="sign-up"
+            key="sign-up-paragraph"
             initial={{ x: '-100%', opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '-100%', opacity: 0 }}
@@ -55,14 +54,12 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
             'Sign in and access your favourite pictures'
           </motion.p>
         )}
-      </AnimatePresence>
-      {/* <button
+        {/* <button
         className="submit-btn"
         onClick={() => setIsSigningIn(!isSigningIn)}
       >
         {isSigningIn ? 'Sign Up' : 'Sign In'}
       </button> */}
-      <AnimatePresence exitBeforeEnter initial={false}>
         {isSigningIn ? (
           <motion.button
             key="sign-up-btn"

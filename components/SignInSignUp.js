@@ -441,6 +441,8 @@ const StyledDiv = styled.div`
     text-underline-offset: 1px;
     text-align: center;
     margin-top: 1.5em;
+    width: max-content;
+    align-self: center;
   }
   .input-wrapper {
     position: relative;
