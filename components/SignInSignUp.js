@@ -11,6 +11,7 @@ import { signIn } from 'next-auth/react';
 import { createUser } from '../utils/userUtils';
 import { validateEmail, validatePassword } from '../utils/helpers';
 import Link from 'next/link';
+import Form from '../components/Form';
 
 const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
   const [userDetails, setUserDetails] = useState({
@@ -163,109 +164,20 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
     <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
       <h1>{isSigningIn ? 'Sign In' : 'Sign Up'} </h1>
 
-      <form
-        className="form"
-        onSubmit={isSigningIn ? handleLogInSubmit : handleSignUpSubmit}
-        noValidate
-      >
-        <small className="error-message">
-          {errors.authenticated && `${errors.authenticated}`}
-        </small>
-        {/* if the user is not signing in e.g. is registering show the registering show name input field */}
-        {!isSigningIn && (
-          <div className="input-wrapper">
-            <input
-              className={`${errors.name && 'validation-error'}`}
-              type="name"
-              name="name"
-              placeholder="Name"
-              autoComplete="name"
-              value={name}
-              onChange={handleOnChange}
-              // If the user is signing in disable the onBlur event listener.
-              onBlur={!isSigningIn ? validateForm : undefined}
-              // autoFocus
-            />
-            {name ? (
-              <AiOutlineClose
-                className="icon icon-btn icon-dark"
-                onClick={handleOnClick}
-                name="name"
-              />
-            ) : (
-              <IoMdPerson className="icon" />
-            )}
-          </div>
-        )}
-        {/* show the user error  */}
-        {errors.name && <small className="error-message">{errors.name}</small>}
-        <div className="input-wrapper">
-          <input
-            className={`${errors.email && 'validation-error'}`}
-            type="email"
-            name="email"
-            placeholder="Email"
-            autoComplete="email"
-            value={email}
-            onChange={handleOnChange}
-            // If the user is signing in disable the onBlur event listener.
-            onBlur={!isSigningIn ? validateForm : undefined}
-          />
-          {email ? (
-            <AiOutlineClose
-              className="icon icon-btn icon-dark"
-              onClick={handleOnClick}
-              name="email"
-            />
-          ) : (
-            <MdEmail className="icon" />
-          )}
-        </div>
-        {/* show the user error  */}
-        {errors.email && (
-          <small className="error-message">{errors.email}</small>
-        )}
-        <div className="input-wrapper">
-          <input
-            className={`${errors.password && 'validation-error'}`}
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            placeholder="Password"
-            autoComplete={isSigningIn ? 'current-password' : 'new-password'}
-            value={password}
-            onChange={handleOnChange}
-            // If the user is signing in disable the onBlur event listener.
-            onBlur={!isSigningIn ? validateForm : undefined}
-          />
-          {password ? (
-            showPassword ? (
-              <AiFillEyeInvisible
-                className="icon icon-btn icon-dark"
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            ) : (
-              <AiFillEye
-                className="icon icon-btn"
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            )
-          ) : (
-            <RiLockPasswordFill className="icon" />
-          )}
-        </div>
-        {/* show the user error  */}
-        {errors.password && (
-          <small className="error-message">{errors.password}</small>
-        )}
-        {isSigningIn && (
-          <Link href="/account/forgottenpassword">
-            <a className="forgot-link">Forgot Password?</a>
-          </Link>
-        )}
-        <button type="submit" className="submit-btn">
-          {isSigningIn ? 'sign in' : 'sign up'}
-        </button>
-      </form>
+      {/* ............................... */}
+      <Form
+        isSigningIn={isSigningIn}
+        handleLogInSubmit={handleLogInSubmit}
+        handleSignUpSubmit={handleSignUpSubmit}
+        handleOnChange={handleOnChange}
+        handleOnClick={handleOnClick}
+        errors={errors}
+        validateForm={validateForm}
+        showPassword={showPassword}
+        userDetails={userDetails}
+        setShowPassword={setShowPassword}
+      />
+      {/* ............................... */}
       <div className="providers-wrapper">
         {/* <p>or</p> */}
         <hr className="hr-line" />
@@ -309,7 +221,6 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
   );
 };
 const StyledDiv = styled.div`
-
   h1 {
     font-family: var(--ff-paragraph);
     font-weight: var(--fw-bold);
