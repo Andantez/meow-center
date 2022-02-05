@@ -1,16 +1,11 @@
 import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
-import { MdEmail } from 'react-icons/md';
-import { IoMdPerson } from 'react-icons/io';
-import { RiLockPasswordFill } from 'react-icons/ri';
-import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { createUser } from '../utils/userUtils';
 import { validateEmail, validatePassword } from '../utils/helpers';
-import Link from 'next/link';
 import Form from '../components/Form';
 import SignIn from './SignIn';
 import { AnimatePresence, motion } from 'framer-motion';
