@@ -12,6 +12,8 @@ import { createUser } from '../utils/userUtils';
 import { validateEmail, validatePassword } from '../utils/helpers';
 import Link from 'next/link';
 import Form from '../components/Form';
+import SignIn from './SignIn';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
   const [userDetails, setUserDetails] = useState({
@@ -162,24 +164,59 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
   };
   return (
     <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
-      <h1>{isSigningIn ? 'Sign In' : 'Sign Up'} </h1>
+      <AnimatePresence exitBeforeEnter initial={false}>
+        {isSigningIn ? (
+          <motion.h1
+            key="sign-in-header"
+            initial={{ x: '100%', opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '100%', opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            Sign In
+          </motion.h1>
+        ) : (
+          <motion.h1
+            key="sign-up-header"
+            initial={{ x: '-100%', opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '-100%', opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            Sign Up
+          </motion.h1>
+        )}
+      </AnimatePresence>
 
       {/* ............................... */}
-      <Form
-        isSigningIn={isSigningIn}
-        handleLogInSubmit={handleLogInSubmit}
-        handleSignUpSubmit={handleSignUpSubmit}
-        handleOnChange={handleOnChange}
-        handleOnClick={handleOnClick}
-        errors={errors}
-        validateForm={validateForm}
-        showPassword={showPassword}
-        userDetails={userDetails}
-        setShowPassword={setShowPassword}
-      />
+      <AnimatePresence exitBeforeEnter initial={false}>
+        {isSigningIn ? (
+          <SignIn
+            key="sign-in-form"
+            handleLogInSubmit={handleLogInSubmit}
+            handleOnChange={handleOnChange}
+            handleOnClick={handleOnClick}
+            errors={errors}
+            showPassword={showPassword}
+            userDetails={userDetails}
+            setShowPassword={setShowPassword}
+          />
+        ) : (
+          <Form
+            key="sign-up-form"
+            handleSignUpSubmit={handleSignUpSubmit}
+            handleOnChange={handleOnChange}
+            handleOnClick={handleOnClick}
+            errors={errors}
+            validateForm={validateForm}
+            showPassword={showPassword}
+            userDetails={userDetails}
+            setShowPassword={setShowPassword}
+          />
+        )}
+      </AnimatePresence>
       {/* ............................... */}
       <div className="providers-wrapper">
-        {/* <p>or</p> */}
         <hr className="hr-line" />
         <div className="providers-grid-wrapper">
           {providers.map((provider) => {
@@ -197,14 +234,6 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
               </button>
             );
           })}
-          {/* <button className="providers-btn google">
-            <FcGoogle />
-            Google
-          </button>
-          <button className="providers-btn facebook">
-            <SiFacebook />
-            Facebook
-          </button> */}
         </div>
       </div>
       <p>
@@ -221,6 +250,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
   );
 };
 const StyledDiv = styled.div`
+  overflow: hidden;
   h1 {
     font-family: var(--ff-paragraph);
     font-weight: var(--fw-bold);
@@ -344,8 +374,6 @@ const StyledDiv = styled.div`
   }
 
   .forgot-link {
-    /* background-color: transparent;
-    border: none; */
     cursor: pointer;
     text-decoration: underline;
     padding: 0.5em 0;
@@ -354,6 +382,7 @@ const StyledDiv = styled.div`
     margin-top: 1.5em;
     width: max-content;
     align-self: center;
+    height: 2.313em;
   }
   .input-wrapper {
     position: relative;

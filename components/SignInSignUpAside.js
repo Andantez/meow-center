@@ -26,12 +26,13 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
             Have an account?
           </motion.h2>
         )}
-
-        {/* <p>
+      </AnimatePresence>
+      {/* <p>
         {isSigningIn
           ? 'Join us and save your favourite pictures'
           : 'Sign in and access your favourite pictures'}
       </p> */}
+      <AnimatePresence exitBeforeEnter initial={false}>
         {isSigningIn ? (
           <motion.p
             key="sign-in-paragraph"
@@ -54,12 +55,14 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
             'Sign in and access your favourite pictures'
           </motion.p>
         )}
-        {/* <button
+      </AnimatePresence>
+      {/* <button
         className="submit-btn"
         onClick={() => setIsSigningIn(!isSigningIn)}
       >
         {isSigningIn ? 'Sign Up' : 'Sign In'}
       </button> */}
+      <AnimatePresence exitBeforeEnter initial={false}>
         {isSigningIn ? (
           <motion.button
             key="sign-up-btn"
