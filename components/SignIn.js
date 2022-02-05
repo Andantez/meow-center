@@ -1,58 +1,34 @@
 import { MdEmail } from 'react-icons/md';
-import { IoMdPerson } from 'react-icons/io';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-const Form = ({
-  handleSignUpSubmit,
+const SignIn = ({
+  handleLogInSubmit,
   handleOnChange,
   handleOnClick,
   errors,
-  validateForm,
   showPassword,
   userDetails,
   setShowPassword,
 }) => {
-  const { name, email, password } = userDetails;
+  const { email, password } = userDetails;
 
   return (
     <StyledForm
       className="form"
-      onSubmit={handleSignUpSubmit}
+      onSubmit={handleLogInSubmit}
       noValidate
-      initial={{ x: '100%', opacity: 0 }}
+      initial={{ x: '-100%', opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      exit={{ x: '100%', opacity: 0 }}
+      exit={{ x: '-100%', opacity: 0 }}
       transition={{ duration: 0.25 }}
     >
       <small className="error-message">
         {errors.authenticated && `${errors.authenticated}`}
       </small>
-      <div className="input-wrapper">
-        <input
-          className={`${errors.name && 'validation-error'}`}
-          type="name"
-          name="name"
-          placeholder="Name"
-          autoComplete="name"
-          value={name}
-          onChange={handleOnChange}
-          onBlur={validateForm}
-        />
-        {name ? (
-          <AiOutlineClose
-            className="icon icon-btn icon-dark"
-            onClick={handleOnClick}
-            name="name"
-          />
-        ) : (
-          <IoMdPerson className="icon" />
-        )}
-      </div>
-
-      {/* show the user error  */}
       {errors.name && <small className="error-message">{errors.name}</small>}
       <div className="input-wrapper">
         <input
@@ -63,8 +39,6 @@ const Form = ({
           autoComplete="email"
           value={email}
           onChange={handleOnChange}
-          // If the user is signing in disable the onBlur event listener.
-          onBlur={validateForm}
         />
         {email ? (
           <AiOutlineClose
@@ -84,10 +58,9 @@ const Form = ({
           type={showPassword ? 'text' : 'password'}
           name="password"
           placeholder="Password"
-          autoComplete="new-password"
+          autoComplete="current-password"
           value={password}
           onChange={handleOnChange}
-          onBlur={validateForm}
         />
         {password ? (
           showPassword ? (
@@ -109,12 +82,16 @@ const Form = ({
       {errors.password && (
         <small className="error-message">{errors.password}</small>
       )}
+
+      <Link href="/account/forgottenpassword">
+        <a className="forgot-link">Forgot Password?</a>
+      </Link>
       <button type="submit" className="submit-btn">
-        sign up
+        sign in
       </button>
     </StyledForm>
   );
 };
 
 const StyledForm = styled(motion.form)``;
-export default Form;
+export default SignIn;

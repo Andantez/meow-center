@@ -116,8 +116,7 @@ const StyledDiv = styled.div`
   .top-left-corner,
   .top-right-corner {
     position: absolute;
-    content: '';
-    top: 0;
+    top: -0.5em;
     border-top: 0.5em solid var(--clr-primary-500);
     width: 3em;
     height: 3em;
@@ -125,20 +124,18 @@ const StyledDiv = styled.div`
     pointer-events: none;
   }
   .top-left-corner {
-    left: 0;
+    left: -0.5em;
     border-left: 0.5em solid var(--clr-primary-500);
-    /* transition: all 400ms ease; */
   }
 
   .top-right-corner {
-    right: 0;
+    right: -0.5em;
     border-right: 0.5em solid var(--clr-primary-500);
   }
   .bottom-left-corner,
   .bottom-right-corner {
     position: absolute;
-    content: '';
-    bottom: 0;
+    bottom: -0.5em;
     border-bottom: 0.5em solid var(--clr-primary-500);
     width: 3em;
     height: 3em;
@@ -146,11 +143,11 @@ const StyledDiv = styled.div`
     pointer-events: none;
   }
   .bottom-left-corner {
-    left: 0;
+    left: -0.5em;
     border-left: 0.5em solid var(--clr-primary-500);
   }
   .bottom-right-corner {
-    right: 0;
+    right: -0.5em;
     border-right: 0.5em solid var(--clr-primary-500);
   }
   @media (min-width: 414px) {
@@ -176,13 +173,10 @@ const StyledDiv = styled.div`
     .sign-in-container.signing-in {
       transform: ${(props) =>
         props.buttonWidth && `translateX(${props.buttonWidth}px)`};
-      /* transform: translateX(calc(75%)); */
     }
     .button-container.signing-in {
       transform: ${(props) =>
-        props.signInWidth &&
-        `translateX(calc(-${props.signInWidth}px - 4em))`};
-      /* transform: translateX(calc(-150%)); */
+        props.signInWidth && `translateX(calc(-${props.signInWidth}px - 4em))`};
     }
 
     /* --------------------------------- */
@@ -227,27 +221,33 @@ const StyledDiv = styled.div`
 
     .top-left-corner,
     .top-right-corner {
+      top: -0.75em;
       border-top: 0.75em solid var(--clr-primary-500);
       width: 5em;
       height: 5em;
     }
     .top-left-corner {
+      left: -0.75em;
       border-left: 0.75em solid var(--clr-primary-500);
     }
     .top-right-corner {
+      right:  -0.75em;
       border-right: 0.75em solid var(--clr-primary-500);
     }
 
     .bottom-left-corner,
     .bottom-right-corner {
+      bottom:  -0.75em;
       border-bottom: 0.75em solid var(--clr-primary-500);
       width: 5em;
       height: 5em;
     }
     .bottom-left-corner {
+      left:  -0.75em;
       border-left: 0.75em solid var(--clr-primary-500);
     }
     .bottom-right-corner {
+      right:  -0.75em;
       border-right: 0.75em solid var(--clr-primary-500);
     }
   }
