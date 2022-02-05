@@ -123,10 +123,11 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
     if (itsInvalidForm) {
       return;
     }
-    const createdUser = await createUser(name, email, password); // check user input and if valid create user and returns the user else return object with errors.
-
-    if (!createdUser.ok) {
-      setErrors({ ...errors, ...createdUser });
+    const createdUserResponse = await createUser(name, email.toLocaleLowerCase(), password); // check user input and if valid create user and returns the user else return object with errors.
+  
+    if (!createdUserResponse.ok) {
+      setErrors({ ...errors, email: createdUserResponse.message });
+      return;
     }
     signIn('credentials', {
       name,
@@ -149,7 +150,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
     const signInResponse = await signIn('credentials', {
       redirect: false,
       name,
-      email,
+      email: email.toLocaleLowerCase(),
       password,
     });
     if (signInResponse.status === 200 && signInResponse.ok) {
