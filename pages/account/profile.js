@@ -1,13 +1,11 @@
-import { useSession, getSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import Spinner from '../../components/Spinner';
+import { useSession } from 'next-auth/react';
 import styled from 'styled-components';
 import { useSWRInfinite } from 'swr';
 import Image from 'next/image';
 import { MdDelete } from 'react-icons/md';
 import Skeleton from '../../components/Skeleton';
 import { deleteFavourite } from '../../utils/userUtils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { validateProfileDetails } from '../../utils/helpers';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { RiLockPasswordFill } from 'react-icons/ri';
@@ -15,11 +13,13 @@ import { MdEmail } from 'react-icons/md';
 import { IoMdPerson } from 'react-icons/io';
 import { motion, AnimatePresence } from 'framer-motion';
 import { profileVariants } from '../../variants/animationVariants';
+import Link from 'next/link';
+import { MdFavorite } from 'react-icons/md';
 
 const skeletonArray = Array.from({ length: 10 }, (_, index) => {
   return index;
 });
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 24;
 const getKey = (pageIndex, previousPageData, user_id) => {
   if (previousPageData && !previousPageData.length) return null; // reached the end
   return `${process.env.NEXT_PUBLIC_API_BASE_URI}/favourites?sub_id=${user_id}&page=${pageIndex}&limit=${PAGE_SIZE}`; // SWR key
@@ -55,86 +55,25 @@ const Profile = () => {
   const { data, error, isValidating, size, setSize, mutate } = useSWRInfinite(
     (...args) => getKey(...args, id)
   );
-  const router = useRouter();
+
   const favourites = data ? [].concat(...data) : []; // convert favourites to single Array.
-  const isEmpty = data?.[0]?.lenght === 0;
+  const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
     isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
   const isLoadingInitialData = !data && !error;
   const isLoadingMore =
     isLoadingInitialData ||
     (size > 0 && data && typeof data[size - 1] === 'undefined');
-  const withCredentials = provider; // to be changed to provider === 'credentials
-  // console.log(withCredentials);
-  const tempImages = [
-    {
-      created_at: '2018-10-28T00:20:09.000Z',
-      id: 1123,
-      image: {
-        id: 'b9c',
-        url: 'https://cdn2.thecatapi.com/images/b9c.jpg',
-      },
-      image_id: 'b9c',
-      sub_id: 'demo-252474',
-      user_id: '4',
-    },
-    {
-      created_at: '2018-10-28T00:36:35.000Z',
-      id: 1126,
-      image: {
-        id: '3k8',
-        url: 'https://cdn2.thecatapi.com/images/3k8.jpg',
-      },
-      image_id: '3k8',
-      sub_id: 'demo-252474',
-      user_id: '4',
-    },
-    {
-      created_at: '2018-10-28T00:36:36.000Z',
-      id: 1127,
-      image: {
-        id: 'mi',
-        url: 'https://cdn2.thecatapi.com/images/mi.jpg',
-      },
-      image_id: 'mi',
-      sub_id: 'demo-252474',
-      user_id: '4',
-    },
-    {
-      created_at: '2018-10-28T00:36:37.000Z',
-      id: 1128,
-      image: {
-        id: '2c9',
-        url: 'https://cdn2.thecatapi.com/images/2c9.jpg',
-      },
-      image_id: '2c9',
-      sub_id: 'demo-252474',
-      user_id: '4',
-    },
-    {
-      created_at: '2018-10-28T00:50:43.000Z',
-      id: 1129,
-      image: {
-        id: 'MjA3NTE1MA',
-        url: 'https://cdn2.thecatapi.com/images/MjA3NTE1MA.jpg',
-      },
-      image_id: 'MjA3NTE1MA',
-      sub_id: 'test',
-      user_id: '4',
-    },
-    {
-      created_at: '2018-10-28T00:51:38.000Z',
-      id: 1131,
-      image: {
-        id: '6cs',
-        url: 'https://cdn2.thecatapi.com/images/6cs.gif',
-      },
-      image_id: '6cs',
-      sub_id: 'demo-440b14',
-      user_id: '4',
-    },
-  ]; // temporary to reduce api calls.
+  const withCredentials = provider === 'credentials';
 
+  const handleScroll = () => {
+    setIsModalOpen(false)
+  };
+  
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const handleRemoveFavourite = async (id, index) => {
     if (isModalOpen) setIsModalOpen(false);
     const message = await deleteFavourite(id);
@@ -143,9 +82,7 @@ const Profile = () => {
   const handleClick = () => {
     setIsEditing(true);
   };
-  const handleSave = () => {
-    setIsEditing(false);
-  };
+
   const handleChange = (e) => {
     const inputName = e.target.name;
     const inputValue = e.target.value;
@@ -219,10 +156,7 @@ const Profile = () => {
     const eventRes = document.dispatchEvent(event);
     console.log(eventRes);
   };
-  // console.log(session);
   const { name, email, oldPassword, newPassword } = userInfo;
-  // console.log(session);
-  console.log(favourites);
   return (
     <StyledSection>
       <div className="profile-container">
@@ -410,6 +344,7 @@ const Profile = () => {
             </motion.div>
           ) : (
             <motion.div
+              className="profile-info-container"
               key="profile-info"
               initial="initial"
               animate="animate"
@@ -440,60 +375,65 @@ const Profile = () => {
         <div>
           <hr />
         </div>
-        <p>Favourite images: {isLoadingMore ? '...' : favourites.length}</p>
-        <div className="images-container">
-          <motion.div
-            className={`shade ${isModalOpen ? 'visible' : ''}`}
-            animate={{ opacity: isModalOpen ? 1 : 0 }}
-            onClick={() => setIsModalOpen(false)}
-          ></motion.div>
-          {!data && skeletonArray.map((_, index) => <Skeleton key={index} />)}
-          {favourites &&
-            favourites.map((image, index) => {
-              const {
-                image: { url },
-                id,
-              } = image;
-              return (
-                <motion.div
-                  key={id}
-                  className={`fav-img ${
-                    imageIndex === index && isModalOpen ? 'open' : ''
-                  } ${imageIndex === index ? 'selected-image' : ''}`}
-                  onClick={
-                    !isModalOpen
-                      ? () => setImageIndex(index)
-                      : () => setIsModalOpen(false)
-                  }
-                >
-                  <motion.div className="image-wrapper" layout>
-                    <motion.div
-                      className="wrapper-relative"
-                      onClick={() => setIsModalOpen(!isModalOpen)}
-                      layout
-                    >
-                      <Image
-                        src={url}
-                        alt="cat image"
-                        width="200px"
-                        height="200px"
-                        layout="responsive"
-                      />
-                    </motion.div>
-                    <motion.div
-                      title="Remove from favourites"
-                      className="icon-delete"
-                      onClick={(e) => handleRemoveFavourite(id, index)}
-                      layout
-                    >
-                      <MdDelete />
+        {favourites.length > 0 && (
+          <p>Favourite images: {isLoadingMore ? '...' : favourites.length}</p>
+        )}
+        {favourites.length > 0 && (
+          <div className="images-container">
+            <motion.div
+              className={`shade ${isModalOpen ? 'visible' : ''}`}
+              animate={{ opacity: isModalOpen ? 1 : 0 }}
+              onClick={() => setIsModalOpen(false)}
+            ></motion.div>
+            {!data && skeletonArray.map((_, index) => <Skeleton key={index} />)}
+            {favourites &&
+              favourites.map((image, index) => {
+                const {
+                  image: { url },
+                  id,
+                } = image;
+                return (
+                  <motion.div
+                    key={id}
+                    className={`fav-img ${
+                      imageIndex === index && isModalOpen ? 'open' : ''
+                    } ${imageIndex === index ? 'selected-image' : ''}`}
+                    onClick={
+                      !isModalOpen
+                        ? () => setImageIndex(index)
+                        : () => setIsModalOpen(false)
+                    }
+                  >
+                    <motion.div className="image-wrapper" layout>
+                      <motion.div
+                        className="wrapper-relative"
+                        onClick={() => setIsModalOpen(!isModalOpen)}
+                        layout
+                      >
+                        <Image
+                          src={url}
+                          alt="cat image"
+                          width="200px"
+                          height="200px"
+                          layout="responsive"
+                        />
+                      </motion.div>
+                      <motion.div
+                        title="Remove from favourites"
+                        className="icon-delete"
+                        onClick={(e) => handleRemoveFavourite(id, index)}
+                        layout
+                      >
+                        <MdDelete />
+                      </motion.div>
                     </motion.div>
                   </motion.div>
-                </motion.div>
-              );
-            })}
-        </div>
-        {favourites && (
+                );
+              })}
+          </div>
+        )}
+
+        {favourites.length > 0 && (
           <div
             className={`button-wrapper ${isReachingEnd ? 'not-allowed' : ''}`}
           >
@@ -511,6 +451,24 @@ const Profile = () => {
                 ? 'No more results'
                 : 'Load More'}
             </button>
+          </div>
+        )}
+        {isEmpty && (
+          <div className="no-results-container">
+            <h2 className="no-results-header">
+              Looks like you have no favourite images
+            </h2>
+            <p className="no-results-text">
+              Explore the{' '}
+              <Link href="/gallery">
+                <a>Gallery</a>
+              </Link>{' '}
+              and add an image to your favourites by clicking the{' '}
+              <span className="favourite-wrapper">
+                <MdFavorite /> Like
+              </span>{' '}
+              button.
+            </p>
           </div>
         )}
       </div>
@@ -662,6 +620,10 @@ const StyledSection = styled.section`
     width: 100%;
   }
 
+  .profile-info-container {
+    display: flex;
+    align-items: center;
+  }
   .profile-section {
     display: flex;
     justify-content: center;
@@ -743,7 +705,9 @@ const StyledSection = styled.section`
     pointer-events: auto;
     cursor: zoom-out;
   }
-
+  .wrapper-relative > div {
+    border-radius: 0.5em;
+  }
   .open .image-wrapper {
     position: fixed;
     top: 0;
@@ -783,6 +747,46 @@ const StyledSection = styled.section`
     gap: 1.5em;
   }
 
+  .no-results-container {
+    display: grid;
+    /* place-items: center; */
+    grid-template-columns: 1fr;
+    gap: 1em;
+    width: auto;
+  }
+
+  .no-results-header {
+    font-size: 1.5rem;
+    color: var(--clr-primary-500);
+    text-align: center;
+  }
+  .no-results-text {
+    color: var(--clr-grey);
+    text-align: center;
+    letter-spacing: 0.5px;
+    a {
+      color: var(--clr-primary-500);
+      font-weight: var(--fw-bold);
+      text-decoration: underline;
+    }
+  }
+
+  .favourite-wrapper {
+    display: inline-block;
+    padding: 0.25em;
+    border-radius: 0.5em;
+    border: 1px solid var(--clr-lightgrey);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    svg {
+      color: var(--clr-red-100);
+      vertical-align: middle;
+      font-size: 0.9125rem;
+    }
+    &:active {
+      background-color: hsl(270, 2%, 90%);
+    }
+  }
   @media (min-width: 600px) {
     .open .image-wrapper {
       max-width: 90vw;
@@ -790,7 +794,7 @@ const StyledSection = styled.section`
     }
   }
   @media (min-width: 768px) {
-    min-height: 100vh;
+    min-height: 90vh;
     .images-container {
       grid-template-columns: repeat(3, 1fr);
     }
