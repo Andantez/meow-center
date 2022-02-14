@@ -3,7 +3,6 @@ import Hero from '../components/Hero';
 import MostPopular from '../components/MostPopular';
 import Facts from '../components/Facts';
 import useSWR from 'swr';
-// import { connectToDatabase } from '../utils/mongodb';
 import { useHomeContext } from '../context/home_context';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -39,10 +38,7 @@ export default function Home({ mostPopularBreeds, facts, breeds, images }) {
   );
 }
 
-// commented out ot reduce request calls
 export const getStaticProps = async () => {
-  // connect to db and get most popular breeds data
-  // const { db } = await connectToDatabase();
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB)
   const dbBreedData = await db

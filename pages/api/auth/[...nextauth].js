@@ -26,7 +26,6 @@ export default async function auth(req, res) {
         authorization: {
           params: {
             scope: 'email,public_profile',
-            // auth_type: 'reauthenticate',
           },
         },
       }),

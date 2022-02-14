@@ -8,7 +8,6 @@ const Account = ({ providers }) => {
   const [[headerHeight, footerHeight], setHeaderFooterHeight] = useState([
     0, 0,
   ]);
-  // temporory to be removed later for testing purpose only
   const [[signInWidth, buttonWidth], setSignInButtonWIdth] = useState([0, 0]);
   const [isSigningIn, setIsSigningIn] = useState(true);
   // ------------------------------------------------------------

@@ -13,7 +13,6 @@ const ListView = ({ breeds }) => {
           description,
           origin,
           life_span,
-          weight: { metric: weight },
           image: { url },
           blurDataURL,
         } = breed;

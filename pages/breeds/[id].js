@@ -33,8 +33,7 @@ const BreedDetails = ({ breed, images }) => {
       setImageList(images);
     }
   }, [isFallback, breed, images]);
-
-  // commented to reduce requests.
+  
   useEffect(() => {
     if (Object.keys(breedData).length > 0) {
       const { id, name, description } = breedData;

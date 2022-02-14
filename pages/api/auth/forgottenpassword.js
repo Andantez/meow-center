@@ -13,7 +13,6 @@ export default async function handler(req, res) {
 
       if (!existingUser) {
         return res.status(200).json({
-          // reminder to change it later.
           success: true,
           message: `We've sent an email to ${email} with a link to create new password.`,
         });

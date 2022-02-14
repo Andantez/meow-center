@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+
 const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
   return (
     <StyledDiv className={`button-container ${!isSigningIn && 'signing-in'}`}>
-      {/* <h2>{isSigningIn ? `Don't Have an account ?` : 'Have an account ?'}</h2> */}
       <AnimatePresence exitBeforeEnter initial={false}>
         {isSigningIn ? (
           <motion.h2
@@ -27,11 +27,6 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
           </motion.h2>
         )}
       </AnimatePresence>
-      {/* <p>
-        {isSigningIn
-          ? 'Join us and save your favourite pictures'
-          : 'Sign in and access your favourite pictures'}
-      </p> */}
       <AnimatePresence exitBeforeEnter initial={false}>
         {isSigningIn ? (
           <motion.p
@@ -42,7 +37,7 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
             transition={{ duration: 0.25 }}
           >
             {' '}
-            'Join us and save your favourite pictures'
+            Join us and save your favourite pictures
           </motion.p>
         ) : (
           <motion.p
@@ -52,16 +47,10 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
             exit={{ x: '-100%', opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            'Sign in and access your favourite pictures'
+            Sign in to access your favourite pictures
           </motion.p>
         )}
       </AnimatePresence>
-      {/* <button
-        className="submit-btn"
-        onClick={() => setIsSigningIn(!isSigningIn)}
-      >
-        {isSigningIn ? 'Sign Up' : 'Sign In'}
-      </button> */}
       <AnimatePresence exitBeforeEnter initial={false}>
         {isSigningIn ? (
           <motion.button
