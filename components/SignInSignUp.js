@@ -124,7 +124,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
       password
     ); // check user input and if valid create user and returns the user else return object with errors.
 
-    if (!createdUserResponse.ok) {
+    if (!createdUserResponse.acknowledged) {
       setErrors({ ...errors, email: createdUserResponse.message });
       return;
     }
