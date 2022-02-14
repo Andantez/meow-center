@@ -1,8 +1,6 @@
-// import { connectToDatabase } from '../../utils/mongodb';
 import clientPromise from '../../utils/mongodb';
 
 const handler = async (req, res) => {
-  // const { db } = await connectToDatabase();
 
   if (req.method === 'POST') {
     const client = await clientPromise;

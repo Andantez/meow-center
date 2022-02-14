@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import Image from 'next/image';
 import Link from 'next/link';
 import { HiMenu } from 'react-icons/hi';
 import { useHomeContext } from '../context/home_context';
 import MyImage from './MyImage';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import ProfileModal from './ProfileModal';
 import { AnimatePresence } from 'framer-motion';
 

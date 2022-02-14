@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { BsArrowRightShort } from 'react-icons/bs';
 import Head from 'next/head';
 import { getPlaiceholder } from 'plaiceholder';
-// import { connectToDatabase } from '../utils/mongodb';
 import clientPromise from '../utils/mongodb';
 
 const MostPopular = ({ mostPopularBreeds }) => {
@@ -52,7 +51,6 @@ const MostPopular = ({ mostPopularBreeds }) => {
 };
 
 export const getStaticProps = async () => {
-  // const { db } = await connectToDatabase();
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
 

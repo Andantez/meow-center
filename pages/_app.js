@@ -4,7 +4,7 @@ import FiltersContextProvider from '../context/filters_context';
 import { SWRConfig } from 'swr';
 import '../styles/globals.css';
 import { SessionProvider } from 'next-auth/react';
-import { useSession, signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Spinner from '../components/Spinner';

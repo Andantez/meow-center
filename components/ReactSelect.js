@@ -80,7 +80,7 @@ const customStyles = {
   placeholder: (styles) => ({
     ...styles,
     margin: 0,
-    color: 'var(--clr-black)'
+    color: 'var(--clr-black)',
   }),
   dropdownIndicator: (styles) => ({
     ...styles,
@@ -101,7 +101,7 @@ const ReactSelect = ({
   setSelectedData,
   chartType,
   placeholder,
-  inputId
+  inputId,
 }) => {
   const maxOptions = 5;
 

@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { createUser } from '../utils/userUtils';
 import { validateEmail, validatePassword } from '../utils/helpers';
-import Form from '../components/Form';
-import SignIn from './SignIn';
+import Register from './Register';
+import Login from './Login';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
@@ -118,8 +118,12 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
     if (itsInvalidForm) {
       return;
     }
-    const createdUserResponse = await createUser(name, email.toLocaleLowerCase(), password); // check user input and if valid create user and returns the user else return object with errors.
-  
+    const createdUserResponse = await createUser(
+      name,
+      email.toLocaleLowerCase(),
+      password
+    ); // check user input and if valid create user and returns the user else return object with errors.
+
     if (!createdUserResponse.ok) {
       setErrors({ ...errors, email: createdUserResponse.message });
       return;
@@ -187,7 +191,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
       {/* ............................... */}
       <AnimatePresence exitBeforeEnter initial={false}>
         {isSigningIn ? (
-          <SignIn
+          <Login
             key="sign-in-form"
             handleLogInSubmit={handleLogInSubmit}
             handleOnChange={handleOnChange}
@@ -198,7 +202,7 @@ const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
             setShowPassword={setShowPassword}
           />
         ) : (
-          <Form
+          <Register
             key="sign-up-form"
             handleSignUpSubmit={handleSignUpSubmit}
             handleOnChange={handleOnChange}
