@@ -22,16 +22,28 @@ const About = () => {
             objectFit="cover"
           />
         </motion.div>
-        <motion.div className="info" variants={stagger} custom={{staggerDuration: 0.1, staggerDirection: 1, delayChildren: 0.2}}>
+        <motion.div
+          className="info"
+          variants={stagger}
+          custom={{
+            staggerDuration: 0.1,
+            staggerDirection: 1,
+            delayChildren: 0.2,
+          }}
+        >
           <motion.h1 variants={fadeInAndUp}>About Meow Portal</motion.h1>
           <motion.p variants={fadeInAndUp}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-            fugiat possimus blanditiis nobis reiciendis et quasi voluptates a
-            alias, consequuntur animi in sunt laborum cupiditate!
+            <span className="name">Meow Portal</span> is an extensive directory
+            for all cat lovers. Here you can find detailed information about
+            most cat breeds. Explore the gallery save your favourite pictures,
+            compare your favourite breeds and find the typical characteristics
+            of each of them.
           </motion.p>
           <motion.p variants={fadeInAndUp}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-            fugiat possimus blanditiis nobis
+            The app was created by a cat lover as a hobby during lockdown. This
+            app will give you information and help you decide which
+            breed is most suited for your family and lifestyle if you are looking for a cat
+            pet.
           </motion.p>
         </motion.div>
       </StyledSection>
@@ -80,8 +92,11 @@ const StyledSection = styled.section`
   p {
     color: var(--clr-primary-400);
     line-height: 1.35em;
+    letter-spacing: 0.5px;
   }
-
+  .name {
+    font-weight: var(--fw-bold);
+  }
   @media (min-width: 1024px) {
     background: linear-gradient(
         180deg,

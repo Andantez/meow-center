@@ -37,7 +37,7 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
             transition={{ duration: 0.25 }}
           >
             {' '}
-            Join us and save your favourite pictures
+            Joins us to browse through our cat gallery
           </motion.p>
         ) : (
           <motion.p
@@ -47,7 +47,7 @@ const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
             exit={{ x: '-100%', opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            Sign in to access your favourite pictures
+            Sign in to save your favourite pictures
           </motion.p>
         )}
       </AnimatePresence>
