@@ -507,8 +507,10 @@ const StyledSection = styled.section`
   .profile-img {
     display: flex;
     border-radius: 50%;
+
     img {
       border-radius: 50%;
+      width: 3.125em;
     }
   }
 

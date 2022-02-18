@@ -21,7 +21,7 @@ const MostPopular = ({ mostPopularBreeds }) => {
           );
         })}
 
-        <h3>50+ breeds you can discover</h3>
+        <h3>You can discover over 50 breeds</h3>
         <Link href="/most-popular">
           <a className="see-more-link">
             See More <BsArrowRightShort />
