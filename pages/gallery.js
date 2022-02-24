@@ -499,6 +499,8 @@ const Gallery = ({ categories }) => {
     </motion.div>
   );
 };
+
+Gallery.auth = true;
 export const getStaticProps = async (context) => {
   const categoriesResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URI}/categories`

@@ -30,6 +30,14 @@ const Header = () => {
           </a>
         </Link>
         <div className="nav-links">
+          {/* <div className="blob">
+            <MyImage
+              src="/primary-blob_onkar3"
+              width={'200'}
+              height="200"
+              layout="responsive"
+            />
+          </div> */}
           <Link href="/">
             <a className="link">Home</a>
           </Link>
@@ -74,8 +82,9 @@ const Header = () => {
 };
 
 const Wrapper = styled.header`
-  background-color: var(--clr-primary-500);
-  background: var(--clr-primary-500);
+  /* background: var(--clr-primary-500); */
+  position: relative;
+  z-index: 999;
   .nav-wrapper {
     display: flex;
     justify-content: space-between;
@@ -92,20 +101,19 @@ const Wrapper = styled.header`
     font-size: 2.5rem;
 
     svg {
-      color: var(--clr-secondary-500);
+      color: var(--clr-primary-500);
     }
   }
   .nav-links {
-    color: var(--clr-secondary-500);
+    position: relative;
+    color: var(--clr-primary-500);
     font-size: 1rem;
     font-family: var(--ff-paragraph);
     font-weight: var(--fw-bold);
     display: none;
     .link {
       position: relative;
-      &:hover {
-        color: var(--clr-secondary-500);
-      }
+      
       &::before {
         position: absolute;
         content: '';
@@ -113,7 +121,7 @@ const Wrapper = styled.header`
         height: 2px;
         bottom: -0.5em;
         left: 0;
-        background: var(--clr-secondary-500);
+        background: var(--clr-primary-500);
         transform: scale(0);
         transition: transform 250ms linear;
         transform-origin: right;
@@ -129,7 +137,13 @@ const Wrapper = styled.header`
     padding: 1em 0;
     cursor: pointer;
   }
-
+  .blob {
+    position: absolute;
+    top: -17em;
+    left: 0;
+    width: 100%;
+    transform: rotate(125deg) scale(1.25);
+  }
   @media (min-width: 992px) {
     .navbar-toggle {
       display: none;

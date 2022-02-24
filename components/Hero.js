@@ -3,16 +3,29 @@ import Search from './Search';
 import MyImage from './MyImage';
 import { motion } from 'framer-motion';
 import { fadeInDown, containerVariants } from '../variants/animationVariants';
-
+import { useEffect, useState } from 'react';
 const Hero = ({ frontHeroImg, backHeroImg }) => {
+  const [headerHeight, setHeaderHeight] = useState(0);
+  useEffect(() => {
+    const height = document.querySelector('header').offsetHeight;
+    setHeaderHeight(height);
+  }, []);
   return (
-    <Wrapper>
+    <Wrapper headerHeight={headerHeight}>
       <motion.div
         className="hero-container"
-        initial="initial"
-        animate="animate"
+        // initial="initial"
+        // animate="animate"
       >
         <motion.div className="left-container" variants={containerVariants}>
+          <div className="blob">
+            <MyImage
+              src="/primary-blob_onkar3"
+              width={'200'}
+              height="200"
+              layout="responsive"
+            />
+          </div>
           <motion.h1 variants={fadeInDown}>
             <span className="z-layer">Meow Portal</span>
           </motion.h1>
@@ -53,14 +66,16 @@ const Hero = ({ frontHeroImg, backHeroImg }) => {
 
 const Wrapper = styled.div`
   position: relative;
-  background: var(--clr-primary-500);
+  /* background: var(--clr-primary-500); */
   z-index: 99;
+  height: ${(props) => `calc(100vh - ${props.headerHeight}px)`};
+  display: flex;
   .hero-container {
     display: grid;
     place-items: center;
     width: 90vw;
     margin: 0 auto;
-    padding-top: 2em;
+    /* padding-top: 3em; */
   }
   .left-container {
     position: relative;
@@ -102,7 +117,7 @@ const Wrapper = styled.div`
   }
 
   .left-container::before {
-    content: '';
+    /* content: ''; */
     position: absolute;
     width: 75%;
     height: 70%;
@@ -114,11 +129,56 @@ const Wrapper = styled.div`
   .right-container {
     display: none;
   }
+  .middle-container {
+    border-radius: 0.5em;
+  }
+  .right-container {
+    position: relative;
+    /* border-top: 0.75em solid var(--clr-primary-500);
+    border-bottom: 0.75em solid var(--clr-primary-500); */
+    border: 0.75em solid var(--clr-primary-500);
+    border-radius: 0.5em;
+  }
+
+  .right-container::after,
+  .right-container::before {
+    content: '';
+    position: absolute;
+  }
+
+  .right-container::before {
+    top: -0.75em;
+    left: -0.75em;
+    background-color: var(--clr-primary-500);
+    width: 0.75em;
+    height: 100%;
+    border-top-left-radius: 0.5em;
+    border-bottom-left-radius: 0.5em;
+  }
+  .right-container::after {
+    top: -0.75em;
+    right: -0.75em;
+    background-color: var(--clr-primary-500);
+    width: 0.75em;
+    height: 100%;
+    border-top-right-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+  }
+  .blob {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: rotate(-55deg) scale(1.75);
+    z-index: -1;
+  }
+
   @media (min-width: 992px) {
     .hero-container {
       grid-template-columns: 1.5fr 1fr;
       max-width: 1200px;
       place-items: center flex-start;
+      /* padding-bottom: 3em; */
     }
 
     .left-container {

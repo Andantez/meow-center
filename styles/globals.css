@@ -6,7 +6,7 @@
   --clr-primary-300: hsl(240, 15%, 44%);
   --clr-primary-400: hsl(240, 15%, 34%);
   /*primary/main color  */
-  --clr-primary-500: hsl(240, 15%, 24%);
+  --clr-primary-500: #343446;
   /* dark shades of primary color  */
   --clr-primary-600: hsl(240, 15%, 14%);
   --clr-primary-700: hsl(240, 15%, 4%);
@@ -26,7 +26,7 @@
   --clr-red-300: hsl(359, 79%, 85%);
   --clr-red-400: hsl(359, 79%, 95%);
   /* accent color */
-  --clr-red-500: hsl(359, 79%, 55%);
+  --clr-red-500: #e73235;
   /* dark shades of accent color */
   --clr-red-600: hsl(359, 79%, 15%);
   --clr-red-700: hsl(359, 79%, 25%);
@@ -144,4 +144,9 @@ h5 {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+#__next {
+  overflow: hidden;
 }
