@@ -2,10 +2,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { BsArrowRight } from 'react-icons/bs';
-import { motion } from 'framer-motion';
+
 const ListView = ({ breeds }) => {
   return (
-    <StyledSection layout>
+    <StyledSection>
       {breeds.map((breed) => {
         const {
           id,
@@ -17,7 +17,7 @@ const ListView = ({ breeds }) => {
           blurDataURL,
         } = breed;
         return (
-          <motion.article key={id} layout>
+          <article key={id}>
             <Link href={`/breeds/${id}`}>
               <a className="list-item">
                 <div className="img-wrapper">
@@ -52,14 +52,14 @@ const ListView = ({ breeds }) => {
                 </div>
               </a>
             </Link>
-          </motion.article>
+          </article>
         );
       })}
     </StyledSection>
   );
 };
 
-const StyledSection = styled(motion.section)`
+const StyledSection = styled.section`
   display: grid;
   margin: 0 auto;
   gap: 1.5em;
