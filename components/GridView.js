@@ -2,10 +2,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { BsArrowRight } from 'react-icons/bs';
+import { motion } from 'framer-motion';
 
 const GridView = ({ breeds }) => {
   return (
-    <StyledSection>
+    <StyledSection layout>
       {breeds.map((breed) => {
         const {
           name,
@@ -14,7 +15,7 @@ const GridView = ({ breeds }) => {
           blurDataURL,
         } = breed;
         return (
-          <article key={id}>
+          <motion.article key={id} layout>
             <Link href={`/breeds/${id}`}>
               <a>
                 <div className="img-wrapper">
@@ -34,14 +35,14 @@ const GridView = ({ breeds }) => {
             <div className="arrow">
               <BsArrowRight />
             </div>
-          </article>
+          </motion.article>
         );
       })}
     </StyledSection>
   );
 };
 
-const StyledSection = styled.section`
+const StyledSection = styled(motion.section)`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5em;
