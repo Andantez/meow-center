@@ -106,7 +106,7 @@ const Wrapper = styled.div`
     position: absolute;
     width: 75%;
     height: 70%;
-    background: var(--clr-red-500);
+    background: var(--clr-light-yellow);
     top: -5%;
     left: -30%;
   }

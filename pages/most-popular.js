@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { BsArrowRightShort } from 'react-icons/bs';
 import Head from 'next/head';
 import { getPlaiceholder } from 'plaiceholder';
 import clientPromise from '../utils/mongodb';
@@ -35,10 +34,7 @@ const MostPopular = ({ mostPopularBreeds }) => {
                   </p>
                   <p className="description">{description.slice(0, 200)}...</p>
                   <Link href={`/breeds/${breedId}`}>
-                    <a>
-                      Learn More
-                      <BsArrowRightShort />
-                    </a>
+                    <a>Learn More →</a>
                   </Link>
                 </div>
               </div>
@@ -131,18 +127,16 @@ const StyledDiv = styled.div`
     border-radius: 0.5em;
     font-family: var(--ff-paragraph);
     a {
-      color: var(--clr-red-500);
+      color: var(--clr-black);
       font-weight: var(--fw-bold);
       display: flex;
       align-items: center;
       margin-top: 0.5em;
       transition: color 250ms ease;
-      svg {
-        font-size: 1.125rem;
-      }
-
+      width: max-content;
       &:hover {
-        color: var(--clr-red-100);
+        text-decoration: underline;
+        text-underline-offset: 3px;
       }
     }
   }

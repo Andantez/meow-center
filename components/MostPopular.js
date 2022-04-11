@@ -93,7 +93,7 @@ const StyledMain = styled.main`
       display: flex;
       align-items: center;
       font-size: 0.625rem;
-      color: var(--clr-red-500);
+      color: var(--clr-black);
       font-family: var(--ff-paragraph);
       font-weight: var(--fw-bold);
       text-shadow: 0 2px 5px rgba(32, 32, 39, 20%);
@@ -171,8 +171,18 @@ const StyledMain = styled.main`
         grid-row: 3;
         transition: transform 250ms ease;
         transform-origin: left;
-        &:hover {
-          transform: scale(1.1);
+        svg {
+          clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+
+        }
+        &:hover{
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
+
+        &:hover svg {
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+          transition: clip-path 250ms ease;
         }
       }
     }

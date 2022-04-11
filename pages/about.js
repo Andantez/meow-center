@@ -87,7 +87,7 @@ const StyledSection = styled.section`
     height: 0.25rem;
     bottom: -0.125em;
     left: 0;
-    background-color: var(--clr-red-500);
+    background-color: var(--clr-yellow);
   }
   p {
     color: var(--clr-primary-400);

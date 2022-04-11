@@ -63,7 +63,7 @@ const StyledDiv = styled.div`
     position: absolute;
     width: 65%;
     height: 70%;
-    background: var(--clr-red-500);
+    background: var(--clr-yellow);
     left: -0.8em;
     top: -0.8em;
     z-index: -1;
@@ -99,7 +99,7 @@ const StyledDiv = styled.div`
       position: absolute;
       width: 40%;
       height: 20%;
-      background: var(--clr-red-500);
+      background: var(--clr-yellow);
       top: -0.7em;
       right: -0.7em;
     }
@@ -108,7 +108,7 @@ const StyledDiv = styled.div`
       position: absolute;
       width: 40%;
       height: 20%;
-      background: var(--clr-red-500);
+      background: var(--clr-yellow);
       bottom: -0.7em;
       left: -0.7em;
       z-index: -1;

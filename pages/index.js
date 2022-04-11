@@ -17,7 +17,6 @@ export default function Home({ mostPopularBreeds, facts, breeds, images }) {
   );
   const { setData } = useHomeContext();
     const { data: session, status} = useSession();
-    console.log(session)
   useEffect(() => {
     setData(breeds);
   }, []);
