@@ -25,12 +25,11 @@ export default async function handler(req, res) {
         .createHash('sha256')
         .update(resettoken)
         .digest('hex');
-      const existingUser = await db.collection('users').findOne(
-        { hashedPasswordResetToken },
-        {
-          tokenExpirationTime: { $gt: Date.now() },
-        }
-      );
+      const existingUser = await db.collection('users').findOne({
+        hashedPasswordResetToken,
+        tokenExpirationTime: { $gt: new Date(Date.now()) },
+      });
+
       if (!existingUser) {
         res.status(401).json({
           success: false,
@@ -54,23 +53,19 @@ export default async function handler(req, res) {
           },
         }
       );
-      res
-        .status(200)
-        .json({
-          success: true,
-          error: null,
-          message: 'Password successfully changed.',
-        });
+      res.status(200).json({
+        success: true,
+        error: null,
+        message: 'Password successfully changed.',
+      });
     } catch (error) {
       console.log(error);
     }
   } else {
-    res
-      .status(405)
-      .json({
-        succes: true,
-        error: 'Method not allowed',
-        message: `${req.method} method is not allowed`,
-      });
+    res.status(405).json({
+      succes: true,
+      error: 'Method not allowed',
+      message: `${req.method} method is not allowed`,
+    });
   }
 }

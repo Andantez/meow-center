@@ -1,7 +1,7 @@
 import { FcGoogle } from 'react-icons/fc';
 import { SiFacebook } from 'react-icons/si';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { createUser } from '../utils/userUtils';
@@ -10,245 +10,253 @@ import Register from './Register';
 import Login from './Login';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const SignInSignUp = ({ isSigningIn, setIsSigningIn, providers }) => {
-  const [userDetails, setUserDetails] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const { name, email, password } = userDetails;
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    password: '',
-    authenticated: '',
-    ok: false,
-    message: '',
-  });
-  const router = useRouter();
-  useEffect(() => {
-    setErrors({ name: '', email: '', password: '', authenticated: '' });
-  }, [isSigningIn]);
+const SignInSignUp = React.forwardRef(
+  ({ isSigningIn, setIsSigningIn, providers }, ref) => {
+    const [userDetails, setUserDetails] = useState({
+      name: '',
+      email: '',
+      password: '',
+    });
+    const [showPassword, setShowPassword] = useState(false);
+    const { name, email, password } = userDetails;
+    const [errors, setErrors] = useState({
+      name: '',
+      email: '',
+      password: '',
+      authenticated: '',
+      ok: false,
+      message: '',
+    });
+    const router = useRouter();
+    useEffect(() => {
+      setErrors({ name: '', email: '', password: '', authenticated: '' });
+    }, [isSigningIn]);
 
-  const handleOnChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const handleOnChange = (e) => {
+      const name = e.target.name;
+      const value = e.target.value;
 
-    setUserDetails({ ...userDetails, [name]: value });
-  };
+      setUserDetails({ ...userDetails, [name]: value });
+    };
 
-  const validateOnSubmit = () => {
-    const formErrors = errors;
+    const validateOnSubmit = () => {
+      const formErrors = errors;
 
-    formErrors.name = isSigningIn
-      ? ''
-      : name.trim().length < 2
-      ? 'Name must be at least 2 characters long!'
-      : '';
-
-    formErrors.email =
-      email.length === 0 // change error massage if the input field is empty or invalid.
-        ? 'Enter your email address'
-        : validateEmail(email)
+      formErrors.name = isSigningIn
         ? ''
-        : 'Enter a valid email address e.g in the format user@domain.com';
+        : name.trim().length < 2
+        ? 'Name must be at least 2 characters long!'
+        : '';
 
-    if (isSigningIn) {
-      formErrors.password = password.length === 0 ? 'Enter your password' : '';
-    } else {
-      formErrors.password = validatePassword(password)
-        ? ''
-        : 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.';
-    }
+      formErrors.email =
+        email.length === 0 // change error massage if the input field is empty or invalid.
+          ? 'Enter your email address'
+          : validateEmail(email)
+          ? ''
+          : 'Enter a valid email address e.g in the format user@domain.com';
 
-    setErrors({ ...formErrors });
-  };
-  const validateForm = (e) => {
-    const inputName = e.target.name;
-    const inputValue = e.target.value;
-    const formErrors = errors;
-    switch (inputName) {
-      case 'name': {
-        formErrors.name =
-          inputValue.trim().length < 2
-            ? 'Name must be at least 2 characters long!'
-            : '';
-        break;
-      }
-      case 'email': {
-        formErrors.email =
-          inputValue.length === 0 // change error massage if the input field is empty or invalid.
-            ? 'Enter your email address'
-            : validateEmail(inputValue)
-            ? ''
-            : 'Enter a valid email address e.g in the format user@domain.com';
-        break;
-      }
-      case 'password': {
-        formErrors.password = validatePassword(inputValue)
+      if (isSigningIn) {
+        formErrors.password =
+          password.length === 0 ? 'Enter your password' : '';
+      } else {
+        formErrors.password = validatePassword(password)
           ? ''
           : 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.';
-        break;
       }
-      default:
-        break;
-    }
 
-    setErrors({ ...formErrors });
-  };
+      setErrors({ ...formErrors });
+    };
+    const validateForm = (e) => {
+      const inputName = e.target.name;
+      const inputValue = e.target.value;
+      const formErrors = errors;
+      switch (inputName) {
+        case 'name': {
+          formErrors.name =
+            inputValue.trim().length < 2
+              ? 'Name must be at least 2 characters long!'
+              : '';
+          break;
+        }
+        case 'email': {
+          formErrors.email =
+            inputValue.length === 0 // change error massage if the input field is empty or invalid.
+              ? 'Enter your email address'
+              : validateEmail(inputValue)
+              ? ''
+              : 'Enter a valid email address e.g in the format user@domain.com';
+          break;
+        }
+        case 'password': {
+          formErrors.password = validatePassword(inputValue)
+            ? ''
+            : 'Your password must be at least 6 characters long, contain at least one number and have a combination of uppercase and lowercase letters.';
+          break;
+        }
+        default:
+          break;
+      }
 
-  const handleOnClick = (e) => {
-    const name = e.target.getAttribute('name');
-    setUserDetails({ ...userDetails, [name]: '' });
-  };
+      setErrors({ ...formErrors });
+    };
 
-  const handleSignUpSubmit = async (e) => {
-    e.preventDefault();
+    const handleOnClick = (e) => {
+      const name = e.target.getAttribute('name');
+      setUserDetails({ ...userDetails, [name]: '' });
+    };
 
-    validateOnSubmit();
-    const itsInvalidForm =
-      !name ||
-      !email ||
-      !password ||
-      errors.name ||
-      errors.email ||
-      errors.password;
+    const handleSignUpSubmit = async (e) => {
+      e.preventDefault();
 
-    if (itsInvalidForm) {
-      return;
-    }
-    const createdUserResponse = await createUser(
-      name,
-      email.toLocaleLowerCase(),
-      password
-    ); // check user input and if valid create user and returns the user else return object with errors.
+      validateOnSubmit();
+      const itsInvalidForm =
+        !name ||
+        !email ||
+        !password ||
+        errors.name ||
+        errors.email ||
+        errors.password;
 
-    if (!createdUserResponse.acknowledged) {
-      setErrors({ ...errors, email: createdUserResponse.message });
-      return;
-    }
-    signIn('credentials', {
-      name,
-      email,
-      password,
-    });
-    return;
-  };
+      if (itsInvalidForm) {
+        return;
+      }
+      const createdUserResponse = await createUser(
+        name,
+        email.toLocaleLowerCase(),
+        password
+      ); // check user input and if valid create user and returns the user else return object with errors.
 
-  const handleLogInSubmit = async (e) => {
-    e.preventDefault();
-    validateOnSubmit();
-
-    const itsInvalidForm =
-      !email || !password || errors.email || errors.password;
-
-    if (itsInvalidForm) {
-      return;
-    }
-    const signInResponse = await signIn('credentials', {
-      redirect: false,
-      name,
-      email: email.toLocaleLowerCase(),
-      password,
-    });
-    if (signInResponse.status === 200 && signInResponse.ok) {
-      router.push('/');
-    }
-    if (signInResponse.status == 401 && signInResponse.ok === false) {
-      setErrors({
-        ...errors,
-        authenticated: 'The email or password is incorrect.',
+      if (!createdUserResponse.acknowledged) {
+        setErrors({ ...errors, email: createdUserResponse.message });
+        return;
+      }
+      signIn('credentials', {
+        name,
+        email,
+        password,
       });
-    }
-  };
-  return (
-    <StyledDiv className={`sign-in-container ${!isSigningIn && 'signing-in'}`}>
-      <AnimatePresence exitBeforeEnter initial={false}>
-        {isSigningIn ? (
-          <motion.h1
-            key="sign-in-header"
-            initial={{ x: '100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '100%', opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            Sign In
-          </motion.h1>
-        ) : (
-          <motion.h1
-            key="sign-up-header"
-            initial={{ x: '-100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '-100%', opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            Sign Up
-          </motion.h1>
-        )}
-      </AnimatePresence>
+      return;
+    };
 
-      {/* ............................... */}
-      <AnimatePresence exitBeforeEnter initial={false}>
-        {isSigningIn ? (
-          <Login
-            key="sign-in-form"
-            handleLogInSubmit={handleLogInSubmit}
-            handleOnChange={handleOnChange}
-            handleOnClick={handleOnClick}
-            errors={errors}
-            showPassword={showPassword}
-            userDetails={userDetails}
-            setShowPassword={setShowPassword}
-          />
-        ) : (
-          <Register
-            key="sign-up-form"
-            handleSignUpSubmit={handleSignUpSubmit}
-            handleOnChange={handleOnChange}
-            handleOnClick={handleOnClick}
-            errors={errors}
-            validateForm={validateForm}
-            showPassword={showPassword}
-            userDetails={userDetails}
-            setShowPassword={setShowPassword}
-          />
-        )}
-      </AnimatePresence>
-      {/* ............................... */}
-      <div className="providers-wrapper">
-        <hr className="hr-line" />
-        <div className="providers-grid-wrapper">
-          {providers.map((provider) => {
-            const { id, name } = provider;
-            return (
-              <button
-                key={id}
-                className={`providers-btn ${id}`}
-                onClick={() =>
-                  signIn(id, { callbackUrl: 'https://meow-portal.vercel.app/' })
-                }
-              >
-                {name === 'Google' ? <FcGoogle /> : <SiFacebook />}
-                Continue with {name}
-              </button>
-            );
-          })}
+    const handleLogInSubmit = async (e) => {
+      e.preventDefault();
+      validateOnSubmit();
+
+      const itsInvalidForm =
+        !email || !password || errors.email || errors.password;
+
+      if (itsInvalidForm) {
+        return;
+      }
+      const signInResponse = await signIn('credentials', {
+        redirect: false,
+        name,
+        email: email.toLocaleLowerCase(),
+        password,
+      });
+      if (signInResponse.status === 200 && signInResponse.ok) {
+        router.push('/');
+      }
+      if (signInResponse.status == 401 && signInResponse.ok === false) {
+        setErrors({
+          ...errors,
+          authenticated: 'The email or password is incorrect.',
+        });
+      }
+    };
+    return (
+      <StyledDiv
+        className={`sign-in-container ${!isSigningIn && 'signing-in'}`}
+        ref={ref}
+      >
+        <AnimatePresence exitBeforeEnter initial={false}>
+          {isSigningIn ? (
+            <motion.h1
+              key="sign-in-header"
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              Sign In
+            </motion.h1>
+          ) : (
+            <motion.h1
+              key="sign-up-header"
+              initial={{ x: '-100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '-100%', opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              Sign Up
+            </motion.h1>
+          )}
+        </AnimatePresence>
+
+        {/* ............................... */}
+        <AnimatePresence exitBeforeEnter initial={false}>
+          {isSigningIn ? (
+            <Login
+              key="sign-in-form"
+              handleLogInSubmit={handleLogInSubmit}
+              handleOnChange={handleOnChange}
+              handleOnClick={handleOnClick}
+              errors={errors}
+              showPassword={showPassword}
+              userDetails={userDetails}
+              setShowPassword={setShowPassword}
+            />
+          ) : (
+            <Register
+              key="sign-up-form"
+              handleSignUpSubmit={handleSignUpSubmit}
+              handleOnChange={handleOnChange}
+              handleOnClick={handleOnClick}
+              errors={errors}
+              validateForm={validateForm}
+              showPassword={showPassword}
+              userDetails={userDetails}
+              setShowPassword={setShowPassword}
+            />
+          )}
+        </AnimatePresence>
+        {/* ............................... */}
+        <div className="providers-wrapper">
+          <hr className="hr-line" />
+          <div className="providers-grid-wrapper">
+            {providers.map((provider) => {
+              const { id, name } = provider;
+              return (
+                <button
+                  key={id}
+                  className={`providers-btn ${id}`}
+                  onClick={() =>
+                    signIn(id, {
+                      callbackUrl: 'https://meow-portal.vercel.app/',
+                    })
+                  }
+                >
+                  {name === 'Google' ? <FcGoogle /> : <SiFacebook />}
+                  Continue with {name}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <p>
-        {isSigningIn ? `Don't have an account ?` : 'Have an account ?'}
-        <button
-          type="button"
-          className="sign-up-btn"
-          onClick={() => setIsSigningIn(!isSigningIn)}
-        >
-          {isSigningIn ? 'Sign Up' : 'Sign In'}
-        </button>
-      </p>
-    </StyledDiv>
-  );
-};
+        <p>
+          {isSigningIn ? `Don't have an account ?` : 'Have an account ?'}
+          <button
+            type="button"
+            className="sign-up-btn"
+            onClick={() => setIsSigningIn(!isSigningIn)}
+          >
+            {isSigningIn ? 'Sign Up' : 'Sign In'}
+          </button>
+        </p>
+      </StyledDiv>
+    );
+  }
+);
 const StyledDiv = styled.div`
   overflow: hidden;
   h1 {

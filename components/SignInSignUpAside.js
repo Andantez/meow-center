@@ -1,86 +1,91 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const SignInSignUpAside = ({ isSigningIn, setIsSigningIn }) => {
-  return (
-    <StyledDiv className={`button-container ${!isSigningIn && 'signing-in'}`}>
-      <AnimatePresence exitBeforeEnter initial={false}>
-        {isSigningIn ? (
-          <motion.h2
-            key="sign-in-header"
-            initial={{ x: '-100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '-100%', opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            Don't Have an Account
-          </motion.h2>
-        ) : (
-          <motion.h2
-            key="sign-up-header"
-            initial={{ x: '100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '100%', opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            Have an account?
-          </motion.h2>
-        )}
-      </AnimatePresence>
-      <AnimatePresence exitBeforeEnter initial={false}>
-        {isSigningIn ? (
-          <motion.p
-            key="sign-in-paragraph"
-            initial={{ x: '100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '100%', opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            {' '}
-            Joins us to browse through our cat gallery
-          </motion.p>
-        ) : (
-          <motion.p
-            key="sign-up-paragraph"
-            initial={{ x: '-100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '-100%', opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            Sign in to save your favourite pictures
-          </motion.p>
-        )}
-      </AnimatePresence>
-      <AnimatePresence exitBeforeEnter initial={false}>
-        {isSigningIn ? (
-          <motion.button
-            key="sign-up-btn"
-            className="submit-btn"
-            initial={{ x: '-100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '-100%', opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={() => setIsSigningIn(!isSigningIn)}
-          >
-            Sign Up
-          </motion.button>
-        ) : (
-          <motion.button
-            key="sign-in-btn"
-            className="submit-btn"
-            initial={{ x: '100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '100%', opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={() => setIsSigningIn(!isSigningIn)}
-          >
-            Sign In
-          </motion.button>
-        )}
-      </AnimatePresence>
-    </StyledDiv>
-  );
-};
+import React from 'react';
+const SignInSignUpAside = React.forwardRef(
+  ({ isSigningIn, setIsSigningIn }, ref) => {
+    return (
+      <StyledDiv
+        className={`button-container ${!isSigningIn && 'signing-in'}`}
+        ref={ref}
+      >
+        <AnimatePresence exitBeforeEnter initial={false}>
+          {isSigningIn ? (
+            <motion.h2
+              key="sign-in-header"
+              initial={{ x: '-100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '-100%', opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              Don't Have an Account
+            </motion.h2>
+          ) : (
+            <motion.h2
+              key="sign-up-header"
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              Have an account?
+            </motion.h2>
+          )}
+        </AnimatePresence>
+        <AnimatePresence exitBeforeEnter initial={false}>
+          {isSigningIn ? (
+            <motion.p
+              key="sign-in-paragraph"
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              {' '}
+              Joins us to browse through our cat gallery
+            </motion.p>
+          ) : (
+            <motion.p
+              key="sign-up-paragraph"
+              initial={{ x: '-100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '-100%', opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              Sign in to save your favourite pictures
+            </motion.p>
+          )}
+        </AnimatePresence>
+        <AnimatePresence exitBeforeEnter initial={false}>
+          {isSigningIn ? (
+            <motion.button
+              key="sign-up-btn"
+              className="submit-btn"
+              initial={{ x: '-100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '-100%', opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setIsSigningIn(!isSigningIn)}
+            >
+              Sign Up
+            </motion.button>
+          ) : (
+            <motion.button
+              key="sign-in-btn"
+              className="submit-btn"
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setIsSigningIn(!isSigningIn)}
+            >
+              Sign In
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </StyledDiv>
+    );
+  }
+);
 
 const StyledDiv = styled.div`
   display: none;

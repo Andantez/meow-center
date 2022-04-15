@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import MyImage from '../../components/MyImage';
 import SignInSignUp from '../../components/SignInSignUp';
@@ -10,13 +10,25 @@ const Account = ({ providers }) => {
   ]);
   const [[signInWidth, buttonWidth], setSignInButtonWIdth] = useState([0, 0]);
   const [isSigningIn, setIsSigningIn] = useState(true);
+  const signInRef = useRef();
+  const signUpRef = useRef();
+
   // ------------------------------------------------------------
   useEffect(() => {
-    const signInElWidth =
-      document.querySelector('.sign-in-container').offsetWidth;
-    const buttonElWidth =
-      document.querySelector('.button-container').offsetWidth;
+    const signInElWidth = signInRef.current.offsetWidth;
+    const buttonElWidth = signUpRef.current.offsetWidth;
+
     setSignInButtonWIdth([signInElWidth, buttonElWidth]);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const signInElWidth = signInRef.current.offsetWidth;
+      const buttonElWidth = signUpRef.current.offsetWidth;
+      setSignInButtonWIdth([signInElWidth, buttonElWidth]);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
   useEffect(() => {
     const headerElHeight = document.querySelector('header').offsetHeight;
@@ -46,10 +58,12 @@ const Account = ({ providers }) => {
           isSigningIn={isSigningIn}
           setIsSigningIn={setIsSigningIn}
           providers={providers}
+          ref={signInRef}
         />
         <SignInSignUpAside
           isSigningIn={isSigningIn}
           setIsSigningIn={setIsSigningIn}
+          ref={signUpRef}
         />
         <span className="bottom-left-corner"></span>
         <span className="bottom-right-corner"></span>
@@ -230,23 +244,23 @@ const StyledDiv = styled.div`
       border-left: 0.75em solid var(--clr-primary-500);
     }
     .top-right-corner {
-      right:  -0.75em;
+      right: -0.75em;
       border-right: 0.75em solid var(--clr-primary-500);
     }
 
     .bottom-left-corner,
     .bottom-right-corner {
-      bottom:  -0.75em;
+      bottom: -0.75em;
       border-bottom: 0.75em solid var(--clr-primary-500);
       width: 5em;
       height: 5em;
     }
     .bottom-left-corner {
-      left:  -0.75em;
+      left: -0.75em;
       border-left: 0.75em solid var(--clr-primary-500);
     }
     .bottom-right-corner {
-      right:  -0.75em;
+      right: -0.75em;
       border-right: 0.75em solid var(--clr-primary-500);
     }
   }
