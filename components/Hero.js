@@ -73,6 +73,7 @@ const Wrapper = styled.div`
       font-family: var(--ff-heading);
       font-size: 2.25rem;
       margin: 0.6em 0;
+      text-shadow: 1px 1px 2px var(--clr-black);
     }
     .z-layer {
       position: relative;
@@ -106,7 +107,7 @@ const Wrapper = styled.div`
     position: absolute;
     width: 75%;
     height: 70%;
-    background: var(--clr-light-yellow);
+    background: var(--clr-yellow);
     top: -5%;
     left: -30%;
   }
