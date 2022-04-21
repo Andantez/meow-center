@@ -308,6 +308,7 @@ const StyledDiv = styled.div`
     font-size: 0.938rem;
     text-transform: capitalize;
     cursor: pointer;
+    letter-spacing: 0.15em;
   }
 
   p {

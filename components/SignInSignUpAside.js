@@ -58,6 +58,7 @@ const SignInSignUpAside = React.forwardRef(
         <AnimatePresence exitBeforeEnter initial={false}>
           {isSigningIn ? (
             <motion.button
+              type="button"
               key="sign-up-btn"
               className="submit-btn"
               initial={{ x: '-100%', opacity: 0 }}
@@ -70,6 +71,7 @@ const SignInSignUpAside = React.forwardRef(
             </motion.button>
           ) : (
             <motion.button
+              type="button"
               key="sign-in-btn"
               className="submit-btn"
               initial={{ x: '100%', opacity: 0 }}
@@ -100,6 +102,7 @@ const StyledDiv = styled.div`
     font-weight: var(--fw-bold);
     font-size: 0.938rem;
     text-transform: capitalize;
+    letter-spacing: 0.15em;
     cursor: pointer;
   }
   @media (min-width: 768px) {
