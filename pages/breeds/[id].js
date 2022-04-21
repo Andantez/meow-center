@@ -33,7 +33,7 @@ const BreedDetails = ({ breed, images }) => {
       setImageList(images);
     }
   }, [isFallback, breed, images]);
-  
+
   useEffect(() => {
     if (Object.keys(breedData).length > 0) {
       const { id, name, description } = breedData;
@@ -56,7 +56,7 @@ const BreedDetails = ({ breed, images }) => {
     }
   }, [breedData]);
 
-  if (isFallback) {
+  if (isFallback || imgList.length === 0 || characteristics.length === 0) {
     return <Spinner />;
   }
 
@@ -67,49 +67,47 @@ const BreedDetails = ({ breed, images }) => {
       </Head>
       <div className="container">
         <div className="mobile-img-container">
-          {imgList.length > 0 && (
-            <CarouselProvider
-              naturalSlideWidth={700}
-              naturalSlideHeight={500}
-              totalSlides={imgList.length}
-              className="mobile-img"
-              infinite
-              step={1}
-              visibleSlides={1}
-            >
-              <Slider className="mobile-slider-container">
-                {imgList.map((img, index) => {
-                  const { id, src, blurDataURL } = img;
-                  return (
-                    <Slide index={index} key={id} className="mobile-slide">
-                      <div className="mobile-img-wrapper">
-                        <Image
-                          src={src}
-                          alt={breedData.name}
-                          width="700"
-                          height="500"
-                          priority={true}
-                          placeholder="blur"
-                          blurDataURL={blurDataURL}
-                        />
-                      </div>
-                    </Slide>
-                  );
-                })}
-              </Slider>
-              <ButtonBack className="prev-slide" disabled={imgList.length <= 1}>
-                <FaChevronLeft />
-              </ButtonBack>
-              <ButtonNext className="next-slide" disabled={imgList.length <= 1}>
-                <FaChevronRight />
-              </ButtonNext>
-              <div>
-                <DotGroup
-                  className={`dot-group ${imgList.length <= 1 && 'hidden'}`}
-                />
-              </div>
-            </CarouselProvider>
-          )}
+          <CarouselProvider
+            naturalSlideWidth={700}
+            naturalSlideHeight={500}
+            totalSlides={imgList.length}
+            className="mobile-img"
+            infinite
+            step={1}
+            visibleSlides={1}
+          >
+            <Slider className="mobile-slider-container">
+              {imgList.map((img, index) => {
+                const { id, src, blurDataURL } = img;
+                return (
+                  <Slide index={index} key={id} className="mobile-slide">
+                    <div className="mobile-img-wrapper">
+                      <Image
+                        src={src}
+                        alt={breedData.name}
+                        width="700"
+                        height="500"
+                        priority={true}
+                        placeholder="blur"
+                        blurDataURL={blurDataURL}
+                      />
+                    </div>
+                  </Slide>
+                );
+              })}
+            </Slider>
+            <ButtonBack className="prev-slide" disabled={imgList.length <= 1}>
+              <FaChevronLeft />
+            </ButtonBack>
+            <ButtonNext className="next-slide" disabled={imgList.length <= 1}>
+              <FaChevronRight />
+            </ButtonNext>
+            <div>
+              <DotGroup
+                className={`dot-group ${imgList.length <= 1 && 'hidden'}`}
+              />
+            </div>
+          </CarouselProvider>
         </div>
         <div className="details">
           <h1>{breedData.name}</h1>
@@ -119,19 +117,18 @@ const BreedDetails = ({ breed, images }) => {
               <p className="title">Temperament:</p>
               <p>{breedData.temperament}</p>
             </div>
-            {characteristics && (
-              <div className="characteristics">
-                {characteristics.map((characteristic) => {
-                  const { characteristic: char, value } = characteristic;
-                  return (
-                    <div key={char} className="single-char">
-                      <p className="title">{char}:</p>
-                      <Score characteristic={characteristic} score={value} />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+
+            <div className="characteristics">
+              {characteristics.map((characteristic) => {
+                const { characteristic: char, value } = characteristic;
+                return (
+                  <div key={char} className="single-char">
+                    <p className="title">{char}:</p>
+                    <Score characteristic={characteristic} score={value} />
+                  </div>
+                );
+              })}
+            </div>
           </article>
           <p className="wiki-link">
             more information on {breedData.name}{' '}
@@ -147,17 +144,15 @@ const BreedDetails = ({ breed, images }) => {
         </div>
         <div className="gallery">
           <div className="img-container">
-            {imgList.length > 0 && (
-              <Image
-                src={imgList[imgIndex].src}
-                alt={breedData.name}
-                width="600"
-                height="600"
-                priority={true}
-                placeholder="blur"
-                blurDataURL={imgList[imgIndex].blurDataURL}
-              />
-            )}
+            <Image
+              src={imgList[imgIndex].src}
+              alt={breedData.name}
+              width="600"
+              height="600"
+              priority={true}
+              placeholder="blur"
+              blurDataURL={imgList[imgIndex].blurDataURL}
+            />
           </div>
           <div>
             <CarouselProvider
@@ -296,6 +291,7 @@ const StyledSection = styled.section`
   .details {
     p {
       font-family: var(--ff-paragraph);
+      line-height: 1.5;
     }
 
     h1 {

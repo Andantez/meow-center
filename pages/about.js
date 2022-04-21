@@ -91,7 +91,7 @@ const StyledSection = styled.section`
   }
   p {
     color: var(--clr-primary-400);
-    line-height: 1.35em;
+    line-height: 1.5;
     letter-spacing: 0.5px;
   }
   .name {
@@ -131,7 +131,7 @@ const StyledSection = styled.section`
     }
 
     p {
-      line-height: 1.5em;
+      line-height: 1.5;
     }
   }
 `;

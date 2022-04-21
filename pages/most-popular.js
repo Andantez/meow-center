@@ -151,7 +151,7 @@ const StyledDiv = styled.div`
   }
   .description {
     letter-spacing: 0.5px;
-    line-height: 1.3;
+    line-height: 1.5;
   }
 
   @media (min-width: 768px) {
