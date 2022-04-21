@@ -75,7 +75,7 @@ const Header = () => {
 
 const Wrapper = styled.header`
   background-color: var(--clr-primary-500);
-  background: var(--clr-primary-500);
+  
   .nav-wrapper {
     display: flex;
     justify-content: space-between;
@@ -101,6 +101,8 @@ const Wrapper = styled.header`
     font-family: var(--ff-paragraph);
     font-weight: var(--fw-bold);
     display: none;
+    letter-spacing: 0.05em;
+  }
     .link {
       position: relative;
       &:hover {
