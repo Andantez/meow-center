@@ -36,8 +36,8 @@ const ListView = ({ breeds }) => {
                     {description.substring(0, 200)}...
                   </p>
                   <p className="ls-description">
-                    {description.length >= 400
-                      ? description.substring(0, 400) + '...'
+                    {description.length >= 300
+                      ? description.substring(0, 300) + '...'
                       : description}
                   </p>
                   <p className="extra-info">
@@ -88,6 +88,7 @@ const StyledSection = styled.section`
     h2,
     p {
       font-family: var(--ff-paragraph);
+      line-height: 1.5;
     }
 
     .ss-description,

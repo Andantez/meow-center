@@ -291,6 +291,7 @@ const StyledSection = styled.section`
   .details {
     p {
       font-family: var(--ff-paragraph);
+      line-height: 1.5;
     }
 
     h1 {

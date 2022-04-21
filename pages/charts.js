@@ -52,7 +52,7 @@ const StyledHeadingDiv = styled.div`
   p {
     font-family: var(--ff-paragraph);
     letter-spacing: 0.5px;
-    line-height: 1.35;
+    line-height: 1.5;
     text-align: center;
   }
 
