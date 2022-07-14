@@ -21,6 +21,13 @@ const closeVariants = {
 const Sidebar = () => {
   const { isSidebarOpen, closeSidebar } = useHomeContext();
   const { data: session, status } = useSession();
+
+  const links = linksData.reduce((acc, curr) => {
+    if (!session && curr.title === 'Gallery') return acc;
+    acc.push(curr);
+    return acc;
+  }, []);
+
   return (
     <StyledDiv>
       <AnimatePresence>
@@ -49,7 +56,7 @@ const Sidebar = () => {
                 </motion.button>
               </div>
               <motion.ul className="links" variants={itemVariants}>
-                {linksData.map((listItem) => {
+                {links.map((listItem) => {
                   const { title, icon, link } = listItem;
                   return (
                     <li key={title}>

@@ -55,6 +55,7 @@ const BarChart = ({ data }) => {
       );
       setLegendKeys(filteredKeys);
     }
+
   };
   useEffect(() => {
     if (selectedBreeds.length > 0) {
@@ -172,19 +173,42 @@ const BarChart = ({ data }) => {
         <div className="legend">
           <div>
             <span className="symbol"></span>
-            <button type="button" name="min lifespan" onClick={handleOnClick}>
+            <button
+              type="button"
+              className={`${
+                legendKeys.find((lk) => lk === 'min lifespan') ? '' : 'removed'
+              }`}
+              name="min lifespan"
+              onClick={handleOnClick}
+            >
               min lifespan
             </button>
           </div>
           <div>
             <span className="symbol"></span>
-            <button type="button" name="max lifespan" onClick={handleOnClick}>
+            <button
+              type="button"
+              className={`${
+                legendKeys.find((lk) => lk === 'max lifespan') ? '' : 'removed'
+              }`}
+              name="max lifespan"
+              onClick={handleOnClick}
+            >
               max lifespan
             </button>
           </div>
           <div>
             <span className="symbol"></span>
-            <button type="button" name="avg weight(kg)" onClick={handleOnClick}>
+            <button
+              type="button"
+              className={`${
+                legendKeys.find((lk) => lk === 'avg weight(kg)')
+                  ? ''
+                  : 'removed'
+              }`}
+              name="avg weight(kg)"
+              onClick={handleOnClick}
+            >
               avg weight(kg)
             </button>
           </div>
@@ -293,7 +317,11 @@ const StyledDiv = styled.div`
       color: var(--clr-grey);
     }
   }
-
+  button.removed {
+    color: var(--clr-grey);
+    text-decoration: line-through;
+    text-decoration-color: var(--clr-black);
+  }
   .bar-chart {
     display: grid;
     grid-template-rows: auto 500px;
@@ -311,7 +339,6 @@ const StyledDiv = styled.div`
       }
     }
   }
-
 
   @media (min-width: 1024px) {
     .bar-chart {

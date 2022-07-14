@@ -55,7 +55,8 @@ const Profile = () => {
   const { data, error, isValidating, size, setSize, mutate } = useSWRInfinite(
     (...args) => getKey(...args, id)
   );
-
+  const demoUser =
+    process.env.NEXT_PUBLIC_DEMO_USER_EMAIL === session.user.email;
   const favourites = data ? [].concat(...data) : []; // convert favourites to single Array.
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
@@ -67,9 +68,9 @@ const Profile = () => {
   const withCredentials = provider === 'credentials';
 
   const handleScroll = () => {
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   };
-  
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -356,9 +357,10 @@ const Profile = () => {
               </div>
               <div className="profile-info">
                 <h1>{name}</h1>
-                <p>{email}</p>
+                <p>{demoUser ? 'demo****@****.com' : { email }}</p>
                 {withCredentials && (
                   <button
+                    disabled={demoUser}
                     type="button"
                     className="edit-btn"
                     onClick={handleClick}
@@ -453,7 +455,7 @@ const Profile = () => {
             </button>
           </div>
         )}
-        {isEmpty && (
+        {isEmpty && !demoUser ? (
           <div className="no-results-container">
             <h2 className="no-results-header">
               Looks like you have no favourite images
@@ -464,6 +466,23 @@ const Profile = () => {
                 <a>Gallery</a>
               </Link>{' '}
               and add an image to your favourites by clicking the{' '}
+              <span className="favourite-wrapper">
+                <MdFavorite /> Like
+              </span>{' '}
+              button.
+            </p>
+          </div>
+        ) : (
+          <div className="no-results-container">
+            <h2 className="no-results-header">
+              Looks like you have no favourite images
+            </h2>
+            <p className="no-results-text">
+              As demo user you can explore{' '}
+              <Link href="/gallery">
+                <a>Gallery</a>
+              </Link>{' '}
+              but you cannot like pictures clicking the{' '}
               <span className="favourite-wrapper">
                 <MdFavorite /> Like
               </span>{' '}

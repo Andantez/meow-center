@@ -148,9 +148,9 @@ const SignInSignUp = React.forwardRef(
       if (itsInvalidForm) {
         return;
       }
+
       const signInResponse = await signIn('credentials', {
         redirect: false,
-        name,
         email: email.toLocaleLowerCase(),
         password,
       });
@@ -162,6 +162,17 @@ const SignInSignUp = React.forwardRef(
           ...errors,
           authenticated: 'The email or password is incorrect.',
         });
+      }
+    };
+    const handleLoginDemoUser = async () => {
+      const signInResponse = await signIn('credentials', {
+        redirect: false,
+        email: process.env.NEXT_PUBLIC_DEMO_USER_EMAIL,
+        password: process.env.NEXT_PUBLIC_DEMO_USER_PASSWORD,
+      });
+
+      if ((signInResponse.status === 200) & signInResponse.ok) {
+        router.push('/');
       }
     };
     return (
@@ -228,6 +239,7 @@ const SignInSignUp = React.forwardRef(
               const { id, name } = provider;
               return (
                 <button
+                  type="button"
                   key={id}
                   className={`providers-btn ${id}`}
                   onClick={() =>
@@ -241,6 +253,14 @@ const SignInSignUp = React.forwardRef(
                 </button>
               );
             })}
+            <button
+              type="button"
+              key={'test-user'}
+              className={`providers-btn test-user`}
+              onClick={handleLoginDemoUser}
+            >
+              Continue as Demo User
+            </button>
           </div>
         </div>
         <p>
@@ -358,6 +378,10 @@ const StyledDiv = styled.div`
     }
   }
 
+  .test-user {
+    background-color: var(--clr-primary-500);
+    color: var(--clr-secondary-500);
+  }
   .google {
     background-color: #ffffff;
     color: var(--clr-grey);

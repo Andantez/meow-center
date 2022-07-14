@@ -2,18 +2,41 @@ import styled from 'styled-components';
 import SingleFact from '../components/SingleFact';
 import MyImage from './MyImage';
 import { motion } from 'framer-motion';
+import useSWR from 'swr';
+import { useState } from 'react';
 
-const Facts = ({ facts, mutate, isValidating, images }) => {
-  const { data } = facts;
+const Facts = ({ facts, images }) => {
+  const [pageIndex, setPageIndex] = useState(1);
+  const { data, isValidating} = useSWR(
+    `${process.env.NEXT_PUBLIC_FACTS_URI}?limit=3&max_length=200&page=${pageIndex}`,
+    { revalidateOnFocus: false, initialData: facts }
+  );
+  const { data: factsData } = data;
 
+  const getRandomPageIndex = () => {
+    const lastIndex = facts.last_page;
+    const randomIndex = Math.floor(Math.random() * lastIndex) + 1;
+
+    return randomIndex;
+  };
+
+  const handleOnClick = () => {
+    const index = getRandomPageIndex();
+    if (index === pageIndex) {
+      setPageIndex(pageIndex + 1);
+      return;
+    }
+
+    setPageIndex(index);
+  };
   return (
     <StyledSection>
       <div className="heading">
         <h2>interesting facts about cats</h2>
       </div>
       <div className="facts-container">
-        {data &&
-          data.map((singleFact, index) => {
+        {factsData &&
+          factsData.map((singleFact, index) => {
             const { fact } = singleFact;
             return (
               <SingleFact fact={fact} key={fact} isValidating={isValidating} />
@@ -52,7 +75,7 @@ const Facts = ({ facts, mutate, isValidating, images }) => {
       </div>
       <motion.button
         className="btn"
-        onClick={() => mutate()}
+        onClick={handleOnClick}
         whileTap={{ scale: 0.9 }}
         whileHover={{ backgroundColor: '#ea484b', cursor: 'pointer' }}
       >
