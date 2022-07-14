@@ -2,24 +2,20 @@ import Head from 'next/head';
 import Hero from '../components/Hero';
 import MostPopular from '../components/MostPopular';
 import Facts from '../components/Facts';
-import useSWR from 'swr';
 import { useHomeContext } from '../context/home_context';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getPlaiceholder } from 'plaiceholder';
 import imgPaths from '../data/imagePaths';
-import clientPromise from '../utils/mongodb'
-import { useSession } from 'next-auth/react';
+import clientPromise from '../utils/mongodb';
+
 export default function Home({ mostPopularBreeds, facts, breeds, images }) {
-  const { data, mutate, isValidating } = useSWR(
-    `${process.env.NEXT_PUBLIC_FACTS_URI}?limit=3&max_length=200`,
-    { revalidateOnFocus: false, initialData: facts }
-  );
   const { setData } = useHomeContext();
-    const { data: session, status} = useSession();
+
   useEffect(() => {
     setData(breeds);
   }, []);
+
   return (
     <motion.div exit={{ opacity: 0 }}>
       <Head>
@@ -28,9 +24,7 @@ export default function Home({ mostPopularBreeds, facts, breeds, images }) {
       <Hero frontHeroImg={images[0]} backHeroImg={images[1]} />
       <MostPopular mostPopularBreeds={mostPopularBreeds} />
       <Facts
-        facts={data}
-        mutate={mutate}
-        isValidating={isValidating}
+        facts={facts}
         images={images}
       />
     </motion.div>
@@ -39,7 +33,7 @@ export default function Home({ mostPopularBreeds, facts, breeds, images }) {
 
 export const getStaticProps = async () => {
   const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB)
+  const db = client.db(process.env.MONGODB_DB);
   const dbBreedData = await db
     .collection('mostpopular')
     .find()
