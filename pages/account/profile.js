@@ -357,7 +357,7 @@ const Profile = () => {
               </div>
               <div className="profile-info">
                 <h1>{name}</h1>
-                <p>{demoUser ? 'demo****@****.com' : { email }}</p>
+                <p>{demoUser ? 'demo****@****.com' : email}</p>
                 {withCredentials && (
                   <button
                     disabled={demoUser}
@@ -455,7 +455,7 @@ const Profile = () => {
             </button>
           </div>
         )}
-        {isEmpty && !demoUser ? (
+        {isEmpty && (
           <div className="no-results-container">
             <h2 className="no-results-header">
               Looks like you have no favourite images
@@ -466,23 +466,6 @@ const Profile = () => {
                 <a>Gallery</a>
               </Link>{' '}
               and add an image to your favourites by clicking the{' '}
-              <span className="favourite-wrapper">
-                <MdFavorite /> Like
-              </span>{' '}
-              button.
-            </p>
-          </div>
-        ) : (
-          <div className="no-results-container">
-            <h2 className="no-results-header">
-              Looks like you have no favourite images
-            </h2>
-            <p className="no-results-text">
-              As demo user you can explore{' '}
-              <Link href="/gallery">
-                <a>Gallery</a>
-              </Link>{' '}
-              but you cannot like pictures clicking the{' '}
               <span className="favourite-wrapper">
                 <MdFavorite /> Like
               </span>{' '}

@@ -27,6 +27,7 @@ const SignInSignUp = React.forwardRef(
       ok: false,
       message: '',
     });
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     useEffect(() => {
       setErrors({ name: '', email: '', password: '', authenticated: '' });
@@ -108,6 +109,7 @@ const SignInSignUp = React.forwardRef(
     const handleSignUpSubmit = async (e) => {
       e.preventDefault();
 
+      setIsLoading(true);
       validateOnSubmit();
       const itsInvalidForm =
         !name ||
@@ -118,6 +120,7 @@ const SignInSignUp = React.forwardRef(
         errors.password;
 
       if (itsInvalidForm) {
+        setIsLoading(false);
         return;
       }
       const createdUserResponse = await createUser(
@@ -128,6 +131,7 @@ const SignInSignUp = React.forwardRef(
 
       if (!createdUserResponse.acknowledged) {
         setErrors({ ...errors, email: createdUserResponse.message });
+        setIsLoading(false);
         return;
       }
       signIn('credentials', {
@@ -135,17 +139,19 @@ const SignInSignUp = React.forwardRef(
         email,
         password,
       });
+      setIsLoading(false);
       return;
     };
 
     const handleLogInSubmit = async (e) => {
       e.preventDefault();
       validateOnSubmit();
-
+      setIsLoading(true);
       const itsInvalidForm =
         !email || !password || errors.email || errors.password;
 
       if (itsInvalidForm) {
+        setIsLoading(false);
         return;
       }
 
@@ -155,9 +161,11 @@ const SignInSignUp = React.forwardRef(
         password,
       });
       if (signInResponse.status === 200 && signInResponse.ok) {
+        setIsLoading(false);
         router.push('/');
       }
       if (signInResponse.status == 401 && signInResponse.ok === false) {
+        setIsLoading(false);
         setErrors({
           ...errors,
           authenticated: 'The email or password is incorrect.',
@@ -216,6 +224,7 @@ const SignInSignUp = React.forwardRef(
               showPassword={showPassword}
               userDetails={userDetails}
               setShowPassword={setShowPassword}
+              isLoading={isLoading}
             />
           ) : (
             <Register
@@ -228,6 +237,7 @@ const SignInSignUp = React.forwardRef(
               showPassword={showPassword}
               userDetails={userDetails}
               setShowPassword={setShowPassword}
+              isLoading={isLoading}
             />
           )}
         </AnimatePresence>
@@ -447,6 +457,26 @@ const StyledDiv = styled.div`
 
   .hr-line {
     border-top: 1px solid var(--clr-grey);
+  }
+
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      font-size: 1rem;
+      margin-left: 0.5em;
+      animation: spinner 0.75s linear infinite;
+      color: var(--clr-secondary-500);
+    }
+  }
+  @keyframes spinner {
+    from {
+      transform: rotateZ(0);
+    }
+    to {
+      transform: rotateZ(360deg);
+    }
   }
   @media (min-width: 768px) {
     margin: 5em 2em;

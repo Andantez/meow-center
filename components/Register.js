@@ -4,6 +4,7 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { ImSpinner9 } from 'react-icons/im';
 
 const Register = ({
   handleSignUpSubmit,
@@ -14,6 +15,7 @@ const Register = ({
   showPassword,
   userDetails,
   setShowPassword,
+  isLoading
 }) => {
   const { name, email, password } = userDetails;
 
@@ -39,7 +41,7 @@ const Register = ({
           autoComplete="name"
           value={name}
           onChange={handleOnChange}
-          onBlur={validateForm}
+          // onBlur={validateForm}
         />
         {name ? (
           <AiOutlineClose
@@ -64,7 +66,7 @@ const Register = ({
           value={email}
           onChange={handleOnChange}
           // If the user is signing in disable the onBlur event listener.
-          onBlur={validateForm}
+          // onBlur={validateForm}
         />
         {email ? (
           <AiOutlineClose
@@ -87,7 +89,7 @@ const Register = ({
           autoComplete="new-password"
           value={password}
           onChange={handleOnChange}
-          onBlur={validateForm}
+          // onBlur={validateForm}
         />
         {password ? (
           showPassword ? (
@@ -109,8 +111,18 @@ const Register = ({
       {errors.password && (
         <small className="error-message">{errors.password}</small>
       )}
-      <button type="submit" className="submit-btn">
-        sign up
+      <button
+        disabled={isLoading}
+        type="submit"
+        className={`submit-btn ${isLoading ? 'loading' : ''}`}
+      >
+        {isLoading ? (
+          <>
+            Signing In <ImSpinner9 />{' '}
+          </>
+        ) : (
+          'sign up'
+        )}
       </button>
     </StyledForm>
   );
