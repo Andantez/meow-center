@@ -15,7 +15,7 @@ import {
   DotGroup,
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Spinner from '../../components/Spinner';
 import { getPlaiceholder } from 'plaiceholder';
 
@@ -144,30 +144,17 @@ const BreedDetails = ({ breed, images }) => {
         </div>
         <div className="gallery">
           <div className="img-container">
-            <AnimatePresence exitBeforeEnter initial={false}>
-              <motion.div
-                key={imgList[imgIndex].src}
-                initial={{ opacity: 1, x: '-100%' }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 1, x: '100%'}}
-                transition={{
-                  type: 'tween',
-                  duration: 0.225,
-                  opacity: { duration: 0.225},
-                  ease: "easeInOut"
-                }}
-              >
-                <Image
-                  src={imgList[imgIndex].src}
-                  alt={breedData.name}
-                  width="600"
-                  height="600"
-                  priority={true}
-                  placeholder="blur"
-                  blurDataURL={imgList[imgIndex].blurDataURL}
-                />
-              </motion.div>
-            </AnimatePresence>
+            <div>
+              <Image
+                src={imgList[imgIndex].src}
+                alt={breedData.name}
+                width="600"
+                height="600"
+                priority={true}
+                placeholder="blur"
+                blurDataURL={imgList[imgIndex].blurDataURL}
+              />
+            </div>
           </div>
           <div>
             <CarouselProvider

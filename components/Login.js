@@ -1,6 +1,7 @@
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { AiFillEyeInvisible, AiFillEye, AiOutlineClose } from 'react-icons/ai';
+import { ImSpinner9 } from 'react-icons/im'
 import styled from 'styled-components';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -13,6 +14,7 @@ const Login = ({
   showPassword,
   userDetails,
   setShowPassword,
+  isLoading
 }) => {
   const { email, password } = userDetails;
 
@@ -86,8 +88,14 @@ const Login = ({
       <Link href="/account/forgottenpassword">
         <a className="forgot-link">Forgot Password?</a>
       </Link>
-      <button type="submit" className="submit-btn">
-        sign in
+      <button disabled={isLoading} type="submit" className={`submit-btn ${isLoading ? "loading" : ''}`}>
+        {isLoading ? (
+          <>
+            Signing In <ImSpinner9 />{' '}
+          </>
+        ) : (
+          'sign in'
+        )}
       </button>
     </StyledForm>
   );
