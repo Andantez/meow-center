@@ -93,7 +93,7 @@ export const getStaticProps = async () => {
       notFound: true,
     };
   }
-
+  console.log(mostPopularBreeds)
   return {
     props: {
       facts: factsData,

@@ -85,7 +85,7 @@ export const getStaticProps = async () => {
     }
   );
   const data = await response.json();
-
+  console.log(data.length);
   const breedsWithImage = data.filter((breed) => breed.image?.url); // filters the breeds with Image.url property
   const breedsWithoutImage = data.filter((breed) => !breed.image?.url); // filters the breeds without Image.url property
 
@@ -95,16 +95,12 @@ export const getStaticProps = async () => {
       `${process.env.NEXT_PUBLIC_API_BASE_URI}/images/search?breed_id=${item.id}&order=ASC&limit=1`
     );
     const imageData = await imageRes.json();
-    return imageData;
+    const { id, url, width, height } = imageData[0];
+    const breed = { ...item, image: { id, url, width, height } };
+    return breed;
   });
 
-  const missingImages = (await Promise.all(promises)).flat();
-  const newBreedsWithImage = missingImages.map((breed) => {
-    // add image property to the breeds without it.
-    const { breeds, id, url, width, height } = breed;
-    const breedWithImage = { ...breeds[0], image: { id, url, width, height } };
-    return breedWithImage;
-  });
+  const newBreedsWithImage = (await Promise.all(promises)).flat();
 
   const breedsSorted = [...breedsWithImage, ...newBreedsWithImage].sort(
     (a, b) => a.name.localeCompare(b.name)
