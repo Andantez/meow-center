@@ -23,10 +23,7 @@ export default function Home({ mostPopularBreeds, facts, breeds, images }) {
       </Head>
       <Hero frontHeroImg={images[0]} backHeroImg={images[1]} />
       <MostPopular mostPopularBreeds={mostPopularBreeds} />
-      <Facts
-        facts={facts}
-        images={images}
-      />
+      <Facts facts={facts} images={images} />
     </motion.div>
   );
 }
@@ -93,7 +90,6 @@ export const getStaticProps = async () => {
       notFound: true,
     };
   }
-  console.log(mostPopularBreeds)
   return {
     props: {
       facts: factsData,

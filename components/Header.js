@@ -16,6 +16,7 @@ const Header = () => {
     handleDropdown,
   } = useHomeContext();
   const { data: session, status } = useSession();
+  console.log("this is status", status, "this is session", session)
   return (
     <Wrapper onMouseOver={handleDropdown}>
       <nav className="nav-wrapper">
@@ -29,42 +30,44 @@ const Header = () => {
             />
           </a>
         </Link>
-        <div className="nav-links">
-          <Link href="/">
-            <a className="link">Home</a>
-          </Link>
-          <Link href="/breeds">
-            <a className="link">Breeds</a>
-          </Link>
-          {session && status === 'authenticated' && (
-            <Link href="/gallery">
-              <a className="link">Gallery</a>
+        {status !== 'loading' && (
+          <div className="nav-links">
+            <Link href="/">
+              <a className="link">Home</a>
             </Link>
-          )}
-          <Link href="/charts">
-            <a className="link">Charts</a>
-          </Link>
-          <Link href="/about">
-            <a className="link">About</a>
-          </Link>
-          {session && status === 'authenticated' && (
-            <div
-              className="modal-wrapper"
-              onMouseOver={showDropdown}
-              onMouseLeave={hideDropdown}
-            >
-              <p>My Account</p>
-              <AnimatePresence>
-                {showDropdownMenu && <ProfileModal />}
-              </AnimatePresence>
-            </div>
-          )}
-          {!session && (
-            <Link href="/account">
-              <a className="link">Sign In</a>
+            <Link href="/breeds">
+              <a className="link">Breeds</a>
             </Link>
-          )}
-        </div>
+            {session && status === 'authenticated' && (
+              <Link href="/gallery">
+                <a className="link">Gallery</a>
+              </Link>
+            )}
+            <Link href="/charts">
+              <a className="link">Charts</a>
+            </Link>
+            <Link href="/about">
+              <a className="link">About</a>
+            </Link>
+            {session && status === 'authenticated' && (
+              <div
+                className="modal-wrapper"
+                onMouseOver={showDropdown}
+                onMouseLeave={hideDropdown}
+              >
+                <p>My Account</p>
+                <AnimatePresence>
+                  {showDropdownMenu && <ProfileModal />}
+                </AnimatePresence>
+              </div>
+            )}
+            {!session && (
+              <Link href="/account">
+                <a className="link">Sign In</a>
+              </Link>
+            )}
+          </div>
+        )}
         <button className="navbar-toggle" type="button" onClick={openSidebar}>
           <HiMenu />
         </button>
