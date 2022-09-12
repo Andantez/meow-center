@@ -155,7 +155,6 @@ const Profile = () => {
     // trigger session revalidation on the active browser tab.  when called and force next-auth to update the session.
     const event = new Event('visibilitychange');
     const eventRes = document.dispatchEvent(event);
-    console.log(eventRes);
   };
   const { name, email, oldPassword, newPassword } = userInfo;
   return (

@@ -21,8 +21,8 @@ const BreedsHero = ({ heroImage: { blurDataURL } }) => {
             height="250"
             alt="white cat"
             priority={true}
-            placeholder="blur"
-            blurDataURL={blurDataURL}
+            // placeholder="blur"
+            // blurDataURL={blurDataURL}
           />
         </div>
       </section>
