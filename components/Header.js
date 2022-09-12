@@ -16,7 +16,6 @@ const Header = () => {
     handleDropdown,
   } = useHomeContext();
   const { data: session, status } = useSession();
-  console.log("this is status", status, "this is session", session)
   return (
     <Wrapper onMouseOver={handleDropdown}>
       <nav className="nav-wrapper">
