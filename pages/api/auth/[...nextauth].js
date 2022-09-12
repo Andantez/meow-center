@@ -68,7 +68,6 @@ export default async function auth(req, res) {
       },
       async jwt({ token, user, account }) {
         if (req.query.update === 'session') {
-          console.log(req.url);
           const client = await clientPromise;
           const db = await client.db();
           const u_ObjectId = new ObjectId(token.user.id);
